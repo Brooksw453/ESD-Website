@@ -16,8 +16,8 @@ class ParticleSystem {
             { r: 255, g: 136, b: 0   },  // orange
             { r: 170, g: 0,   b: 255 },  // purple
         ];
-        this.mouseInfluenceRadius = 150;
-        this.connectionDistance = 120;
+        this.mouseInfluenceRadius = 200;
+        this.connectionDistance = 150;
         this.running = true;
 
         this.resize();
@@ -27,9 +27,9 @@ class ParticleSystem {
     }
 
     get particleCount() {
-        if (window.innerWidth < 480) return 40;
-        if (window.innerWidth < 768) return 60;
-        return 100;
+        if (window.innerWidth < 480) return 120;
+        if (window.innerWidth < 768) return 180;
+        return 280;
     }
 
     resize() {
@@ -47,10 +47,10 @@ class ParticleSystem {
                 y: Math.random() * this.canvas.height,
                 vx: (Math.random() - 0.5) * 0.4,
                 vy: (Math.random() - 0.5) * 0.4,
-                radius: Math.random() * 2 + 0.5,
+                radius: Math.random() * 3.5 + 1,
                 color: color,
-                alpha: Math.random() * 0.4 + 0.2,
-                pulseSpeed: Math.random() * 0.02 + 0.005,
+                alpha: Math.random() * 0.5 + 0.3,
+                pulseSpeed: Math.random() * 0.025 + 0.008,
                 pulsePhase: Math.random() * Math.PI * 2,
             });
         }
@@ -119,8 +119,8 @@ class ParticleSystem {
                 if (distSq < radiusSq) {
                     const dist = Math.sqrt(distSq);
                     const force = (this.mouseInfluenceRadius - dist) / this.mouseInfluenceRadius;
-                    p.vx += (dx / dist) * force * 0.2;
-                    p.vy += (dy / dist) * force * 0.2;
+                    p.vx += (dx / dist) * force * 0.6;
+                    p.vy += (dy / dist) * force * 0.6;
                 }
             }
 
@@ -150,8 +150,8 @@ class ParticleSystem {
             this.ctx.beginPath();
             this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
             this.ctx.fillStyle = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${a})`;
-            this.ctx.shadowBlur = 12;
-            this.ctx.shadowColor = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, 0.5)`;
+            this.ctx.shadowBlur = 18;
+            this.ctx.shadowColor = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, 0.7)`;
             this.ctx.fill();
         }
 
@@ -166,12 +166,12 @@ class ParticleSystem {
                 const distSq = dx * dx + dy * dy;
                 const maxDistSq = this.connectionDistance * this.connectionDistance;
                 if (distSq < maxDistSq) {
-                    const alpha = (1 - Math.sqrt(distSq) / this.connectionDistance) * 0.12;
+                    const alpha = (1 - Math.sqrt(distSq) / this.connectionDistance) * 0.2;
                     this.ctx.beginPath();
                     this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
                     this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
                     this.ctx.strokeStyle = `rgba(0, 255, 255, ${alpha})`;
-                    this.ctx.lineWidth = 0.5;
+                    this.ctx.lineWidth = 0.7;
                     this.ctx.stroke();
                 }
             }
