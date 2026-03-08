@@ -158,42 +158,53 @@
             <p class="label" style="margin-bottom: var(--space-sm); color: var(--neon-purple);">Also Available</p>
             <h2>More VR Experiences</h2>
         </div>
-        <div class="neon-card" data-animate="fade-up" style="padding: var(--space-2xl);">
-            <div class="split-section" style="gap: var(--space-2xl);">
-                <div style="text-align: center;">
-                    <div style="font-size: 5rem; margin-bottom: var(--space-lg);">&#x1FAC0;</div>
-                    <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; justify-content: center;">
-                        <span class="tech-badge">Unity</span>
-                        <span class="tech-badge">Meta Quest</span>
-                        <span class="tech-badge">Education</span>
-                        <span class="tech-badge">XR</span>
-                    </div>
+
+        <!-- A&P Lab Cover Banner -->
+        <div class="ap-hero neon-card" data-animate="fade-up">
+            <img src="assets/images/ap-lab/cover.jpg" alt="Anatomy & Physiology Lab" class="ap-hero-bg" loading="lazy">
+            <div class="ap-hero-overlay"></div>
+            <div class="ap-hero-content">
+                <h3>Anatomy &amp; Physiology Lab</h3>
+                <p>An immersive self-directed learning adventure exploring human anatomy and physiology through virtual reality. Includes interactive learning modules with slides and knowledge-check quizzes.</p>
+                <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; margin-top: var(--space-lg);">
+                    <span class="tech-badge">Unity</span>
+                    <span class="tech-badge">Meta Quest</span>
+                    <span class="tech-badge">Education</span>
+                    <span class="tech-badge">XR</span>
                 </div>
-                <div>
-                    <h3 style="color: var(--neon-green); margin-bottom: var(--space-md); font-family: var(--font-display); font-size: var(--text-xl); text-transform: uppercase; letter-spacing: 0.08em;">Anatomy &amp; Physiology Lab</h3>
-                    <p style="margin-bottom: var(--space-lg);">An immersive self-directed learning adventure exploring human anatomy and physiology through virtual reality.</p>
-                    <div class="ap-labs-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-lg);">
-                        <div style="padding: var(--space-md); background: rgba(0,255,136,0.05); border-radius: var(--radius-md); border: 1px solid rgba(0,255,136,0.1);">
-                            <h4 style="color: var(--neon-green); font-size: var(--text-base); margin-bottom: var(--space-xs);">&#x1F9B4; Skeletal Lab</h4>
-                            <p style="font-size: var(--text-sm); margin: 0;">Explore the human skeleton interactively</p>
-                        </div>
-                        <div style="padding: var(--space-md); background: rgba(0,255,136,0.05); border-radius: var(--radius-md); border: 1px solid rgba(0,255,136,0.1);">
-                            <h4 style="color: var(--neon-green); font-size: var(--text-base); margin-bottom: var(--space-xs);">&#x1F480; Skull Lab</h4>
-                            <p style="font-size: var(--text-sm); margin: 0;">Dive into cranial and facial bones up close</p>
-                        </div>
-                        <div style="padding: var(--space-md); background: rgba(0,255,136,0.05); border-radius: var(--radius-md); border: 1px solid rgba(0,255,136,0.1);">
-                            <h4 style="color: var(--neon-green); font-size: var(--text-base); margin-bottom: var(--space-xs);">&#x1FAC0; Heart Lab</h4>
-                            <p style="font-size: var(--text-sm); margin: 0;">Study lifelike heart models and experience its beat</p>
-                        </div>
-                        <div style="padding: var(--space-md); background: rgba(0,255,136,0.05); border-radius: var(--radius-md); border: 1px solid rgba(0,255,136,0.1);">
-                            <h4 style="color: var(--neon-green); font-size: var(--text-base); margin-bottom: var(--space-xs);">&#x1F3AE; VR Playground</h4>
-                            <p style="font-size: var(--text-sm); margin: 0;">Mind-bending experiments and VR showcases</p>
-                        </div>
-                    </div>
-                    <p style="font-size: var(--text-sm); color: var(--text-muted); margin-bottom: var(--space-lg);">Includes interactive learning modules with slides and knowledge-check quizzes.</p>
-                    <a href="https://www.meta.com/en-gb/experiences/anatomy-physiology-lab/5826680474102104/" target="_blank" rel="noopener" class="neon-btn" style="display: inline-flex; align-items: center; gap: var(--space-sm); --neon-cyan: #00ff88; --glow-cyan: rgba(0,255,136,0.4);">
-                        &#x1F3AE; View on Meta Quest Store
-                    </a>
+                <a href="https://www.meta.com/en-gb/experiences/anatomy-physiology-lab/5826680474102104/" target="_blank" rel="noopener" class="neon-btn" style="margin-top: var(--space-xl); display: inline-flex; align-items: center; gap: var(--space-sm); --neon-cyan: #00ff88; --glow-cyan: rgba(0,255,136,0.4);">
+                    &#x1F3AE; View on Meta Quest Store
+                </a>
+            </div>
+        </div>
+
+        <!-- Lab Screenshot Gallery -->
+        <div class="grid-3 ap-gallery" data-stagger style="margin-top: var(--space-2xl);">
+            <div class="neon-card ap-lab-card" data-animate="fade-up">
+                <div class="ap-lab-card-image neon-frame">
+                    <img src="assets/images/ap-lab/skull-skeletal-lab.png" alt="Skull & Skeletal Lab VR" loading="lazy">
+                </div>
+                <div class="ap-lab-card-body">
+                    <h4>Skull &amp; Skeletal Lab</h4>
+                    <p>Explore the intricacies of the human skeleton and cranial bones with interactive 3D models and detailed info panels.</p>
+                </div>
+            </div>
+            <div class="neon-card ap-lab-card" data-animate="fade-up">
+                <div class="ap-lab-card-image neon-frame">
+                    <img src="assets/images/ap-lab/heart-lab.png" alt="Heart Lab VR" loading="lazy">
+                </div>
+                <div class="ap-lab-card-body">
+                    <h4>Heart Lab</h4>
+                    <p>Study lifelike heart models, experience its rhythmic beat, and learn cardiovascular anatomy through immersive interaction.</p>
+                </div>
+            </div>
+            <div class="neon-card ap-lab-card" data-animate="fade-up">
+                <div class="ap-lab-card-image neon-frame">
+                    <img src="assets/images/ap-lab/playground.png" alt="VR Playground" loading="lazy">
+                </div>
+                <div class="ap-lab-card-body">
+                    <h4>VR Playground</h4>
+                    <p>Mind-bending experiments, hand tracking demos, and showcases pushing the boundaries of VR technology.</p>
                 </div>
             </div>
         </div>
