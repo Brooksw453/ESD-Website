@@ -10,21 +10,17 @@ class MusicPlayer {
         if (!this.audio) return;
 
         this.tracks = [
-            { title: 'Opening Song',               src: 'assets/audio/Opening Song.mp3' },
-            { title: 'Press Start to Maybe',       src: 'assets/audio/Press Start to Maybe.mp3' },
+            { title: 'Jagged Edge',                src: 'assets/audio/Jagged Edge.mp3' }, 
             { title: 'Push Through Static',        src: 'assets/audio/Push Through Static.mp3' },
-            { title: 'Push Through It',            src: 'assets/audio/Push Through It.mp3' },
-            { title: 'Journey Through It',         src: 'assets/audio/Journey Through It.mp3' },
-            { title: 'The Sky Turn',               src: 'assets/audio/The Sky Turn.mp3' },
+            { title: 'Bright Poppy',               src: 'assets/audio/Bright Poppy.mp3' },
+            { title: 'Tearing Up the House',       src: 'assets/audio/Tearing Up the House.mp3' },
+            { title: 'Midnight Voltage',           src: 'assets/audio/Midnight Voltage.mp3' },
+            { title: 'Press Start to Maybe',       src: 'assets/audio/Press Start to Maybe.mp3' },
             { title: 'You Might',                  src: 'assets/audio/You Might.mp3' },
             { title: 'Glow on the Floor',          src: 'assets/audio/Glow on the Floor.mp3' },
-            { title: 'Bright Poppy',               src: 'assets/audio/Bright Poppy.mp3' },
-            { title: 'Midnight Voltage',           src: 'assets/audio/Midnight Voltage.mp3' },
             { title: 'Move Your Feet',             src: 'assets/audio/Move Your Feet.mp3' },
             { title: 'Starshine',                  src: 'assets/audio/Starshine.mp3' },
             { title: 'Search for Prophet',         src: 'assets/audio/Search for Prophet.mp3' },
-            { title: 'Tearing Up the House',       src: 'assets/audio/Tearing Up the House.mp3' },
-            { title: 'Jagged Edge',                src: 'assets/audio/Jagged Edge.mp3' },
             { title: 'Touch the Button',           src: 'assets/audio/Touch the Button.mp3' },
             { title: 'Glow on the Floor (Original)', src: 'assets/audio/Glow on the Floor Original.mp3' },
         ];
