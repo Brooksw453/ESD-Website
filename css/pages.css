@@ -313,7 +313,8 @@
 
 .ap-hero {
     position: relative;
-    min-height: 300px;
+    min-height: 220px;
+    max-height: 280px;
     overflow: hidden;
     padding: 0;
     display: flex;
@@ -338,7 +339,7 @@
 .ap-hero-content {
     position: relative;
     z-index: 1;
-    padding: var(--space-2xl) var(--space-3xl);
+    padding: var(--space-xl) var(--space-2xl);
     margin-left: auto;
     max-width: 60%;
     display: flex;
@@ -348,19 +349,19 @@
 
 .ap-hero-content h3 {
     font-family: var(--font-display);
-    font-size: var(--text-2xl);
+    font-size: var(--text-xl);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--neon-green);
     text-shadow: 0 0 10px rgba(0,255,136,0.4), 0 0 30px rgba(0,255,136,0.2);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
 }
 
 .ap-hero-content p {
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
     color: var(--text-secondary);
-    line-height: 1.7;
+    line-height: 1.6;
 }
 
 /* --- A&P Lab Screenshot Cards --- */
