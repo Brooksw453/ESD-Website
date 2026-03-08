@@ -1,0 +1,86 @@
+/* ============================================
+   Design Tokens - Education Simulation Designs
+   Synthwave / Neon Cyberpunk Theme
+   ============================================ */
+
+:root {
+    /* --- Backgrounds --- */
+    --bg-primary:       #0a0a1a;
+    --bg-secondary:     #0f0f2a;
+    --bg-card:          #12122a;
+    --bg-card-hover:    #1a1a3a;
+    --bg-overlay:       rgba(10, 10, 26, 0.92);
+
+    /* --- Neon Accents --- */
+    --neon-cyan:        #00ffff;
+    --neon-magenta:     #ff00ff;
+    --neon-orange:      #ff8800;
+    --neon-purple:      #aa00ff;
+    --neon-green:       #00ff88;
+
+    /* --- Neon Glows (with alpha) --- */
+    --glow-cyan:        rgba(0, 255, 255, 0.4);
+    --glow-magenta:     rgba(255, 0, 255, 0.4);
+    --glow-orange:      rgba(255, 136, 0, 0.4);
+    --glow-purple:      rgba(170, 0, 255, 0.4);
+
+    /* --- Text --- */
+    --text-primary:     #e0e0ff;
+    --text-secondary:   rgba(224, 224, 255, 0.6);
+    --text-muted:       rgba(224, 224, 255, 0.35);
+
+    /* --- Gradients --- */
+    --gradient-hero:    linear-gradient(135deg, #0a0a1a 0%, #1a0a2a 50%, #0a1a2a 100%);
+    --gradient-neon:    linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+    --gradient-card:    linear-gradient(180deg, rgba(0,255,255,0.05) 0%, transparent 100%);
+
+    /* --- Spacing (8px base) --- */
+    --space-xs:   4px;
+    --space-sm:   8px;
+    --space-md:   16px;
+    --space-lg:   24px;
+    --space-xl:   32px;
+    --space-2xl:  48px;
+    --space-3xl:  64px;
+    --space-4xl:  96px;
+
+    /* --- Typography --- */
+    --font-display: 'Orbitron', sans-serif;
+    --font-body:    'Rajdhani', sans-serif;
+    --font-mono:    'Share Tech Mono', monospace;
+
+    --text-xs:   0.75rem;
+    --text-sm:   0.875rem;
+    --text-base: 1rem;
+    --text-lg:   1.25rem;
+    --text-xl:   1.5rem;
+    --text-2xl:  2rem;
+    --text-3xl:  3rem;
+    --text-4xl:  4rem;
+
+    /* --- Borders & Radius --- */
+    --border-glow:  1px solid rgba(0, 255, 255, 0.2);
+    --radius-sm:    4px;
+    --radius-md:    8px;
+    --radius-lg:    12px;
+    --radius-xl:    16px;
+    --radius-full:  9999px;
+
+    /* --- Transitions --- */
+    --transition-fast:  150ms ease;
+    --transition-base:  300ms ease;
+    --transition-slow:  500ms ease;
+
+    /* --- Z-index Layers --- */
+    --z-particles:     0;
+    --z-content:       1;
+    --z-header:        100;
+    --z-music-player:  1000;
+    --z-overlay:       2000;
+    --z-modal:         3000;
+
+    /* --- Layout --- */
+    --content-max-width: 1200px;
+    --nav-height:        64px;
+    --player-height:     72px;
+}

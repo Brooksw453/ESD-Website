@@ -1,0 +1,136 @@
+/* ============================================
+   Animations - Scroll Reveals, Glows, Effects
+   ============================================ */
+
+/* --- Scroll Reveal Animations --- */
+
+[data-animate] {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+[data-animate].visible {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+}
+
+[data-animate="fade-up"] {
+    transform: translateY(40px);
+}
+
+[data-animate="fade-down"] {
+    transform: translateY(-40px);
+}
+
+[data-animate="fade-left"] {
+    transform: translateX(-40px);
+}
+
+[data-animate="fade-right"] {
+    transform: translateX(40px);
+}
+
+[data-animate="scale-in"] {
+    transform: scale(0.9);
+}
+
+[data-animate="glow-in"] {
+    transform: translateY(20px);
+    filter: blur(4px);
+    transition: opacity 0.6s ease, transform 0.6s ease, filter 0.6s ease;
+}
+
+[data-animate="glow-in"].visible {
+    filter: blur(0);
+}
+
+/* Stagger children */
+[data-stagger] > *:nth-child(1) { transition-delay: 0ms; }
+[data-stagger] > *:nth-child(2) { transition-delay: 100ms; }
+[data-stagger] > *:nth-child(3) { transition-delay: 200ms; }
+[data-stagger] > *:nth-child(4) { transition-delay: 300ms; }
+[data-stagger] > *:nth-child(5) { transition-delay: 400ms; }
+[data-stagger] > *:nth-child(6) { transition-delay: 500ms; }
+
+/* --- Float Animation --- */
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-12px); }
+}
+
+.float {
+    animation: float 4s ease-in-out infinite;
+}
+
+/* --- Glow Pulse --- */
+
+@keyframes glowPulse {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.3),
+                    0 0 60px rgba(0, 255, 255, 0.1);
+    }
+}
+
+.glow-pulse {
+    animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* --- Scan Line Effect --- */
+
+@keyframes scanLine {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+}
+
+/* --- Scroll Down Indicator --- */
+
+@keyframes scrollBounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+    40%  { transform: translateY(-8px) translateX(-50%); }
+    60%  { transform: translateY(-4px) translateX(-50%); }
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: var(--space-xl);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    animation: scrollBounce 2s ease infinite;
+}
+
+.scroll-indicator svg {
+    width: 20px;
+    height: 20px;
+    color: var(--neon-cyan);
+    opacity: 0.6;
+}
+
+/* --- Reduced Motion --- */
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    [data-animate] {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+    }
+}

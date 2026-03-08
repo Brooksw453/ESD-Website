@@ -1,0 +1,406 @@
+/* ============================================
+   Page-Specific Styles
+   ============================================ */
+
+/* --- Hero Section (Home) --- */
+
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-4xl) var(--space-xl);
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-hero);
+    opacity: 0.7;
+    z-index: -1;
+}
+
+/* Synthwave grid floor */
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -20%;
+    right: -20%;
+    height: 45vh;
+    background:
+        repeating-linear-gradient(
+            transparent,
+            transparent 49px,
+            rgba(0, 255, 255, 0.04) 49px,
+            rgba(0, 255, 255, 0.04) 50px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 49px,
+            rgba(0, 255, 255, 0.04) 49px,
+            rgba(0, 255, 255, 0.04) 50px
+        );
+    transform: perspective(400px) rotateX(55deg);
+    transform-origin: bottom;
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.hero-title {
+    font-size: clamp(1.8rem, 5vw, var(--text-4xl));
+    margin-bottom: var(--space-md);
+    line-height: 1.1;
+}
+
+.hero-subtitle {
+    font-family: var(--font-mono);
+    font-size: clamp(var(--text-sm), 2vw, var(--text-lg));
+    color: var(--text-secondary);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-2xl);
+}
+
+.hero-image {
+    max-width: 700px;
+    width: 90%;
+    border-radius: var(--radius-xl);
+    box-shadow:
+        0 0 30px rgba(0, 255, 255, 0.15),
+        0 0 60px rgba(0, 255, 255, 0.05);
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    margin-bottom: var(--space-2xl);
+}
+
+.hero-cta {
+    display: flex;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* --- Services Section --- */
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+}
+
+.service-card {
+    text-align: center;
+    padding: var(--space-2xl) var(--space-xl);
+    cursor: pointer;
+}
+
+.service-card .service-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-lg);
+    display: block;
+}
+
+.service-card h3 {
+    color: var(--neon-cyan);
+    margin-bottom: var(--space-sm);
+}
+
+.service-card .service-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--neon-cyan);
+    margin-top: var(--space-lg);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0;
+    transform: translateY(5px);
+    transition: all var(--transition-base);
+}
+
+.service-card:hover .service-link {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Featured Project Banner --- */
+
+.featured-banner {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    min-height: 350px;
+    display: flex;
+    align-items: center;
+    padding: var(--space-3xl);
+}
+
+.featured-banner-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
+}
+
+.featured-banner-content {
+    position: relative;
+    z-index: 1;
+    max-width: 550px;
+}
+
+.featured-banner-content h2 {
+    margin-bottom: var(--space-md);
+}
+
+.featured-banner-content p {
+    margin-bottom: var(--space-xl);
+}
+
+/* --- Music Teaser Section --- */
+
+.music-teaser {
+    text-align: center;
+    padding: var(--space-3xl) 0;
+}
+
+.music-teaser .now-playing {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--neon-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.eq-bars {
+    display: inline-flex;
+    gap: 3px;
+    align-items: flex-end;
+    height: 30px;
+    margin: var(--space-lg) 0;
+}
+
+.eq-bar {
+    width: 4px;
+    background: var(--neon-cyan);
+    border-radius: 2px;
+    animation: eqBounce var(--eq-speed, 0.8s) ease-in-out infinite alternate;
+    box-shadow: 0 0 4px var(--glow-cyan);
+}
+
+@keyframes eqBounce {
+    0%   { height: 4px; }
+    100% { height: 28px; }
+}
+
+/* --- VR Page Styles --- */
+
+.vr-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-4xl) var(--space-xl);
+    overflow: hidden;
+}
+
+.vr-hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.35;
+}
+
+.vr-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(10,10,26,0.4) 0%, rgba(10,10,26,0.95) 100%);
+}
+
+.vr-hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Mission cards */
+.mission-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+}
+
+.mission-card {
+    text-align: center;
+    padding: var(--space-2xl) var(--space-lg);
+}
+
+.mission-card .mission-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--space-lg);
+    filter: drop-shadow(0 0 12px rgba(0, 255, 255, 0.4));
+}
+
+.mission-card h3 {
+    color: var(--neon-cyan);
+    margin-bottom: var(--space-md);
+}
+
+.mission-card ul {
+    text-align: left;
+    list-style: none;
+    padding: 0;
+}
+
+.mission-card ul li {
+    padding: var(--space-xs) 0;
+    color: var(--text-secondary);
+    font-size: var(--text-base);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.mission-card ul li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--neon-cyan);
+    box-shadow: 0 0 6px var(--glow-cyan);
+    flex-shrink: 0;
+}
+
+/* --- Game Cards --- */
+
+.game-card {
+    overflow: hidden;
+}
+
+.game-card-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    margin: calc(-1 * var(--space-xl)) calc(-1 * var(--space-xl)) 0;
+    width: calc(100% + var(--space-xl) * 2);
+}
+
+.game-card-body {
+    padding-top: var(--space-lg);
+}
+
+.game-card h3 {
+    margin-bottom: var(--space-xs);
+}
+
+.game-card p {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-md);
+}
+
+.game-card-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.game-card-actions {
+    display: flex;
+    gap: var(--space-md);
+}
+
+/* --- AI Page Styles --- */
+
+.ai-platform-card {
+    display: flex;
+    gap: var(--space-xl);
+    align-items: center;
+    padding: var(--space-2xl);
+}
+
+.ai-platform-card .platform-icon {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    font-size: 2.5rem;
+}
+
+/* --- Two-Column Layout --- */
+
+.split-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    align-items: center;
+}
+
+.split-section.reverse {
+    direction: rtl;
+}
+
+.split-section.reverse > * {
+    direction: ltr;
+}
+
+/* --- Soundtrack List --- */
+
+.soundtrack-list {
+    list-style: none;
+    padding: 0;
+}
+
+.soundtrack-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    border-radius: var(--radius-sm);
+}
+
+.soundtrack-item:hover {
+    background: rgba(0, 255, 255, 0.05);
+}
+
+.soundtrack-item .track-play-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neon-cyan);
+    flex-shrink: 0;
+}
+
+.soundtrack-item .track-info {
+    flex: 1;
+}
+
+.soundtrack-item .track-info .track-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
