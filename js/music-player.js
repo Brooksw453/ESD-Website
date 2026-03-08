@@ -1,6 +1,7 @@
 /* ============================================
-   Global Music Player
+   Global Music Player — Compact Bar
    Persistent across page navigation
+   Expands/collapses on click
    ============================================ */
 
 class MusicPlayer {
@@ -32,9 +33,11 @@ class MusicPlayer {
         this.isPlaying = false;
         this.isMuted = false;
         this.musicEnabled = false;
-        this.shuffleOrder = [];
+        this.isExpanded = false;
 
         // DOM elements
+        this.playerEl = document.getElementById('musicPlayer');
+        this.playerBar = document.getElementById('playerBar');
         this.playPauseBtn = document.getElementById('playPauseBtn');
         this.playIcon = document.getElementById('playIcon');
         this.pauseIcon = document.getElementById('pauseIcon');
@@ -43,11 +46,12 @@ class MusicPlayer {
         this.trackNameEl = document.getElementById('trackName');
         this.progressBar = document.getElementById('playerProgress');
         this.progressFill = document.getElementById('progressFill');
+        this.expandBtn = document.getElementById('expandBtn');
+        this.expandedPanel = document.getElementById('playerExpanded');
         this.muteBtn = document.getElementById('muteBtn');
         this.volumeOnIcon = document.getElementById('volumeOnIcon');
         this.volumeOffIcon = document.getElementById('volumeOffIcon');
         this.volumeSlider = document.getElementById('volumeSlider');
-        this.trackListBtn = document.getElementById('trackListBtn');
         this.trackListEl = document.getElementById('trackList');
         this.enableOverlay = document.getElementById('musicEnableOverlay');
 
@@ -55,7 +59,6 @@ class MusicPlayer {
         this.buildTrackList();
         this.loadTrack(this.currentIndex, false);
         this.bindEvents();
-        this.generateShuffleOrder();
     }
 
     restoreState() {
@@ -75,15 +78,6 @@ class MusicPlayer {
         }
     }
 
-    generateShuffleOrder() {
-        this.shuffleOrder = [...Array(this.tracks.length).keys()];
-        // Fisher-Yates shuffle
-        for (let i = this.shuffleOrder.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [this.shuffleOrder[i], this.shuffleOrder[j]] = [this.shuffleOrder[j], this.shuffleOrder[i]];
-        }
-    }
-
     buildTrackList() {
         this.trackListEl.innerHTML = '';
         this.tracks.forEach((track, index) => {
@@ -93,9 +87,12 @@ class MusicPlayer {
                 <span class="track-number">${String(index + 1).padStart(2, '0')}</span>
                 <span class="track-title">${track.title}</span>
             `;
-            item.addEventListener('click', () => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
                 this.loadTrack(index, true);
                 this.play();
+                // Auto-collapse after selecting a track
+                this.collapse();
             });
             this.trackListEl.appendChild(item);
         });
@@ -155,7 +152,6 @@ class MusicPlayer {
     }
 
     prev() {
-        // If more than 3 seconds in, restart track
         if (this.audio.currentTime > 3) {
             this.audio.currentTime = 0;
             return;
@@ -218,9 +214,22 @@ class MusicPlayer {
         this.enableOverlay.classList.add('hidden');
     }
 
-    toggleTrackList() {
-        const isOpen = this.trackListEl.style.display !== 'none';
-        this.trackListEl.style.display = isOpen ? 'none' : 'block';
+    expand() {
+        this.isExpanded = true;
+        this.playerEl.classList.add('expanded');
+    }
+
+    collapse() {
+        this.isExpanded = false;
+        this.playerEl.classList.remove('expanded');
+    }
+
+    toggleExpand() {
+        if (this.isExpanded) {
+            this.collapse();
+        } else {
+            this.expand();
+        }
     }
 
     // Play a specific track by title (used by soundtrack list on VR page)
@@ -233,14 +242,50 @@ class MusicPlayer {
     }
 
     bindEvents() {
-        this.playPauseBtn.addEventListener('click', () => this.togglePlayPause());
-        this.nextBtn.addEventListener('click', () => this.next());
-        this.prevBtn.addEventListener('click', () => this.prev());
-        this.muteBtn.addEventListener('click', () => this.toggleMute());
-        this.volumeSlider.addEventListener('input', (e) => this.setVolume(parseFloat(e.target.value)));
-        this.trackListBtn.addEventListener('click', () => this.toggleTrackList());
-        this.progressBar.addEventListener('click', (e) => this.seekTo(e));
+        // Transport controls — stop propagation so they don't trigger expand
+        this.playPauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.togglePlayPause();
+        });
+        this.nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.next();
+        });
+        this.prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.prev();
+        });
 
+        // Expand/collapse — clicking the bar or the chevron
+        this.expandBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleExpand();
+        });
+
+        // Clicking the track name area also toggles expand
+        this.trackNameEl.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleExpand();
+        });
+
+        // Volume controls inside expanded panel
+        this.muteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleMute();
+        });
+        this.volumeSlider.addEventListener('input', (e) => {
+            e.stopPropagation();
+            this.setVolume(parseFloat(e.target.value));
+        });
+        this.volumeSlider.addEventListener('click', (e) => e.stopPropagation());
+
+        // Progress bar seeking
+        this.progressBar.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.seekTo(e);
+        });
+
+        // Audio events
         this.audio.addEventListener('timeupdate', () => this.updateProgress());
         this.audio.addEventListener('ended', () => this.next());
 

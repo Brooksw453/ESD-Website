@@ -65,9 +65,32 @@
     font-family: var(--font-mono);
     font-size: clamp(var(--text-sm), 2vw, var(--text-lg));
     color: var(--text-secondary);
-    letter-spacing: 0.15em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     margin-bottom: var(--space-2xl);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.hero-subtitle-link {
+    color: var(--text-secondary);
+    transition: color var(--transition-fast), text-shadow var(--transition-fast);
+    padding: 2px 4px;
+    border-bottom: 1px solid transparent;
+}
+
+.hero-subtitle-link:hover {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    border-bottom-color: var(--neon-cyan);
+}
+
+.hero-subtitle-dot {
+    color: var(--text-muted);
+    margin: 0 2px;
 }
 
 .hero-image {

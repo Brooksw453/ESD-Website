@@ -211,7 +211,8 @@
 }
 
 /* ============================================
-   Music Player
+   Music Player — Compact Single-Line Bar
+   Expands on click to show tracklist + volume
    ============================================ */
 
 .music-player {
@@ -226,16 +227,17 @@
     border-top: 1px solid rgba(0, 255, 255, 0.1);
 }
 
+/* Thin progress bar along the top edge */
 .player-progress {
     width: 100%;
-    height: 3px;
+    height: 2px;
     background: rgba(255, 255, 255, 0.05);
     cursor: pointer;
     position: relative;
 }
 
 .player-progress:hover {
-    height: 5px;
+    height: 4px;
 }
 
 .player-progress-fill {
@@ -244,82 +246,100 @@
     border-radius: 0 2px 2px 0;
     width: 0%;
     transition: width 0.1s linear;
-    box-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
 }
 
-.player-controls {
+/* --- Compact bar (always visible, single line) --- */
+
+.player-bar {
     display: flex;
     align-items: center;
-    gap: var(--space-md);
-    padding: var(--space-sm) var(--space-xl);
-    height: calc(var(--player-height) - 3px);
+    gap: var(--space-sm);
+    padding: 0 var(--space-md);
+    height: calc(var(--player-height) - 2px);
 }
 
 .player-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     color: var(--text-secondary);
     transition: all var(--transition-fast);
+    flex-shrink: 0;
+    cursor: pointer;
 }
 
 .player-btn:hover {
     color: var(--neon-cyan);
-    text-shadow: 0 0 8px var(--glow-cyan);
 }
 
 .player-btn-main {
-    width: 42px;
-    height: 42px;
-    border: 2px solid var(--neon-cyan);
+    width: 28px;
+    height: 28px;
+    border: 1.5px solid var(--neon-cyan);
     color: var(--neon-cyan);
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.15);
 }
 
 .player-btn-main:hover {
     background: rgba(0, 255, 255, 0.1);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-}
-
-.player-track-info {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.25);
 }
 
 .player-track-name {
+    flex: 1;
+    min-width: 0;
     font-family: var(--font-body);
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 0 var(--space-sm);
 }
 
-.player-track-artist {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+/* Expand chevron — rotates when open */
+.player-expand-btn {
+    transition: transform var(--transition-base);
+    cursor: pointer;
 }
 
-.player-volume {
+.music-player.expanded .player-expand-btn {
+    transform: rotate(180deg);
+}
+
+/* --- Expandable panel (hidden by default) --- */
+
+.player-expanded {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    background: rgba(8, 8, 22, 0.98);
+}
+
+.music-player.expanded .player-expanded {
+    max-height: 50vh;
+    overflow-y: auto;
+    border-top: 1px solid rgba(0, 255, 255, 0.06);
+}
+
+/* Volume row inside expanded panel */
+.player-expanded-volume {
     display: flex;
     align-items: center;
     gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .volume-slider {
     -webkit-appearance: none;
     appearance: none;
-    width: 80px;
+    flex: 1;
+    max-width: 160px;
     height: 4px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 2px;
@@ -329,40 +349,37 @@
 .volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background: var(--neon-cyan);
-    box-shadow: 0 0 8px var(--glow-cyan);
+    box-shadow: 0 0 6px var(--glow-cyan);
     cursor: pointer;
 }
 
 .volume-slider::-moz-range-thumb {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background: var(--neon-cyan);
-    box-shadow: 0 0 8px var(--glow-cyan);
+    box-shadow: 0 0 6px var(--glow-cyan);
     cursor: pointer;
     border: none;
 }
 
-/* Track list panel */
+/* Track list inside expanded panel */
 .player-tracklist {
-    max-height: 300px;
-    overflow-y: auto;
-    background: rgba(10, 10, 26, 0.98);
-    border-top: 1px solid rgba(0, 255, 255, 0.08);
-    padding: var(--space-sm) 0;
+    padding: var(--space-xs) 0;
 }
 
 .tracklist-item {
     display: flex;
     align-items: center;
     gap: var(--space-md);
-    padding: var(--space-sm) var(--space-xl);
+    padding: var(--space-sm) var(--space-md);
     cursor: pointer;
     transition: background var(--transition-fast);
+    font-size: var(--text-sm);
 }
 
 .tracklist-item:hover {
@@ -378,23 +395,22 @@
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     color: var(--text-muted);
-    width: 24px;
+    width: 20px;
     text-align: right;
 }
 
 .tracklist-item .track-title {
     flex: 1;
-    font-size: var(--text-base);
 }
 
 /* Music enable overlay */
 .music-enable-overlay {
     position: fixed;
-    bottom: var(--player-height);
+    bottom: calc(var(--player-height) + 8px);
     left: 50%;
     transform: translateX(-50%);
     z-index: calc(var(--z-music-player) + 1);
-    padding: var(--space-sm) var(--space-lg);
+    padding: 6px var(--space-md);
     background: rgba(0, 255, 255, 0.1);
     border: 1px solid rgba(0, 255, 255, 0.3);
     border-radius: var(--radius-full);
@@ -402,7 +418,7 @@
     font-size: var(--text-xs);
     color: var(--neon-cyan);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     cursor: pointer;
     animation: pulse 2s ease infinite;
     white-space: nowrap;
