@@ -65,6 +65,28 @@
     padding: 0 var(--space-sm);
 }
 
+/* VR hero title - responsive on mobile */
+.vr-hero-content h1 {
+    font-size: clamp(1.6rem, 8vw, var(--text-4xl));
+}
+
+.vr-hero {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+}
+
+/* Page header titles — responsive on mobile */
+.section h1 {
+    font-size: clamp(1.5rem, 7vw, var(--text-4xl));
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+/* A&P Lab grid — single column on mobile */
+.ap-labs-grid {
+    grid-template-columns: 1fr !important;
+}
+
 /* Subtitle links on mobile */
 .hero-subtitle {
     display: flex;

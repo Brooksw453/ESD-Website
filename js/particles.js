@@ -49,7 +49,7 @@ class ParticleSystem {
                 vy: (Math.random() - 0.5) * 0.4,
                 radius: Math.random() * 3.5 + 1,
                 color: color,
-                alpha: Math.random() * 0.5 + 0.3,
+                alpha: Math.random() * 0.5 + 0.4,
                 pulseSpeed: Math.random() * 0.025 + 0.008,
                 pulsePhase: Math.random() * Math.PI * 2,
             });
@@ -108,7 +108,7 @@ class ParticleSystem {
         for (const p of this.particles) {
             // Pulse alpha
             p.pulsePhase += p.pulseSpeed;
-            const dynamicAlpha = p.alpha + Math.sin(p.pulsePhase) * 0.15;
+            const dynamicAlpha = p.alpha + Math.sin(p.pulsePhase) * 0.25;
 
             // Mouse interaction: gentle repulsion
             if (this.mouse.x !== null && this.mouse.y !== null) {
@@ -145,13 +145,21 @@ class ParticleSystem {
             if (p.y < -10) p.y = this.canvas.height + 10;
             if (p.y > this.canvas.height + 10) p.y = -10;
 
-            // Draw particle
+            // Draw outer glow halo
             const a = Math.max(0, Math.min(1, dynamicAlpha));
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.radius * 2.5, 0, Math.PI * 2);
+            this.ctx.fillStyle = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${a * 0.15})`;
+            this.ctx.shadowBlur = 40;
+            this.ctx.shadowColor = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, 0.9)`;
+            this.ctx.fill();
+
+            // Draw bright core particle
             this.ctx.beginPath();
             this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
             this.ctx.fillStyle = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${a})`;
-            this.ctx.shadowBlur = 18;
-            this.ctx.shadowColor = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, 0.7)`;
+            this.ctx.shadowBlur = 30;
+            this.ctx.shadowColor = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, 0.9)`;
             this.ctx.fill();
         }
 
@@ -166,12 +174,12 @@ class ParticleSystem {
                 const distSq = dx * dx + dy * dy;
                 const maxDistSq = this.connectionDistance * this.connectionDistance;
                 if (distSq < maxDistSq) {
-                    const alpha = (1 - Math.sqrt(distSq) / this.connectionDistance) * 0.2;
+                    const alpha = (1 - Math.sqrt(distSq) / this.connectionDistance) * 0.3;
                     this.ctx.beginPath();
                     this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
                     this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
                     this.ctx.strokeStyle = `rgba(0, 255, 255, ${alpha})`;
-                    this.ctx.lineWidth = 0.7;
+                    this.ctx.lineWidth = 1.0;
                     this.ctx.stroke();
                 }
             }

@@ -446,6 +446,116 @@
     text-transform: uppercase;
 }
 
+/* --- Block Blast Game Banner --- */
+
+.blockblast-banner {
+    position: relative;
+    height: 200px;
+    background: linear-gradient(180deg, #0a0014 0%, #1a0a1a 50%, #0d0a2e 100%);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-lg);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Animated block grid pattern */
+.blockblast-grid {
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 39px,
+            rgba(255, 136, 0, 0.08) 39px,
+            rgba(255, 136, 0, 0.08) 40px
+        ),
+        repeating-linear-gradient(
+            transparent,
+            transparent 39px,
+            rgba(255, 136, 0, 0.08) 39px,
+            rgba(255, 136, 0, 0.08) 40px
+        );
+    animation: blockPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes blockPulse {
+    0%   { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+/* Glowing block accents */
+.blockblast-banner::before,
+.blockblast-banner::after {
+    content: '';
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    opacity: 0.25;
+    animation: blockFloat 5s ease-in-out infinite alternate;
+}
+
+.blockblast-banner::before {
+    top: 20%;
+    left: 15%;
+    background: var(--neon-orange);
+    box-shadow: 0 0 20px var(--glow-orange);
+    animation-delay: 0s;
+}
+
+.blockblast-banner::after {
+    bottom: 20%;
+    right: 15%;
+    background: var(--neon-magenta);
+    box-shadow: 0 0 20px var(--glow-magenta);
+    animation-delay: 1.5s;
+}
+
+@keyframes blockFloat {
+    0%   { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-12px) rotate(8deg); }
+}
+
+.blockblast-title {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.blockblast-name {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    color: var(--neon-orange);
+    text-shadow:
+        0 0 10px rgba(255, 136, 0, 0.6),
+        0 0 30px rgba(255, 136, 0, 0.3),
+        0 0 60px rgba(255, 136, 0, 0.1);
+}
+
+.blockblast-accent {
+    color: var(--neon-magenta);
+    text-shadow:
+        0 0 10px rgba(255, 0, 255, 0.6),
+        0 0 30px rgba(255, 0, 255, 0.3),
+        0 0 60px rgba(255, 0, 255, 0.1);
+}
+
+.blockblast-sub {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.3em;
+    color: var(--text-secondary);
+    margin-top: var(--space-sm);
+    text-transform: uppercase;
+}
+
 /* --- Game Cards --- */
 
 .game-card {
