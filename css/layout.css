@@ -190,12 +190,20 @@
 }
 
 .footer-brand {
-    font-family: var(--font-display);
-    font-size: var(--text-sm);
-    color: var(--neon-cyan);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.footer-logo {
+    height: 140px;
+    width: auto;
+    opacity: 0.85;
+    transition: opacity var(--transition-base);
+    filter: drop-shadow(0 0 12px rgba(0, 255, 255, 0.15));
+}
+
+.footer-logo:hover {
+    opacity: 1;
+    filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
 }
 
 .footer-links {
