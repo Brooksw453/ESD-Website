@@ -726,6 +726,63 @@
     gap: var(--space-md);
 }
 
+/* --- Game Embed Container --- */
+
+.game-embed-container {
+    margin-top: var(--space-lg);
+    border-top: 1px solid rgba(0, 255, 255, 0.15);
+    padding-top: var(--space-md);
+}
+
+.game-embed-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+}
+
+.game-embed-title {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--neon-cyan);
+}
+
+.game-embed-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 0, 255, 0.1);
+    border: 1px solid rgba(255, 0, 255, 0.3);
+    color: var(--neon-magenta);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.game-embed-close:hover {
+    background: rgba(255, 0, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+}
+
+.game-embed-iframe {
+    width: 100%;
+    height: 500px;
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+}
+
+@media (max-width: 640px) {
+    .game-embed-iframe {
+        height: 400px;
+    }
+}
+
 /* --- AI Page Styles --- */
 
 .ai-platform-card {

@@ -23,9 +23,10 @@
     router.register('/privacy', 'pages/privacy.html');
     router.start();
 
-    // --- Header scroll effect ---
+    // --- Header scroll effect + Back to Top ---
     const header = document.getElementById('siteHeader');
-    let lastScroll = 0;
+    const backToTop = document.getElementById('backToTop');
+
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
         if (scrollY > 50) {
@@ -33,8 +34,20 @@
         } else {
             header.classList.remove('scrolled');
         }
-        lastScroll = scrollY;
+        if (backToTop) {
+            if (scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        }
     }, { passive: true });
+
+    if (backToTop) {
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 
     // --- Hamburger menu toggle ---
     const hamburger = document.getElementById('hamburger');

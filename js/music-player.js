@@ -53,7 +53,9 @@ class MusicPlayer {
 
         this.restoreState();
         this.buildTrackList();
-        this.loadTrack(this.currentIndex, false);
+        // Display track name without loading audio (defer network request)
+        this.trackNameEl.textContent = this.tracks[this.currentIndex].title;
+        this.updateTrackListActive();
         this.bindEvents();
     }
 
@@ -103,8 +105,11 @@ class MusicPlayer {
 
     loadTrack(index, autoplay) {
         this.currentIndex = index;
-        this.audio.src = this.tracks[index].src;
-        this.audio.preload = 'metadata';
+        // Only set audio src if music has been enabled or autoplay requested
+        if (this.musicEnabled || autoplay) {
+            this.audio.src = this.tracks[index].src;
+            this.audio.preload = 'metadata';
+        }
         this.trackNameEl.textContent = this.tracks[index].title;
         this.progressFill.style.width = '0%';
         this.updateTrackListActive();
@@ -120,6 +125,11 @@ class MusicPlayer {
     play() {
         if (!this.musicEnabled) {
             this.enableMusic();
+        }
+        // Ensure src is set for first play
+        if (!this.audio.src || this.audio.src === window.location.href) {
+            this.audio.src = this.tracks[this.currentIndex].src;
+            this.audio.preload = 'metadata';
         }
         this.audio.play().catch(() => {});
         this.isPlaying = true;

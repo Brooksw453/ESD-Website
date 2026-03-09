@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | ES Designs</title>
+    <meta http-equiv="refresh" content="3;url=https://esdesigns.org">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: #0a0a1a;
+            color: #e0e0ff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px;
+        }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(4rem, 15vw, 8rem);
+            font-weight: 900;
+            color: #00ffff;
+            text-shadow: 0 0 7px #00ffff, 0 0 20px rgba(0,255,255,0.4),
+                         0 0 42px rgba(0,255,255,0.2), 0 0 82px rgba(0,255,255,0.1);
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+        p {
+            font-size: 1.25rem;
+            color: rgba(224,224,255,0.6);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 2px solid #00ffff;
+            color: #00ffff;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            text-shadow: 0 0 8px rgba(0,255,255,0.3);
+            box-shadow: 0 0 15px rgba(0,255,255,0.1), inset 0 0 15px rgba(0,255,255,0.05);
+            transition: all 150ms ease;
+        }
+        a:hover {
+            background: rgba(0,255,255,0.1);
+            box-shadow: 0 0 30px rgba(0,255,255,0.25), inset 0 0 20px rgba(0,255,255,0.08);
+            transform: translateY(-2px);
+        }
+        .redirect-notice {
+            font-size: 0.75rem;
+            color: rgba(224,224,255,0.35);
+            margin-top: 24px;
+            font-family: monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>404</h1>
+    <p>This page does not exist.<br>You will be redirected to the home page shortly.</p>
+    <a href="https://esdesigns.org">Go Home</a>
+    <p class="redirect-notice">Redirecting in 3 seconds...</p>
+</body>
+</html>

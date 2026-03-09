@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Education Simulation Designs | VR Development, Games & AI</title>
     <meta name="description" content="Education Simulation Designs - Immersive VR development, indie games, and custom AI agent solutions.">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; frame-src https://brooksw453.github.io; connect-src 'self' https://formsubmit.co;">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Education Simulation Designs">
@@ -14,7 +15,8 @@
     <meta property="og:type" content="website">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/images/brand/favicon.png">
+    <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/images/brand/favicon.svg">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,10 +73,66 @@
                     <a href="#/ai">AI Development</a>
                     <a href="#/privacy">Privacy Policy</a>
                 </div>
-                <p class="footer-copy">&copy; 2025 Education Simulation Designs. All rights reserved.</p>
+                <p class="footer-copy">&copy; 2025&ndash;2026 Education Simulation Designs. All rights reserved.</p>
             </div>
         </div>
     </footer>
+
+    <!-- Contact Widget -->
+    <div class="contact-widget" id="contactWidget">
+        <div class="contact-panel" id="contactPanel">
+            <div class="contact-panel-header">
+                <h4 class="contact-panel-title">Get In Touch</h4>
+                <button class="contact-panel-close" id="contactClose" aria-label="Close contact panel">&times;</button>
+            </div>
+            <div class="contact-quick-actions">
+                <a href="mailto:bwinchell@esdesigns.org" class="contact-action-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+                    Email Us
+                </a>
+                <a href="https://github.com/brooksw453" target="_blank" rel="noopener" class="contact-action-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a>
+                <a href="#/vr" class="contact-action-btn" onclick="document.getElementById('contactWidget').classList.remove('open')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8a4 4 0 014-4h12a4 4 0 014 4v2a4 4 0 01-4 4h-1l-3 4-3-4H6a4 4 0 01-4-4V8z"/><circle cx="8" cy="9" r="1" fill="currentColor"/><circle cx="16" cy="9" r="1" fill="currentColor"/></svg>
+                    VR Projects
+                </a>
+            </div>
+            <div class="contact-divider"></div>
+            <form id="contactForm" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+                <input type="hidden" name="_subject" value="New message from esdesigns.org">
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="false">
+                <div class="contact-form-field">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="contact-form-field">
+                    <input type="email" name="email" placeholder="Your Email" required>
+                </div>
+                <div class="contact-form-field">
+                    <textarea name="message" placeholder="Your Message" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="neon-btn contact-submit-btn">Send Message</button>
+                <div class="contact-form-status" id="contactFormStatus"></div>
+            </form>
+        </div>
+        <button class="contact-fab" id="contactFab" aria-label="Contact us" aria-expanded="false">
+            <svg class="contact-fab-icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+            <svg class="contact-fab-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
 
     <!-- Music Player (persistent, fixed bottom) - Compact single-line bar -->
     <div class="music-player" id="musicPlayer">
@@ -144,6 +202,7 @@
     <script src="js/music-player.js"></script>
     <script src="js/scroll-animations.js"></script>
     <script src="js/router.js"></script>
+    <script src="js/contact-widget.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

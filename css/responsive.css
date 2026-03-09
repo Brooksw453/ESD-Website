@@ -9,41 +9,45 @@
     display: flex;
 }
 
-/* Mobile nav: smooth full-screen overlay that fades + slides in */
+/* Mobile nav: dropdown panel below header */
 .nav-links {
     position: fixed;
-    top: 0;
+    top: var(--nav-height);
     left: 0;
     right: 0;
-    bottom: 0;
     background: rgba(10, 10, 26, 0.97);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2xl);
+    align-items: stretch;
+    gap: 0;
     z-index: calc(var(--z-header) - 1);
+    max-height: 0;
+    overflow: hidden;
     opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.35s ease, visibility 0.35s ease;
+    transition: max-height 0.35s ease, opacity 0.35s ease;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
 }
 
 .nav-links.open {
+    max-height: 320px;
     opacity: 1;
-    visibility: visible;
 }
 
 .nav-links .nav-link {
     font-family: var(--font-display);
-    font-size: var(--text-xl);
+    font-size: var(--text-lg);
     font-weight: 700;
     letter-spacing: 0.12em;
     color: var(--text-primary);
     text-transform: uppercase;
+    padding: var(--space-lg) var(--space-xl);
+    border-left: 3px solid transparent;
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s ease, transform 0.3s ease, color 0.15s ease;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease,
+                color 0.15s ease, border-color 0.15s ease,
+                background 0.15s ease;
 }
 
 /* Stagger the link animations when menu opens */
@@ -56,6 +60,8 @@
 .nav-links .nav-link:hover {
     color: var(--neon-cyan);
     text-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+    border-left-color: var(--neon-cyan);
+    background: rgba(0, 255, 255, 0.04);
 }
 
 /* Mobile title: prevent overflow */
@@ -94,6 +100,12 @@
 
 .privacy-content .neon-card {
     padding: var(--space-xl) !important;
+}
+
+/* Contact widget mobile: full-width panel */
+.contact-panel {
+    width: calc(100vw - 2 * var(--space-lg));
+    max-width: 320px;
 }
 
 /* Footer mobile: stack vertically */
@@ -179,12 +191,14 @@
 
     .nav-links {
         position: static;
+        max-height: none;
         opacity: 1;
-        visibility: visible;
+        overflow: visible;
         flex-direction: row;
         background: none;
         backdrop-filter: none;
         gap: var(--space-xl);
+        border-bottom: none;
     }
 
     .nav-links .nav-link {
@@ -195,6 +209,9 @@
         transform: none;
         transition: color var(--transition-fast);
         color: var(--text-secondary);
+        padding: var(--space-sm) 0;
+        border-left: none;
+        background: none;
     }
 
     .split-section {

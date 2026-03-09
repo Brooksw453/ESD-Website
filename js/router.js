@@ -12,6 +12,30 @@ class Router {
         this.scrollAnimations = scrollAnimations;
         this.transitioning = false;
 
+        // Page metadata for SEO
+        this.meta = {
+            '/': {
+                title: 'Education Simulation Designs | VR, Games & AI',
+                description: 'Education Simulation Designs builds immersive VR experiences, browser-based indie games, and custom AI agent solutions.'
+            },
+            '/vr': {
+                title: 'VR Development - Elliptical Explorer | ES Designs',
+                description: 'Elliptical Explorer is a VR fitness adventure for Meta Quest. Transform your workout with immersive environments, branching tracks, and an original soundtrack.'
+            },
+            '/games': {
+                title: 'Indie Games - Neon Rail & Block Blast | ES Designs',
+                description: 'Play browser-based indie games built with vanilla JavaScript and HTML5 Canvas. No downloads required.'
+            },
+            '/ai': {
+                title: 'AI Agent Development | ES Designs',
+                description: 'Custom AI agent development using Microsoft Copilot Studio and Azure AI for education and enterprise automation.'
+            },
+            '/privacy': {
+                title: 'Privacy Policy | ES Designs',
+                description: 'Privacy policy for Education Simulation Designs VR applications. No data collection, no tracking, no accounts.'
+            }
+        };
+
         window.addEventListener('hashchange', () => this.handleRoute());
     }
 
@@ -53,8 +77,9 @@ class Router {
             this.scrollAnimations.refresh();
         }
 
-        // Update nav active state
+        // Update nav active state and page metadata
         this.updateNav(path);
+        this.updateMeta(path);
         this.currentRoute = path;
 
         // Close mobile nav if open
@@ -113,6 +138,20 @@ class Router {
         });
     }
 
+    updateMeta(path) {
+        const pageMeta = this.meta[path] || this.meta['/'];
+        document.title = pageMeta.title;
+
+        const descEl = document.querySelector('meta[name="description"]');
+        if (descEl) descEl.setAttribute('content', pageMeta.description);
+
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) ogTitle.setAttribute('content', pageMeta.title);
+
+        const ogDesc = document.querySelector('meta[property="og:description"]');
+        if (ogDesc) ogDesc.setAttribute('content', pageMeta.description);
+    }
+
     bindPageEvents(path) {
         // Soundtrack play buttons on VR page
         if (path === '/vr') {
@@ -122,6 +161,37 @@ class Router {
                     if (window.musicPlayer) {
                         window.musicPlayer.playTrackByTitle(title);
                     }
+                });
+            });
+        }
+
+        // Game embed toggles on Games page
+        if (path === '/games') {
+            document.querySelectorAll('.game-play-toggle').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const card = btn.closest('.game-card');
+                    const container = card.querySelector('.game-embed-container');
+                    const iframe = container.querySelector('.game-embed-iframe');
+                    const gameUrl = btn.getAttribute('data-game-url');
+
+                    if (!iframe.src || iframe.src === 'about:blank') {
+                        iframe.src = gameUrl;
+                    }
+                    container.style.display = 'block';
+                    btn.style.display = 'none';
+                });
+            });
+
+            document.querySelectorAll('.game-embed-close').forEach(closeBtn => {
+                closeBtn.addEventListener('click', () => {
+                    const container = closeBtn.closest('.game-embed-container');
+                    const card = container.closest('.game-card');
+                    const playBtn = card.querySelector('.game-play-toggle');
+                    const iframe = container.querySelector('.game-embed-iframe');
+
+                    container.style.display = 'none';
+                    playBtn.style.display = '';
+                    iframe.src = 'about:blank';
                 });
             });
         }
