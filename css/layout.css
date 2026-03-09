@@ -189,28 +189,74 @@
     text-align: center;
 }
 
-.footer-brand {
-    margin-bottom: var(--space-lg);
+.footer-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xl);
+}
+
+/* --- Footer Logo --- */
+.footer-logo-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    text-decoration: none;
 }
 
 .footer-logo {
-    height: 140px;
+    height: 52px;
     width: auto;
-    opacity: 0.85;
-    transition: opacity var(--transition-base);
-    filter: drop-shadow(0 0 12px rgba(0, 255, 255, 0.15));
+    opacity: 0.5;
+    transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
+    filter: drop-shadow(0 0 4px rgba(0, 255, 255, 0.1));
 }
 
-.footer-logo:hover {
+.footer-logo-glow {
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    opacity: 0;
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.12) 0%, transparent 70%);
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    animation: orbitPulse 3s ease-in-out infinite paused;
+}
+
+.footer-logo-link:hover .footer-logo {
     opacity: 1;
-    filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
+    transform: scale(1.2);
+    filter:
+        drop-shadow(0 0 8px rgba(0, 255, 255, 0.4))
+        drop-shadow(0 0 20px rgba(0, 255, 255, 0.2))
+        drop-shadow(0 0 40px rgba(255, 0, 255, 0.1));
+}
+
+.footer-logo-link:hover .footer-logo-glow {
+    opacity: 1;
+    animation-play-state: running;
+}
+
+@keyframes orbitPulse {
+    0%   { transform: rotate(0deg) scale(1); opacity: 0.8; }
+    25%  { transform: rotate(90deg) scale(1.15); opacity: 1; }
+    50%  { transform: rotate(180deg) scale(1); opacity: 0.6; }
+    75%  { transform: rotate(270deg) scale(1.15); opacity: 1; }
+    100% { transform: rotate(360deg) scale(1); opacity: 0.8; }
+}
+
+/* --- Footer Main Content --- */
+.footer-main {
+    text-align: left;
 }
 
 .footer-links {
     display: flex;
-    justify-content: center;
-    gap: var(--space-xl);
-    margin-bottom: var(--space-lg);
+    flex-wrap: wrap;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-sm);
 }
 
 .footer-links a {
@@ -225,6 +271,7 @@
 }
 
 .footer-copy {
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     color: var(--text-muted);
+    opacity: 0.7;
 }

@@ -96,6 +96,20 @@
     padding: var(--space-xl) !important;
 }
 
+/* Footer mobile: stack vertically */
+.footer-top {
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.footer-main {
+    text-align: center;
+}
+
+.footer-links {
+    justify-content: center;
+}
+
 /* Subtitle links on mobile */
 .hero-subtitle {
     display: flex;
@@ -202,6 +216,18 @@
 
     .privacy-content .neon-card {
         padding: var(--space-3xl) !important;
+    }
+
+    .footer-top {
+        flex-direction: row;
+    }
+
+    .footer-main {
+        text-align: left;
+    }
+
+    .footer-links {
+        justify-content: flex-start;
     }
 }
 
