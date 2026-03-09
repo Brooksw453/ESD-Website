@@ -87,6 +87,15 @@
     grid-template-columns: 1fr !important;
 }
 
+/* Privacy page mobile */
+.privacy-section h3 {
+    font-size: var(--text-base);
+}
+
+.privacy-content .neon-card {
+    padding: var(--space-xl) !important;
+}
+
 /* Subtitle links on mobile */
 .hero-subtitle {
     display: flex;
@@ -185,6 +194,14 @@
     .ai-platform-card {
         flex-direction: row;
         text-align: left;
+    }
+
+    .privacy-section h3 {
+        font-size: var(--text-lg);
+    }
+
+    .privacy-content .neon-card {
+        padding: var(--space-3xl) !important;
     }
 }
 

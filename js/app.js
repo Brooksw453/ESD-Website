@@ -20,6 +20,7 @@
     router.register('/vr', 'pages/vr.html');
     router.register('/games', 'pages/games.html');
     router.register('/ai', 'pages/ai.html');
+    router.register('/privacy', 'pages/privacy.html');
     router.start();
 
     // --- Header scroll effect ---
