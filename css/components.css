@@ -224,7 +224,57 @@
     background: rgba(10, 10, 26, 0.95);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-top: 1px solid rgba(0, 255, 255, 0.1);
+    border-top: none;
+}
+
+/* Animated multicolor gradient border along the top */
+.music-player::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        var(--neon-cyan),
+        var(--neon-magenta),
+        var(--neon-purple),
+        var(--neon-green),
+        var(--neon-magenta),
+        var(--neon-cyan)
+    );
+    background-size: 200% 100%;
+    animation: borderFlow 4s linear infinite;
+    z-index: 1;
+    box-shadow:
+        0 0 8px rgba(0, 255, 255, 0.4),
+        0 0 16px rgba(255, 0, 255, 0.2);
+}
+
+/* Subtle animated glow on the sides */
+.music-player::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    pointer-events: none;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    border-image: linear-gradient(
+        180deg,
+        rgba(0, 255, 255, 0.3),
+        rgba(255, 0, 255, 0.15),
+        transparent 70%
+    ) 1;
+    z-index: 1;
+}
+
+@keyframes borderFlow {
+    0%   { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
 }
 
 /* Thin progress bar along the top edge */
@@ -308,7 +358,7 @@
     flex: 1;
     min-width: 0;
     font-family: var(--font-body);
-    font-size: var(--text-sm);
+    font-size: var(--text-lg);
     font-weight: 600;
     color: var(--text-primary);
     white-space: nowrap;
@@ -421,16 +471,7 @@
 
 /* (Music enable overlay removed — replaced by visualizer) */
 
-/* Player bar entrance glow */
-.music-player {
-    animation: playerGlow 3s ease 1s 1;
-}
-
-@keyframes playerGlow {
-    0%   { border-top-color: rgba(0, 255, 255, 0.1); }
-    50%  { border-top-color: rgba(0, 255, 255, 0.4); }
-    100% { border-top-color: rgba(0, 255, 255, 0.1); }
-}
+/* (playerGlow replaced by continuous animated gradient border — see .music-player::before) */
 
 /* --- Contact Widget --- */
 

@@ -18,11 +18,14 @@ class MusicPlayer {
             { title: 'Press Start to Maybe',       src: 'assets/audio/Press Start to Maybe.mp3' },
             { title: 'You Might',                  src: 'assets/audio/You Might.mp3' },
             { title: 'Glow on the Floor',          src: 'assets/audio/Glow on the Floor.mp3' },
-            { title: 'Move Your Feet',             src: 'assets/audio/Move Your Feet.mp3' },
             { title: 'Starshine',                  src: 'assets/audio/Starshine.mp3' },
-            { title: 'Search for Prophet',         src: 'assets/audio/Search for Prophet.mp3' },
             { title: 'Touch the Button',           src: 'assets/audio/Touch the Button.mp3' },
-            { title: 'Glow on the Floor (Original)', src: 'assets/audio/Glow on the Floor Original.mp3' },
+            { title: 'As I Was Walking',           src: 'assets/audio/As I Was Walking.mp3' },
+            { title: 'As I Was Walking 2',         src: 'assets/audio/As I Was Walking 2.mp3' },
+            { title: 'Bubbly Electro Breaks',      src: 'assets/audio/BUBBLY ELECTRO BREAKS.mp3' },
+            { title: 'Birthday Present',           src: 'assets/audio/Birthday Present.mp3' },
+            { title: "Kickin' It",                 src: "assets/audio/Kickin' It.mp3" },
+            { title: 'Sweet Dream',                src: 'assets/audio/Sweet Dream.mp3' },
         ];
 
         this.currentIndex = 0;
@@ -141,17 +144,26 @@ class MusicPlayer {
         // Start with element muted (browsers allow this for autoplay)
         this.audio.muted = true;
         this.audio.src = this.tracks[this.currentIndex].src;
+        this.audio.load();
 
-        this.audio.play().then(() => {
-            this.isPlaying = true;
-            this.musicEnabled = true;
-            this.updatePlayPauseIcon();
-            // Try to init AudioContext (may fail without user gesture on some browsers)
-            this.initAudioContext();
-        }).catch(() => {
-            // Autoplay blocked — will start on first user interaction
-            this.isPlaying = false;
-        });
+        var self = this;
+        var attemptPlay = function(retries) {
+            self.audio.play().then(function() {
+                self.isPlaying = true;
+                self.musicEnabled = true;
+                self.updatePlayPauseIcon();
+                // Try to init AudioContext (may fail without user gesture on some browsers)
+                self.initAudioContext();
+            }).catch(function() {
+                // Retry after a short delay (browser may allow after DOM settles)
+                if (retries > 0) {
+                    setTimeout(function() { attemptPlay(retries - 1); }, 500);
+                } else {
+                    self.isPlaying = false;
+                }
+            });
+        };
+        attemptPlay(3);
     }
 
     // --- Visualizer ---
@@ -203,17 +215,20 @@ class MusicPlayer {
 
     drawFrequencyBars(ctx, W, H) {
         var barCount = W < 480 ? 32 : W < 768 ? 48 : 64;
-        var binStep = Math.max(1, Math.floor(this.frequencyData.length / barCount));
+        // Only use the lower ~65% of frequency bins (bass through mid-high).
+        // Upper bins (very high frequencies) rarely carry energy and appear as dead bars.
+        var usableBins = Math.floor(this.frequencyData.length * 0.65);
+        var binStep = Math.max(1, Math.floor(usableBins / barCount));
         var barWidth = W / barCount;
         var barGap = 2;
         var minBarH = 2;
 
         for (var i = 0; i < barCount; i++) {
-            // Average a range of bins
+            // Average a range of bins (within usable range only)
             var sum = 0;
             for (var j = 0; j < binStep; j++) {
                 var idx = i * binStep + j;
-                if (idx < this.frequencyData.length) sum += this.frequencyData[idx];
+                if (idx < usableBins) sum += this.frequencyData[idx];
             }
             var avg = sum / binStep;
             var normalizedH = Math.max(minBarH, (avg / 255) * H * 0.95);
@@ -255,11 +270,20 @@ class MusicPlayer {
         var time = performance.now() / 1000;
 
         for (var i = 0; i < barCount; i++) {
-            var h = (Math.sin(time * 1.5 + i * 0.25) * 0.3 + 0.5) * H * 0.12 + 2;
+            // Multi-wave pattern for a lively idle state
+            var wave1 = Math.sin(time * 2.0 + i * 0.3) * 0.35;
+            var wave2 = Math.sin(time * 1.3 + i * 0.15 + 1.5) * 0.2;
+            var wave3 = Math.sin(time * 3.5 + i * 0.6) * 0.1;
+            var h = (wave1 + wave2 + wave3 + 0.55) * H * 0.55 + 3;
 
-            ctx.fillStyle = 'rgba(0, 255, 255, 0.12)';
-            ctx.shadowBlur = 3;
-            ctx.shadowColor = 'rgba(0, 255, 255, 0.15)';
+            // Gradient: cyan → magenta shift over time
+            var colorShift = (Math.sin(time * 0.8 + i * 0.1) + 1) * 0.5;
+            var r = Math.round(colorShift * 255);
+            var g = Math.round((1 - colorShift) * 255);
+            var b = 255;
+            ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ', 0.35)';
+            ctx.shadowBlur = 4;
+            ctx.shadowColor = 'rgba(' + r + ',' + g + ',' + b + ', 0.25)';
 
             var x = i * barWidth + barGap / 2;
             var w = barWidth - barGap;
