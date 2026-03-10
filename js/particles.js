@@ -106,9 +106,13 @@ class ParticleSystem {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         for (const p of this.particles) {
-            // Pulse alpha
+            // Audio reactivity: read bass level from music player
+            const mp = window.musicPlayer;
+            const bassLevel = (mp && mp.bassLevel) ? mp.bassLevel : 0;
+
+            // Pulse alpha (with bass-driven brightness boost)
             p.pulsePhase += p.pulseSpeed;
-            const dynamicAlpha = p.alpha + Math.sin(p.pulsePhase) * 0.25;
+            const dynamicAlpha = p.alpha + Math.sin(p.pulsePhase) * 0.25 + bassLevel * 0.3;
 
             // Mouse interaction: gentle repulsion
             if (this.mouse.x !== null && this.mouse.y !== null) {
@@ -122,6 +126,13 @@ class ParticleSystem {
                     p.vx += (dx / dist) * force * 0.6;
                     p.vy += (dy / dist) * force * 0.6;
                 }
+            }
+
+            // Bass-driven velocity boost (subtle vibrations)
+            if (bassLevel > 0.1) {
+                const bassForce = bassLevel * 0.4;
+                p.vx += (Math.random() - 0.5) * bassForce;
+                p.vy += (Math.random() - 0.5) * bassForce;
             }
 
             // Damping
@@ -166,15 +177,18 @@ class ParticleSystem {
         // Reset shadow for connections
         this.ctx.shadowBlur = 0;
 
-        // Draw connections between nearby particles
+        // Draw connections between nearby particles (distance extends on bass)
+        const mpConn = window.musicPlayer;
+        const bassDist = (mpConn && mpConn.bassLevel) ? mpConn.bassLevel : 0;
+        const effectiveConnDist = this.connectionDistance + bassDist * 50;
         for (let i = 0; i < this.particles.length; i++) {
             for (let j = i + 1; j < this.particles.length; j++) {
                 const dx = this.particles[i].x - this.particles[j].x;
                 const dy = this.particles[i].y - this.particles[j].y;
                 const distSq = dx * dx + dy * dy;
-                const maxDistSq = this.connectionDistance * this.connectionDistance;
+                const maxDistSq = effectiveConnDist * effectiveConnDist;
                 if (distSq < maxDistSq) {
-                    const alpha = (1 - Math.sqrt(distSq) / this.connectionDistance) * 0.3;
+                    const alpha = (1 - Math.sqrt(distSq) / effectiveConnDist) * 0.3;
                     this.ctx.beginPath();
                     this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
                     this.ctx.lineTo(this.particles[j].x, this.particles[j].y);

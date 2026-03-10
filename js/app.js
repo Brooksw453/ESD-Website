@@ -5,8 +5,8 @@
 (function() {
     'use strict';
 
-    // Initialize particle system
-    const particles = new ParticleSystem('particle-canvas');
+    // Initialize particle system (exposed on window for audio reactivity)
+    window.particleSystem = new ParticleSystem('particle-canvas');
 
     // Initialize scroll animations
     const scrollAnimations = new ScrollAnimations();

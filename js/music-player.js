@@ -1,7 +1,7 @@
 /* ============================================
-   Global Music Player — Compact Bar
+   Global Music Player — Compact Dock with
+   Soundwave Visualizer & Web Audio API
    Persistent across page navigation
-   Expands/collapses on click
    ============================================ */
 
 class MusicPlayer {
@@ -10,7 +10,7 @@ class MusicPlayer {
         if (!this.audio) return;
 
         this.tracks = [
-            { title: 'Jagged Edge',                src: 'assets/audio/Jagged Edge.mp3' }, 
+            { title: 'Jagged Edge',                src: 'assets/audio/Jagged Edge.mp3' },
             { title: 'Push Through Static',        src: 'assets/audio/Push Through Static.mp3' },
             { title: 'Bright Poppy',               src: 'assets/audio/Bright Poppy.mp3' },
             { title: 'Tearing Up the House',       src: 'assets/audio/Tearing Up the House.mp3' },
@@ -27,9 +27,27 @@ class MusicPlayer {
 
         this.currentIndex = 0;
         this.isPlaying = false;
-        this.isMuted = false;
+        this.isMuted = true;          // starts muted (gain = 0)
         this.musicEnabled = false;
         this.isExpanded = false;
+
+        // Web Audio API
+        this.audioContext = null;
+        this.analyser = null;
+        this.sourceNode = null;
+        this.gainNode = null;
+        this.frequencyData = null;
+        this.audioContextReady = false;
+
+        // Visualizer
+        this.vizCanvas = document.getElementById('visualizerCanvas');
+        this.vizCtx = this.vizCanvas ? this.vizCanvas.getContext('2d') : null;
+        this.vizAnimId = null;
+
+        // Audio levels (exposed for particle reactivity)
+        this.bassLevel = 0;
+        this.midLevel = 0;
+        this.trebleLevel = 0;
 
         // DOM elements
         this.playerEl = document.getElementById('musicPlayer');
@@ -49,37 +67,266 @@ class MusicPlayer {
         this.volumeOffIcon = document.getElementById('volumeOffIcon');
         this.volumeSlider = document.getElementById('volumeSlider');
         this.trackListEl = document.getElementById('trackList');
-        this.enableOverlay = document.getElementById('musicEnableOverlay');
+        this.vizRow = document.getElementById('visualizerRow');
 
         this.restoreState();
         this.buildTrackList();
-        // Display track name without loading audio (defer network request)
         this.trackNameEl.textContent = this.tracks[this.currentIndex].title;
         this.updateTrackListActive();
+        this.updateMuteIcon();
         this.bindEvents();
+
+        // Start muted autoplay
+        this.startMutedAutoplay();
+
+        // Start visualizer loop (shows idle animation until audio data is ready)
+        this.startVisualizer();
     }
+
+    // --- State ---
 
     restoreState() {
         const savedVolume = localStorage.getItem('es_player_volume');
-        const savedTrack = localStorage.getItem('es_player_track');
         if (savedVolume !== null) {
             this.audio.volume = parseFloat(savedVolume);
             this.volumeSlider.value = savedVolume;
         } else {
             this.audio.volume = 0.5;
         }
-        if (savedTrack !== null) {
-            const idx = parseInt(savedTrack);
-            if (idx >= 0 && idx < this.tracks.length) {
-                this.currentIndex = idx;
+        // Shuffle: always pick a random track on page load
+        this.currentIndex = Math.floor(Math.random() * this.tracks.length);
+    }
+
+    // --- Web Audio API ---
+
+    initAudioContext() {
+        if (this.audioContextReady) return;
+
+        try {
+            var AudioCtx = window.AudioContext || window.webkitAudioContext;
+            this.audioContext = new AudioCtx();
+
+            // MediaElementSourceNode — can only be created ONCE per element
+            this.sourceNode = this.audioContext.createMediaElementSource(this.audio);
+
+            // Analyser for frequency data
+            this.analyser = this.audioContext.createAnalyser();
+            this.analyser.fftSize = 256;
+            this.analyser.smoothingTimeConstant = 0.82;
+
+            // GainNode controls audible volume (instead of audio.muted)
+            this.gainNode = this.audioContext.createGain();
+            this.gainNode.gain.value = this.isMuted ? 0 : this.audio.volume;
+
+            // Chain: source -> analyser -> gain -> speakers
+            this.sourceNode.connect(this.analyser);
+            this.analyser.connect(this.gainNode);
+            this.gainNode.connect(this.audioContext.destination);
+
+            this.frequencyData = new Uint8Array(this.analyser.frequencyBinCount);
+            this.audioContextReady = true;
+
+            // Switch from element-mute to gain-mute so analyser gets data
+            this.audio.muted = false;
+
+            if (this.audioContext.state === 'suspended') {
+                this.audioContext.resume();
             }
+        } catch (e) {
+            console.warn('Web Audio API not available:', e);
         }
     }
+
+    startMutedAutoplay() {
+        // Start with element muted (browsers allow this for autoplay)
+        this.audio.muted = true;
+        this.audio.src = this.tracks[this.currentIndex].src;
+
+        this.audio.play().then(() => {
+            this.isPlaying = true;
+            this.musicEnabled = true;
+            this.updatePlayPauseIcon();
+            // Try to init AudioContext (may fail without user gesture on some browsers)
+            this.initAudioContext();
+        }).catch(() => {
+            // Autoplay blocked — will start on first user interaction
+            this.isPlaying = false;
+        });
+    }
+
+    // --- Visualizer ---
+
+    startVisualizer() {
+        if (!this.vizCanvas || !this.vizCtx) return;
+
+        // Respect prefers-reduced-motion
+        var motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (motionQuery.matches) return;
+
+        var self = this;
+
+        var draw = function() {
+            self.vizAnimId = requestAnimationFrame(draw);
+
+            var rect = self.vizCanvas.parentElement.getBoundingClientRect();
+            var dpr = window.devicePixelRatio || 1;
+
+            // Resize canvas to match container (handles DPI)
+            var canvasW = Math.round(rect.width * dpr);
+            var canvasH = Math.round(rect.height * dpr);
+            if (self.vizCanvas.width !== canvasW || self.vizCanvas.height !== canvasH) {
+                self.vizCanvas.width = canvasW;
+                self.vizCanvas.height = canvasH;
+            }
+
+            var W = rect.width;
+            var H = rect.height;
+            var ctx = self.vizCtx;
+
+            ctx.save();
+            ctx.scale(dpr, dpr);
+            ctx.clearRect(0, 0, W, H);
+
+            if (self.analyser && self.frequencyData && self.isPlaying) {
+                self.analyser.getByteFrequencyData(self.frequencyData);
+                self.updateAudioLevels();
+                self.drawFrequencyBars(ctx, W, H);
+            } else {
+                self.drawIdleVisualizer(ctx, W, H);
+            }
+
+            ctx.restore();
+        };
+
+        draw();
+    }
+
+    drawFrequencyBars(ctx, W, H) {
+        var barCount = W < 480 ? 32 : W < 768 ? 48 : 64;
+        var binStep = Math.max(1, Math.floor(this.frequencyData.length / barCount));
+        var barWidth = W / barCount;
+        var barGap = 2;
+        var minBarH = 2;
+
+        for (var i = 0; i < barCount; i++) {
+            // Average a range of bins
+            var sum = 0;
+            for (var j = 0; j < binStep; j++) {
+                var idx = i * binStep + j;
+                if (idx < this.frequencyData.length) sum += this.frequencyData[idx];
+            }
+            var avg = sum / binStep;
+            var normalizedH = Math.max(minBarH, (avg / 255) * H * 0.95);
+
+            // Gradient: cyan at bottom → magenta at top
+            var grad = ctx.createLinearGradient(0, H, 0, H - normalizedH);
+            grad.addColorStop(0, 'rgba(0, 255, 255, 0.85)');
+            grad.addColorStop(0.6, 'rgba(0, 200, 255, 0.7)');
+            grad.addColorStop(1, 'rgba(255, 0, 255, 0.8)');
+
+            ctx.fillStyle = grad;
+            ctx.shadowBlur = 6;
+            ctx.shadowColor = 'rgba(0, 255, 255, 0.4)';
+
+            var x = i * barWidth + barGap / 2;
+            var w = barWidth - barGap;
+            if (w < 1) w = 1;
+
+            // Draw bar with small border-radius feel (rounded rect)
+            var r = Math.min(1.5, w / 2);
+            ctx.beginPath();
+            ctx.moveTo(x + r, H - normalizedH);
+            ctx.lineTo(x + w - r, H - normalizedH);
+            ctx.quadraticCurveTo(x + w, H - normalizedH, x + w, H - normalizedH + r);
+            ctx.lineTo(x + w, H);
+            ctx.lineTo(x, H);
+            ctx.lineTo(x, H - normalizedH + r);
+            ctx.quadraticCurveTo(x, H - normalizedH, x + r, H - normalizedH);
+            ctx.fill();
+        }
+
+        ctx.shadowBlur = 0;
+    }
+
+    drawIdleVisualizer(ctx, W, H) {
+        var barCount = W < 480 ? 32 : W < 768 ? 48 : 64;
+        var barWidth = W / barCount;
+        var barGap = 2;
+        var time = performance.now() / 1000;
+
+        for (var i = 0; i < barCount; i++) {
+            var h = (Math.sin(time * 1.5 + i * 0.25) * 0.3 + 0.5) * H * 0.12 + 2;
+
+            ctx.fillStyle = 'rgba(0, 255, 255, 0.12)';
+            ctx.shadowBlur = 3;
+            ctx.shadowColor = 'rgba(0, 255, 255, 0.15)';
+
+            var x = i * barWidth + barGap / 2;
+            var w = barWidth - barGap;
+            if (w < 1) w = 1;
+            ctx.fillRect(x, H - h, w, h);
+        }
+
+        ctx.shadowBlur = 0;
+    }
+
+    updateAudioLevels() {
+        if (!this.frequencyData) return;
+
+        var bins = this.frequencyData.length; // 128
+
+        // Bass: bins 0-10
+        var bassSum = 0;
+        for (var i = 0; i < 10 && i < bins; i++) bassSum += this.frequencyData[i];
+        this.bassLevel = bassSum / (10 * 255);
+
+        // Mids: bins 10-60
+        var midSum = 0;
+        for (var i = 10; i < 60 && i < bins; i++) midSum += this.frequencyData[i];
+        this.midLevel = midSum / (50 * 255);
+
+        // Treble: bins 60+
+        var trebleSum = 0;
+        for (var i = 60; i < bins; i++) trebleSum += this.frequencyData[i];
+        this.trebleLevel = trebleSum / (Math.max(1, bins - 60) * 255);
+    }
+
+    // --- Unmute / Mute via GainNode ---
+
+    unmute() {
+        this.isMuted = false;
+        if (this.gainNode) {
+            this.gainNode.gain.value = this.audio.volume;
+        } else {
+            this.audio.muted = false;
+        }
+        this.updateMuteIcon();
+        if (this.audioContext && this.audioContext.state === 'suspended') {
+            this.audioContext.resume();
+        }
+    }
+
+    mute() {
+        this.isMuted = true;
+        if (this.gainNode) {
+            this.gainNode.gain.value = 0;
+        } else {
+            this.audio.muted = true;
+        }
+        this.updateMuteIcon();
+    }
+
+    updateMuteIcon() {
+        this.volumeOnIcon.style.display = this.isMuted ? 'none' : 'block';
+        this.volumeOffIcon.style.display = this.isMuted ? 'block' : 'none';
+    }
+
+    // --- Track List ---
 
     buildTrackList() {
         this.trackListEl.innerHTML = '';
         this.tracks.forEach((track, index) => {
-            const item = document.createElement('div');
+            var item = document.createElement('div');
             item.className = 'tracklist-item' + (index === this.currentIndex ? ' active' : '');
             item.innerHTML = `
                 <span class="track-number">${String(index + 1).padStart(2, '0')}</span>
@@ -89,7 +336,6 @@ class MusicPlayer {
                 e.stopPropagation();
                 this.loadTrack(index, true);
                 this.play();
-                // Auto-collapse after selecting a track
                 this.collapse();
             });
             this.trackListEl.appendChild(item);
@@ -97,25 +343,23 @@ class MusicPlayer {
     }
 
     updateTrackListActive() {
-        const items = this.trackListEl.querySelectorAll('.tracklist-item');
+        var items = this.trackListEl.querySelectorAll('.tracklist-item');
         items.forEach((item, i) => {
             item.classList.toggle('active', i === this.currentIndex);
         });
     }
 
+    // --- Playback ---
+
     loadTrack(index, autoplay) {
         this.currentIndex = index;
-        // Only set audio src if music has been enabled or autoplay requested
-        if (this.musicEnabled || autoplay) {
-            this.audio.src = this.tracks[index].src;
-            this.audio.preload = 'metadata';
-        }
+        this.audio.src = this.tracks[index].src;
         this.trackNameEl.textContent = this.tracks[index].title;
         this.progressFill.style.width = '0%';
         this.updateTrackListActive();
         localStorage.setItem('es_player_track', index);
 
-        if (autoplay && this.musicEnabled) {
+        if (autoplay) {
             this.audio.play().catch(() => {});
             this.isPlaying = true;
             this.updatePlayPauseIcon();
@@ -124,12 +368,16 @@ class MusicPlayer {
 
     play() {
         if (!this.musicEnabled) {
-            this.enableMusic();
+            this.musicEnabled = true;
         }
-        // Ensure src is set for first play
+        // Ensure src is set
         if (!this.audio.src || this.audio.src === window.location.href) {
             this.audio.src = this.tracks[this.currentIndex].src;
-            this.audio.preload = 'metadata';
+        }
+        // Ensure AudioContext is ready
+        this.initAudioContext();
+        if (this.audioContext && this.audioContext.state === 'suspended') {
+            this.audioContext.resume();
         }
         this.audio.play().catch(() => {});
         this.isPlaying = true;
@@ -151,10 +399,9 @@ class MusicPlayer {
     }
 
     next() {
-        let nextIndex = this.currentIndex + 1;
+        var nextIndex = this.currentIndex + 1;
         if (nextIndex >= this.tracks.length) nextIndex = 0;
         this.loadTrack(nextIndex, true);
-        if (this.musicEnabled) this.play();
     }
 
     prev() {
@@ -162,10 +409,9 @@ class MusicPlayer {
             this.audio.currentTime = 0;
             return;
         }
-        let prevIndex = this.currentIndex - 1;
+        var prevIndex = this.currentIndex - 1;
         if (prevIndex < 0) prevIndex = this.tracks.length - 1;
         this.loadTrack(prevIndex, true);
-        if (this.musicEnabled) this.play();
     }
 
     updatePlayPauseIcon() {
@@ -178,31 +424,42 @@ class MusicPlayer {
         }
     }
 
+    // --- Volume ---
+
     toggleMute() {
-        this.isMuted = !this.isMuted;
-        this.audio.muted = this.isMuted;
-        this.volumeOnIcon.style.display = this.isMuted ? 'none' : 'block';
-        this.volumeOffIcon.style.display = this.isMuted ? 'block' : 'none';
+        if (this.isMuted) {
+            this.unmute();
+        } else {
+            this.mute();
+        }
     }
 
     setVolume(value) {
         this.audio.volume = value;
         localStorage.setItem('es_player_volume', value);
-        if (value === 0) {
+
+        // Update gain node if active and not muted
+        if (this.gainNode && !this.isMuted) {
+            this.gainNode.gain.value = value;
+        }
+
+        if (value == 0) {
             this.isMuted = true;
-            this.volumeOnIcon.style.display = 'none';
-            this.volumeOffIcon.style.display = 'block';
+            if (this.gainNode) this.gainNode.gain.value = 0;
+            this.updateMuteIcon();
         } else if (this.isMuted) {
             this.isMuted = false;
+            if (this.gainNode) this.gainNode.gain.value = value;
             this.audio.muted = false;
-            this.volumeOnIcon.style.display = 'block';
-            this.volumeOffIcon.style.display = 'none';
+            this.updateMuteIcon();
         }
     }
 
+    // --- Seeking & Progress ---
+
     seekTo(e) {
-        const rect = this.progressBar.getBoundingClientRect();
-        const percent = (e.clientX - rect.left) / rect.width;
+        var rect = this.progressBar.getBoundingClientRect();
+        var percent = (e.clientX - rect.left) / rect.width;
         if (this.audio.duration) {
             this.audio.currentTime = percent * this.audio.duration;
         }
@@ -210,15 +467,12 @@ class MusicPlayer {
 
     updateProgress() {
         if (this.audio.duration) {
-            const percent = (this.audio.currentTime / this.audio.duration) * 100;
+            var percent = (this.audio.currentTime / this.audio.duration) * 100;
             this.progressFill.style.width = percent + '%';
         }
     }
 
-    enableMusic() {
-        this.musicEnabled = true;
-        this.enableOverlay.classList.add('hidden');
-    }
+    // --- Expand / Collapse ---
 
     expand() {
         this.isExpanded = true;
@@ -238,76 +492,106 @@ class MusicPlayer {
         }
     }
 
-    // Play a specific track by title (used by soundtrack list on VR page)
+    // Play a specific track by title (used by VR page soundtrack list)
     playTrackByTitle(title) {
-        const index = this.tracks.findIndex(t => t.title === title);
+        var index = this.tracks.findIndex(function(t) { return t.title === title; });
         if (index !== -1) {
             this.loadTrack(index, true);
             this.play();
         }
     }
 
+    // --- Events ---
+
     bindEvents() {
-        // Transport controls — stop propagation so they don't trigger expand
-        this.playPauseBtn.addEventListener('click', (e) => {
+        var self = this;
+
+        // Transport controls
+        this.playPauseBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            this.togglePlayPause();
+            self.togglePlayPause();
+            // On any play action, unmute if muted
+            if (self.isPlaying && self.isMuted) {
+                self.unmute();
+            }
         });
-        this.nextBtn.addEventListener('click', (e) => {
+        this.nextBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            this.next();
+            self.next();
         });
-        this.prevBtn.addEventListener('click', (e) => {
+        this.prevBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            this.prev();
+            self.prev();
         });
 
-        // Expand/collapse — clicking the bar or the chevron
-        this.expandBtn.addEventListener('click', (e) => {
+        // Expand/collapse via chevron
+        this.expandBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            this.toggleExpand();
+            self.toggleExpand();
         });
 
-        // Clicking the track name area also toggles expand
-        this.trackNameEl.addEventListener('click', (e) => {
+        // Track name click also toggles expand
+        this.trackNameEl.addEventListener('click', function(e) {
             e.stopPropagation();
-            this.toggleExpand();
+            self.toggleExpand();
         });
 
-        // Volume controls inside expanded panel
-        this.muteBtn.addEventListener('click', (e) => {
+        // Visualizer row click: unmute + toggle expand
+        if (this.vizRow) {
+            this.vizRow.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // First click when muted: unmute
+                if (self.isMuted && self.isPlaying) {
+                    self.initAudioContext();
+                    self.unmute();
+                } else if (!self.isPlaying) {
+                    // If not playing at all, start playback
+                    self.play();
+                    self.unmute();
+                }
+                self.toggleExpand();
+            });
+        }
+
+        // Volume controls
+        this.muteBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            this.toggleMute();
+            self.toggleMute();
         });
-        this.volumeSlider.addEventListener('input', (e) => {
+        this.volumeSlider.addEventListener('input', function(e) {
             e.stopPropagation();
-            this.setVolume(parseFloat(e.target.value));
+            self.setVolume(parseFloat(e.target.value));
         });
-        this.volumeSlider.addEventListener('click', (e) => e.stopPropagation());
+        this.volumeSlider.addEventListener('click', function(e) { e.stopPropagation(); });
 
         // Progress bar seeking
-        this.progressBar.addEventListener('click', (e) => {
+        this.progressBar.addEventListener('click', function(e) {
             e.stopPropagation();
-            this.seekTo(e);
+            self.seekTo(e);
         });
 
         // Audio events
-        this.audio.addEventListener('timeupdate', () => this.updateProgress());
-        this.audio.addEventListener('ended', () => this.next());
+        this.audio.addEventListener('timeupdate', function() { self.updateProgress(); });
+        this.audio.addEventListener('ended', function() { self.next(); });
 
-        // Enable music on first interaction anywhere
-        const enableHandler = () => {
-            this.enableMusic();
-            document.removeEventListener('click', enableHandler);
-            document.removeEventListener('touchstart', enableHandler);
+        // Ensure AudioContext on first user gesture (iOS Safari compatibility)
+        var gestureHandler = function() {
+            self.initAudioContext();
+            if (self.audioContext && self.audioContext.state === 'suspended') {
+                self.audioContext.resume();
+            }
+            // If autoplay failed, try starting now
+            if (!self.isPlaying && self.audio.src) {
+                self.audio.play().then(function() {
+                    self.isPlaying = true;
+                    self.musicEnabled = true;
+                    self.updatePlayPauseIcon();
+                }).catch(function() {});
+            }
+            document.removeEventListener('click', gestureHandler);
+            document.removeEventListener('touchstart', gestureHandler);
         };
-        document.addEventListener('click', enableHandler);
-        document.addEventListener('touchstart', enableHandler);
-
-        // Overlay click starts music
-        this.enableOverlay.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.play();
-        });
+        document.addEventListener('click', gestureHandler);
+        document.addEventListener('touchstart', gestureHandler);
     }
 }

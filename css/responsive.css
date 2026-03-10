@@ -102,6 +102,11 @@
     padding: var(--space-xl) !important;
 }
 
+/* Visualizer mobile: slightly shorter */
+.player-visualizer-row {
+    height: 34px;
+}
+
 /* Contact widget mobile: full-width panel */
 .contact-panel {
     width: calc(100vw - 2 * var(--space-lg));

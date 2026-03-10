@@ -168,6 +168,9 @@
                 </svg>
             </button>
         </div>
+        <div class="player-visualizer-row" id="visualizerRow">
+            <canvas id="visualizerCanvas" class="visualizer-canvas"></canvas>
+        </div>
         <!-- Expandable panel (hidden by default) -->
         <div class="player-expanded" id="playerExpanded">
             <div class="player-expanded-volume">
@@ -189,13 +192,8 @@
         </div>
     </div>
 
-    <!-- Music Enable Overlay -->
-    <div class="music-enable-overlay" id="musicEnableOverlay">
-        Tap to enable music
-    </div>
-
     <!-- Hidden audio element -->
-    <audio id="audioElement" preload="none"></audio>
+    <audio id="audioElement" preload="metadata"></audio>
 
     <!-- Scripts -->
     <script src="js/particles.js"></script>
