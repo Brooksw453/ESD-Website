@@ -79,11 +79,17 @@ class MusicPlayer {
         this.updateMuteIcon();
         this.bindEvents();
 
+        // Enable background playback via Media Session API
+        this.setupMediaSession();
+
         // Start muted autoplay
         this.startMutedAutoplay();
 
         // Start visualizer loop (shows idle animation until audio data is ready)
         this.startVisualizer();
+
+        // Handle page visibility changes (resume audio when returning to tab/app)
+        this.bindVisibilityHandler();
     }
 
     // --- State ---
@@ -186,6 +192,51 @@ class MusicPlayer {
             this.musicEnabled = true;
             this.updatePlayPauseIcon();
         }
+    }
+
+    // --- Media Session API (lock screen controls + background playback) ---
+
+    setupMediaSession() {
+        if (!('mediaSession' in navigator)) return;
+        var self = this;
+
+        navigator.mediaSession.setActionHandler('play', function() { self.play(); self.unmute(); });
+        navigator.mediaSession.setActionHandler('pause', function() { self.pause(); });
+        navigator.mediaSession.setActionHandler('nexttrack', function() { self.next(); });
+        navigator.mediaSession.setActionHandler('previoustrack', function() { self.prev(); });
+
+        this.updateMediaSessionMetadata();
+    }
+
+    updateMediaSessionMetadata() {
+        if (!('mediaSession' in navigator)) return;
+        try {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: this.tracks[this.currentIndex].title,
+                artist: 'ES Designs',
+                album: 'Elliptical Explorer Soundtrack'
+            });
+        } catch (e) { /* ignore if MediaMetadata not supported */ }
+    }
+
+    // --- Background playback: resume AudioContext on return ---
+
+    bindVisibilityHandler() {
+        var self = this;
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                // Page came back into view — resume AudioContext if it was suspended
+                if (self.audioContext && self.audioContext.state === 'suspended') {
+                    self.audioContext.resume();
+                }
+                // If audio was playing before, make sure it's still going
+                if (self.isPlaying && self.audio.paused) {
+                    self.audio.play().catch(function() {});
+                }
+            }
+            // IMPORTANT: Do NOT pause audio when page goes hidden.
+            // This allows music to continue playing when switching apps or locking phone.
+        });
     }
 
     // --- Visualizer ---
@@ -404,6 +455,7 @@ class MusicPlayer {
         this.progressFill.style.width = '0%';
         this.updateTrackListActive();
         localStorage.setItem('es_player_track', index);
+        this.updateMediaSessionMetadata();
 
         if (autoplay) {
             this.audio.play().catch(() => {});

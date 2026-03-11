@@ -177,21 +177,46 @@ class Router {
                     if (!iframe.src || iframe.src === 'about:blank') {
                         iframe.src = gameUrl;
                     }
-                    container.style.display = 'block';
+
+                    // Move container to body so position:fixed isn't broken
+                    // by parent transforms/filters (neon-card, animations, etc.)
+                    container._originalParent = card;
+                    document.body.appendChild(container);
+
+                    // Open game fullscreen
+                    container.style.display = 'flex';
+                    container.classList.add('game-fullscreen');
+                    document.body.classList.add('game-active');
                     btn.style.display = 'none';
+
+                    // Ensure site music is playing (muted games rely on site soundtrack)
+                    if (window.musicPlayer) {
+                        window.musicPlayer.ensurePlaying();
+                        if (window.musicPlayer.isMuted) {
+                            window.musicPlayer.unmute();
+                        }
+                    }
                 });
             });
 
             document.querySelectorAll('.game-embed-close').forEach(closeBtn => {
                 closeBtn.addEventListener('click', () => {
                     const container = closeBtn.closest('.game-embed-container');
-                    const card = container.closest('.game-card');
-                    const playBtn = card.querySelector('.game-play-toggle');
+                    const originalCard = container._originalParent;
+                    const playBtn = originalCard ? originalCard.querySelector('.game-play-toggle') : null;
                     const iframe = container.querySelector('.game-embed-iframe');
 
+                    // Close fullscreen game
+                    container.classList.remove('game-fullscreen');
+                    document.body.classList.remove('game-active');
                     container.style.display = 'none';
-                    playBtn.style.display = '';
                     iframe.src = 'about:blank';
+
+                    // Move container back to its original card
+                    if (originalCard) {
+                        originalCard.appendChild(container);
+                    }
+                    if (playBtn) playBtn.style.display = '';
                 });
             });
         }

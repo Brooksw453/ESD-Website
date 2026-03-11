@@ -783,6 +783,58 @@
     }
 }
 
+/* --- Fullscreen Game Overlay --- */
+
+body.game-active {
+    overflow: hidden;
+}
+
+.game-embed-container.game-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: var(--player-height);
+    z-index: 500;
+    margin: 0;
+    padding: 4px;
+    border-top: none;
+    display: flex !important;
+    flex-direction: column;
+    background: transparent;
+    animation: gameOpen 0.3s ease;
+}
+
+@keyframes gameOpen {
+    from { opacity: 0; transform: scale(0.96); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+.game-fullscreen .game-embed-header {
+    flex-shrink: 0;
+    background: rgba(10, 10, 26, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.game-fullscreen .game-embed-close {
+    width: 36px;
+    height: 36px;
+    font-size: 1.4rem;
+}
+
+.game-fullscreen .game-embed-iframe {
+    flex: 1;
+    height: auto;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    border-top: none;
+}
+
 /* --- AI Page Styles --- */
 
 .ai-platform-card {
