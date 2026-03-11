@@ -52,6 +52,7 @@ class ParticleSystem {
                 alpha: Math.random() * 0.5 + 0.4,
                 pulseSpeed: Math.random() * 0.025 + 0.008,
                 pulsePhase: Math.random() * Math.PI * 2,
+                bassReactivity: Math.random() * 0.7 + 0.1, // 0.1–0.8: how much this particle reacts
             });
         }
     }
@@ -110,9 +111,9 @@ class ParticleSystem {
             const mp = window.musicPlayer;
             const bassLevel = (mp && mp.bassLevel) ? mp.bassLevel : 0;
 
-            // Pulse alpha (with bass-driven brightness boost)
+            // Pulse alpha (with subtle bass-driven brightness, scaled per-particle)
             p.pulsePhase += p.pulseSpeed;
-            const dynamicAlpha = p.alpha + Math.sin(p.pulsePhase) * 0.25 + bassLevel * 0.3;
+            const dynamicAlpha = p.alpha + Math.sin(p.pulsePhase) * 0.25 + bassLevel * 0.12 * p.bassReactivity;
 
             // Mouse interaction: gentle repulsion
             if (this.mouse.x !== null && this.mouse.y !== null) {
@@ -128,9 +129,9 @@ class ParticleSystem {
                 }
             }
 
-            // Bass-driven velocity boost (subtle vibrations)
-            if (bassLevel > 0.1) {
-                const bassForce = bassLevel * 0.4;
+            // Bass-driven velocity nudge (subtle, varies per particle)
+            if (bassLevel > 0.2 && p.bassReactivity > 0.3) {
+                const bassForce = bassLevel * 0.15 * p.bassReactivity;
                 p.vx += (Math.random() - 0.5) * bassForce;
                 p.vy += (Math.random() - 0.5) * bassForce;
             }
@@ -180,7 +181,7 @@ class ParticleSystem {
         // Draw connections between nearby particles (distance extends on bass)
         const mpConn = window.musicPlayer;
         const bassDist = (mpConn && mpConn.bassLevel) ? mpConn.bassLevel : 0;
-        const effectiveConnDist = this.connectionDistance + bassDist * 50;
+        const effectiveConnDist = this.connectionDistance + bassDist * 20;
         for (let i = 0; i < this.particles.length; i++) {
             for (let j = i + 1; j < this.particles.length; j++) {
                 const dx = this.particles[i].x - this.particles[j].x;

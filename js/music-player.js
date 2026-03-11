@@ -159,11 +159,33 @@ class MusicPlayer {
                 if (retries > 0) {
                     setTimeout(function() { attemptPlay(retries - 1); }, 500);
                 } else {
+                    // Autoplay completely blocked (common on mobile).
+                    // Keep isPlaying false — visualizer will show idle wave.
+                    // Music will start on first user interaction via gestureHandler.
                     self.isPlaying = false;
+                    self.updatePlayPauseIcon();
                 }
             });
         };
         attemptPlay(3);
+    }
+
+    // Ensure music starts playing (called from gesture handler or player bar click)
+    ensurePlaying() {
+        this.initAudioContext();
+        if (this.audioContext && this.audioContext.state === 'suspended') {
+            this.audioContext.resume();
+        }
+        if (!this.isPlaying) {
+            // Ensure src is set
+            if (!this.audio.src || this.audio.src === window.location.href) {
+                this.audio.src = this.tracks[this.currentIndex].src;
+            }
+            this.audio.play().then(function() {}).catch(function() {});
+            this.isPlaying = true;
+            this.musicEnabled = true;
+            this.updatePlayPauseIcon();
+        }
     }
 
     // --- Visualizer ---
@@ -551,28 +573,38 @@ class MusicPlayer {
         // Expand/collapse via chevron
         this.expandBtn.addEventListener('click', function(e) {
             e.stopPropagation();
+            // Always ensure music is playing when expanding
+            if (!self.isExpanded) {
+                self.ensurePlaying();
+                if (self.isMuted) self.unmute();
+            }
             self.toggleExpand();
         });
 
-        // Track name click also toggles expand
+        // Track name click: ensure music + toggle expand
         this.trackNameEl.addEventListener('click', function(e) {
             e.stopPropagation();
+            if (!self.isExpanded) {
+                self.ensurePlaying();
+                if (self.isMuted) self.unmute();
+            }
             self.toggleExpand();
         });
 
-        // Visualizer row click: unmute + toggle expand
+        // Player bar background click: ensure music + unmute + expand
+        this.playerBar.addEventListener('click', function(e) {
+            // Only fires if click wasn't on a child button (they stopPropagation)
+            self.ensurePlaying();
+            if (self.isMuted) self.unmute();
+            self.toggleExpand();
+        });
+
+        // Visualizer row click: ensure music + unmute + toggle expand
         if (this.vizRow) {
             this.vizRow.addEventListener('click', function(e) {
                 e.stopPropagation();
-                // First click when muted: unmute
-                if (self.isMuted && self.isPlaying) {
-                    self.initAudioContext();
-                    self.unmute();
-                } else if (!self.isPlaying) {
-                    // If not playing at all, start playback
-                    self.play();
-                    self.unmute();
-                }
+                self.ensurePlaying();
+                if (self.isMuted) self.unmute();
                 self.toggleExpand();
             });
         }
@@ -598,18 +630,30 @@ class MusicPlayer {
         this.audio.addEventListener('timeupdate', function() { self.updateProgress(); });
         this.audio.addEventListener('ended', function() { self.next(); });
 
-        // Ensure AudioContext on first user gesture (iOS Safari compatibility)
+        // Ensure AudioContext + muted playback on first user gesture (iOS Safari etc.)
+        var gestureHandled = false;
         var gestureHandler = function() {
+            if (gestureHandled) return;
+            gestureHandled = true;
+
             self.initAudioContext();
             if (self.audioContext && self.audioContext.state === 'suspended') {
                 self.audioContext.resume();
             }
-            // If autoplay failed, try starting now
-            if (!self.isPlaying && self.audio.src) {
+            // If autoplay failed, start muted playback now (user gesture unlocks it)
+            if (!self.isPlaying) {
+                self.audio.muted = !self.audioContextReady; // element-mute if no AudioContext yet
+                if (!self.audio.src || self.audio.src === window.location.href) {
+                    self.audio.src = self.tracks[self.currentIndex].src;
+                }
                 self.audio.play().then(function() {
                     self.isPlaying = true;
                     self.musicEnabled = true;
                     self.updatePlayPauseIcon();
+                    // If AudioContext is ready, switch to gain-based muting
+                    if (self.audioContextReady) {
+                        self.audio.muted = false;
+                    }
                 }).catch(function() {});
             }
             document.removeEventListener('click', gestureHandler);
