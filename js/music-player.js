@@ -209,10 +209,13 @@ class MusicPlayer {
             this.updatePlayPauseIcon();
             if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
             if (this.isInBackground && this.backupAudio) {
+                if (this.gainNode) this.gainNode.gain.value = 0;
                 this.backupAudio.src = this.audio.src;
                 try { this.backupAudio.currentTime = this.audio.currentTime; } catch (e) {}
                 this.backupAudio.volume = this.audio.volume;
                 this.backupAudio.play().catch(function() {});
+                // Also play primary silenced so lock screen shows pause button
+                this.audio.play().catch(function() {});
             } else {
                 this.audio.play().catch(function() {
                     // Play failed — reset state so the next click can try again.
@@ -307,26 +310,29 @@ class MusicPlayer {
                         self.backupAudio.volume = self.isMuted ? 0 : self.audio.volume;
                         self.backupAudio.play().catch(function() {});
                     } catch (e) {}
-                    // CRITICAL: pause primary audio so it doesn't keep advancing
-                    // silently. Without this, when AudioContext resumes on return,
-                    // primary would suddenly produce sound at a different position
-                    // than backup — causing two songs at once.
-                    self.audio.pause();
+                    // Silence primary via gain instead of pausing it.
+                    // IMPORTANT: Do NOT pause primary — iOS uses the <audio> element's
+                    // play state to render lock screen controls. If we pause it, iOS
+                    // shows a play button (wrong) and forward/back require two taps.
+                    // Keeping primary "playing" but silent ensures correct lock screen UI.
+                    if (self.gainNode) self.gainNode.gain.value = 0;
+                    // Reinforce that we're playing for Media Session
+                    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
                 }
             } else if (document.visibilityState === 'visible') {
                 self.isInBackground = false;
 
-                // Step 1: Always stop backup audio FIRST to prevent overlap
-                var wasBackupPlaying = self.backupAudio && !self.backupAudio.paused;
+                // Step 1: Stop backup audio FIRST to prevent overlap
                 if (self.backupAudio) {
-                    if (wasBackupPlaying) {
+                    if (!self.backupAudio.paused) {
                         try {
-                            // Sync track/position from backup → primary
+                            // Sync track if backup advanced to a different track
                             var backupSrc = self.backupAudio.src;
                             var primarySrc = self.audio.src;
                             if (backupSrc !== primarySrc) {
                                 self.audio.src = backupSrc;
                             }
+                            // Sync position — primary may have drifted slightly
                             self.audio.currentTime = self.backupAudio.currentTime;
                         } catch (e) {}
                     }
@@ -340,8 +346,13 @@ class MusicPlayer {
                     self.audioContext.resume();
                 }
 
-                // Step 3: Resume primary audio if it should be playing
-                if (self.isPlaying) {
+                // Step 3: Restore gain (was set to 0 when entering background)
+                if (self.gainNode) {
+                    self.gainNode.gain.value = self.isMuted ? 0 : self.audio.volume;
+                }
+
+                // Step 4: Ensure primary is playing if it should be
+                if (self.isPlaying && self.audio.paused) {
                     self.audio.play().catch(function() {});
                 }
             }
@@ -592,12 +603,13 @@ class MusicPlayer {
 
         if (autoplay) {
             if (this.isInBackground && this.backupAudio) {
-                // In background: play on backup audio (primary can't produce sound
-                // through suspended AudioContext)
+                // Background: play backup (audible) + primary silenced (for lock screen UI)
+                if (this.gainNode) this.gainNode.gain.value = 0;
                 this.backupAudio.src = this.tracks[index].src;
                 this.backupAudio.currentTime = 0;
                 this.backupAudio.volume = this.isMuted ? 0 : this.audio.volume;
                 this.backupAudio.play().catch(function() {});
+                this.audio.play().catch(function() {});
             } else {
                 // Foreground: ensure backup is stopped before playing primary
                 if (this.backupAudio && !this.backupAudio.paused) {
@@ -628,13 +640,15 @@ class MusicPlayer {
         if (this.audioContextReady && this.audio.muted) {
             this.audio.muted = false;
         }
-        // BACKGROUND-AWARE: when in background, AudioContext is suspended so
-        // primary audio produces no sound. Use backup audio instead.
+        // BACKGROUND-AWARE: play backup (audible) + primary silenced (for lock screen)
         if (this.isInBackground && this.backupAudio) {
+            if (this.gainNode) this.gainNode.gain.value = 0;
             this.backupAudio.src = this.audio.src;
             try { this.backupAudio.currentTime = this.audio.currentTime; } catch (e) {}
             this.backupAudio.volume = this.audio.volume;
             this.backupAudio.play().catch(function() {});
+            // Also play primary silenced so iOS lock screen shows pause button
+            this.audio.play().catch(function() {});
         } else {
             // Foreground: ensure backup is stopped to prevent two songs at once
             if (this.backupAudio && !this.backupAudio.paused) {
