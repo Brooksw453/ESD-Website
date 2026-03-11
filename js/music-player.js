@@ -34,6 +34,7 @@ class MusicPlayer {
         this.musicEnabled = false;
         this.isExpanded = false;
         this.backupAudio = null;
+        this.isInBackground = false;
 
         // Web Audio API
         this.audioContext = null;
@@ -202,17 +203,24 @@ class MusicPlayer {
                 this.audio.src = this.tracks[this.currentIndex].src;
             }
             var self = this;
-            this.isPlaying = true;
             this.musicEnabled = true;
+            // Use background-aware play() — handles backup audio when in background
+            this.isPlaying = true;
             this.updatePlayPauseIcon();
             if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
-            this.audio.play().catch(function() {
-                // Play failed (iOS touchstart isn't a user gesture for audio).
-                // Reset state so the next click can try again.
-                self.isPlaying = false;
-                self.updatePlayPauseIcon();
-                if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
-            });
+            if (this.isInBackground && this.backupAudio) {
+                this.backupAudio.src = this.audio.src;
+                try { this.backupAudio.currentTime = this.audio.currentTime; } catch (e) {}
+                this.backupAudio.volume = this.audio.volume;
+                this.backupAudio.play().catch(function() {});
+            } else {
+                this.audio.play().catch(function() {
+                    // Play failed — reset state so the next click can try again.
+                    self.isPlaying = false;
+                    self.updatePlayPauseIcon();
+                    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
+                });
+            }
         }
     }
 
@@ -226,6 +234,10 @@ class MusicPlayer {
         navigator.mediaSession.setActionHandler('pause', function() { self.pause(); });
         navigator.mediaSession.setActionHandler('nexttrack', function() { self.next(); });
         navigator.mediaSession.setActionHandler('previoustrack', function() { self.prev(); });
+
+        // Override iOS default +10s/-10s seek buttons with next/prev track
+        try { navigator.mediaSession.setActionHandler('seekforward', function() { self.next(); }); } catch (e) {}
+        try { navigator.mediaSession.setActionHandler('seekbackward', function() { self.prev(); }); } catch (e) {}
 
         this.updateMediaSessionMetadata();
     }
@@ -284,16 +296,18 @@ class MusicPlayer {
         var self = this;
         document.addEventListener('visibilitychange', function() {
             if (document.visibilityState === 'hidden') {
+                self.isInBackground = true;
                 // Page going to background — start backup audio for iOS lock screen
-                if (self.isPlaying && !self.isMuted && self.backupAudio) {
+                if (self.isPlaying && self.backupAudio) {
                     try {
                         self.backupAudio.src = self.audio.src;
                         self.backupAudio.currentTime = self.audio.currentTime;
-                        self.backupAudio.volume = self.audio.volume;
+                        self.backupAudio.volume = self.isMuted ? 0 : self.audio.volume;
                         self.backupAudio.play().catch(function() {});
                     } catch (e) {}
                 }
             } else if (document.visibilityState === 'visible') {
+                self.isInBackground = false;
                 // Page came back — sync from backup and resume primary
                 if (self.backupAudio && !self.backupAudio.paused) {
                     try {
@@ -328,6 +342,8 @@ class MusicPlayer {
         if (!this.audioContext) return;
         var self = this;
         this.audioContext.addEventListener('statechange', function() {
+            // Only auto-resume when NOT in background — let visibilitychange handle the transition
+            if (self.isInBackground) return;
             if (self.isPlaying && self.audioContext.state === 'suspended') {
                 self.audioContext.resume().catch(function() {});
             }
@@ -573,13 +589,22 @@ class MusicPlayer {
         // Ensure AudioContext is ready
         this.initAudioContext();
         if (this.audioContext && this.audioContext.state === 'suspended') {
-            this.audioContext.resume();
+            this.audioContext.resume().catch(function() {});
         }
         // Ensure element-mute is off (for background playback on iOS)
         if (this.audioContextReady && this.audio.muted) {
             this.audio.muted = false;
         }
-        this.audio.play().catch(() => {});
+        // BACKGROUND-AWARE: when in background, AudioContext is suspended so
+        // primary audio produces no sound. Use backup audio instead.
+        if (this.isInBackground && this.backupAudio) {
+            this.backupAudio.src = this.audio.src;
+            try { this.backupAudio.currentTime = this.audio.currentTime; } catch (e) {}
+            this.backupAudio.volume = this.audio.volume;
+            this.backupAudio.play().catch(function() {});
+        } else {
+            this.audio.play().catch(function() {});
+        }
         this.isPlaying = true;
         this.updatePlayPauseIcon();
         if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
