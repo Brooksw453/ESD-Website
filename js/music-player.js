@@ -142,6 +142,9 @@ class MusicPlayer {
             if (this.audioContext.state === 'suspended') {
                 this.audioContext.resume();
             }
+
+            // Listen for AudioContext suspension/interruption (iOS background)
+            this.bindAudioContextRecovery();
         } catch (e) {
             console.warn('Web Audio API not available:', e);
         }
@@ -196,10 +199,18 @@ class MusicPlayer {
             if (!this.audio.src || this.audio.src === window.location.href) {
                 this.audio.src = this.tracks[this.currentIndex].src;
             }
-            this.audio.play().catch(function() {});
+            var self = this;
             this.isPlaying = true;
             this.musicEnabled = true;
             this.updatePlayPauseIcon();
+            if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+            this.audio.play().catch(function() {
+                // Play failed (iOS touchstart isn't a user gesture for audio).
+                // Reset state so the next click can try again.
+                self.isPlaying = false;
+                self.updatePlayPauseIcon();
+                if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
+            });
         }
     }
 
@@ -223,12 +234,16 @@ class MusicPlayer {
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: this.tracks[this.currentIndex].title,
                 artist: 'ES Designs',
-                album: 'Elliptical Explorer Soundtrack'
+                album: 'Elliptical Explorer Soundtrack',
+                artwork: [
+                    { src: 'assets/images/brand/favicon.svg', sizes: '512x512', type: 'image/svg+xml' },
+                    { src: 'assets/images/brand/esd-logo.png', sizes: '192x192', type: 'image/png' }
+                ]
             });
         } catch (e) { /* ignore if MediaMetadata not supported */ }
     }
 
-    // --- Background playback: resume AudioContext on return ---
+    // --- Background playback: recover from iOS AudioContext suspension ---
 
     bindVisibilityHandler() {
         var self = this;
@@ -244,7 +259,51 @@ class MusicPlayer {
                 }
             }
             // IMPORTANT: Do NOT pause audio when page goes hidden.
-            // This allows music to continue playing when switching apps or locking phone.
+        });
+
+        // Listen for AudioContext state changes (iOS uses 'interrupted' state)
+        // Auto-resume when the system releases the audio session
+        this.bindAudioContextRecovery();
+
+        // If audio pauses unexpectedly (iOS backgrounding), try to resume
+        this.audio.addEventListener('pause', function() {
+            if (self.isPlaying) {
+                // We didn't intend to pause — iOS likely suspended us.
+                // Try to resume after a short delay.
+                setTimeout(function() {
+                    if (self.isPlaying && self.audio.paused) {
+                        if (self.audioContext && self.audioContext.state === 'suspended') {
+                            self.audioContext.resume();
+                        }
+                        self.audio.play().catch(function() {});
+                    }
+                }, 200);
+            }
+        });
+
+        // Periodic safety net: check every 3s if audio stalled while it should be playing
+        setInterval(function() {
+            if (self.isPlaying && self.audio.paused && document.visibilityState === 'visible') {
+                if (self.audioContext && self.audioContext.state === 'suspended') {
+                    self.audioContext.resume();
+                }
+                self.audio.play().catch(function() {});
+            }
+        }, 3000);
+    }
+
+    bindAudioContextRecovery() {
+        if (!this.audioContext) return;
+        var self = this;
+        this.audioContext.addEventListener('statechange', function() {
+            // iOS uses 'interrupted' when another app takes audio focus, then releases it
+            if (self.isPlaying && self.audioContext.state === 'suspended') {
+                self.audioContext.resume().catch(function() {});
+            }
+            // When AudioContext resumes after interruption, restart audio if needed
+            if (self.audioContext.state === 'running' && self.isPlaying && self.audio.paused) {
+                self.audio.play().catch(function() {});
+            }
         });
     }
 
@@ -352,20 +411,20 @@ class MusicPlayer {
         var time = performance.now() / 1000;
 
         for (var i = 0; i < barCount; i++) {
-            // Multi-wave pattern for a lively idle state
-            var wave1 = Math.sin(time * 2.0 + i * 0.3) * 0.35;
-            var wave2 = Math.sin(time * 1.3 + i * 0.15 + 1.5) * 0.2;
-            var wave3 = Math.sin(time * 3.5 + i * 0.6) * 0.1;
-            var h = (wave1 + wave2 + wave3 + 0.55) * H * 0.55 + 3;
+            // Multi-wave pattern — faster and more dynamic for visible motion
+            var wave1 = Math.sin(time * 2.8 + i * 0.35) * 0.38;
+            var wave2 = Math.sin(time * 1.8 + i * 0.18 + 1.5) * 0.25;
+            var wave3 = Math.sin(time * 4.5 + i * 0.7) * 0.15;
+            var h = (wave1 + wave2 + wave3 + 0.6) * H * 0.7 + 3;
 
             // Gradient: cyan → magenta shift over time
-            var colorShift = (Math.sin(time * 0.8 + i * 0.1) + 1) * 0.5;
+            var colorShift = (Math.sin(time * 1.0 + i * 0.12) + 1) * 0.5;
             var r = Math.round(colorShift * 255);
             var g = Math.round((1 - colorShift) * 255);
             var b = 255;
-            ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ', 0.55)';
-            ctx.shadowBlur = 6;
-            ctx.shadowColor = 'rgba(' + r + ',' + g + ',' + b + ', 0.35)';
+            ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ', 0.65)';
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = 'rgba(' + r + ',' + g + ',' + b + ', 0.4)';
 
             var x = i * barWidth + barGap / 2;
             var w = barWidth - barGap;
@@ -486,15 +545,21 @@ class MusicPlayer {
         if (this.audioContext && this.audioContext.state === 'suspended') {
             this.audioContext.resume();
         }
+        // Ensure element-mute is off (for background playback on iOS)
+        if (this.audioContextReady && this.audio.muted) {
+            this.audio.muted = false;
+        }
         this.audio.play().catch(() => {});
         this.isPlaying = true;
         this.updatePlayPauseIcon();
+        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
     }
 
     pause() {
         this.audio.pause();
         this.isPlaying = false;
         this.updatePlayPauseIcon();
+        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
     }
 
     togglePlayPause() {
@@ -709,17 +774,18 @@ class MusicPlayer {
         this.audio.addEventListener('timeupdate', function() { self.updateProgress(); });
         this.audio.addEventListener('ended', function() { self.next(); });
 
-        // Ensure AudioContext + muted playback on first user gesture (iOS Safari etc.)
+        // Ensure AudioContext + muted playback on first user gesture.
+        // IMPORTANT: Only use 'click', not 'touchstart'. iOS Safari does NOT
+        // treat touchstart as a user gesture for audio playback, so audio.play()
+        // would fail silently while isPlaying gets set to true — causing the
+        // "two taps needed" bug on mobile.
         var gestureHandled = false;
         var gestureHandler = function() {
             if (gestureHandled) return;
             gestureHandled = true;
-            // ensurePlaying() handles AudioContext init, element-to-gain-mute switch, and play
             self.ensurePlaying();
             document.removeEventListener('click', gestureHandler);
-            document.removeEventListener('touchstart', gestureHandler);
         };
         document.addEventListener('click', gestureHandler);
-        document.addEventListener('touchstart', gestureHandler);
     }
 }
