@@ -33,6 +33,7 @@ class MusicPlayer {
         this.isMuted = true;          // starts muted (gain = 0)
         this.musicEnabled = false;
         this.isExpanded = false;
+        this.backupAudio = null;
 
         // Web Audio API
         this.audioContext = null;
@@ -183,6 +184,7 @@ class MusicPlayer {
     // Ensure music starts playing (called from gesture handler or player bar click)
     ensurePlaying() {
         this.initAudioContext();
+        this.initBackupAudio();
         if (this.audioContext && this.audioContext.state === 'suspended') {
             this.audioContext.resume();
         }
@@ -243,64 +245,92 @@ class MusicPlayer {
         } catch (e) { /* ignore if MediaMetadata not supported */ }
     }
 
-    // --- Background playback: recover from iOS AudioContext suspension ---
+    // --- Background playback ---
+    // On iOS, AudioContext is suspended when the page goes to background/lock screen.
+    // Since createMediaElementSource() routes all audio through AudioContext, the audio
+    // pipeline dies. We use a BACKUP Audio element (not connected to AudioContext) that
+    // takes over during background playback, then syncs back when returning.
+
+    initBackupAudio() {
+        if (this.backupAudio) return;
+        var self = this;
+        this.backupAudio = new Audio();
+        this.backupAudio.preload = 'none';
+
+        // When backup audio finishes a track in background, advance to next
+        this.backupAudio.addEventListener('ended', function() {
+            if (document.visibilityState === 'hidden' && self.isPlaying) {
+                var nextIdx = self.currentIndex + 1;
+                if (nextIdx >= self.tracks.length) nextIdx = 0;
+                self.currentIndex = nextIdx;
+                self.trackNameEl.textContent = self.tracks[nextIdx].title;
+                self.updateTrackListActive();
+                self.updateMediaSessionMetadata();
+                self.backupAudio.src = self.tracks[nextIdx].src;
+                self.backupAudio.play().catch(function() {});
+            }
+        });
+
+        // "Unlock" for iOS: play briefly during user gesture so future play() calls work
+        this.backupAudio.src = this.tracks[this.currentIndex].src;
+        this.backupAudio.volume = 0.001;
+        this.backupAudio.play().then(function() {
+            self.backupAudio.pause();
+            self.backupAudio.volume = 0;
+        }).catch(function() {});
+    }
 
     bindVisibilityHandler() {
         var self = this;
         document.addEventListener('visibilitychange', function() {
-            if (document.visibilityState === 'visible') {
-                // Page came back into view — resume AudioContext if it was suspended
+            if (document.visibilityState === 'hidden') {
+                // Page going to background — start backup audio for iOS lock screen
+                if (self.isPlaying && !self.isMuted && self.backupAudio) {
+                    try {
+                        self.backupAudio.src = self.audio.src;
+                        self.backupAudio.currentTime = self.audio.currentTime;
+                        self.backupAudio.volume = self.audio.volume;
+                        self.backupAudio.play().catch(function() {});
+                    } catch (e) {}
+                }
+            } else if (document.visibilityState === 'visible') {
+                // Page came back — sync from backup and resume primary
+                if (self.backupAudio && !self.backupAudio.paused) {
+                    try {
+                        // Sync track if backup advanced to a different track
+                        var backupSrc = self.backupAudio.src;
+                        var primarySrc = self.audio.src;
+                        if (backupSrc !== primarySrc) {
+                            self.audio.src = backupSrc;
+                        }
+                        self.audio.currentTime = self.backupAudio.currentTime;
+                    } catch (e) {}
+                    self.backupAudio.pause();
+                    self.backupAudio.volume = 0;
+                }
+
+                // Resume AudioContext
                 if (self.audioContext && self.audioContext.state === 'suspended') {
                     self.audioContext.resume();
                 }
-                // If audio was playing before, make sure it's still going
+                // Resume primary audio if it should be playing
                 if (self.isPlaying && self.audio.paused) {
                     self.audio.play().catch(function() {});
                 }
             }
-            // IMPORTANT: Do NOT pause audio when page goes hidden.
         });
 
-        // Listen for AudioContext state changes (iOS uses 'interrupted' state)
-        // Auto-resume when the system releases the audio session
+        // Listen for AudioContext state changes (iOS 'interrupted' state)
         this.bindAudioContextRecovery();
-
-        // If audio pauses unexpectedly (iOS backgrounding), try to resume
-        this.audio.addEventListener('pause', function() {
-            if (self.isPlaying) {
-                // We didn't intend to pause — iOS likely suspended us.
-                // Try to resume after a short delay.
-                setTimeout(function() {
-                    if (self.isPlaying && self.audio.paused) {
-                        if (self.audioContext && self.audioContext.state === 'suspended') {
-                            self.audioContext.resume();
-                        }
-                        self.audio.play().catch(function() {});
-                    }
-                }, 200);
-            }
-        });
-
-        // Periodic safety net: check every 3s if audio stalled while it should be playing
-        setInterval(function() {
-            if (self.isPlaying && self.audio.paused && document.visibilityState === 'visible') {
-                if (self.audioContext && self.audioContext.state === 'suspended') {
-                    self.audioContext.resume();
-                }
-                self.audio.play().catch(function() {});
-            }
-        }, 3000);
     }
 
     bindAudioContextRecovery() {
         if (!this.audioContext) return;
         var self = this;
         this.audioContext.addEventListener('statechange', function() {
-            // iOS uses 'interrupted' when another app takes audio focus, then releases it
             if (self.isPlaying && self.audioContext.state === 'suspended') {
                 self.audioContext.resume().catch(function() {});
             }
-            // When AudioContext resumes after interruption, restart audio if needed
             if (self.audioContext.state === 'running' && self.isPlaying && self.audio.paused) {
                 self.audio.play().catch(function() {});
             }
@@ -556,8 +586,15 @@ class MusicPlayer {
     }
 
     pause() {
-        this.audio.pause();
+        // Set isPlaying BEFORE pausing audio — the 'pause' event may fire
+        // synchronously on some browsers, and our recovery handler checks this flag.
         this.isPlaying = false;
+        this.audio.pause();
+        // Also stop backup audio so it doesn't keep playing in background
+        if (this.backupAudio && !this.backupAudio.paused) {
+            this.backupAudio.pause();
+            this.backupAudio.volume = 0;
+        }
         this.updatePlayPauseIcon();
         if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
     }
