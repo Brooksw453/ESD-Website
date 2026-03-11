@@ -1,0 +1,21 @@
+{
+    "name": "ES Designs",
+    "short_name": "ES Designs",
+    "description": "Education Simulation Designs - VR Development, Indie Games, AI Agents",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a0a1a",
+    "theme_color": "#00ffff",
+    "icons": [
+        {
+            "src": "assets/images/brand/esd-logo.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/images/brand/favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}

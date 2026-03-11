@@ -235,9 +235,11 @@ class MusicPlayer {
         navigator.mediaSession.setActionHandler('nexttrack', function() { self.next(); });
         navigator.mediaSession.setActionHandler('previoustrack', function() { self.prev(); });
 
-        // Override iOS default +10s/-10s seek buttons with next/prev track
-        try { navigator.mediaSession.setActionHandler('seekforward', function() { self.next(); }); } catch (e) {}
-        try { navigator.mediaSession.setActionHandler('seekbackward', function() { self.prev(); }); } catch (e) {}
+        // Explicitly REMOVE seek handlers so iOS shows skip track buttons (|◂ ▸|)
+        // instead of seek buttons (⟲10 / 10⟳). Setting custom seek handlers causes
+        // iOS to render the seek UI; setting to null removes them.
+        try { navigator.mediaSession.setActionHandler('seekforward', null); } catch (e) {}
+        try { navigator.mediaSession.setActionHandler('seekbackward', null); } catch (e) {}
 
         this.updateMediaSessionMetadata();
     }
@@ -305,30 +307,41 @@ class MusicPlayer {
                         self.backupAudio.volume = self.isMuted ? 0 : self.audio.volume;
                         self.backupAudio.play().catch(function() {});
                     } catch (e) {}
+                    // CRITICAL: pause primary audio so it doesn't keep advancing
+                    // silently. Without this, when AudioContext resumes on return,
+                    // primary would suddenly produce sound at a different position
+                    // than backup — causing two songs at once.
+                    self.audio.pause();
                 }
             } else if (document.visibilityState === 'visible') {
                 self.isInBackground = false;
-                // Page came back — sync from backup and resume primary
-                if (self.backupAudio && !self.backupAudio.paused) {
-                    try {
-                        // Sync track if backup advanced to a different track
-                        var backupSrc = self.backupAudio.src;
-                        var primarySrc = self.audio.src;
-                        if (backupSrc !== primarySrc) {
-                            self.audio.src = backupSrc;
-                        }
-                        self.audio.currentTime = self.backupAudio.currentTime;
-                    } catch (e) {}
+
+                // Step 1: Always stop backup audio FIRST to prevent overlap
+                var wasBackupPlaying = self.backupAudio && !self.backupAudio.paused;
+                if (self.backupAudio) {
+                    if (wasBackupPlaying) {
+                        try {
+                            // Sync track/position from backup → primary
+                            var backupSrc = self.backupAudio.src;
+                            var primarySrc = self.audio.src;
+                            if (backupSrc !== primarySrc) {
+                                self.audio.src = backupSrc;
+                            }
+                            self.audio.currentTime = self.backupAudio.currentTime;
+                        } catch (e) {}
+                    }
+                    // Always stop backup when returning to foreground
                     self.backupAudio.pause();
                     self.backupAudio.volume = 0;
                 }
 
-                // Resume AudioContext
+                // Step 2: Resume AudioContext
                 if (self.audioContext && self.audioContext.state === 'suspended') {
                     self.audioContext.resume();
                 }
-                // Resume primary audio if it should be playing
-                if (self.isPlaying && self.audio.paused) {
+
+                // Step 3: Resume primary audio if it should be playing
+                if (self.isPlaying) {
                     self.audio.play().catch(function() {});
                 }
             }
@@ -342,13 +355,19 @@ class MusicPlayer {
         if (!this.audioContext) return;
         var self = this;
         this.audioContext.addEventListener('statechange', function() {
-            // Only auto-resume when NOT in background — let visibilitychange handle the transition
+            // Skip when in background — let visibilitychange handle the transition
             if (self.isInBackground) return;
             if (self.isPlaying && self.audioContext.state === 'suspended') {
                 self.audioContext.resume().catch(function() {});
             }
+            // Delay auto-play to avoid racing with visibilitychange handler.
+            // Both fire around the same time when returning from background.
             if (self.audioContext.state === 'running' && self.isPlaying && self.audio.paused) {
-                self.audio.play().catch(function() {});
+                setTimeout(function() {
+                    if (!self.isInBackground && self.isPlaying && self.audio.paused) {
+                        self.audio.play().catch(function() {});
+                    }
+                }, 300);
             }
         });
     }
@@ -580,6 +599,11 @@ class MusicPlayer {
                 this.backupAudio.volume = this.isMuted ? 0 : this.audio.volume;
                 this.backupAudio.play().catch(function() {});
             } else {
+                // Foreground: ensure backup is stopped before playing primary
+                if (this.backupAudio && !this.backupAudio.paused) {
+                    this.backupAudio.pause();
+                    this.backupAudio.volume = 0;
+                }
                 this.audio.play().catch(function() {});
             }
             this.isPlaying = true;
@@ -612,6 +636,11 @@ class MusicPlayer {
             this.backupAudio.volume = this.audio.volume;
             this.backupAudio.play().catch(function() {});
         } else {
+            // Foreground: ensure backup is stopped to prevent two songs at once
+            if (this.backupAudio && !this.backupAudio.paused) {
+                this.backupAudio.pause();
+                this.backupAudio.volume = 0;
+            }
             this.audio.play().catch(function() {});
         }
         this.isPlaying = true;
