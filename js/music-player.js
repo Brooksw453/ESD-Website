@@ -572,7 +572,16 @@ class MusicPlayer {
         this.updateMediaSessionMetadata();
 
         if (autoplay) {
-            this.audio.play().catch(() => {});
+            if (this.isInBackground && this.backupAudio) {
+                // In background: play on backup audio (primary can't produce sound
+                // through suspended AudioContext)
+                this.backupAudio.src = this.tracks[index].src;
+                this.backupAudio.currentTime = 0;
+                this.backupAudio.volume = this.isMuted ? 0 : this.audio.volume;
+                this.backupAudio.play().catch(function() {});
+            } else {
+                this.audio.play().catch(function() {});
+            }
             this.isPlaying = true;
             this.updatePlayPauseIcon();
         }
