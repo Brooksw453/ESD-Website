@@ -64,6 +64,7 @@ class MusicPlayer {
         this.progressBar = document.getElementById('playerProgress');
         this.progressFill = document.getElementById('progressFill');
         this.expandBtn = document.getElementById('expandBtn');
+        this.shuffleBtn = document.getElementById('shuffleBtn');
         this.expandedPanel = document.getElementById('playerExpanded');
         this.muteBtn = document.getElementById('muteBtn');
         this.volumeOnIcon = document.getElementById('volumeOnIcon');
@@ -182,12 +183,20 @@ class MusicPlayer {
         if (this.audioContext && this.audioContext.state === 'suspended') {
             this.audioContext.resume();
         }
+        // CRITICAL for mobile: switch from element-mute to gain-mute.
+        // Element-muted audio won't play in background or show lock-screen controls.
+        if (this.audioContextReady && this.audio.muted) {
+            this.audio.muted = false;
+            if (this.gainNode) {
+                this.gainNode.gain.value = this.isMuted ? 0 : this.audio.volume;
+            }
+        }
         if (!this.isPlaying) {
             // Ensure src is set
             if (!this.audio.src || this.audio.src === window.location.href) {
                 this.audio.src = this.tracks[this.currentIndex].src;
             }
-            this.audio.play().then(function() {}).catch(function() {});
+            this.audio.play().catch(function() {});
             this.isPlaying = true;
             this.musicEnabled = true;
             this.updatePlayPauseIcon();
@@ -354,9 +363,9 @@ class MusicPlayer {
             var r = Math.round(colorShift * 255);
             var g = Math.round((1 - colorShift) * 255);
             var b = 255;
-            ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ', 0.35)';
-            ctx.shadowBlur = 4;
-            ctx.shadowColor = 'rgba(' + r + ',' + g + ',' + b + ', 0.25)';
+            ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ', 0.55)';
+            ctx.shadowBlur = 6;
+            ctx.shadowColor = 'rgba(' + r + ',' + g + ',' + b + ', 0.35)';
 
             var x = i * barWidth + barGap / 2;
             var w = barWidth - barGap;
@@ -512,6 +521,20 @@ class MusicPlayer {
         this.loadTrack(prevIndex, true);
     }
 
+    shuffle() {
+        var newIndex;
+        if (this.tracks.length <= 1) {
+            newIndex = 0;
+        } else {
+            do {
+                newIndex = Math.floor(Math.random() * this.tracks.length);
+            } while (newIndex === this.currentIndex);
+        }
+        this.loadTrack(newIndex, true);
+        this.ensurePlaying();
+        if (this.isMuted) this.unmute();
+    }
+
     updatePlayPauseIcon() {
         if (this.isPlaying) {
             this.playIcon.style.display = 'none';
@@ -621,6 +644,10 @@ class MusicPlayer {
             e.stopPropagation();
             self.prev();
         });
+        this.shuffleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            self.shuffle();
+        });
 
         // Expand/collapse via chevron
         this.expandBtn.addEventListener('click', function(e) {
@@ -687,27 +714,8 @@ class MusicPlayer {
         var gestureHandler = function() {
             if (gestureHandled) return;
             gestureHandled = true;
-
-            self.initAudioContext();
-            if (self.audioContext && self.audioContext.state === 'suspended') {
-                self.audioContext.resume();
-            }
-            // If autoplay failed, start muted playback now (user gesture unlocks it)
-            if (!self.isPlaying) {
-                self.audio.muted = !self.audioContextReady; // element-mute if no AudioContext yet
-                if (!self.audio.src || self.audio.src === window.location.href) {
-                    self.audio.src = self.tracks[self.currentIndex].src;
-                }
-                self.audio.play().then(function() {
-                    self.isPlaying = true;
-                    self.musicEnabled = true;
-                    self.updatePlayPauseIcon();
-                    // If AudioContext is ready, switch to gain-based muting
-                    if (self.audioContextReady) {
-                        self.audio.muted = false;
-                    }
-                }).catch(function() {});
-            }
+            // ensurePlaying() handles AudioContext init, element-to-gain-mute switch, and play
+            self.ensurePlaying();
             document.removeEventListener('click', gestureHandler);
             document.removeEventListener('touchstart', gestureHandler);
         };

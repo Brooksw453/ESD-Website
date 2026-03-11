@@ -354,6 +354,16 @@
     box-shadow: 0 0 12px rgba(0, 255, 255, 0.25);
 }
 
+.player-shuffle-btn {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.player-shuffle-btn:hover {
+    color: var(--neon-magenta);
+    opacity: 1;
+}
+
 .player-track-name {
     flex: 1;
     min-width: 0;
