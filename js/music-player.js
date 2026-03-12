@@ -299,10 +299,12 @@ class MusicPlayer {
         navigator.mediaSession.setActionHandler('nexttrack', () => { this.next(); });
         navigator.mediaSession.setActionHandler('previoustrack', () => { this.prev(); });
 
-        // Explicitly REMOVE seek handlers so iOS shows skip track buttons (|◂ ▸|)
-        // instead of seek buttons (⟲10 / 10⟳).
-        try { navigator.mediaSession.setActionHandler('seekforward', null); } catch (e) {}
-        try { navigator.mediaSession.setActionHandler('seekbackward', null); } catch (e) {}
+        // Override seek buttons with track skip. On Android, the lock screen may
+        // show ±10s seek buttons by default (setting to null doesn't remove them,
+        // it just falls back to the default). By mapping them to track skip,
+        // they always do something useful regardless of what the OS displays.
+        try { navigator.mediaSession.setActionHandler('seekforward', () => { this.next(); }); } catch (e) {}
+        try { navigator.mediaSession.setActionHandler('seekbackward', () => { this.prev(); }); } catch (e) {}
 
         this.updateMediaSessionMetadata();
     }
@@ -376,10 +378,14 @@ class MusicPlayer {
                 this.isInBackground = true;
 
                 if (this.usesNativePlayback) {
-                    // Native playback — audio continues natively via <audio> element.
-                    // Nothing to swap. Just reinforce Media Session state.
-                    if (this.isPlaying && 'mediaSession' in navigator) {
-                        navigator.mediaSession.playbackState = 'playing';
+                    // Native playback — audio continues via <audio> element natively.
+                    // Do NOT touch audio state here. Let the browser and Media Session
+                    // handle background playback entirely.
+                    // Disconnect the analyser pipeline so AudioContext suspension
+                    // (which Chrome may do for power saving) can't interfere with
+                    // the native audio output in any way.
+                    if (this.sourceNode) {
+                        try { this.sourceNode.disconnect(); } catch (e) {}
                     }
                 } else if (this.isPlaying && this.backupAudio) {
                     // Fallback: swap to backup audio for iOS lock screen
@@ -403,19 +409,31 @@ class MusicPlayer {
                     this._recoveryTimeout = null;
                 }
 
-                // Resume AudioContext (needed for visualizer in both modes)
-                if (this.audioContext && this.audioContext.state === 'suspended') {
-                    this.audioContext.resume();
-                }
-
                 if (this.usesNativePlayback) {
-                    // Native playback — audio never stopped. Just ensure it's playing
-                    // if it should be (browser may have paused it in rare cases).
-                    if (this.isPlaying && this.audio.paused) {
-                        this.audio.play().catch(() => {});
+                    // Native playback — reconnect analyser for visualizer
+                    if (this.sourceNode && this.analyser) {
+                        try { this.sourceNode.connect(this.analyser); } catch (e) {}
+                    }
+                    // Resume AudioContext for visualizer only
+                    if (this.audioContext && this.audioContext.state === 'suspended') {
+                        this.audioContext.resume();
+                    }
+                    // CRITICAL: Do NOT call audio.play() here. Instead, sync our
+                    // state with reality. The browser/Media Session may have paused
+                    // or resumed audio while in background — trust its state.
+                    // Calling play() here caused the "pause doesn't work" bug because
+                    // it raced with user input after returning from background.
+                    this.isPlaying = !this.audio.paused;
+                    this.updatePlayPauseIcon();
+                    if ('mediaSession' in navigator) {
+                        navigator.mediaSession.playbackState = this.isPlaying ? 'playing' : 'paused';
                     }
                 } else {
-                    // Fallback: sync back from backup audio
+                    // Fallback: resume AudioContext + sync from backup audio
+                    if (this.audioContext && this.audioContext.state === 'suspended') {
+                        this.audioContext.resume();
+                    }
+
                     let backupTime = 0;
                     let trackChanged = false;
 
@@ -468,6 +486,16 @@ class MusicPlayer {
             // Skip when in background — let visibilitychange handle it
             if (this.isInBackground) return;
 
+            // For native playback, AudioContext is only used for the visualizer.
+            // Never touch audio playback from here — it plays independently.
+            if (this.usesNativePlayback) {
+                if (this.audioContext.state === 'suspended') {
+                    this.audioContext.resume().catch(() => {});
+                }
+                return;
+            }
+
+            // Fallback mode: manage both AudioContext and audio playback
             if (this.isPlaying && this.audioContext.state === 'suspended') {
                 this.audioContext.resume().catch(() => {});
             }
