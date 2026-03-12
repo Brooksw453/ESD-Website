@@ -36,6 +36,11 @@ class MusicPlayer {
         this.backupAudio = null;
         this.isInBackground = false;
 
+        // Recovery coordination — prevents visibility + statechange handlers from racing
+        this._recoveryTimeout = null;
+        // Throttle for MediaSession position state updates
+        this._lastPositionUpdate = 0;
+
         // Web Audio API
         this.audioContext = null;
         this.analyser = null;
@@ -105,8 +110,18 @@ class MusicPlayer {
         } else {
             this.audio.volume = 0.5;
         }
-        // Shuffle: always pick a random track on page load
-        this.currentIndex = Math.floor(Math.random() * this.tracks.length);
+        // Restore saved track, or pick a random one on first visit
+        const savedTrack = localStorage.getItem('es_player_track');
+        if (savedTrack !== null) {
+            const idx = parseInt(savedTrack, 10);
+            if (idx >= 0 && idx < this.tracks.length) {
+                this.currentIndex = idx;
+            } else {
+                this.currentIndex = Math.floor(Math.random() * this.tracks.length);
+            }
+        } else {
+            this.currentIndex = Math.floor(Math.random() * this.tracks.length);
+        }
     }
 
     // --- Web Audio API ---
@@ -115,7 +130,7 @@ class MusicPlayer {
         if (this.audioContextReady) return;
 
         try {
-            var AudioCtx = window.AudioContext || window.webkitAudioContext;
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
             this.audioContext = new AudioCtx();
 
             // MediaElementSourceNode — can only be created ONCE per element
@@ -146,9 +161,26 @@ class MusicPlayer {
             }
 
             // Listen for AudioContext suspension/interruption (iOS background)
+            // NOTE: Only called here — NOT in bindVisibilityHandler (prevents duplicate listeners)
             this.bindAudioContextRecovery();
         } catch (e) {
             console.warn('Web Audio API not available:', e);
+        }
+    }
+
+    // --- Smooth gain transitions (prevents clicks/pops) ---
+
+    setGainSmooth(value, duration) {
+        if (!this.gainNode || !this.audioContext) return;
+        if (duration === undefined) duration = 0.05;
+        try {
+            const now = this.audioContext.currentTime;
+            this.gainNode.gain.cancelScheduledValues(now);
+            this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, now);
+            this.gainNode.gain.linearRampToValueAtTime(value, now + duration);
+        } catch (e) {
+            // Fallback to direct assignment if scheduling fails
+            this.gainNode.gain.value = value;
         }
     }
 
@@ -158,24 +190,23 @@ class MusicPlayer {
         this.audio.src = this.tracks[this.currentIndex].src;
         this.audio.load();
 
-        var self = this;
-        var attemptPlay = function(retries) {
-            self.audio.play().then(function() {
-                self.isPlaying = true;
-                self.musicEnabled = true;
-                self.updatePlayPauseIcon();
+        const attemptPlay = (retries) => {
+            this.audio.play().then(() => {
+                this.isPlaying = true;
+                this.musicEnabled = true;
+                this.updatePlayPauseIcon();
                 // Try to init AudioContext (may fail without user gesture on some browsers)
-                self.initAudioContext();
-            }).catch(function() {
+                this.initAudioContext();
+            }).catch(() => {
                 // Retry after a short delay (browser may allow after DOM settles)
                 if (retries > 0) {
-                    setTimeout(function() { attemptPlay(retries - 1); }, 500);
+                    setTimeout(() => attemptPlay(retries - 1), 500);
                 } else {
                     // Autoplay completely blocked (common on mobile).
                     // Keep isPlaying false — visualizer will show idle wave.
                     // Music will start on first user interaction via gestureHandler.
-                    self.isPlaying = false;
-                    self.updatePlayPauseIcon();
+                    this.isPlaying = false;
+                    this.updatePlayPauseIcon();
                 }
             });
         };
@@ -194,7 +225,7 @@ class MusicPlayer {
         if (this.audioContextReady && this.audio.muted) {
             this.audio.muted = false;
             if (this.gainNode) {
-                this.gainNode.gain.value = this.isMuted ? 0 : this.audio.volume;
+                this.setGainSmooth(this.isMuted ? 0 : this.audio.volume);
             }
         }
         if (!this.isPlaying) {
@@ -202,25 +233,24 @@ class MusicPlayer {
             if (!this.audio.src || this.audio.src === window.location.href) {
                 this.audio.src = this.tracks[this.currentIndex].src;
             }
-            var self = this;
             this.musicEnabled = true;
             // Use background-aware play() — handles backup audio when in background
             this.isPlaying = true;
             this.updatePlayPauseIcon();
             if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
             if (this.isInBackground && this.backupAudio) {
-                if (this.gainNode) this.gainNode.gain.value = 0;
+                if (this.gainNode) this.setGainSmooth(0);
                 this.backupAudio.src = this.audio.src;
                 try { this.backupAudio.currentTime = this.audio.currentTime; } catch (e) {}
                 this.backupAudio.volume = this.audio.volume;
-                this.backupAudio.play().catch(function() {});
+                this.backupAudio.play().catch(() => {});
                 // Also play primary silenced so lock screen shows pause button
-                this.audio.play().catch(function() {});
+                this.audio.play().catch(() => {});
             } else {
-                this.audio.play().catch(function() {
+                this.audio.play().catch(() => {
                     // Play failed — reset state so the next click can try again.
-                    self.isPlaying = false;
-                    self.updatePlayPauseIcon();
+                    this.isPlaying = false;
+                    this.updatePlayPauseIcon();
                     if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
                 });
             }
@@ -231,12 +261,11 @@ class MusicPlayer {
 
     setupMediaSession() {
         if (!('mediaSession' in navigator)) return;
-        var self = this;
 
-        navigator.mediaSession.setActionHandler('play', function() { self.play(); self.unmute(); });
-        navigator.mediaSession.setActionHandler('pause', function() { self.pause(); });
-        navigator.mediaSession.setActionHandler('nexttrack', function() { self.next(); });
-        navigator.mediaSession.setActionHandler('previoustrack', function() { self.prev(); });
+        navigator.mediaSession.setActionHandler('play', () => { this.play(); this.unmute(); });
+        navigator.mediaSession.setActionHandler('pause', () => { this.pause(); });
+        navigator.mediaSession.setActionHandler('nexttrack', () => { this.next(); });
+        navigator.mediaSession.setActionHandler('previoustrack', () => { this.prev(); });
 
         // Explicitly REMOVE seek handlers so iOS shows skip track buttons (|◂ ▸|)
         // instead of seek buttons (⟲10 / 10⟳). Setting custom seek handlers causes
@@ -262,6 +291,18 @@ class MusicPlayer {
         } catch (e) { /* ignore if MediaMetadata not supported */ }
     }
 
+    updatePositionState() {
+        if (!('mediaSession' in navigator)) return;
+        if (!this.audio.duration || isNaN(this.audio.duration)) return;
+        try {
+            navigator.mediaSession.setPositionState({
+                duration: this.audio.duration,
+                playbackRate: this.audio.playbackRate,
+                position: Math.min(this.audio.currentTime, this.audio.duration)
+            });
+        } catch (e) { /* ignore if not supported */ }
+    }
+
     // --- Background playback ---
     // On iOS, AudioContext is suspended when the page goes to background/lock screen.
     // Since createMediaElementSource() routes all audio through AudioContext, the audio
@@ -270,113 +311,144 @@ class MusicPlayer {
 
     initBackupAudio() {
         if (this.backupAudio) return;
-        var self = this;
+
         this.backupAudio = new Audio();
         this.backupAudio.preload = 'none';
 
         // When backup audio finishes a track in background, advance to next
-        this.backupAudio.addEventListener('ended', function() {
-            if (document.visibilityState === 'hidden' && self.isPlaying) {
-                var nextIdx = self.currentIndex + 1;
-                if (nextIdx >= self.tracks.length) nextIdx = 0;
-                self.currentIndex = nextIdx;
-                self.trackNameEl.textContent = self.tracks[nextIdx].title;
-                self.updateTrackListActive();
-                self.updateMediaSessionMetadata();
-                self.backupAudio.src = self.tracks[nextIdx].src;
-                self.backupAudio.play().catch(function() {});
+        this.backupAudio.addEventListener('ended', () => {
+            if (document.visibilityState === 'hidden' && this.isPlaying) {
+                const nextIdx = (this.currentIndex + 1) % this.tracks.length;
+                this.currentIndex = nextIdx;
+                this.trackNameEl.textContent = this.tracks[nextIdx].title;
+                this.updateTrackListActive();
+                this.updateMediaSessionMetadata();
+                // Only update backup — leave primary untouched to avoid unnecessary
+                // network loads while in background. Primary syncs on return to foreground.
+                this.backupAudio.src = this.tracks[nextIdx].src;
+                this.backupAudio.play().catch(() => {});
             }
         });
 
         // "Unlock" for iOS: play briefly during user gesture so future play() calls work
         this.backupAudio.src = this.tracks[this.currentIndex].src;
         this.backupAudio.volume = 0.001;
-        this.backupAudio.play().then(function() {
-            self.backupAudio.pause();
-            self.backupAudio.volume = 0;
-        }).catch(function() {});
+        this.backupAudio.play().then(() => {
+            this.backupAudio.pause();
+            this.backupAudio.volume = 0;
+        }).catch(() => {});
     }
 
     bindVisibilityHandler() {
-        var self = this;
-        document.addEventListener('visibilitychange', function() {
+        document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'hidden') {
-                self.isInBackground = true;
+                this.isInBackground = true;
                 // Page going to background — start backup audio for iOS lock screen
-                if (self.isPlaying && self.backupAudio) {
+                if (this.isPlaying && this.backupAudio) {
                     try {
-                        self.backupAudio.src = self.audio.src;
-                        self.backupAudio.currentTime = self.audio.currentTime;
-                        self.backupAudio.volume = self.isMuted ? 0 : self.audio.volume;
-                        self.backupAudio.play().catch(function() {});
+                        this.backupAudio.src = this.audio.src;
+                        this.backupAudio.currentTime = this.audio.currentTime;
+                        this.backupAudio.volume = this.isMuted ? 0 : this.audio.volume;
+                        this.backupAudio.play().catch(() => {});
                     } catch (e) {}
                     // Silence primary via gain instead of pausing it.
                     // IMPORTANT: Do NOT pause primary — iOS uses the <audio> element's
                     // play state to render lock screen controls. If we pause it, iOS
                     // shows a play button (wrong) and forward/back require two taps.
                     // Keeping primary "playing" but silent ensures correct lock screen UI.
-                    if (self.gainNode) self.gainNode.gain.value = 0;
+                    this.setGainSmooth(0, 0.02);
                     // Reinforce that we're playing for Media Session
                     if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
                 }
             } else if (document.visibilityState === 'visible') {
-                self.isInBackground = false;
+                this.isInBackground = false;
+
+                // Cancel any pending recovery timeout to prevent races
+                if (this._recoveryTimeout) {
+                    clearTimeout(this._recoveryTimeout);
+                    this._recoveryTimeout = null;
+                }
+
+                // Capture backup state before stopping it
+                let backupTime = 0;
+                let trackChanged = false;
+
+                if (this.backupAudio && !this.backupAudio.paused) {
+                    backupTime = this.backupAudio.currentTime;
+                    // Check if backup advanced to a different track while in background
+                    if (this.backupAudio.src !== this.audio.src) {
+                        trackChanged = true;
+                    }
+                }
 
                 // Step 1: Stop backup audio FIRST to prevent overlap
-                if (self.backupAudio) {
-                    if (!self.backupAudio.paused) {
-                        try {
-                            // Sync track if backup advanced to a different track
-                            var backupSrc = self.backupAudio.src;
-                            var primarySrc = self.audio.src;
-                            if (backupSrc !== primarySrc) {
-                                self.audio.src = backupSrc;
-                            }
-                            // Sync position — primary may have drifted slightly
-                            self.audio.currentTime = self.backupAudio.currentTime;
-                        } catch (e) {}
-                    }
-                    // Always stop backup when returning to foreground
-                    self.backupAudio.pause();
-                    self.backupAudio.volume = 0;
+                if (this.backupAudio) {
+                    this.backupAudio.pause();
+                    this.backupAudio.volume = 0;
                 }
 
                 // Step 2: Resume AudioContext
-                if (self.audioContext && self.audioContext.state === 'suspended') {
-                    self.audioContext.resume();
+                if (this.audioContext && this.audioContext.state === 'suspended') {
+                    this.audioContext.resume();
                 }
 
-                // Step 3: Restore gain (was set to 0 when entering background)
-                if (self.gainNode) {
-                    self.gainNode.gain.value = self.isMuted ? 0 : self.audio.volume;
+                // Step 3: Restore gain (smoothly to prevent pops)
+                if (this.gainNode) {
+                    this.setGainSmooth(this.isMuted ? 0 : this.audio.volume);
                 }
 
-                // Step 4: Ensure primary is playing if it should be
-                if (self.isPlaying && self.audio.paused) {
-                    self.audio.play().catch(function() {});
+                // Step 4: Sync primary audio
+                if (this.isPlaying) {
+                    if (trackChanged) {
+                        // Backup advanced to a different track — reload primary.
+                        // Must wait for loadedmetadata before seeking, otherwise
+                        // currentTime assignment fails on an unloaded source.
+                        this.audio.src = this.tracks[this.currentIndex].src;
+                        const capturedTime = backupTime;
+                        this.audio.addEventListener('loadedmetadata', () => {
+                            try { this.audio.currentTime = capturedTime; } catch (e) {}
+                            this.audio.play().catch(() => {});
+                        }, { once: true });
+                        this.audio.load();
+                    } else {
+                        // Same track — sync position and play
+                        if (backupTime > 0) {
+                            try { this.audio.currentTime = backupTime; } catch (e) {}
+                        }
+                        if (this.audio.paused) {
+                            this.audio.play().catch(() => {});
+                        }
+                    }
                 }
             }
         });
 
-        // Listen for AudioContext state changes (iOS 'interrupted' state)
-        this.bindAudioContextRecovery();
+        // NOTE: bindAudioContextRecovery is NOT called here.
+        // It is called once in initAudioContext() to avoid duplicate listeners.
     }
 
     bindAudioContextRecovery() {
         if (!this.audioContext) return;
-        var self = this;
-        this.audioContext.addEventListener('statechange', function() {
+
+        this.audioContext.addEventListener('statechange', () => {
             // Skip when in background — let visibilitychange handle the transition
-            if (self.isInBackground) return;
-            if (self.isPlaying && self.audioContext.state === 'suspended') {
-                self.audioContext.resume().catch(function() {});
+            if (this.isInBackground) return;
+
+            if (this.isPlaying && this.audioContext.state === 'suspended') {
+                this.audioContext.resume().catch(() => {});
             }
+
             // Delay auto-play to avoid racing with visibilitychange handler.
             // Both fire around the same time when returning from background.
-            if (self.audioContext.state === 'running' && self.isPlaying && self.audio.paused) {
-                setTimeout(function() {
-                    if (!self.isInBackground && self.isPlaying && self.audio.paused) {
-                        self.audio.play().catch(function() {});
+            if (this.audioContext.state === 'running' && this.isPlaying && this.audio.paused) {
+                // Cancel any existing recovery timeout
+                if (this._recoveryTimeout) {
+                    clearTimeout(this._recoveryTimeout);
+                }
+                this._recoveryTimeout = setTimeout(() => {
+                    this._recoveryTimeout = null;
+                    if (!this.isInBackground && this.isPlaying && this.audio.paused) {
+                        this.audio.play().catch(() => {});
                     }
                 }, 300);
             }
@@ -389,39 +461,37 @@ class MusicPlayer {
         if (!this.vizCanvas || !this.vizCtx) return;
 
         // Respect prefers-reduced-motion
-        var motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
         if (motionQuery.matches) return;
 
-        var self = this;
+        const draw = () => {
+            this.vizAnimId = requestAnimationFrame(draw);
 
-        var draw = function() {
-            self.vizAnimId = requestAnimationFrame(draw);
-
-            var rect = self.vizCanvas.parentElement.getBoundingClientRect();
-            var dpr = window.devicePixelRatio || 1;
+            const rect = this.vizCanvas.parentElement.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
 
             // Resize canvas to match container (handles DPI)
-            var canvasW = Math.round(rect.width * dpr);
-            var canvasH = Math.round(rect.height * dpr);
-            if (self.vizCanvas.width !== canvasW || self.vizCanvas.height !== canvasH) {
-                self.vizCanvas.width = canvasW;
-                self.vizCanvas.height = canvasH;
+            const canvasW = Math.round(rect.width * dpr);
+            const canvasH = Math.round(rect.height * dpr);
+            if (this.vizCanvas.width !== canvasW || this.vizCanvas.height !== canvasH) {
+                this.vizCanvas.width = canvasW;
+                this.vizCanvas.height = canvasH;
             }
 
-            var W = rect.width;
-            var H = rect.height;
-            var ctx = self.vizCtx;
+            const W = rect.width;
+            const H = rect.height;
+            const ctx = this.vizCtx;
 
             ctx.save();
             ctx.scale(dpr, dpr);
             ctx.clearRect(0, 0, W, H);
 
-            if (self.analyser && self.frequencyData && self.isPlaying) {
-                self.analyser.getByteFrequencyData(self.frequencyData);
-                self.updateAudioLevels();
-                self.drawFrequencyBars(ctx, W, H);
+            if (this.analyser && this.frequencyData && this.isPlaying) {
+                this.analyser.getByteFrequencyData(this.frequencyData);
+                this.updateAudioLevels();
+                this.drawFrequencyBars(ctx, W, H);
             } else {
-                self.drawIdleVisualizer(ctx, W, H);
+                this.drawIdleVisualizer(ctx, W, H);
             }
 
             ctx.restore();
@@ -537,7 +607,7 @@ class MusicPlayer {
     unmute() {
         this.isMuted = false;
         if (this.gainNode) {
-            this.gainNode.gain.value = this.audio.volume;
+            this.setGainSmooth(this.audio.volume);
         } else {
             this.audio.muted = false;
         }
@@ -550,7 +620,7 @@ class MusicPlayer {
     mute() {
         this.isMuted = true;
         if (this.gainNode) {
-            this.gainNode.gain.value = 0;
+            this.setGainSmooth(0);
         } else {
             this.audio.muted = true;
         }
@@ -604,19 +674,19 @@ class MusicPlayer {
         if (autoplay) {
             if (this.isInBackground && this.backupAudio) {
                 // Background: play backup (audible) + primary silenced (for lock screen UI)
-                if (this.gainNode) this.gainNode.gain.value = 0;
+                if (this.gainNode) this.setGainSmooth(0, 0.02);
                 this.backupAudio.src = this.tracks[index].src;
                 this.backupAudio.currentTime = 0;
                 this.backupAudio.volume = this.isMuted ? 0 : this.audio.volume;
-                this.backupAudio.play().catch(function() {});
-                this.audio.play().catch(function() {});
+                this.backupAudio.play().catch(() => {});
+                this.audio.play().catch(() => {});
             } else {
                 // Foreground: ensure backup is stopped before playing primary
                 if (this.backupAudio && !this.backupAudio.paused) {
                     this.backupAudio.pause();
                     this.backupAudio.volume = 0;
                 }
-                this.audio.play().catch(function() {});
+                this.audio.play().catch(() => {});
             }
             this.isPlaying = true;
             this.updatePlayPauseIcon();
@@ -634,7 +704,7 @@ class MusicPlayer {
         // Ensure AudioContext is ready
         this.initAudioContext();
         if (this.audioContext && this.audioContext.state === 'suspended') {
-            this.audioContext.resume().catch(function() {});
+            this.audioContext.resume().catch(() => {});
         }
         // Ensure element-mute is off (for background playback on iOS)
         if (this.audioContextReady && this.audio.muted) {
@@ -642,20 +712,20 @@ class MusicPlayer {
         }
         // BACKGROUND-AWARE: play backup (audible) + primary silenced (for lock screen)
         if (this.isInBackground && this.backupAudio) {
-            if (this.gainNode) this.gainNode.gain.value = 0;
+            if (this.gainNode) this.setGainSmooth(0, 0.02);
             this.backupAudio.src = this.audio.src;
             try { this.backupAudio.currentTime = this.audio.currentTime; } catch (e) {}
             this.backupAudio.volume = this.audio.volume;
-            this.backupAudio.play().catch(function() {});
+            this.backupAudio.play().catch(() => {});
             // Also play primary silenced so iOS lock screen shows pause button
-            this.audio.play().catch(function() {});
+            this.audio.play().catch(() => {});
         } else {
             // Foreground: ensure backup is stopped to prevent two songs at once
             if (this.backupAudio && !this.backupAudio.paused) {
                 this.backupAudio.pause();
                 this.backupAudio.volume = 0;
             }
-            this.audio.play().catch(function() {});
+            this.audio.play().catch(() => {});
         }
         this.isPlaying = true;
         this.updatePlayPauseIcon();
@@ -663,6 +733,13 @@ class MusicPlayer {
     }
 
     pause() {
+        // Cancel any pending recovery timeout — prevents the statechange handler
+        // from re-starting playback after the user explicitly pauses.
+        // This is the key fix for "pause causes skipping" when returning from background.
+        if (this._recoveryTimeout) {
+            clearTimeout(this._recoveryTimeout);
+            this._recoveryTimeout = null;
+        }
         // Set isPlaying BEFORE pausing audio — the 'pause' event may fire
         // synchronously on some browsers, and our recovery handler checks this flag.
         this.isPlaying = false;
@@ -740,16 +817,16 @@ class MusicPlayer {
 
         // Update gain node if active and not muted
         if (this.gainNode && !this.isMuted) {
-            this.gainNode.gain.value = value;
+            this.setGainSmooth(value);
         }
 
         if (value == 0) {
             this.isMuted = true;
-            if (this.gainNode) this.gainNode.gain.value = 0;
+            if (this.gainNode) this.setGainSmooth(0);
             this.updateMuteIcon();
         } else if (this.isMuted) {
             this.isMuted = false;
-            if (this.gainNode) this.gainNode.gain.value = value;
+            if (this.gainNode) this.setGainSmooth(value);
             this.audio.muted = false;
             this.updateMuteIcon();
         }
@@ -762,6 +839,7 @@ class MusicPlayer {
         var percent = (e.clientX - rect.left) / rect.width;
         if (this.audio.duration) {
             this.audio.currentTime = percent * this.audio.duration;
+            this.updatePositionState();
         }
     }
 
@@ -769,6 +847,13 @@ class MusicPlayer {
         if (this.audio.duration) {
             var percent = (this.audio.currentTime / this.audio.duration) * 100;
             this.progressFill.style.width = percent + '%';
+
+            // Update lock screen progress bar (throttled to ~once per second)
+            const now = performance.now();
+            if (now - this._lastPositionUpdate > 1000) {
+                this._lastPositionUpdate = now;
+                this.updatePositionState();
+            }
         }
     }
 
@@ -794,7 +879,7 @@ class MusicPlayer {
 
     // Play a specific track by title (used by VR page soundtrack list)
     playTrackByTitle(title) {
-        var index = this.tracks.findIndex(function(t) { return t.title === title; });
+        var index = this.tracks.findIndex((t) => t.title === title);
         if (index !== -1) {
             this.loadTrack(index, true);
             this.play();
@@ -804,100 +889,110 @@ class MusicPlayer {
     // --- Events ---
 
     bindEvents() {
-        var self = this;
-
         // Transport controls
-        this.playPauseBtn.addEventListener('click', function(e) {
+        this.playPauseBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            self.togglePlayPause();
+            this.togglePlayPause();
             // On any play action, unmute if muted
-            if (self.isPlaying && self.isMuted) {
-                self.unmute();
+            if (this.isPlaying && this.isMuted) {
+                this.unmute();
             }
         });
-        this.nextBtn.addEventListener('click', function(e) {
+        this.nextBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            self.next();
+            this.next();
         });
-        this.prevBtn.addEventListener('click', function(e) {
+        this.prevBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            self.prev();
+            this.prev();
         });
-        this.shuffleBtn.addEventListener('click', function(e) {
+        this.shuffleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            self.shuffle();
+            this.shuffle();
         });
 
         // Expand/collapse via chevron
-        this.expandBtn.addEventListener('click', function(e) {
+        this.expandBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             // Always ensure music is playing when expanding
-            if (!self.isExpanded) {
-                self.ensurePlaying();
-                if (self.isMuted) self.unmute();
+            if (!this.isExpanded) {
+                this.ensurePlaying();
+                if (this.isMuted) this.unmute();
             }
-            self.toggleExpand();
+            this.toggleExpand();
         });
 
         // Track name click: ensure music + toggle expand
-        this.trackNameEl.addEventListener('click', function(e) {
+        this.trackNameEl.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (!self.isExpanded) {
-                self.ensurePlaying();
-                if (self.isMuted) self.unmute();
+            if (!this.isExpanded) {
+                this.ensurePlaying();
+                if (this.isMuted) this.unmute();
             }
-            self.toggleExpand();
+            this.toggleExpand();
         });
 
         // Player bar background click: ensure music + unmute + expand
-        this.playerBar.addEventListener('click', function(e) {
+        this.playerBar.addEventListener('click', () => {
             // Only fires if click wasn't on a child button (they stopPropagation)
-            self.ensurePlaying();
-            if (self.isMuted) self.unmute();
-            self.toggleExpand();
+            this.ensurePlaying();
+            if (this.isMuted) this.unmute();
+            this.toggleExpand();
         });
 
         // Visualizer row click: ensure music + unmute + toggle expand
         if (this.vizRow) {
-            this.vizRow.addEventListener('click', function(e) {
+            this.vizRow.addEventListener('click', (e) => {
                 e.stopPropagation();
-                self.ensurePlaying();
-                if (self.isMuted) self.unmute();
-                self.toggleExpand();
+                this.ensurePlaying();
+                if (this.isMuted) this.unmute();
+                this.toggleExpand();
             });
         }
 
         // Volume controls
-        this.muteBtn.addEventListener('click', function(e) {
+        this.muteBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            self.toggleMute();
+            this.toggleMute();
         });
-        this.volumeSlider.addEventListener('input', function(e) {
+        this.volumeSlider.addEventListener('input', (e) => {
             e.stopPropagation();
-            self.setVolume(parseFloat(e.target.value));
+            this.setVolume(parseFloat(e.target.value));
         });
-        this.volumeSlider.addEventListener('click', function(e) { e.stopPropagation(); });
+        this.volumeSlider.addEventListener('click', (e) => { e.stopPropagation(); });
 
         // Progress bar seeking
-        this.progressBar.addEventListener('click', function(e) {
+        this.progressBar.addEventListener('click', (e) => {
             e.stopPropagation();
-            self.seekTo(e);
+            this.seekTo(e);
         });
 
         // Audio events
-        this.audio.addEventListener('timeupdate', function() { self.updateProgress(); });
-        this.audio.addEventListener('ended', function() { self.next(); });
+        this.audio.addEventListener('timeupdate', () => { this.updateProgress(); });
+        this.audio.addEventListener('ended', () => { this.next(); });
+
+        // Update position state when track metadata loads (sets duration on lock screen)
+        this.audio.addEventListener('loadedmetadata', () => { this.updatePositionState(); });
+
+        // Auto-skip on load error (404, network failure, decode error)
+        this.audio.addEventListener('error', () => {
+            console.warn('Audio load error for:', this.tracks[this.currentIndex]?.title);
+            // Auto-skip to next track after a brief delay
+            if (this.isPlaying) {
+                setTimeout(() => this.next(), 500);
+            }
+        });
 
         // Ensure AudioContext + muted playback on first user gesture.
         // IMPORTANT: Only use 'click', not 'touchstart'. iOS Safari does NOT
         // treat touchstart as a user gesture for audio playback, so audio.play()
         // would fail silently while isPlaying gets set to true — causing the
         // "two taps needed" bug on mobile.
-        var gestureHandled = false;
-        var gestureHandler = function() {
+        let gestureHandled = false;
+        const gestureHandler = () => {
             if (gestureHandled) return;
             gestureHandled = true;
-            self.ensurePlaying();
+            this.ensurePlaying();
             document.removeEventListener('click', gestureHandler);
         };
         document.addEventListener('click', gestureHandler);

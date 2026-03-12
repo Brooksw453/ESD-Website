@@ -65,4 +65,9 @@
             navLinks.classList.remove('open');
         });
     });
+
+    // Register service worker for offline PWA support
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
 })();
