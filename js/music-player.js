@@ -44,9 +44,6 @@ class MusicPlayer {
         // in native playback mode)
         this._userVolume = 0.5;
 
-        // Backup audio (only used in fallback mode for iOS Safari)
-        this.backupAudio = null;
-
         // Recovery coordination — prevents visibility + statechange handlers from racing
         this._recoveryTimeout = null;
         // Throttle for MediaSession position state updates
@@ -56,8 +53,8 @@ class MusicPlayer {
         this.audioContext = null;
         this.analyser = null;
         this.sourceNode = null;
-        this.gainNode = null;       // only used in fallback mode
         this.frequencyData = null;
+        this.noAnalyser = false;    // true on Safari/iOS (no real frequency data)
         this.audioContextReady = false;
 
         // Visualizer
@@ -170,17 +167,23 @@ class MusicPlayer {
                 }
             }
 
-            // Strategy 2 (fallback): createMediaElementSource — routes ALL audio
-            // through AudioContext. Required for Safari/iOS which lacks captureStream.
-            // Downside: iOS suspends AudioContext in background, killing the audio
-            // pipeline. Requires backup Audio element to maintain background playback.
+            // Safari/iOS: captureStream not available. Do NOT call
+            // createMediaElementSource — that would route all audio through AC,
+            // breaking background playback on iOS. Instead, let <audio> play
+            // natively and use a synthetic visualizer.
             if (!this.usesNativePlayback) {
-                this.sourceNode = this.audioContext.createMediaElementSource(this.audio);
-                this.gainNode = this.audioContext.createGain();
-                this.gainNode.gain.value = this.isMuted ? 0 : this._userVolume;
-                this.sourceNode.connect(this.analyser);
-                this.analyser.connect(this.gainNode);
-                this.gainNode.connect(this.audioContext.destination);
+                this.usesNativePlayback = true;
+                this.noAnalyser = true;
+                if (this.audioContext) {
+                    this.audioContext.close().catch(() => {});
+                    this.audioContext = null;
+                }
+                this.analyser = null;
+                this.frequencyData = null;
+                this.audioContextReady = true;
+                this.audio.muted = false;
+                this.audio.volume = this.isMuted ? 0 : this._userVolume;
+                return;
             }
 
             this.frequencyData = new Uint8Array(this.analyser.frequencyBinCount);
@@ -188,10 +191,7 @@ class MusicPlayer {
 
             // Switch from element-mute to controlled output
             this.audio.muted = false;
-            if (this.usesNativePlayback) {
-                // Native: control volume directly on the element
-                this.audio.volume = this.isMuted ? 0 : this._userVolume;
-            }
+            this.audio.volume = this.isMuted ? 0 : this._userVolume;
 
             if (this.audioContext.state === 'suspended') {
                 this.audioContext.resume();
@@ -201,21 +201,6 @@ class MusicPlayer {
             this.bindAudioContextRecovery();
         } catch (e) {
             console.warn('Web Audio API not available:', e);
-        }
-    }
-
-    // --- Smooth gain transitions (fallback mode only, prevents clicks/pops) ---
-
-    setGainSmooth(value, duration) {
-        if (!this.gainNode || !this.audioContext) return;
-        if (duration === undefined) duration = 0.05;
-        try {
-            const now = this.audioContext.currentTime;
-            this.gainNode.gain.cancelScheduledValues(now);
-            this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, now);
-            this.gainNode.gain.linearRampToValueAtTime(value, now + duration);
-        } catch (e) {
-            this.gainNode.gain.value = value;
         }
     }
 
@@ -246,21 +231,13 @@ class MusicPlayer {
     // Ensure music starts playing (called from gesture handler or player bar click)
     ensurePlaying() {
         this.initAudioContext();
-        if (!this.usesNativePlayback) {
-            this.initBackupAudio();
-        }
         if (this.audioContext && this.audioContext.state === 'suspended') {
             this.audioContext.resume();
         }
-        // CRITICAL: switch from element-mute to controlled output.
-        // Element-muted audio won't play in background or show lock-screen controls.
+        // Switch from element-mute to volume control
         if (this.audio.muted) {
             this.audio.muted = false;
-            if (this.usesNativePlayback) {
-                this.audio.volume = this.isMuted ? 0 : this._userVolume;
-            } else if (this.gainNode) {
-                this.setGainSmooth(this.isMuted ? 0 : this._userVolume);
-            }
+            this.audio.volume = this.isMuted ? 0 : this._userVolume;
         }
         if (!this.isPlaying) {
             if (!this.audio.src || this.audio.src === window.location.href) {
@@ -270,22 +247,11 @@ class MusicPlayer {
             this.isPlaying = true;
             this.updatePlayPauseIcon();
             if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
-
-            // Fallback: background-aware play with backup audio
-            if (!this.usesNativePlayback && this.isInBackground && this.backupAudio) {
-                if (this.gainNode) this.setGainSmooth(0);
-                this.backupAudio.src = this.audio.src;
-                try { this.backupAudio.currentTime = this.audio.currentTime; } catch (e) {}
-                this.backupAudio.volume = this._userVolume;
-                this.backupAudio.play().catch(() => {});
-                this.audio.play().catch(() => {});
-            } else {
-                this.audio.play().catch(() => {
-                    this.isPlaying = false;
-                    this.updatePlayPauseIcon();
-                    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
-                });
-            }
+            this.audio.play().catch(() => {
+                this.isPlaying = false;
+                this.updatePlayPauseIcon();
+                if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
+            });
         }
     }
 
@@ -334,131 +300,26 @@ class MusicPlayer {
         } catch (e) { /* ignore if not supported */ }
     }
 
-    // --- Background playback (fallback mode only) ---
-    // On iOS, AudioContext is suspended when the page goes to background/lock screen.
-    // Since createMediaElementSource() routes all audio through AudioContext, the audio
-    // pipeline dies. We use a BACKUP Audio element (not connected to AudioContext) that
-    // takes over during background playback, then syncs back when returning.
-    // This is NOT needed for native playback (captureStream) since the <audio> element
-    // plays independently of AudioContext.
-
-    initBackupAudio() {
-        if (this.backupAudio) return;
-
-        this.backupAudio = new Audio();
-        this.backupAudio.preload = 'none';
-
-        // When backup audio finishes a track in background, advance to next
-        this.backupAudio.addEventListener('ended', () => {
-            if (document.visibilityState === 'hidden' && this.isPlaying) {
-                const nextIdx = (this.currentIndex + 1) % this.tracks.length;
-                this.currentIndex = nextIdx;
-                this.trackNameEl.textContent = this.tracks[nextIdx].title;
-                this.updateTrackListActive();
-                this.updateMediaSessionMetadata();
-                this.backupAudio.src = this.tracks[nextIdx].src;
-                this.backupAudio.play().catch(() => {});
-            }
-        });
-
-        // "Unlock" for iOS: play briefly during user gesture so future play() calls work
-        this.backupAudio.src = this.tracks[this.currentIndex].src;
-        this.backupAudio.volume = 0.001;
-        this.backupAudio.play().then(() => {
-            this.backupAudio.pause();
-            this.backupAudio.volume = 0;
-        }).catch(() => {});
-    }
-
     bindVisibilityHandler() {
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'hidden') {
                 this.isInBackground = true;
-
-                if (this.usesNativePlayback) {
-                    // Native playback — do absolutely nothing. The <audio> element
-                    // plays independently of AudioContext. Touching AC, the analyser,
-                    // or the stream source here risks disrupting the audio pipeline.
-                    // The visualizer will lazily resume AC when the page returns.
-                } else if (this.isPlaying && this.backupAudio) {
-                    // Fallback: swap to backup audio for iOS lock screen
-                    try {
-                        this.backupAudio.src = this.audio.src;
-                        this.backupAudio.currentTime = this.audio.currentTime;
-                        this.backupAudio.volume = this.isMuted ? 0 : this._userVolume;
-                        this.backupAudio.play().catch(() => {});
-                    } catch (e) {}
-                    // Silence primary via gain (don't pause — iOS needs it "playing"
-                    // to show correct lock screen controls)
-                    this.setGainSmooth(0, 0.02);
-                    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
-                }
+                // Audio plays natively via <audio> element — nothing to do
             } else if (document.visibilityState === 'visible') {
                 this.isInBackground = false;
-
-                // Cancel any pending recovery timeout to prevent races
                 if (this._recoveryTimeout) {
                     clearTimeout(this._recoveryTimeout);
                     this._recoveryTimeout = null;
                 }
-
-                if (this.usesNativePlayback) {
-                    // Native playback — just sync our UI state with reality.
-                    // Do NOT touch AudioContext, analyser, or audio.play() here.
-                    // The visualizer draw loop will lazily resume AC when it needs data.
-                    // Any AC/analyser manipulation here risks disrupting the audio
-                    // pipeline and causing the "skip on pause" glitch.
-                    this.isPlaying = !this.audio.paused;
-                    this.updatePlayPauseIcon();
-                    if ('mediaSession' in navigator) {
-                        navigator.mediaSession.playbackState = this.isPlaying ? 'playing' : 'paused';
-                    }
-                } else {
-                    // Fallback: resume AudioContext + sync from backup audio
-                    if (this.audioContext && this.audioContext.state === 'suspended') {
-                        this.audioContext.resume();
-                    }
-
-                    let backupTime = 0;
-                    let trackChanged = false;
-
-                    if (this.backupAudio && !this.backupAudio.paused) {
-                        backupTime = this.backupAudio.currentTime;
-                        if (this.backupAudio.src !== this.audio.src) {
-                            trackChanged = true;
-                        }
-                    }
-
-                    // Stop backup first to prevent overlap
-                    if (this.backupAudio) {
-                        this.backupAudio.pause();
-                        this.backupAudio.volume = 0;
-                    }
-
-                    // Restore gain
-                    if (this.gainNode) {
-                        this.setGainSmooth(this.isMuted ? 0 : this._userVolume);
-                    }
-
-                    // Sync primary audio
-                    if (this.isPlaying) {
-                        if (trackChanged) {
-                            this.audio.src = this.tracks[this.currentIndex].src;
-                            const capturedTime = backupTime;
-                            this.audio.addEventListener('loadedmetadata', () => {
-                                try { this.audio.currentTime = capturedTime; } catch (e) {}
-                                this.audio.play().catch(() => {});
-                            }, { once: true });
-                            this.audio.load();
-                        } else {
-                            if (backupTime > 0) {
-                                try { this.audio.currentTime = backupTime; } catch (e) {}
-                            }
-                            if (this.audio.paused) {
-                                this.audio.play().catch(() => {});
-                            }
-                        }
-                    }
+                // Sync UI state with actual audio state
+                this.isPlaying = !this.audio.paused;
+                this.updatePlayPauseIcon();
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.playbackState = this.isPlaying ? 'playing' : 'paused';
+                }
+                // Resume AC for visualizer (captureStream path only)
+                if (this.audioContext && this.audioContext.state === 'suspended') {
+                    this.audioContext.resume().catch(() => {});
                 }
             }
         });
@@ -468,31 +329,8 @@ class MusicPlayer {
         if (!this.audioContext) return;
 
         this.audioContext.addEventListener('statechange', () => {
-            // Skip when in background — let visibilitychange handle it
-            if (this.isInBackground) return;
-
-            // For native playback, AudioContext is only for the visualizer.
-            // Do NOT resume AC here — let the visualizer draw loop do it lazily.
-            // Any AC manipulation in statechange handlers risks disrupting the
-            // captureStream pipeline and causing audio glitches on pause.
-            if (this.usesNativePlayback) return;
-
-            // Fallback mode: manage both AudioContext and audio playback
-            if (this.isPlaying && this.audioContext.state === 'suspended') {
-                this.audioContext.resume().catch(() => {});
-            }
-
-            if (this.audioContext.state === 'running' && this.isPlaying && this.audio.paused) {
-                if (this._recoveryTimeout) {
-                    clearTimeout(this._recoveryTimeout);
-                }
-                this._recoveryTimeout = setTimeout(() => {
-                    this._recoveryTimeout = null;
-                    if (!this.isInBackground && this.isPlaying && this.audio.paused) {
-                        this.audio.play().catch(() => {});
-                    }
-                }, 300);
-            }
+            // AC is only for the visualizer (captureStream path).
+            // Let the draw loop resume it lazily — no action needed here.
         });
     }
 
@@ -526,17 +364,19 @@ class MusicPlayer {
             ctx.clearRect(0, 0, W, H);
 
             if (this.analyser && this.frequencyData && this.isPlaying) {
-                // Lazy resume AudioContext if suspended (e.g., after returning
-                // from background). This is the ONLY place AC gets resumed for
-                // native playback — keeping it out of event handlers prevents
-                // the captureStream pipeline from being disrupted.
+                // Real frequency data (Chrome/Firefox/Edge with captureStream)
                 if (this.audioContext && this.audioContext.state === 'suspended') {
                     this.audioContext.resume().catch(() => {});
                 }
                 this.analyser.getByteFrequencyData(this.frequencyData);
                 this.updateAudioLevels();
                 this.drawFrequencyBars(ctx, W, H);
+            } else if (this.noAnalyser && this.isPlaying && !this.isMuted) {
+                // Synthetic visualizer (Safari/iOS — no real frequency data)
+                this.drawSyntheticVisualizer(ctx, W, H);
+                this.updateSyntheticAudioLevels();
             } else {
+                // Idle animation (not playing, muted, or AC not ready)
                 this.drawIdleVisualizer(ctx, W, H);
             }
 
@@ -620,6 +460,71 @@ class MusicPlayer {
         ctx.shadowBlur = 0;
     }
 
+    drawSyntheticVisualizer(ctx, W, H) {
+        var barCount = W < 480 ? 32 : W < 768 ? 48 : 64;
+        var barWidth = W / barCount;
+        var barGap = 2;
+        var time = performance.now() / 1000;
+
+        for (var i = 0; i < barCount; i++) {
+            var freqPos = i / barCount;
+
+            // Bass region: slow, large amplitude
+            var bass = Math.sin(time * 1.8 + i * 0.15) * 0.5 *
+                       Math.max(0, 1 - freqPos * 2.5);
+            // Mid region: medium speed
+            var mid = Math.sin(time * 3.2 + i * 0.4 + 2.1) * 0.35 *
+                      (1 - Math.abs(freqPos - 0.4) * 2.5);
+            // Treble region: fast, small amplitude
+            var treble = Math.sin(time * 5.5 + i * 0.8 + 4.3) * 0.25 *
+                         Math.max(0, freqPos * 2 - 0.6);
+            // Beat pulse: simulates a rhythmic kick
+            var beat = Math.pow(Math.max(0, Math.sin(time * 2.4)), 4) * 0.3 *
+                       Math.max(0, 1 - freqPos * 3);
+            // Organic noise
+            var noise = (Math.sin(time * 7.3 + i * 13.7) *
+                         Math.sin(time * 11.1 + i * 7.3)) * 0.12;
+
+            var level = Math.max(0.02, Math.min(1.0, bass + mid + treble + beat + noise + 0.15));
+            var normalizedH = Math.max(2, level * H * 0.95);
+
+            // Same gradient as real frequency bars
+            var grad = ctx.createLinearGradient(0, H, 0, H - normalizedH);
+            grad.addColorStop(0, 'rgba(0, 255, 255, 0.85)');
+            grad.addColorStop(0.6, 'rgba(0, 200, 255, 0.7)');
+            grad.addColorStop(1, 'rgba(255, 0, 255, 0.8)');
+
+            ctx.fillStyle = grad;
+            ctx.shadowBlur = 6;
+            ctx.shadowColor = 'rgba(0, 255, 255, 0.4)';
+
+            var x = i * barWidth + barGap / 2;
+            var w = barWidth - barGap;
+            if (w < 1) w = 1;
+
+            var r = Math.min(1.5, w / 2);
+            ctx.beginPath();
+            ctx.moveTo(x + r, H - normalizedH);
+            ctx.lineTo(x + w - r, H - normalizedH);
+            ctx.quadraticCurveTo(x + w, H - normalizedH, x + w, H - normalizedH + r);
+            ctx.lineTo(x + w, H);
+            ctx.lineTo(x, H);
+            ctx.lineTo(x, H - normalizedH + r);
+            ctx.quadraticCurveTo(x, H - normalizedH, x + r, H - normalizedH);
+            ctx.fill();
+        }
+
+        ctx.shadowBlur = 0;
+    }
+
+    updateSyntheticAudioLevels() {
+        var time = performance.now() / 1000;
+        this.bassLevel = Math.max(0, Math.sin(time * 1.8) * 0.4 +
+                         Math.pow(Math.max(0, Math.sin(time * 2.4)), 4) * 0.3 + 0.15);
+        this.midLevel = Math.max(0, Math.sin(time * 3.2 + 2.1) * 0.3 + 0.2);
+        this.trebleLevel = Math.max(0, Math.sin(time * 5.5 + 4.3) * 0.2 + 0.15);
+    }
+
     updateAudioLevels() {
         if (!this.frequencyData) return;
 
@@ -642,13 +547,8 @@ class MusicPlayer {
 
     unmute() {
         this.isMuted = false;
-        if (this.usesNativePlayback) {
-            this.audio.volume = this._userVolume;
-        } else if (this.gainNode) {
-            this.setGainSmooth(this._userVolume);
-        } else {
-            this.audio.muted = false;
-        }
+        this.audio.volume = this._userVolume;
+        this.audio.muted = false;
         this.updateMuteIcon();
         if (this.audioContext && this.audioContext.state === 'suspended') {
             this.audioContext.resume();
@@ -657,13 +557,7 @@ class MusicPlayer {
 
     mute() {
         this.isMuted = true;
-        if (this.usesNativePlayback) {
-            this.audio.volume = 0;
-        } else if (this.gainNode) {
-            this.setGainSmooth(0);
-        } else {
-            this.audio.muted = true;
-        }
+        this.audio.volume = 0;
         this.updateMuteIcon();
     }
 
@@ -712,22 +606,7 @@ class MusicPlayer {
         this.updateMediaSessionMetadata();
 
         if (autoplay) {
-            if (!this.usesNativePlayback && this.isInBackground && this.backupAudio) {
-                // Fallback: background play via backup audio
-                if (this.gainNode) this.setGainSmooth(0, 0.02);
-                this.backupAudio.src = this.tracks[index].src;
-                this.backupAudio.currentTime = 0;
-                this.backupAudio.volume = this.isMuted ? 0 : this._userVolume;
-                this.backupAudio.play().catch(() => {});
-                this.audio.play().catch(() => {});
-            } else {
-                // Native or foreground: just play primary
-                if (!this.usesNativePlayback && this.backupAudio && !this.backupAudio.paused) {
-                    this.backupAudio.pause();
-                    this.backupAudio.volume = 0;
-                }
-                this.audio.play().catch(() => {});
-            }
+            this.audio.play().catch(() => {});
             this.isPlaying = true;
             this.updatePlayPauseIcon();
         }
@@ -744,49 +623,23 @@ class MusicPlayer {
         if (this.audioContext && this.audioContext.state === 'suspended') {
             this.audioContext.resume().catch(() => {});
         }
-        // Ensure element-mute is off
         if (this.audio.muted) {
             this.audio.muted = false;
-            if (this.usesNativePlayback) {
-                this.audio.volume = this.isMuted ? 0 : this._userVolume;
-            }
+            this.audio.volume = this.isMuted ? 0 : this._userVolume;
         }
-
-        if (!this.usesNativePlayback && this.isInBackground && this.backupAudio) {
-            // Fallback: background play via backup audio
-            if (this.gainNode) this.setGainSmooth(0, 0.02);
-            this.backupAudio.src = this.audio.src;
-            try { this.backupAudio.currentTime = this.audio.currentTime; } catch (e) {}
-            this.backupAudio.volume = this._userVolume;
-            this.backupAudio.play().catch(() => {});
-            this.audio.play().catch(() => {});
-        } else {
-            // Native or foreground
-            if (!this.usesNativePlayback && this.backupAudio && !this.backupAudio.paused) {
-                this.backupAudio.pause();
-                this.backupAudio.volume = 0;
-            }
-            this.audio.play().catch(() => {});
-        }
+        this.audio.play().catch(() => {});
         this.isPlaying = true;
         this.updatePlayPauseIcon();
         if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
     }
 
     pause() {
-        // Cancel any pending recovery timeout — prevents statechange handler
-        // from re-starting playback after user explicitly pauses
         if (this._recoveryTimeout) {
             clearTimeout(this._recoveryTimeout);
             this._recoveryTimeout = null;
         }
         this.isPlaying = false;
         this.audio.pause();
-        // Also stop backup audio (fallback mode)
-        if (this.backupAudio && !this.backupAudio.paused) {
-            this.backupAudio.pause();
-            this.backupAudio.volume = 0;
-        }
         this.updatePlayPauseIcon();
         if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
     }
@@ -853,33 +706,17 @@ class MusicPlayer {
         this._userVolume = value;
         localStorage.setItem('es_player_volume', value);
 
-        if (this.usesNativePlayback) {
-            if (!this.isMuted) {
-                this.audio.volume = value;
-            }
-        } else {
+        if (!this.isMuted) {
             this.audio.volume = value;
-            if (this.gainNode && !this.isMuted) {
-                this.setGainSmooth(value);
-            }
         }
 
         if (value == 0) {
             this.isMuted = true;
-            if (this.usesNativePlayback) {
-                this.audio.volume = 0;
-            } else if (this.gainNode) {
-                this.setGainSmooth(0);
-            }
+            this.audio.volume = 0;
             this.updateMuteIcon();
         } else if (this.isMuted) {
             this.isMuted = false;
-            if (this.usesNativePlayback) {
-                this.audio.volume = value;
-            } else {
-                if (this.gainNode) this.setGainSmooth(value);
-                this.audio.muted = false;
-            }
+            this.audio.volume = value;
             this.updateMuteIcon();
         }
     }
