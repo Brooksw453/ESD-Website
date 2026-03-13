@@ -44,6 +44,9 @@ class MusicPlayer {
         // in native playback mode)
         this._userVolume = 0.5;
 
+        // Shuffle mode (persists across track changes)
+        this.shuffleEnabled = false;
+
         // Recovery coordination — prevents visibility + statechange handlers from racing
         this._recoveryTimeout = null;
         // Throttle for MediaSession position state updates
@@ -204,6 +207,27 @@ class MusicPlayer {
         }
     }
 
+    // Reconnect captureStream after track change (Chrome/Edge captureStream path only)
+    reconnectCaptureStream() {
+        if (this.noAnalyser || !this.analyser || !this.audioContextReady) return;
+
+        const captureMethod = this.audio.captureStream || this.audio.mozCaptureStream;
+        if (!captureMethod) return;
+
+        try {
+            // Disconnect old source
+            if (this.sourceNode) {
+                try { this.sourceNode.disconnect(); } catch (e) {}
+            }
+            // Capture new stream and reconnect
+            const stream = captureMethod.call(this.audio);
+            this.sourceNode = this.audioContext.createMediaStreamSource(stream);
+            this.sourceNode.connect(this.analyser);
+        } catch (e) {
+            console.warn('Failed to reconnect captureStream:', e);
+        }
+    }
+
     startMutedAutoplay() {
         // Start with element muted (browsers allow this for autoplay)
         this.audio.muted = true;
@@ -290,6 +314,9 @@ class MusicPlayer {
 
     updatePositionState() {
         if (!('mediaSession' in navigator)) return;
+        // Skip on Safari/iOS — setPositionState causes iOS to show ±10s seek
+        // buttons instead of next/previous track buttons
+        if (this.noAnalyser) return;
         if (!this.audio.duration || isNaN(this.audio.duration)) return;
         try {
             navigator.mediaSession.setPositionState({
@@ -605,6 +632,9 @@ class MusicPlayer {
         localStorage.setItem('es_player_track', index);
         this.updateMediaSessionMetadata();
 
+        // Reconnect visualizer analyser to new track (captureStream path)
+        this.reconnectCaptureStream();
+
         if (autoplay) {
             this.audio.play().catch(() => {});
             this.isPlaying = true;
@@ -794,7 +824,12 @@ class MusicPlayer {
         });
         this.shuffleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            this.shuffle();
+            this.shuffleEnabled = !this.shuffleEnabled;
+            this.shuffleBtn.classList.toggle('shuffle-active', this.shuffleEnabled);
+            // If turning shuffle on, immediately shuffle to a new track
+            if (this.shuffleEnabled) {
+                this.shuffle();
+            }
         });
 
         this.expandBtn.addEventListener('click', (e) => {
@@ -816,7 +851,19 @@ class MusicPlayer {
         });
 
         this.playerBar.addEventListener('click', () => {
-            this.ensurePlaying();
+            // Always call play() in the user gesture context — iOS requires this
+            // for audible output even if audio is already playing (muted autoplay)
+            this.initAudioContext();
+            if (!this.audio.src || this.audio.src === window.location.href) {
+                this.audio.src = this.tracks[this.currentIndex].src;
+            }
+            this.audio.muted = false;
+            this.audio.play().then(() => {
+                this.isPlaying = true;
+                this.musicEnabled = true;
+                this.updatePlayPauseIcon();
+                if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+            }).catch(() => {});
             if (this.isMuted) this.unmute();
             this.toggleExpand();
         });
@@ -846,7 +893,7 @@ class MusicPlayer {
         });
 
         this.audio.addEventListener('timeupdate', () => { this.updateProgress(); });
-        this.audio.addEventListener('ended', () => { this.next(); });
+        this.audio.addEventListener('ended', () => { this.shuffleEnabled ? this.shuffle() : this.next(); });
         this.audio.addEventListener('loadedmetadata', () => { this.updatePositionState(); });
 
         // Auto-skip on load error (404, network failure, decode error)

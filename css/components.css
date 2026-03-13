@@ -364,6 +364,11 @@
     opacity: 1;
 }
 
+.player-shuffle-btn.shuffle-active {
+    color: var(--neon-magenta);
+    opacity: 1;
+}
+
 .player-track-name {
     flex: 1;
     min-width: 0;
