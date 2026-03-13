@@ -52,12 +52,7 @@ class MusicPlayer {
         // Throttle for MediaSession position state updates
         this._lastPositionUpdate = 0;
 
-        // Web Audio API
-        this.audioContext = null;
-        this.analyser = null;
-        this.sourceNode = null;
-        this.frequencyData = null;
-        this.noAnalyser = false;    // true on Safari/iOS (no real frequency data)
+        // Audio init state
         this.audioContextReady = false;
 
         // Visualizer
@@ -137,95 +132,17 @@ class MusicPlayer {
         }
     }
 
-    // --- Web Audio API ---
+    // --- Audio Init ---
 
     initAudioContext() {
         if (this.audioContextReady) return;
 
-        try {
-            const AudioCtx = window.AudioContext || window.webkitAudioContext;
-            this.audioContext = new AudioCtx();
-
-            // Analyser for frequency data (used by visualizer)
-            this.analyser = this.audioContext.createAnalyser();
-            this.analyser.fftSize = 256;
-            this.analyser.smoothingTimeConstant = 0.82;
-
-            // Strategy 1: captureStream() — taps into audio WITHOUT hijacking the
-            // output pipeline. The <audio> element plays natively through the browser's
-            // audio system, so background playback, lock screen controls, and tab
-            // switching all work seamlessly. No backup audio element needed.
-            // Supported: Chrome 62+, Firefox 15+, Edge 79+. NOT Safari/iOS.
-            const captureMethod = this.audio.captureStream || this.audio.mozCaptureStream;
-            if (captureMethod) {
-                try {
-                    const stream = captureMethod.call(this.audio);
-                    this.sourceNode = this.audioContext.createMediaStreamSource(stream);
-                    this.sourceNode.connect(this.analyser);
-                    // Do NOT connect analyser to destination — audio plays natively
-                    // via the <audio> element. Connecting would cause double output.
-                    this.usesNativePlayback = true;
-                } catch (e) {
-                    // captureStream failed — fall through to fallback
-                }
-            }
-
-            // Safari/iOS: captureStream not available. Do NOT call
-            // createMediaElementSource — that would route all audio through AC,
-            // breaking background playback on iOS. Instead, let <audio> play
-            // natively and use a synthetic visualizer.
-            if (!this.usesNativePlayback) {
-                this.usesNativePlayback = true;
-                this.noAnalyser = true;
-                if (this.audioContext) {
-                    this.audioContext.close().catch(() => {});
-                    this.audioContext = null;
-                }
-                this.analyser = null;
-                this.frequencyData = null;
-                this.audioContextReady = true;
-                this.audio.muted = false;
-                this.audio.volume = this.isMuted ? 0 : this._userVolume;
-                return;
-            }
-
-            this.frequencyData = new Uint8Array(this.analyser.frequencyBinCount);
-            this.audioContextReady = true;
-
-            // Switch from element-mute to controlled output
-            this.audio.muted = false;
-            this.audio.volume = this.isMuted ? 0 : this._userVolume;
-
-            if (this.audioContext.state === 'suspended') {
-                this.audioContext.resume();
-            }
-
-            // Listen for AudioContext suspension/interruption
-            this.bindAudioContextRecovery();
-        } catch (e) {
-            console.warn('Web Audio API not available:', e);
-        }
-    }
-
-    // Reconnect captureStream after track change (Chrome/Edge captureStream path only)
-    reconnectCaptureStream() {
-        if (this.noAnalyser || !this.analyser || !this.audioContextReady) return;
-
-        const captureMethod = this.audio.captureStream || this.audio.mozCaptureStream;
-        if (!captureMethod) return;
-
-        try {
-            // Disconnect old source
-            if (this.sourceNode) {
-                try { this.sourceNode.disconnect(); } catch (e) {}
-            }
-            // Capture new stream and reconnect
-            const stream = captureMethod.call(this.audio);
-            this.sourceNode = this.audioContext.createMediaStreamSource(stream);
-            this.sourceNode.connect(this.analyser);
-        } catch (e) {
-            console.warn('Failed to reconnect captureStream:', e);
-        }
+        // All platforms: let <audio> play natively with synthetic visualizer.
+        // No AudioContext routing needed — avoids all background/lock screen issues.
+        this.usesNativePlayback = true;
+        this.audioContextReady = true;
+        this.audio.muted = false;
+        this.audio.volume = this.isMuted ? 0 : this._userVolume;
     }
 
     startMutedAutoplay() {
@@ -252,17 +169,11 @@ class MusicPlayer {
         attemptPlay(3);
     }
 
-    // Ensure music starts playing (called from gesture handler or player bar click)
+    // Ensure music starts playing (called from gesture handler)
     ensurePlaying() {
         this.initAudioContext();
-        if (this.audioContext && this.audioContext.state === 'suspended') {
-            this.audioContext.resume();
-        }
-        // Switch from element-mute to volume control
-        if (this.audio.muted) {
-            this.audio.muted = false;
-            this.audio.volume = this.isMuted ? 0 : this._userVolume;
-        }
+        this.audio.muted = false;
+        this.audio.volume = this.isMuted ? 0 : this._userVolume;
         if (!this.isPlaying) {
             if (!this.audio.src || this.audio.src === window.location.href) {
                 this.audio.src = this.tracks[this.currentIndex].src;
@@ -289,10 +200,12 @@ class MusicPlayer {
         navigator.mediaSession.setActionHandler('nexttrack', () => { this.next(); });
         navigator.mediaSession.setActionHandler('previoustrack', () => { this.prev(); });
 
-        // NOTE: seekforward/seekbackward are intentionally NOT registered.
-        // Registering them (even mapped to next/prev) causes Android to show
-        // ±10s seek buttons in the notification. By omitting them entirely,
-        // Android shows only the track skip buttons from nexttrack/previoustrack.
+        // Explicitly nullify seek handlers — iOS/Safari defaults to showing ±10s
+        // seek buttons unless these are explicitly set to null. This forces iOS
+        // to show next/previous track buttons from the handlers above.
+        try { navigator.mediaSession.setActionHandler('seekforward', null); } catch (e) {}
+        try { navigator.mediaSession.setActionHandler('seekbackward', null); } catch (e) {}
+        try { navigator.mediaSession.setActionHandler('seekto', null); } catch (e) {}
 
         this.updateMediaSessionMetadata();
     }
@@ -313,18 +226,9 @@ class MusicPlayer {
     }
 
     updatePositionState() {
-        if (!('mediaSession' in navigator)) return;
-        // Skip on Safari/iOS — setPositionState causes iOS to show ±10s seek
-        // buttons instead of next/previous track buttons
-        if (this.noAnalyser) return;
-        if (!this.audio.duration || isNaN(this.audio.duration)) return;
-        try {
-            navigator.mediaSession.setPositionState({
-                duration: this.audio.duration,
-                playbackRate: this.audio.playbackRate,
-                position: Math.min(this.audio.currentTime, this.audio.duration)
-            });
-        } catch (e) { /* ignore if not supported */ }
+        // Intentionally empty — calling setPositionState causes iOS to show
+        // ±10s seek buttons instead of next/previous track skip buttons.
+        // The progress bar in the player handles position display.
     }
 
     bindVisibilityHandler() {
@@ -344,20 +248,7 @@ class MusicPlayer {
                 if ('mediaSession' in navigator) {
                     navigator.mediaSession.playbackState = this.isPlaying ? 'playing' : 'paused';
                 }
-                // Resume AC for visualizer (captureStream path only)
-                if (this.audioContext && this.audioContext.state === 'suspended') {
-                    this.audioContext.resume().catch(() => {});
-                }
             }
-        });
-    }
-
-    bindAudioContextRecovery() {
-        if (!this.audioContext) return;
-
-        this.audioContext.addEventListener('statechange', () => {
-            // AC is only for the visualizer (captureStream path).
-            // Let the draw loop resume it lazily — no action needed here.
         });
     }
 
@@ -390,20 +281,12 @@ class MusicPlayer {
             ctx.scale(dpr, dpr);
             ctx.clearRect(0, 0, W, H);
 
-            if (this.analyser && this.frequencyData && this.isPlaying) {
-                // Real frequency data (Chrome/Firefox/Edge with captureStream)
-                if (this.audioContext && this.audioContext.state === 'suspended') {
-                    this.audioContext.resume().catch(() => {});
-                }
-                this.analyser.getByteFrequencyData(this.frequencyData);
-                this.updateAudioLevels();
-                this.drawFrequencyBars(ctx, W, H);
-            } else if (this.noAnalyser && this.isPlaying && !this.isMuted) {
-                // Synthetic visualizer (Safari/iOS — no real frequency data)
+            if (this.isPlaying && !this.isMuted) {
+                // Active synthetic visualizer (all platforms)
                 this.drawSyntheticVisualizer(ctx, W, H);
                 this.updateSyntheticAudioLevels();
             } else {
-                // Idle animation (not playing, muted, or AC not ready)
+                // Idle animation (not playing or muted)
                 this.drawIdleVisualizer(ctx, W, H);
             }
 
@@ -411,51 +294,6 @@ class MusicPlayer {
         };
 
         draw();
-    }
-
-    drawFrequencyBars(ctx, W, H) {
-        var barCount = W < 480 ? 32 : W < 768 ? 48 : 64;
-        var usableBins = Math.floor(this.frequencyData.length * 0.65);
-        var binStep = Math.max(1, Math.floor(usableBins / barCount));
-        var barWidth = W / barCount;
-        var barGap = 2;
-        var minBarH = 2;
-
-        for (var i = 0; i < barCount; i++) {
-            var sum = 0;
-            for (var j = 0; j < binStep; j++) {
-                var idx = i * binStep + j;
-                if (idx < usableBins) sum += this.frequencyData[idx];
-            }
-            var avg = sum / binStep;
-            var normalizedH = Math.max(minBarH, (avg / 255) * H * 0.95);
-
-            var grad = ctx.createLinearGradient(0, H, 0, H - normalizedH);
-            grad.addColorStop(0, 'rgba(0, 255, 255, 0.85)');
-            grad.addColorStop(0.6, 'rgba(0, 200, 255, 0.7)');
-            grad.addColorStop(1, 'rgba(255, 0, 255, 0.8)');
-
-            ctx.fillStyle = grad;
-            ctx.shadowBlur = 6;
-            ctx.shadowColor = 'rgba(0, 255, 255, 0.4)';
-
-            var x = i * barWidth + barGap / 2;
-            var w = barWidth - barGap;
-            if (w < 1) w = 1;
-
-            var r = Math.min(1.5, w / 2);
-            ctx.beginPath();
-            ctx.moveTo(x + r, H - normalizedH);
-            ctx.lineTo(x + w - r, H - normalizedH);
-            ctx.quadraticCurveTo(x + w, H - normalizedH, x + w, H - normalizedH + r);
-            ctx.lineTo(x + w, H);
-            ctx.lineTo(x, H);
-            ctx.lineTo(x, H - normalizedH + r);
-            ctx.quadraticCurveTo(x, H - normalizedH, x + r, H - normalizedH);
-            ctx.fill();
-        }
-
-        ctx.shadowBlur = 0;
     }
 
     drawIdleVisualizer(ctx, W, H) {
@@ -552,24 +390,6 @@ class MusicPlayer {
         this.trebleLevel = Math.max(0, Math.sin(time * 5.5 + 4.3) * 0.2 + 0.15);
     }
 
-    updateAudioLevels() {
-        if (!this.frequencyData) return;
-
-        var bins = this.frequencyData.length;
-
-        var bassSum = 0;
-        for (var i = 0; i < 10 && i < bins; i++) bassSum += this.frequencyData[i];
-        this.bassLevel = bassSum / (10 * 255);
-
-        var midSum = 0;
-        for (var i = 10; i < 60 && i < bins; i++) midSum += this.frequencyData[i];
-        this.midLevel = midSum / (50 * 255);
-
-        var trebleSum = 0;
-        for (var i = 60; i < bins; i++) trebleSum += this.frequencyData[i];
-        this.trebleLevel = trebleSum / (Math.max(1, bins - 60) * 255);
-    }
-
     // --- Unmute / Mute ---
 
     unmute() {
@@ -577,9 +397,6 @@ class MusicPlayer {
         this.audio.volume = this._userVolume;
         this.audio.muted = false;
         this.updateMuteIcon();
-        if (this.audioContext && this.audioContext.state === 'suspended') {
-            this.audioContext.resume();
-        }
     }
 
     mute() {
@@ -632,9 +449,6 @@ class MusicPlayer {
         localStorage.setItem('es_player_track', index);
         this.updateMediaSessionMetadata();
 
-        // Reconnect visualizer analyser to new track (captureStream path)
-        this.reconnectCaptureStream();
-
         if (autoplay) {
             this.audio.play().catch(() => {});
             this.isPlaying = true;
@@ -643,20 +457,13 @@ class MusicPlayer {
     }
 
     play() {
-        if (!this.musicEnabled) {
-            this.musicEnabled = true;
-        }
+        this.musicEnabled = true;
+        this.initAudioContext();
         if (!this.audio.src || this.audio.src === window.location.href) {
             this.audio.src = this.tracks[this.currentIndex].src;
         }
-        this.initAudioContext();
-        if (this.audioContext && this.audioContext.state === 'suspended') {
-            this.audioContext.resume().catch(() => {});
-        }
-        if (this.audio.muted) {
-            this.audio.muted = false;
-            this.audio.volume = this.isMuted ? 0 : this._userVolume;
-        }
+        this.audio.muted = false;
+        this.audio.volume = this.isMuted ? 0 : this._userVolume;
         this.audio.play().catch(() => {});
         this.isPlaying = true;
         this.updatePlayPauseIcon();
@@ -851,20 +658,21 @@ class MusicPlayer {
         });
 
         this.playerBar.addEventListener('click', () => {
-            // Always call play() in the user gesture context — iOS requires this
-            // for audible output even if audio is already playing (muted autoplay)
+            // Unmute FIRST, then play — iOS requires audible volume to be set
+            // before audio.play() within the same user gesture context
             this.initAudioContext();
+            this.unmute();
             if (!this.audio.src || this.audio.src === window.location.href) {
                 this.audio.src = this.tracks[this.currentIndex].src;
             }
             this.audio.muted = false;
+            this.audio.volume = this._userVolume;
             this.audio.play().then(() => {
                 this.isPlaying = true;
                 this.musicEnabled = true;
                 this.updatePlayPauseIcon();
                 if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
             }).catch(() => {});
-            if (this.isMuted) this.unmute();
             this.toggleExpand();
         });
 
