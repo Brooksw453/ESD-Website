@@ -82,6 +82,14 @@ class Router {
         this.updateMeta(path);
         this.currentRoute = path;
 
+        // Send pageview to Google Analytics (SPA route change)
+        if (typeof gtag === 'function') {
+            gtag('event', 'page_view', {
+                page_path: path,
+                page_title: (this.meta[path] || this.meta['/']).title
+            });
+        }
+
         // Close mobile nav if open
         const navLinks = document.getElementById('navLinks');
         const hamburger = document.getElementById('hamburger');
