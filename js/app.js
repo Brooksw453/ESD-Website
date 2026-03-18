@@ -66,6 +66,15 @@
         });
     });
 
+    // --- Accordion toggles (event delegation for SPA-injected content) ---
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.accordion-toggle');
+        if (!btn) return;
+        btn.classList.toggle('active');
+        const accordion = btn.closest('.featured-tool-card').querySelector('.featured-tool-accordion');
+        if (accordion) accordion.classList.toggle('open');
+    });
+
     // Register service worker for offline PWA support
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js').catch(() => {});

@@ -195,19 +195,22 @@ class MusicPlayer {
     setupMediaSession() {
         if (!('mediaSession' in navigator)) return;
 
+        this.setMediaSessionHandlers();
+        this.updateMediaSessionMetadata();
+    }
+
+    setMediaSessionHandlers() {
+        if (!('mediaSession' in navigator)) return;
+
+        // Register play/pause and track skip handlers.
+        // IMPORTANT: Do NOT register seekforward/seekbackward/seekto handlers.
+        // On iOS, registering seek handlers (even setting them to null) causes
+        // the lock screen to show ±10s seek buttons instead of prev/next track.
+        // By only registering track handlers, iOS shows skip buttons.
         navigator.mediaSession.setActionHandler('play', () => { this.play(); this.unmute(); });
         navigator.mediaSession.setActionHandler('pause', () => { this.pause(); });
         navigator.mediaSession.setActionHandler('nexttrack', () => { this.next(); });
         navigator.mediaSession.setActionHandler('previoustrack', () => { this.prev(); });
-
-        // Explicitly nullify seek handlers — iOS/Safari defaults to showing ±10s
-        // seek buttons unless these are explicitly set to null. This forces iOS
-        // to show next/previous track buttons from the handlers above.
-        try { navigator.mediaSession.setActionHandler('seekforward', null); } catch (e) {}
-        try { navigator.mediaSession.setActionHandler('seekbackward', null); } catch (e) {}
-        try { navigator.mediaSession.setActionHandler('seekto', null); } catch (e) {}
-
-        this.updateMediaSessionMetadata();
     }
 
     updateMediaSessionMetadata() {
@@ -223,6 +226,10 @@ class MusicPlayer {
                 ]
             });
         } catch (e) { /* ignore if MediaMetadata not supported */ }
+
+        // Re-apply track handlers after metadata update — iOS can reset
+        // action handlers when metadata changes, reverting to seek buttons.
+        this.setMediaSessionHandlers();
     }
 
     updatePositionState() {

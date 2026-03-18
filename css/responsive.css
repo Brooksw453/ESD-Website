@@ -186,6 +186,36 @@
     text-align: center;
 }
 
+/* Featured tool card mobile */
+.featured-tool-features {
+    grid-template-columns: 1fr;
+}
+
+.accessibility-banner {
+    height: 160px;
+}
+
+.accessibility-name {
+    font-size: 1.6rem;
+}
+
+.featured-tool-body {
+    padding: var(--space-xl);
+}
+
+.accordion-content {
+    padding: var(--space-lg) var(--space-xl) var(--space-xl);
+}
+
+.featured-tool-actions {
+    flex-wrap: wrap;
+}
+
+.featured-tool-actions .neon-btn {
+    flex: 1 1 auto;
+    text-align: center;
+}
+
 /* --- Small tablets (>= 640px) --- */
 
 @media (min-width: 640px) {
@@ -204,6 +234,34 @@
 
     .featured-banner {
         padding: var(--space-2xl);
+    }
+
+    .featured-tool-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .accessibility-banner {
+        height: 200px;
+    }
+
+    .accessibility-name {
+        font-size: 2.2rem;
+    }
+
+    .featured-tool-body {
+        padding: var(--space-2xl);
+    }
+
+    .accordion-content {
+        padding: var(--space-xl) var(--space-2xl) var(--space-2xl);
+    }
+
+    .featured-tool-actions {
+        flex-wrap: nowrap;
+    }
+
+    .featured-tool-actions .neon-btn {
+        flex: 0 0 auto;
     }
 }
 

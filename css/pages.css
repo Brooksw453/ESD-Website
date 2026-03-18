@@ -856,6 +856,272 @@ body.game-active {
     font-size: 2.5rem;
 }
 
+/* --- Featured AI Tool Card --- */
+
+.featured-tool-card {
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Document Scan Banner */
+.accessibility-banner {
+    position: relative;
+    height: 200px;
+    background: linear-gradient(180deg, #0a0014 0%, #0a1a12 50%, #0a2e14 100%);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fragmented doc lines (left) */
+.accessibility-banner::before {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 8%;
+    width: 30%;
+    height: 70%;
+    background:
+        repeating-linear-gradient(
+            transparent,
+            transparent 11px,
+            rgba(0, 255, 136, 0.07) 11px,
+            rgba(0, 255, 136, 0.07) 12px
+        );
+    mask-image: linear-gradient(90deg,
+        rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 40%,
+        rgba(0,0,0,0.1) 60%, transparent 80%,
+        rgba(0,0,0,0.4) 90%, rgba(0,0,0,0.1) 100%);
+    -webkit-mask-image: linear-gradient(90deg,
+        rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 40%,
+        rgba(0,0,0,0.1) 60%, transparent 80%,
+        rgba(0,0,0,0.4) 90%, rgba(0,0,0,0.1) 100%);
+    opacity: 0.6;
+}
+
+/* Clean doc lines (right) */
+.accessibility-banner::after {
+    content: '';
+    position: absolute;
+    top: 15%;
+    right: 8%;
+    width: 30%;
+    height: 70%;
+    background:
+        repeating-linear-gradient(
+            transparent,
+            transparent 11px,
+            rgba(0, 255, 136, 0.1) 11px,
+            rgba(0, 255, 136, 0.1) 12px
+        );
+    opacity: 0.5;
+    animation: docPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes docPulse {
+    0%   { opacity: 0.3; }
+    100% { opacity: 0.6; }
+}
+
+/* Animated scanline */
+.accessibility-scanline {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--neon-green);
+    box-shadow: 0 0 12px rgba(0, 255, 136, 0.8),
+                0 0 30px rgba(0, 255, 136, 0.4),
+                0 0 60px rgba(0, 255, 136, 0.2);
+    will-change: transform;
+    animation: scanSweep 4s linear infinite;
+}
+
+@keyframes scanSweep {
+    0%   { transform: translateX(-50vw); }
+    100% { transform: translateX(100vw); }
+}
+
+/* Banner title */
+.accessibility-banner-title {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.accessibility-name {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    color: var(--neon-green);
+    text-shadow:
+        0 0 10px rgba(0, 255, 136, 0.6),
+        0 0 30px rgba(0, 255, 136, 0.3),
+        0 0 60px rgba(0, 255, 136, 0.1);
+}
+
+.accessibility-accent {
+    color: #ffffff;
+    text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.4),
+        0 0 30px rgba(255, 255, 255, 0.15);
+}
+
+.accessibility-sub {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.3em;
+    color: var(--text-secondary);
+    margin-top: var(--space-sm);
+    text-transform: uppercase;
+}
+
+/* Card body */
+.featured-tool-body {
+    padding: var(--space-2xl);
+}
+
+.featured-tool-body .label {
+    margin-bottom: var(--space-sm);
+}
+
+.featured-tool-body h3 {
+    margin-bottom: var(--space-sm);
+}
+
+.featured-tool-body > p {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-xl);
+    max-width: 700px;
+}
+
+/* 2x2 Feature grid */
+.featured-tool-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    font-size: var(--text-base);
+}
+
+.feature-item::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--neon-green);
+    box-shadow: 0 0 6px rgba(0, 255, 136, 0.6);
+    flex-shrink: 0;
+    margin-top: 10px;
+}
+
+.feature-item strong {
+    color: var(--text-primary);
+}
+
+/* Badges and actions */
+.featured-tool-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+}
+
+.featured-tool-actions {
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+}
+
+/* Accordion */
+.featured-tool-accordion {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.featured-tool-accordion.open {
+    max-height: 800px;
+}
+
+.accordion-content {
+    padding: var(--space-xl) var(--space-2xl) var(--space-2xl);
+    border-top: 1px solid rgba(0, 255, 136, 0.15);
+}
+
+.accordion-content h4 {
+    color: var(--neon-green);
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
+    margin-bottom: var(--space-md);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.accordion-content ol {
+    padding-left: var(--space-xl);
+    margin-bottom: var(--space-xl);
+}
+
+.accordion-content ol li {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    padding: var(--space-xs) 0;
+    line-height: 1.6;
+}
+
+.accordion-content ol li::marker {
+    color: var(--neon-green);
+}
+
+.accordion-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.accordion-content ul li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    padding: var(--space-xs) 0;
+    line-height: 1.6;
+}
+
+.accordion-content ul li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--neon-green);
+    box-shadow: 0 0 6px rgba(0, 255, 136, 0.6);
+    flex-shrink: 0;
+    margin-top: 10px;
+}
+
+/* Accordion toggle chevron */
+.accordion-toggle .chevron {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    margin-left: var(--space-xs);
+}
+
+.accordion-toggle.active .chevron {
+    transform: rotate(180deg);
+}
+
 /* --- Two-Column Layout --- */
 
 .split-section {
