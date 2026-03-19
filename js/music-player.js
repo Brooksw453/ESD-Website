@@ -30,7 +30,7 @@ class MusicPlayer {
 
         this.currentIndex = 0;
         this.isPlaying = false;
-        this.isMuted = true;          // starts muted
+        this.isMuted = false;         // no autoplay; user clicks play to start
         this.musicEnabled = false;
         this.isExpanded = false;
         this.isInBackground = false;
@@ -96,8 +96,8 @@ class MusicPlayer {
         // Enable background playback via Media Session API
         this.setupMediaSession();
 
-        // Start muted autoplay
-        this.startMutedAutoplay();
+        // Pre-load track metadata (name + src) without playing
+        this.audio.src = this.tracks[this.currentIndex].src;
 
         // Start visualizer loop (shows idle animation until audio data is ready)
         this.startVisualizer();
@@ -145,31 +145,7 @@ class MusicPlayer {
         this.audio.volume = this.isMuted ? 0 : this._userVolume;
     }
 
-    startMutedAutoplay() {
-        // Start with element muted (browsers allow this for autoplay)
-        this.audio.muted = true;
-        this.audio.src = this.tracks[this.currentIndex].src;
-        this.audio.load();
-
-        const attemptPlay = (retries) => {
-            this.audio.play().then(() => {
-                this.isPlaying = true;
-                this.musicEnabled = true;
-                this.updatePlayPauseIcon();
-                this.initAudioContext();
-            }).catch(() => {
-                if (retries > 0) {
-                    setTimeout(() => attemptPlay(retries - 1), 500);
-                } else {
-                    this.isPlaying = false;
-                    this.updatePlayPauseIcon();
-                }
-            });
-        };
-        attemptPlay(3);
-    }
-
-    // Ensure music starts playing (called from gesture handler)
+    // Ensure music starts playing (called from game launch triggers)
     ensurePlaying() {
         this.initAudioContext();
         this.audio.muted = false;
@@ -719,16 +695,5 @@ class MusicPlayer {
             }
         });
 
-        // Ensure AudioContext + playback on first user gesture.
-        // IMPORTANT: Only use 'click', not 'touchstart'. iOS Safari does NOT
-        // treat touchstart as a user gesture for audio playback.
-        let gestureHandled = false;
-        const gestureHandler = () => {
-            if (gestureHandled) return;
-            gestureHandled = true;
-            this.ensurePlaying();
-            document.removeEventListener('click', gestureHandler);
-        };
-        document.addEventListener('click', gestureHandler);
     }
 }

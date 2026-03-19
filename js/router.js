@@ -102,6 +102,19 @@ class Router {
             this.transitioning = false;
         }, 400);
 
+        // Toggle music player visibility (hidden on home page)
+        const musicPlayerEl = document.getElementById('musicPlayer');
+        if (musicPlayerEl) {
+            if (path === '/') {
+                musicPlayerEl.style.display = 'none';
+                if (window.musicPlayer && window.musicPlayer.isExpanded) {
+                    window.musicPlayer.collapse();
+                }
+            } else {
+                musicPlayerEl.style.display = '';
+            }
+        }
+
         // Bind any page-specific event handlers
         this.bindPageEvents(path);
     }
