@@ -168,6 +168,20 @@
                 inset 0 0 20px rgba(0, 255, 136, 0.08);
 }
 
+.neon-btn.btn-blue {
+    border-color: #4285f4;
+    color: #4285f4;
+    text-shadow: 0 0 8px rgba(66, 133, 244, 0.3);
+    box-shadow: 0 0 15px rgba(66, 133, 244, 0.1),
+                inset 0 0 15px rgba(66, 133, 244, 0.05);
+}
+
+.neon-btn.btn-blue:hover {
+    background: rgba(66, 133, 244, 0.1);
+    box-shadow: 0 0 30px rgba(66, 133, 244, 0.25),
+                inset 0 0 20px rgba(66, 133, 244, 0.08);
+}
+
 .neon-btn.btn-filled {
     background: rgba(0, 255, 255, 0.15);
 }
@@ -754,8 +768,8 @@
 /* --- Syllabus A11Y Urgency Banner --- */
 
 .a11y-urgency-banner {
-    background: linear-gradient(135deg, rgba(0, 255, 100, 0.12) 0%, rgba(0, 200, 80, 0.08) 100%);
-    border-bottom: 1px solid rgba(0, 255, 100, 0.3);
+    background: linear-gradient(135deg, rgba(66, 133, 244, 0.12) 0%, rgba(66, 133, 244, 0.08) 100%);
+    border-bottom: 1px solid rgba(66, 133, 244, 0.3);
     padding: var(--space-sm) var(--space-xl);
     text-align: center;
     position: relative;
@@ -776,7 +790,7 @@
 
 .a11y-urgency-icon {
     font-size: 1rem;
-    color: var(--neon-green);
+    color: #4285f4;
 }
 
 .a11y-urgency-text {
@@ -784,10 +798,10 @@
 }
 
 .a11y-urgency-link {
-    color: var(--neon-green);
+    color: #4285f4;
     font-weight: 600;
     text-decoration: none;
-    border-bottom: 1px solid rgba(0, 255, 100, 0.4);
+    border-bottom: 1px solid rgba(66, 133, 244, 0.4);
     transition: border-color var(--transition-fast), color var(--transition-fast);
     margin-left: var(--space-sm);
 }
@@ -800,7 +814,7 @@
 }
 
 .a11y-urgency-link:focus-visible {
-    outline: 2px solid var(--neon-green);
+    outline: 2px solid #4285f4;
     outline-offset: 2px;
     border-radius: 2px;
 }
@@ -808,27 +822,27 @@
 /* --- Service Card Featured / New badge --- */
 
 .service-card-featured {
-    border-color: rgba(0, 255, 100, 0.25) !important;
+    border-color: rgba(66, 133, 244, 0.25) !important;
     box-shadow:
-        0 0 15px rgba(0, 255, 100, 0.08),
-        inset 0 0 15px rgba(0, 255, 100, 0.03) !important;
+        0 0 15px rgba(66, 133, 244, 0.08),
+        inset 0 0 15px rgba(66, 133, 244, 0.03) !important;
     position: relative;
 }
 
 .service-card-featured:hover {
-    border-color: rgba(0, 255, 100, 0.5) !important;
+    border-color: rgba(66, 133, 244, 0.5) !important;
     box-shadow:
-        0 0 30px rgba(0, 255, 100, 0.15),
-        0 0 60px rgba(0, 255, 100, 0.05),
-        inset 0 0 30px rgba(0, 255, 100, 0.05) !important;
+        0 0 30px rgba(66, 133, 244, 0.15),
+        0 0 60px rgba(66, 133, 244, 0.05),
+        inset 0 0 30px rgba(66, 133, 244, 0.05) !important;
 }
 
 .service-badge {
     position: absolute;
     top: -1px;
     right: var(--space-lg);
-    background: var(--neon-green);
-    color: #000;
+    background: #4285f4;
+    color: #fff;
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -840,15 +854,15 @@
 
 .service-tag-new {
     display: inline-block;
-    background: rgba(0, 255, 100, 0.15);
-    color: var(--neon-green);
+    background: rgba(66, 133, 244, 0.15);
+    color: #4285f4;
     font-size: 0.6rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     padding: 2px 6px;
     border-radius: 4px;
-    border: 1px solid rgba(0, 255, 100, 0.3);
+    border: 1px solid rgba(66, 133, 244, 0.3);
     vertical-align: middle;
     margin-left: var(--space-sm);
     font-family: var(--font-display);
