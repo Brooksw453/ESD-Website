@@ -50,8 +50,8 @@ class Router {
                 description: 'Convert inaccessible documents to WCAG 2.2-compliant Word files with AI. Free to use, no account required. Built for higher education institutions.'
             },
             '/education/courses': {
-                title: 'Adaptive Learning Platform | AI-Powered Courses by ES Designs',
-                description: 'AI-powered adaptive learning courses that meet students where they are. Self-paced, with real-time AI tutoring and progress tracking.'
+                title: 'Adaptive Learning Platform | White-Label Course Platform by ES Designs',
+                description: 'White-label course platform with integrated payments, admin dashboard, and AI-powered adaptive learning. Built for workforce development and continuing education.'
             },
             '/about': {
                 title: 'About ES Designs | Brooks Winchell',
@@ -86,6 +86,7 @@ class Router {
                 brand: '<span class="nav-brand-parent">ES Designs</span> <span class="nav-brand-sep">&rsaquo;</span> Education',
                 brandHref: '#/education',
                 links: [
+                    { href: '#/', label: 'Home' },
                     { href: '#/education/ally', label: 'Document Ally' },
                     { href: '#/education/courses', label: 'Adaptive Learning' },
                     { href: '#/about', label: 'About' },
