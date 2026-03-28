@@ -26,8 +26,8 @@
 
     /* --- Text --- */
     --text-primary:     #e0e0ff;
-    --text-secondary:   rgba(224, 224, 255, 0.6);
-    --text-muted:       rgba(224, 224, 255, 0.35);
+    --text-secondary:   #c8c8e6;
+    --text-muted:       #8888aa;
 
     /* --- Gradients --- */
     --gradient-hero:    linear-gradient(135deg, #0a0a1a 0%, #1a0a2a 50%, #0a1a2a 100%);

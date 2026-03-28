@@ -80,7 +80,7 @@ body[data-section="ed"] .nav-brand {
 }
 
 body[data-section="ed"] .nav-link {
-    color: #475569;
+    color: #334155;
 }
 
 body[data-section="ed"] .nav-link:hover,
@@ -255,7 +255,7 @@ body[data-section="ed"] .footer-logo-glow {
 }
 
 body[data-section="ed"] .footer-links a {
-    color: #64748b;
+    color: #475569;
     font-family: var(--font-body);
 }
 
@@ -264,7 +264,8 @@ body[data-section="ed"] .footer-links a:hover {
 }
 
 body[data-section="ed"] .footer-copy {
-    color: #94a3b8;
+    color: #475569;
+    font-size: var(--text-sm);
 }
 
 /* --- Contact Widget — light theme --- */
@@ -380,8 +381,8 @@ body[data-section="ed"] .back-to-top:hover {
 }
 
 .ed-hero .ed-subtitle {
-    font-size: var(--text-xl);
-    color: var(--text-secondary);
+    font-size: 1.375rem;
+    color: #334155;
     max-width: 700px;
     margin: 0 auto var(--space-lg);
     line-height: 1.6;
@@ -475,6 +476,37 @@ body[data-section="ed"] .back-to-top:hover {
 
 .ed-trust-section h2 {
     margin-bottom: var(--space-xl);
+}
+
+/* Stats bar */
+.ed-stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2xl);
+    flex-wrap: wrap;
+    max-width: 800px;
+    margin: 0 auto var(--space-2xl);
+    padding: var(--space-xl) 0;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.ed-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.ed-stat-number {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: #2563eb;
+}
+
+.ed-stat-label {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
 }
 
 .ed-trust-items {
@@ -708,6 +740,14 @@ body[data-section="ed"] .back-to-top:hover {
         flex-direction: column;
         align-items: center;
     }
+
+    .ed-stats-bar {
+        gap: var(--space-lg);
+    }
+
+    .ed-stat-number {
+        font-size: var(--text-xl);
+    }
 }
 
 @media (min-width: 640px) and (max-width: 1023px) {
@@ -803,7 +843,7 @@ body[data-section="ed"] .back-to-top:hover {
 }
 
 .landing-panel-ee p {
-    color: rgba(224, 224, 255, 0.6);
+    color: #cbd5e1;
     font-size: var(--text-base);
     margin-bottom: var(--space-xl);
     max-width: 300px;
@@ -850,7 +890,7 @@ body[data-section="ed"] .back-to-top:hover {
 }
 
 .landing-panel-ed p {
-    color: #475569;
+    color: #334155;
     font-size: var(--text-base);
     margin-bottom: var(--space-xl);
     max-width: 300px;
