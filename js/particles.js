@@ -101,6 +101,19 @@ class ParticleSystem {
         });
     }
 
+    stop() {
+        this.running = false;
+        if (this.canvas) this.canvas.style.display = 'none';
+    }
+
+    start() {
+        if (this.canvas) this.canvas.style.display = '';
+        if (!this.running) {
+            this.running = true;
+            this.animate();
+        }
+    }
+
     animate() {
         if (!this.running) return;
 

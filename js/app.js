@@ -6,7 +6,9 @@
     'use strict';
 
     // Initialize particle system (exposed on window for audio reactivity)
+    // Start stopped — router will start it only on Elliptical Explorer pages
     window.particleSystem = new ParticleSystem('particle-canvas');
+    window.particleSystem.stop();
 
     // Initialize scroll animations
     const scrollAnimations = new ScrollAnimations();
@@ -14,12 +16,14 @@
     // Initialize music player
     window.musicPlayer = new MusicPlayer();
 
-    // Initialize router
+    // Initialize router with new two-brand route structure
     const router = new Router(scrollAnimations);
-    router.register('/', 'pages/home.html');
-    router.register('/vr', 'pages/vr.html');
-    router.register('/games', 'pages/games.html');
-    router.register('/ai', 'pages/ai.html');
+    router.register('/', 'pages/landing.html');
+    router.register('/elliptical', 'pages/elliptical.html');
+    router.register('/education', 'pages/education.html');
+    router.register('/education/ally', 'pages/education-ally.html');
+    router.register('/education/courses', 'pages/education-courses.html');
+    router.register('/about', 'pages/about.html');
     router.register('/privacy', 'pages/privacy.html');
     router.start();
 
@@ -58,12 +62,12 @@
         navLinks.classList.toggle('open');
     });
 
-    // Close mobile nav when a link is clicked
-    navLinks.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
+    // Close mobile nav when a link is clicked (event delegation for dynamic nav)
+    navLinks.addEventListener('click', (e) => {
+        if (e.target.closest('.nav-link')) {
             hamburger.classList.remove('open');
             navLinks.classList.remove('open');
-        });
+        }
     });
 
     // --- Accordion toggles (event delegation for SPA-injected content) ---

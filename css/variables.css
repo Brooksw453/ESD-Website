@@ -84,3 +84,56 @@
     --nav-height:        64px;
     --player-height:     80px;
 }
+
+/* ============================================
+   Landing Page — Neutral Dark
+   ============================================ */
+
+body[data-section="landing"] {
+    --bg-primary:       #0d0d1a;
+    --bg-secondary:     #111122;
+    --gradient-hero:    linear-gradient(135deg, #0d0d1a 0%, #0f0f22 50%, #0d1520 100%);
+}
+
+/* ============================================
+   Education Section — Light Professional Theme
+   ============================================ */
+
+body[data-section="ed"] {
+    /* --- Backgrounds --- */
+    --bg-primary:       #ffffff;
+    --bg-secondary:     #f8fafc;
+    --bg-card:          #ffffff;
+    --bg-card-hover:    #f0f9ff;
+    --bg-overlay:       rgba(255, 255, 255, 0.92);
+
+    /* --- Accent Colors (repurpose neon vars) --- */
+    --neon-cyan:        #2563eb;
+    --neon-magenta:     #0d9488;
+    --neon-orange:      #d97706;
+    --neon-purple:      #7c3aed;
+    --neon-green:       #059669;
+
+    /* --- Glows (subtle for light theme) --- */
+    --glow-cyan:        rgba(37, 99, 235, 0.15);
+    --glow-magenta:     rgba(13, 148, 136, 0.15);
+    --glow-orange:      rgba(217, 119, 6, 0.15);
+    --glow-purple:      rgba(124, 58, 237, 0.15);
+
+    /* --- Text --- */
+    --text-primary:     #0f172a;
+    --text-secondary:   #475569;
+    --text-muted:       #94a3b8;
+
+    /* --- Gradients --- */
+    --gradient-hero:    linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #f8fafc 100%);
+    --gradient-neon:    linear-gradient(90deg, #2563eb, #0d9488);
+    --gradient-card:    linear-gradient(180deg, rgba(37, 99, 235, 0.03) 0%, transparent 100%);
+
+    /* --- Borders --- */
+    --border-glow:      1px solid #e2e8f0;
+
+    /* --- Typography --- */
+    --font-display:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body:        'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}

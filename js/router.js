@@ -1,39 +1,135 @@
 /* ============================================
    Hash-Based Client-Side Router
-   Enables SPA navigation with music persistence
+   Two-brand navigation with section-aware theming
    ============================================ */
 
 class Router {
     constructor(scrollAnimations) {
         this.routes = {};
         this.currentRoute = null;
+        this.currentSection = null;
         this.contentCache = {};
         this.container = document.getElementById('page-content');
         this.scrollAnimations = scrollAnimations;
         this.transitioning = false;
 
+        // Map routes to brand sections
+        this.sectionMap = {
+            '/':                  'landing',
+            '/elliptical':        'ee',
+            '/education':         'ed',
+            '/education/ally':    'ed',
+            '/education/courses': 'ed',
+            '/about':             'shared',
+            '/privacy':           'shared',
+        };
+
+        // Legacy route redirects
+        this.redirects = {
+            '/vr':    '/elliptical',
+            '/ai':    '/education',
+            '/games': '/',
+        };
+
         // Page metadata for SEO
         this.meta = {
             '/': {
-                title: 'Education Simulation Designs | VR, Games & AI',
-                description: 'Education Simulation Designs builds immersive VR experiences, browser-based indie games, and custom AI agent solutions.'
+                title: 'ES Designs | VR Fitness & Education Technology',
+                description: 'ES Designs builds immersive VR fitness experiences and AI-powered education technology. Home of Elliptical Explorer and Document Ally.'
             },
-            '/vr': {
-                title: 'VR Development - Elliptical Explorer | ES Designs',
-                description: 'Elliptical Explorer is a VR fitness adventure for Meta Quest. Transform your workout with immersive environments, branching tracks, and an original soundtrack.'
+            '/elliptical': {
+                title: 'Elliptical Explorer | VR Fitness Adventure for Meta Quest',
+                description: 'A VR fitness adventure where your real elliptical movement powers gameplay. Branching tracks, collectible gems, and timed challenges on Meta Quest.'
             },
-            '/games': {
-                title: 'Indie Games - Neon Rail & Block Blast | ES Designs',
-                description: 'Play browser-based indie games built with vanilla JavaScript and HTML5 Canvas. No downloads required.'
+            '/education': {
+                title: 'ES Designs Education Technology | Document Accessibility & Adaptive Learning',
+                description: 'AI-powered education technology for higher education. Document Ally for WCAG 2.2 compliance. Adaptive learning platform with AI tutoring.'
             },
-            '/ai': {
-                title: 'AI Agent Development | ES Designs',
-                description: 'Custom AI agent development using Microsoft Copilot Studio and Azure AI for education and enterprise automation.'
+            '/education/ally': {
+                title: 'Document Ally | AI-Powered WCAG 2.2 Document Accessibility',
+                description: 'Convert inaccessible documents to WCAG 2.2-compliant Word files with AI. Free to use, no account required. Built for higher education institutions.'
+            },
+            '/education/courses': {
+                title: 'Adaptive Learning Platform | AI-Powered Courses by ES Designs',
+                description: 'AI-powered adaptive learning courses that meet students where they are. Self-paced, with real-time AI tutoring and progress tracking.'
+            },
+            '/about': {
+                title: 'About ES Designs | Brooks Winchell',
+                description: 'About Education Simulation Designs and founder Brooks Winchell. Building immersive VR fitness and AI-powered education technology from Massachusetts.'
             },
             '/privacy': {
                 title: 'Privacy Policy | ES Designs',
                 description: 'Privacy policy for Education Simulation Designs VR applications. No data collection, no tracking, no accounts.'
             }
+        };
+
+        // Navigation configurations per section
+        this.navConfigs = {
+            landing: {
+                brand: 'ES Designs',
+                brandHref: '#/',
+                links: [
+                    { href: '#/elliptical', label: 'Elliptical Explorer' },
+                    { href: '#/education', label: 'Education Tech' },
+                    { href: '#/about', label: 'About' },
+                ]
+            },
+            ee: {
+                brand: '<span class="nav-brand-parent">ES Designs</span> <span class="nav-brand-sep">&rsaquo;</span> Elliptical Explorer',
+                brandHref: '#/elliptical',
+                links: [
+                    { href: '#/', label: 'Home' },
+                    { href: '#/about', label: 'About' },
+                ]
+            },
+            ed: {
+                brand: '<span class="nav-brand-parent">ES Designs</span> <span class="nav-brand-sep">&rsaquo;</span> Education',
+                brandHref: '#/education',
+                links: [
+                    { href: '#/education/ally', label: 'Document Ally' },
+                    { href: '#/education/courses', label: 'Adaptive Learning' },
+                    { href: '#/about', label: 'About' },
+                ]
+            },
+            shared: {
+                brand: 'ES Designs',
+                brandHref: '#/',
+                links: [
+                    { href: '#/elliptical', label: 'Elliptical Explorer' },
+                    { href: '#/education', label: 'Education Tech' },
+                    { href: '#/about', label: 'About' },
+                ]
+            }
+        };
+
+        // Footer configurations per section
+        this.footerConfigs = {
+            landing: [
+                { href: '#/elliptical', label: 'Elliptical Explorer' },
+                { href: '#/education', label: 'Education Technology' },
+                { href: '#/about', label: 'About' },
+                { href: '#/privacy', label: 'Privacy Policy' },
+            ],
+            ee: [
+                { href: '#/', label: 'Home' },
+                { href: '#/education', label: 'Education Technology' },
+                { href: '#/about', label: 'About' },
+                { href: '#/privacy', label: 'Privacy Policy' },
+            ],
+            ed: [
+                { href: '#/', label: 'Home' },
+                { href: '#/education/ally', label: 'Document Ally' },
+                { href: '#/education/courses', label: 'Adaptive Learning' },
+                { href: '#/elliptical', label: 'Elliptical Explorer' },
+                { href: '#/about', label: 'About' },
+                { href: '#/privacy', label: 'Privacy Policy' },
+            ],
+            shared: [
+                { href: '#/', label: 'Home' },
+                { href: '#/elliptical', label: 'Elliptical Explorer' },
+                { href: '#/education', label: 'Education Technology' },
+                { href: '#/privacy', label: 'Privacy Policy' },
+            ]
         };
 
         window.addEventListener('hashchange', () => this.handleRoute());
@@ -51,11 +147,20 @@ class Router {
         if (this.transitioning) return;
 
         const hash = window.location.hash || '#/';
-        const path = hash.replace('#', '') || '/';
+        let path = hash.replace('#', '') || '/';
+
+        // Handle legacy redirects
+        if (this.redirects[path]) {
+            window.location.hash = '#' + this.redirects[path];
+            return;
+        }
 
         if (path === this.currentRoute) return;
 
         this.transitioning = true;
+
+        // Determine section
+        const section = this.sectionMap[path] || 'shared';
 
         // Fade out
         this.container.classList.add('page-exit');
@@ -72,13 +177,23 @@ class Router {
         // Scroll to top
         window.scrollTo(0, 0);
 
+        // Set section on body for CSS theming
+        document.body.dataset.section = section;
+
+        // Update navigation and footer for this section
+        if (section !== this.currentSection) {
+            this.renderNav(section, path);
+            this.renderFooter(section);
+            this.currentSection = section;
+        }
+        this.updateNavActive(path);
+
         // Re-observe scroll animations
         if (this.scrollAnimations) {
             this.scrollAnimations.refresh();
         }
 
-        // Update nav active state and page metadata
-        this.updateNav(path);
+        // Update page metadata
         this.updateMeta(path);
         this.currentRoute = path;
 
@@ -102,16 +217,23 @@ class Router {
             this.transitioning = false;
         }, 400);
 
-        // Toggle music player visibility (hidden on home page)
+        // Conditional particle canvas visibility
+        if (section === 'ee') {
+            if (window.particleSystem) window.particleSystem.start();
+        } else {
+            if (window.particleSystem) window.particleSystem.stop();
+        }
+
+        // Conditional music player visibility
         const musicPlayerEl = document.getElementById('musicPlayer');
         if (musicPlayerEl) {
-            if (path === '/') {
+            if (section === 'ee') {
+                musicPlayerEl.style.display = '';
+            } else {
                 musicPlayerEl.style.display = 'none';
                 if (window.musicPlayer && window.musicPlayer.isExpanded) {
                     window.musicPlayer.collapse();
                 }
-            } else {
-                musicPlayerEl.style.display = '';
             }
         }
 
@@ -151,7 +273,42 @@ class Router {
         }
     }
 
-    updateNav(path) {
+    renderNav(section, path) {
+        const config = this.navConfigs[section] || this.navConfigs.landing;
+        const navBrand = document.querySelector('.nav-brand');
+        const navLinks = document.getElementById('navLinks');
+
+        if (navBrand) {
+            navBrand.innerHTML = config.brand;
+            navBrand.href = config.brandHref;
+        }
+
+        if (navLinks) {
+            navLinks.innerHTML = config.links.map(link =>
+                `<a href="${link.href}" class="nav-link">${link.label}</a>`
+            ).join('');
+        }
+    }
+
+    renderFooter(section) {
+        const config = this.footerConfigs[section] || this.footerConfigs.landing;
+        const footerLinks = document.querySelector('.footer-links');
+
+        if (footerLinks) {
+            let html = config.map(link =>
+                `<a href="${link.href}">${link.label}</a>`
+            ).join('');
+
+            // Add side projects link in footer
+            if (section !== 'landing') {
+                html += '<a href="https://github.com/brooksw453" target="_blank" rel="noopener">Side Projects</a>';
+            }
+
+            footerLinks.innerHTML = html;
+        }
+    }
+
+    updateNavActive(path) {
         document.querySelectorAll('.nav-link').forEach(link => {
             const href = link.getAttribute('href');
             const linkPath = href ? href.replace('#', '') : '';
@@ -174,8 +331,8 @@ class Router {
     }
 
     bindPageEvents(path) {
-        // Soundtrack play buttons on VR page
-        if (path === '/vr') {
+        // Soundtrack play buttons on Elliptical Explorer page
+        if (path === '/elliptical') {
             document.querySelectorAll('[data-play-track]').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const title = btn.getAttribute('data-play-track');
@@ -185,63 +342,6 @@ class Router {
                 });
             });
         }
-
-        // Game embed toggles on Games page
-        if (path === '/games') {
-            document.querySelectorAll('.game-play-toggle').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const card = btn.closest('.game-card');
-                    const container = card.querySelector('.game-embed-container');
-                    const iframe = container.querySelector('.game-embed-iframe');
-                    const gameUrl = btn.getAttribute('data-game-url');
-
-                    if (!iframe.src || iframe.src === 'about:blank') {
-                        iframe.src = gameUrl;
-                    }
-
-                    // Move container to body so position:fixed isn't broken
-                    // by parent transforms/filters (neon-card, animations, etc.)
-                    container._originalParent = card;
-                    document.body.appendChild(container);
-
-                    // Open game fullscreen
-                    container.style.display = 'flex';
-                    container.classList.add('game-fullscreen');
-                    document.body.classList.add('game-active');
-                    btn.style.display = 'none';
-
-                    // Ensure site music is playing (muted games rely on site soundtrack)
-                    if (window.musicPlayer) {
-                        window.musicPlayer.ensurePlaying();
-                        if (window.musicPlayer.isMuted) {
-                            window.musicPlayer.unmute();
-                        }
-                    }
-                });
-            });
-
-            document.querySelectorAll('.game-embed-close').forEach(closeBtn => {
-                closeBtn.addEventListener('click', () => {
-                    const container = closeBtn.closest('.game-embed-container');
-                    const originalCard = container._originalParent;
-                    const playBtn = originalCard ? originalCard.querySelector('.game-play-toggle') : null;
-                    const iframe = container.querySelector('.game-embed-iframe');
-
-                    // Close fullscreen game
-                    container.classList.remove('game-fullscreen');
-                    document.body.classList.remove('game-active');
-                    container.style.display = 'none';
-                    iframe.src = 'about:blank';
-
-                    // Move container back to its original card
-                    if (originalCard) {
-                        originalCard.appendChild(container);
-                    }
-                    if (playBtn) playBtn.style.display = '';
-                });
-            });
-        }
-
     }
 
     wait(ms) {

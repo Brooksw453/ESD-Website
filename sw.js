@@ -4,7 +4,7 @@
    network-first for pages
    ============================================ */
 
-const CACHE_NAME = 'es-designs-v9';
+const CACHE_NAME = 'es-designs-v10';
 const CORE_ASSETS = [
     '/',
     '/index.html',
@@ -15,6 +15,7 @@ const CORE_ASSETS = [
     '/css/components.css',
     '/css/animations.css',
     '/css/pages.css',
+    '/css/education.css',
     '/css/responsive.css',
     '/js/app.js',
     '/js/music-player.js',
@@ -23,6 +24,13 @@ const CORE_ASSETS = [
     '/js/scroll-animations.js',
     '/js/contact-widget.js',
     '/js/analytics.js',
+    '/pages/landing.html',
+    '/pages/elliptical.html',
+    '/pages/education.html',
+    '/pages/education-ally.html',
+    '/pages/education-courses.html',
+    '/pages/about.html',
+    '/pages/privacy.html',
     '/manifest.json',
     '/assets/images/brand/favicon.svg',
     '/assets/images/brand/esd-logo.png'

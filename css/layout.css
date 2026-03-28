@@ -50,6 +50,15 @@
     white-space: nowrap;
 }
 
+.nav-brand-parent {
+    opacity: 0.6;
+}
+
+.nav-brand-sep {
+    opacity: 0.4;
+    margin: 0 var(--space-xs);
+}
+
 .nav-links {
     display: flex;
     align-items: center;
