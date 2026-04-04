@@ -42,8 +42,8 @@ class Router {
                 description: 'A VR fitness adventure where your real elliptical movement powers gameplay. Branching tracks, collectible gems, and timed challenges on Meta Quest.'
             },
             '/education': {
-                title: 'ES Designs Education Technology | Document Accessibility & Adaptive Learning',
-                description: 'AI-powered education technology for higher education. Document Ally for WCAG 2.2 compliance. Adaptive learning platform with AI tutoring.'
+                title: 'ES Designs Education Technology | Adaptive Learning Courses & Document Accessibility',
+                description: 'Adaptive learning courses and AI-powered document accessibility for higher education. White-label course platform with integrated payments. Document Ally for WCAG 2.2 compliance.'
             },
             '/education/ally': {
                 title: 'Document Ally | AI-Powered WCAG 2.2 Document Accessibility',
@@ -87,8 +87,8 @@ class Router {
                 brandHref: '#/education',
                 links: [
                     { href: '#/', label: 'Home' },
+                    { href: '#/education/courses', label: 'Courses' },
                     { href: '#/education/ally', label: 'Document Ally' },
-                    { href: '#/education/courses', label: 'Adaptive Learning' },
                     { href: '#/about', label: 'About' },
                 ]
             },
@@ -119,8 +119,8 @@ class Router {
             ],
             ed: [
                 { href: '#/', label: 'Home' },
+                { href: '#/education/courses', label: 'Courses' },
                 { href: '#/education/ally', label: 'Document Ally' },
-                { href: '#/education/courses', label: 'Adaptive Learning' },
                 { href: '#/elliptical', label: 'Elliptical Explorer' },
                 { href: '#/about', label: 'About' },
                 { href: '#/privacy', label: 'Privacy Policy' },

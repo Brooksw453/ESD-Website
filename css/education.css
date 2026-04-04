@@ -131,7 +131,7 @@ body:not([data-section="ee"]) #page-content {
 }
 
 body:not([data-section="ee"]) .site-footer {
-    padding-bottom: var(--space-3xl);
+    padding: var(--space-2xl) var(--space-xl) var(--space-2xl);
 }
 
 body:not([data-section="ee"]) .contact-widget {
@@ -697,9 +697,9 @@ body[data-section="ed"] .back-to-top:hover {
 
 .ed-course-cards {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--space-xl);
-    max-width: 700px;
+    max-width: 960px;
     margin: 0 auto;
 }
 
@@ -719,9 +719,38 @@ body[data-section="ed"] .back-to-top:hover {
     margin-bottom: var(--space-xs);
 }
 
+.ed-course-tag {
+    display: inline-block;
+    background: #2563eb;
+    color: #fff;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 999px;
+    margin-bottom: var(--space-sm);
+}
+
+.ed-course-price {
+    display: block;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+}
+
+.ed-course-free {
+    color: #059669;
+}
+
 /* ============================================
    Education Section — Responsive
    ============================================ */
+
+@media (max-width: 960px) and (min-width: 768px) {
+    .ed-course-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 
 @media (max-width: 767px) {
     .ed-product-grid,
