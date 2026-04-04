@@ -20,6 +20,7 @@ class Router {
             '/education':         'ed',
             '/education/ally':    'ed',
             '/education/courses': 'ed',
+            '/education/demos':   'ed',
             '/about':             'shared',
             '/privacy':           'shared',
         };
@@ -52,6 +53,10 @@ class Router {
             '/education/courses': {
                 title: 'Adaptive Learning Platform | White-Label Course Platform by ES Designs',
                 description: 'White-label course platform with integrated payments, admin dashboard, and AI-powered adaptive learning. Built for workforce development and continuing education.'
+            },
+            '/education/demos': {
+                title: 'White-Label Platform Demos | ES Designs Education Technology',
+                description: 'See the ES Designs adaptive learning platform in action. Explore live demo platforms for Westlake University and Cardinal Academy — each fully branded and customized.'
             },
             '/about': {
                 title: 'About ES Designs | Brooks Winchell',

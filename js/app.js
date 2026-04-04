@@ -23,6 +23,7 @@
     router.register('/education', 'pages/education.html');
     router.register('/education/ally', 'pages/education-ally.html');
     router.register('/education/courses', 'pages/education-courses.html');
+    router.register('/education/demos', 'pages/education-demos.html');
     router.register('/about', 'pages/about.html');
     router.register('/privacy', 'pages/privacy.html');
     router.start();
