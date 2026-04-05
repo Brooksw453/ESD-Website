@@ -14,6 +14,71 @@
     <meta property="og:url" content="https://esdesigns.org">
     <meta property="og:type" content="website">
 
+    <!-- Structured Data (Schema.org) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "https://esdesigns.org/#organization",
+                "name": "Education Simulation Designs",
+                "alternateName": "ES Designs",
+                "url": "https://esdesigns.org",
+                "logo": "https://esdesigns.org/assets/images/brand/esd-logo.png",
+                "description": "ES Designs builds immersive VR fitness experiences and AI-powered education technology.",
+                "foundingDate": "2022",
+                "founder": {
+                    "@type": "Person",
+                    "name": "Brooks Winchell",
+                    "sameAs": "https://www.linkedin.com/in/brooks-winchell-42900185/"
+                },
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "email": "bwinchell@esdesigns.org",
+                    "contactType": "sales"
+                },
+                "sameAs": [
+                    "https://github.com/brooksw453",
+                    "https://www.linkedin.com/in/brooks-winchell-42900185/"
+                ]
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://esdesigns.org/#website",
+                "url": "https://esdesigns.org",
+                "name": "ES Designs",
+                "publisher": { "@id": "https://esdesigns.org/#organization" }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "name": "Elliptical Explorer",
+                "description": "VR fitness adventure for Meta Quest where real-world elliptical movement powers gameplay through branching tracks, collectible gems, and timed challenges.",
+                "applicationCategory": "GameApplication",
+                "operatingSystem": "Meta Quest",
+                "offers": {
+                    "@type": "Offer",
+                    "availability": "https://schema.org/InStock"
+                },
+                "author": { "@id": "https://esdesigns.org/#organization" }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "name": "Document Ally",
+                "description": "AI-powered tool that converts inaccessible documents into WCAG 2.2-compliant Word files.",
+                "applicationCategory": "UtilitiesApplication",
+                "url": "https://accessibility.esdesigns.org",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "author": { "@id": "https://esdesigns.org/#organization" }
+            }
+        ]
+    }
+    </script>
+
     <!-- Favicon & PWA -->
     <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
     <link rel="apple-touch-icon" href="assets/images/brand/esd-logo.png">
