@@ -349,14 +349,24 @@ class Router {
             });
         }
 
-        // Shared: scroll-to buttons and inline contact forms (used on ally + courses)
-        if (path === '/education/ally' || path === '/education/courses') {
-            // Scroll-to buttons
+        // Shared: scroll-to buttons, inline forms, compact tiles (all education pages)
+        if (path.startsWith('/education')) {
+            // Scroll-to buttons (offset by nav height so title isn't cut off)
             document.querySelectorAll('[data-scroll-to]').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
                     const target = document.getElementById(btn.getAttribute('data-scroll-to'));
-                    if (target) target.scrollIntoView({ behavior: 'smooth' });
+                    if (target) {
+                        const y = target.getBoundingClientRect().top + window.scrollY - 80;
+                        window.scrollTo({ top: y, behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Compact expandable feature cards (used on ally + courses)
+            document.querySelectorAll('.ed-feature-card-compact').forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('open');
                 });
             });
 
@@ -390,15 +400,6 @@ class Router {
             });
         }
 
-        // Document Ally page: expandable tiles
-        if (path === '/education/ally') {
-            // Compact expandable feature cards
-            document.querySelectorAll('.ed-feature-card-compact').forEach(card => {
-                card.addEventListener('click', () => {
-                    card.classList.toggle('open');
-                });
-            });
-        }
     }
 
     wait(ms) {

@@ -20,34 +20,46 @@
             <h2>Everything You Need</h2>
         </div>
         <div class="ed-features-grid" data-stagger>
-            <div class="ed-feature-card" data-animate="fade-up">
-                <div style="font-size: 2rem; margin-bottom: var(--space-md);">&#x1F3E2;</div>
-                <h3>White-Label Branding</h3>
+            <div class="ed-feature-card-compact" data-animate="fade-up">
+                <div class="ed-compact-header">
+                    <h3>White-Label Branding</h3>
+                    <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
+                </div>
                 <p>Launch your own branded course portal. Your logo, your domain, your students' experience &mdash; fully customizable.</p>
             </div>
-            <div class="ed-feature-card" data-animate="fade-up">
-                <div style="font-size: 2rem; margin-bottom: var(--space-md);">&#x1F4B3;</div>
-                <h3>Integrated Payments</h3>
+            <div class="ed-feature-card-compact" data-animate="fade-up">
+                <div class="ed-compact-header">
+                    <h3>Integrated Payments</h3>
+                    <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
+                </div>
                 <p>Built-in payment processing for course fees. No third-party payment setup required &mdash; start collecting revenue immediately.</p>
             </div>
-            <div class="ed-feature-card" data-animate="fade-up">
-                <div style="font-size: 2rem; margin-bottom: var(--space-md);">&#x1F4CA;</div>
-                <h3>Admin Dashboard</h3>
+            <div class="ed-feature-card-compact" data-animate="fade-up">
+                <div class="ed-compact-header">
+                    <h3>Admin Dashboard</h3>
+                    <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
+                </div>
                 <p>Track enrollments, payments, completion rates, and usage data from a single dashboard. Full visibility into your program.</p>
             </div>
-            <div class="ed-feature-card" data-animate="fade-up">
-                <div style="font-size: 2rem; margin-bottom: var(--space-md);">&#x1F4DA;</div>
-                <h3>Course Catalog Management</h3>
+            <div class="ed-feature-card-compact" data-animate="fade-up">
+                <div class="ed-compact-header">
+                    <h3>Course Catalog Management</h3>
+                    <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
+                </div>
                 <p>Add courses by link to serve your existing content, or access our growing catalog of original, high-value courses.</p>
             </div>
-            <div class="ed-feature-card" data-animate="fade-up">
-                <div style="font-size: 2rem; margin-bottom: var(--space-md);">&#x1F916;</div>
-                <h3>Adaptive AI Features</h3>
+            <div class="ed-feature-card-compact" data-animate="fade-up">
+                <div class="ed-compact-header">
+                    <h3>Adaptive AI Features</h3>
+                    <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
+                </div>
                 <p>AI tutoring adapts to each learner's pace with real-time feedback and personalized difficulty scaling.</p>
             </div>
-            <div class="ed-feature-card" data-animate="fade-up">
-                <div style="font-size: 2rem; margin-bottom: var(--space-md);">&#x1F3AF;</div>
-                <h3>Workforce Development Ready</h3>
+            <div class="ed-feature-card-compact" data-animate="fade-up">
+                <div class="ed-compact-header">
+                    <h3>Workforce Development Ready</h3>
+                    <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
+                </div>
                 <p>Purpose-built for workforce dev programs, community colleges, and continuing education providers with high-demand course content.</p>
             </div>
         </div>
@@ -89,6 +101,39 @@
                 </ul>
                 <button type="button" data-scroll-to="coursesContactForm" class="neon-btn">Schedule a Demo &rarr;</button>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- Inline Contact Form -->
+<section class="section">
+    <div class="container">
+        <div class="ed-inline-contact" id="coursesContactForm" data-animate="fade-up">
+            <h3>Ready to Launch Your Own Platform?</h3>
+            <p>Tell us about your program and we'll set up a personalized demo.</p>
+            <form id="coursesInlineForm" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+                <input type="hidden" name="_subject" value="Platform Demo Request — Adaptive Learning">
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="false">
+                <div class="ed-inline-contact-grid">
+                    <div>
+                        <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div>
+                        <input type="email" name="email" placeholder="Work Email" required>
+                    </div>
+                    <div class="full-width">
+                        <input type="text" name="institution" placeholder="Institution or Organization">
+                    </div>
+                    <div class="full-width">
+                        <textarea name="message" placeholder="Tell us about your program (audience, estimated learners, timeline, etc.)" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="ed-inline-contact-actions">
+                    <button type="submit" class="neon-btn btn-filled">Request a Demo &rarr;</button>
+                    <span class="contact-status" id="coursesFormStatus"></span>
+                </div>
+            </form>
         </div>
     </div>
 </section>
@@ -164,39 +209,6 @@
             <li>Dedicated onboarding and support</li>
         </ul>
         <button type="button" data-scroll-to="coursesContactForm" class="neon-btn btn-filled">Schedule a Platform Demo &rarr;</button>
-    </div>
-</section>
-
-<!-- Inline Contact Form -->
-<section class="section">
-    <div class="container">
-        <div class="ed-inline-contact" id="coursesContactForm" data-animate="fade-up">
-            <h3>Ready to Launch Your Own Platform?</h3>
-            <p>Tell us about your program and we'll set up a personalized demo.</p>
-            <form id="coursesInlineForm" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
-                <input type="hidden" name="_subject" value="Platform Demo Request — Adaptive Learning">
-                <input type="text" name="_honey" style="display:none">
-                <input type="hidden" name="_captcha" value="false">
-                <div class="ed-inline-contact-grid">
-                    <div>
-                        <input type="text" name="name" placeholder="Your Name" required>
-                    </div>
-                    <div>
-                        <input type="email" name="email" placeholder="Work Email" required>
-                    </div>
-                    <div class="full-width">
-                        <input type="text" name="institution" placeholder="Institution or Organization">
-                    </div>
-                    <div class="full-width">
-                        <textarea name="message" placeholder="Tell us about your program (audience, estimated learners, timeline, etc.)" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="ed-inline-contact-actions">
-                    <button type="submit" class="neon-btn btn-filled">Request a Demo &rarr;</button>
-                    <span class="contact-status" id="coursesFormStatus"></span>
-                </div>
-            </form>
-        </div>
     </div>
 </section>
 

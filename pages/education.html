@@ -37,9 +37,9 @@
                 <h3>Document Ally</h3>
                 <p>AI-powered WCAG 2.2 document remediation. Convert inaccessible documents to compliant Word files in seconds.</p>
                 <ul class="ed-feature-list">
-                    <li>10 free conversions per hour</li>
+                    <li>5 free conversions per hour</li>
                     <li>WCAG 2.2 compliant output</li>
-                    <li>No account required</li>
+                    <li>Free email sign-in</li>
                     <li>Privacy-first &mdash; documents processed and deleted</li>
                 </ul>
                 <a href="#/education/ally" class="neon-btn">Learn More &rarr;</a>
@@ -125,6 +125,39 @@
             <li>Admin dashboard with analytics</li>
             <li>Dedicated support and onboarding</li>
         </ul>
-        <a href="mailto:bwinchell@esdesigns.org?subject=Schedule%20a%20Free%20Demo" class="neon-btn btn-filled">Schedule a Free Demo &rarr;</a>
+        <button type="button" data-scroll-to="eduContactForm" class="neon-btn btn-filled">Schedule a Free Demo &rarr;</button>
+    </div>
+</section>
+
+<!-- Inline Contact Form -->
+<section class="section">
+    <div class="container">
+        <div class="ed-inline-contact" id="eduContactForm" data-animate="fade-up">
+            <h3>Let's Talk About Your Institution's Needs</h3>
+            <p>Tell us about your program and we'll set up a personalized demo of our education technology.</p>
+            <form id="eduInlineForm" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+                <input type="hidden" name="_subject" value="Education Technology Demo Request">
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="false">
+                <div class="ed-inline-contact-grid">
+                    <div>
+                        <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div>
+                        <input type="email" name="email" placeholder="Work Email" required>
+                    </div>
+                    <div class="full-width">
+                        <input type="text" name="institution" placeholder="Institution or Organization">
+                    </div>
+                    <div class="full-width">
+                        <textarea name="message" placeholder="What are you looking for? (course platform, document accessibility, or both)" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="ed-inline-contact-actions">
+                    <button type="submit" class="neon-btn btn-filled">Send Inquiry &rarr;</button>
+                    <span class="contact-status" id="eduFormStatus"></span>
+                </div>
+            </form>
+        </div>
     </div>
 </section>

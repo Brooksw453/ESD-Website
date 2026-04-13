@@ -126,6 +126,14 @@ body[data-section="landing"] #particle-canvas {
 
 /* --- Music Player padding — remove when hidden --- */
 
+body[data-section="ed"] .section {
+    padding: var(--space-2xl) 0;
+}
+
+body[data-section="ed"] .section-header {
+    margin-bottom: var(--space-xl);
+}
+
 body:not([data-section="ee"]) #page-content {
     padding-bottom: 0;
 }
