@@ -348,6 +348,58 @@ class Router {
                 });
             });
         }
+
+        // Document Ally page: expandable tiles, scroll-to buttons, inline form
+        if (path === '/education/ally') {
+            // Compact expandable feature cards
+            document.querySelectorAll('.ed-feature-card-compact').forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('open');
+                });
+            });
+
+            // Scroll-to buttons (e.g. "Contact Us" -> inline form)
+            document.querySelectorAll('[data-scroll-to]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = document.getElementById(btn.getAttribute('data-scroll-to'));
+                    if (target) target.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            // Inline contact form AJAX submission
+            const form = document.getElementById('allyInlineForm');
+            const status = document.getElementById('allyFormStatus');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const btn = form.querySelector('button[type="submit"]');
+                    const orig = btn.textContent;
+                    btn.textContent = 'Sending...';
+                    btn.disabled = true;
+                    status.textContent = '';
+                    status.className = 'contact-status';
+                    fetch(form.action, { method: 'POST', body: new FormData(form) })
+                        .then(res => {
+                            if (res.ok) {
+                                status.textContent = "Sent! We'll be in touch soon.";
+                                form.reset();
+                            } else {
+                                status.textContent = 'Something went wrong. Try again.';
+                                status.className = 'contact-status error';
+                            }
+                        })
+                        .catch(() => {
+                            status.textContent = 'Something went wrong. Try again.';
+                            status.className = 'contact-status error';
+                        })
+                        .finally(() => {
+                            btn.textContent = orig;
+                            btn.disabled = false;
+                        });
+                });
+            }
+        }
     }
 
     wait(ms) {
