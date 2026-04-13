@@ -8,7 +8,7 @@
         <p class="ed-description" data-animate="fade-up">A turnkey, white-label course platform for workforce development programs, community colleges, and continuing education. Integrated payment processing, full admin dashboard, and adaptive AI &mdash; ready to deploy under your brand.</p>
         <div class="ed-hero-actions" data-animate="fade-up">
             <a href="https://courses.esdesigns.org" target="_blank" rel="noopener" class="neon-btn btn-filled">Browse Courses &rarr;</a>
-            <a href="mailto:bwinchell@esdesigns.org?subject=Platform%20Demo%20Request" class="neon-btn">Schedule a Platform Demo &rarr;</a>
+            <button type="button" data-scroll-to="coursesContactForm" class="neon-btn">Schedule a Platform Demo &rarr;</button>
         </div>
     </div>
 </section>
@@ -87,7 +87,7 @@
                     <li>Full admin dashboard with analytics</li>
                     <li>Add your own courses by link</li>
                 </ul>
-                <a href="mailto:bwinchell@esdesigns.org?subject=Platform%20Demo%20Request" class="neon-btn">Schedule a Demo &rarr;</a>
+                <button type="button" data-scroll-to="coursesContactForm" class="neon-btn">Schedule a Demo &rarr;</button>
             </div>
         </div>
     </div>
@@ -163,7 +163,40 @@
             <li>Accessibility-compliant materials via Document Ally</li>
             <li>Dedicated onboarding and support</li>
         </ul>
-        <a href="mailto:bwinchell@esdesigns.org?subject=Platform%20Demo%20Request" class="neon-btn btn-filled">Schedule a Platform Demo &rarr;</a>
+        <button type="button" data-scroll-to="coursesContactForm" class="neon-btn btn-filled">Schedule a Platform Demo &rarr;</button>
+    </div>
+</section>
+
+<!-- Inline Contact Form -->
+<section class="section">
+    <div class="container">
+        <div class="ed-inline-contact" id="coursesContactForm" data-animate="fade-up">
+            <h3>Ready to Launch Your Own Platform?</h3>
+            <p>Tell us about your program and we'll set up a personalized demo.</p>
+            <form id="coursesInlineForm" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+                <input type="hidden" name="_subject" value="Platform Demo Request — Adaptive Learning">
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="false">
+                <div class="ed-inline-contact-grid">
+                    <div>
+                        <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div>
+                        <input type="email" name="email" placeholder="Work Email" required>
+                    </div>
+                    <div class="full-width">
+                        <input type="text" name="institution" placeholder="Institution or Organization">
+                    </div>
+                    <div class="full-width">
+                        <textarea name="message" placeholder="Tell us about your program (audience, estimated learners, timeline, etc.)" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="ed-inline-contact-actions">
+                    <button type="submit" class="neon-btn btn-filled">Request a Demo &rarr;</button>
+                    <span class="contact-status" id="coursesFormStatus"></span>
+                </div>
+            </form>
+        </div>
     </div>
 </section>
 
