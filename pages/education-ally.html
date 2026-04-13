@@ -48,37 +48,47 @@
             <p>Intelligent remediation that goes beyond simple formatting.</p>
         </div>
         <div class="ed-features-grid" data-stagger>
-            <div class="ed-feature-card" data-animate="fade-up">
-                <h3>Heading Hierarchy</h3>
+            <div class="ed-feature-card-compact" data-animate="fade-up" onclick="this.classList.toggle('open')">
+                <div class="ed-compact-header">
+                    <h3>Heading Hierarchy</h3>
+                    <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
+                </div>
                 <p>Enforces semantic heading structure (H1, H2, H3) &mdash; never skips levels, ensuring screen readers navigate correctly.</p>
             </div>
-            <div class="ed-feature-card" data-animate="fade-up">
-                <h3>Descriptive Links</h3>
+            <div class="ed-feature-card-compact" data-animate="fade-up" onclick="this.classList.toggle('open')">
+                <div class="ed-compact-header">
+                    <h3>Descriptive Links</h3>
+                    <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
+                </div>
                 <p>Rewrites vague link text like "click here" into meaningful, descriptive hyperlinks.</p>
             </div>
-            <div class="ed-feature-card" data-animate="fade-up">
-                <h3>Proper Lists &amp; Tables</h3>
+            <div class="ed-feature-card-compact" data-animate="fade-up" onclick="this.classList.toggle('open')">
+                <div class="ed-compact-header">
+                    <h3>Proper Lists &amp; Tables</h3>
+                    <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
+                </div>
                 <p>Converts content into properly structured lists and formats data tables with header rows for screen readers.</p>
             </div>
-            <div class="ed-feature-card" data-animate="fade-up">
-                <h3>Language Metadata</h3>
-                <p>Sets document language metadata for assistive technology compatibility.</p>
-            </div>
-            <div class="ed-feature-card" data-animate="fade-up">
-                <h3>Syllabus Detection</h3>
+            <div class="ed-feature-card-compact" data-animate="fade-up" onclick="this.classList.toggle('open')">
+                <div class="ed-compact-header">
+                    <h3>Syllabus Detection</h3>
+                    <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
+                </div>
                 <p>Auto-detects course syllabi and inserts missing accessibility accommodation statements.</p>
             </div>
-            <div class="ed-feature-card" data-animate="fade-up">
-                <h3>Image Alt Text</h3>
+            <div class="ed-feature-card-compact" data-animate="fade-up" onclick="this.classList.toggle('open')">
+                <div class="ed-compact-header">
+                    <h3>Image Alt Text</h3>
+                    <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
+                </div>
                 <p>Extracts images from PDFs and generates descriptive alt text using AI vision for screen reader compatibility.</p>
             </div>
-            <div class="ed-feature-card" data-animate="fade-up">
-                <h3>Accessible Tables</h3>
+            <div class="ed-feature-card-compact" data-animate="fade-up" onclick="this.classList.toggle('open')">
+                <div class="ed-compact-header">
+                    <h3>Accessible Tables</h3>
+                    <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
+                </div>
                 <p>Formats data tables with color-coded header rows, proper structure, and screen reader-friendly markup.</p>
-            </div>
-            <div class="ed-feature-card" data-animate="fade-up">
-                <h3>Content Preservation</h3>
-                <p>Preserves all original content &mdash; restructures without removing anything from your document.</p>
             </div>
         </div>
     </div>
@@ -135,12 +145,80 @@
                     <li>Compliance reporting</li>
                     <li>SSO &amp; LMS integration</li>
                 </ul>
-                <a href="#" onclick="event.preventDefault(); document.getElementById('contactFab').click();" class="neon-btn btn-filled">Contact Us &rarr;</a>
+                <a href="javascript:void(0)" onclick="document.getElementById('allyContactForm').scrollIntoView({behavior:'smooth'})" class="neon-btn btn-filled">Contact Us &rarr;</a>
             </div>
         </div>
         <p style="text-align: center; margin-top: var(--space-lg); color: var(--text-secondary); font-size: var(--text-sm);" data-animate="fade-up">Institutional licenses include unlimited conversions, your institution's branding, a usage analytics dashboard, and dedicated onboarding support.</p>
     </div>
 </section>
+
+<!-- Inline Contact Form -->
+<section class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+        <div class="ed-inline-contact" id="allyContactForm" data-animate="fade-up">
+            <h3>Interested in an Institutional License?</h3>
+            <p>Tell us about your institution and we'll follow up with pricing and next steps.</p>
+            <form id="allyInlineForm" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+                <input type="hidden" name="_subject" value="Institutional License Inquiry — Document Ally">
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="false">
+                <div class="ed-inline-contact-grid">
+                    <div>
+                        <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div>
+                        <input type="email" name="email" placeholder="Work Email" required>
+                    </div>
+                    <div class="full-width">
+                        <input type="text" name="institution" placeholder="Institution Name">
+                    </div>
+                    <div class="full-width">
+                        <textarea name="message" placeholder="Tell us about your needs (estimated users, timeline, etc.)" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="ed-inline-contact-actions">
+                    <button type="submit" class="neon-btn btn-filled">Send Inquiry &rarr;</button>
+                    <span class="contact-status" id="allyFormStatus"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+(function() {
+    var form = document.getElementById('allyInlineForm');
+    var status = document.getElementById('allyFormStatus');
+    if (!form) return;
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var btn = form.querySelector('button[type="submit"]');
+        var orig = btn.textContent;
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+        status.textContent = '';
+        status.className = 'contact-status';
+        fetch(form.action, { method: 'POST', body: new FormData(form) })
+            .then(function(res) {
+                if (res.ok) {
+                    status.textContent = 'Sent! We\'ll be in touch soon.';
+                    form.reset();
+                } else {
+                    status.textContent = 'Something went wrong. Try again.';
+                    status.className = 'contact-status error';
+                }
+            })
+            .catch(function() {
+                status.textContent = 'Something went wrong. Try again.';
+                status.className = 'contact-status error';
+            })
+            .finally(function() {
+                btn.textContent = orig;
+                btn.disabled = false;
+            });
+    });
+})();
+</script>
 
 <!-- Integration with CourseHub -->
 <section class="ed-institution-cta">

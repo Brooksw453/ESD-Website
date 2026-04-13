@@ -742,6 +742,135 @@ body[data-section="ed"] .back-to-top:hover {
     color: #059669;
 }
 
+/* --- Compact Expandable Feature Cards --- */
+
+.ed-feature-card-compact {
+    background: var(--bg-card);
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-lg, 12px);
+    padding: var(--space-md) var(--space-lg);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    user-select: none;
+}
+
+.ed-feature-card-compact:hover {
+    border-color: #2563eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.ed-feature-card-compact .ed-compact-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+}
+
+.ed-feature-card-compact h3 {
+    font-size: var(--text-base);
+    margin: 0;
+}
+
+.ed-feature-card-compact .ed-compact-toggle {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+}
+
+.ed-feature-card-compact.open .ed-compact-toggle {
+    transform: rotate(180deg);
+}
+
+.ed-feature-card-compact p {
+    max-height: 0;
+    overflow: hidden;
+    margin: 0;
+    opacity: 0;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    transition: max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
+}
+
+.ed-feature-card-compact.open p {
+    max-height: 120px;
+    opacity: 1;
+    margin-top: var(--space-sm);
+}
+
+/* --- Inline Contact Form --- */
+
+.ed-inline-contact {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--bg-card);
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+}
+
+.ed-inline-contact h3 {
+    margin-bottom: var(--space-xs);
+}
+
+.ed-inline-contact p {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.ed-inline-contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+}
+
+.ed-inline-contact-grid .full-width {
+    grid-column: 1 / -1;
+}
+
+.ed-inline-contact input,
+.ed-inline-contact textarea {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-lg, 12px);
+    font-size: var(--text-base);
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    transition: border-color var(--transition-base);
+    box-sizing: border-box;
+}
+
+.ed-inline-contact input:focus,
+.ed-inline-contact textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.ed-inline-contact textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.ed-inline-contact-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+}
+
+.ed-inline-contact .contact-status {
+    font-size: var(--text-sm);
+    color: #059669;
+}
+
+.ed-inline-contact .contact-status.error {
+    color: #dc2626;
+}
+
 /* ============================================
    Education Section — Responsive
    ============================================ */
@@ -762,6 +891,10 @@ body[data-section="ed"] .back-to-top:hover {
     .ed-steps,
     .ed-compliance-grid,
     .ed-features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ed-inline-contact-grid {
         grid-template-columns: 1fr;
     }
 
