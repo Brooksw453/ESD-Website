@@ -1,0 +1,227 @@
+<!-- AI Website Audit Tool — Product Page -->
+
+<!-- Hero -->
+<section class="ed-hero">
+    <div class="container">
+        <p class="ed-hero-eyebrow" data-animate="fade-up">Coming soon &middot; Free single-page audit available at launch</p>
+        <h1 data-animate="fade-up">WCAG 2.2 website audits that hand you the fix, not just the finding.</h1>
+        <p class="ed-subtitle" data-animate="fade-up">AI-powered accessibility audits built for higher ed. Crawl-based, code-level, branded reports &mdash; and no accessibility overlay.</p>
+        <p class="ed-description" data-animate="fade-up">Most accessibility scanners tell you what's wrong. The ES Designs Audit Tool tells you how to fix it, with AI-generated, ticket-ready remediation suggestions for every issue it finds. Run a free single-page audit, get a done-for-you audit report, or subscribe to continuous monitoring &mdash; all on the same underlying engine.</p>
+        <div class="ed-hero-actions" data-animate="fade-up">
+            <button type="button" data-scroll-to="auditForm" class="neon-btn btn-filled">Try the free audit &rarr;</button>
+            <button type="button" data-scroll-to="auditContact" class="neon-btn">Request an audit report &rarr;</button>
+        </div>
+    </div>
+</section>
+
+<!-- Free single-page audit form -->
+<section class="section">
+    <div class="container">
+        <div class="ed-featured-card" id="auditForm" data-animate="fade-up">
+            <div class="ed-featured-badge">Free &middot; No signup to see results</div>
+            <h2>Run a free single-page WCAG 2.2 audit</h2>
+            <p class="ed-featured-tagline">Paste any public URL. Get a one-page report card in seconds.</p>
+            <p class="ed-featured-description">Leave your email to unlock the full branded PDF with line-by-line findings, priority ranking, and AI remediation suggestions.</p>
+            <form id="freeAuditForm" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+                <input type="hidden" name="_subject" value="Free Audit Request">
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <div class="ed-inline-contact-grid">
+                    <div class="full-width">
+                        <input type="url" name="audit_url" placeholder="https://your-institution.edu/catalog" required>
+                    </div>
+                    <div>
+                        <input type="email" name="email" placeholder="Work email (for the full report)" required>
+                    </div>
+                    <div>
+                        <input type="text" name="institution" placeholder="Institution (optional)">
+                    </div>
+                </div>
+                <div class="ed-inline-contact-actions">
+                    <button type="submit" class="neon-btn btn-filled">Run the audit &rarr;</button>
+                    <span class="contact-status" id="freeAuditStatus"></span>
+                </div>
+            </form>
+            <p style="font-size: 0.85rem; color: #9ca3af; margin-top: var(--space-sm);">During our private beta, audits are delivered by email within one business day. Public launch: instant results.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Three tiers -->
+<section class="section">
+    <div class="container">
+        <h2 class="ed-section-heading" data-animate="fade-up">Three ways to use the audit engine</h2>
+        <p class="ed-section-subheading" data-animate="fade-up">Same technology. Different delivery. Pick the level of depth your institution actually needs.</p>
+
+        <div class="ed-product-grid" data-stagger>
+            <!-- Free single-page -->
+            <div class="ed-product-card" data-animate="fade-up">
+                <div class="ed-product-icon">&#x1F50D;</div>
+                <div class="ed-product-tag">Free forever</div>
+                <h3>Single-page audit</h3>
+                <p>Quick WCAG 2.2 AA report card for any one URL. Perfect for sanity-checking a landing page or a new publication before it goes live.</p>
+                <ul class="ed-feature-list">
+                    <li>WCAG 2.2 AA conformance summary</li>
+                    <li>Top 10 issues ranked by severity</li>
+                    <li>One-page shareable PDF</li>
+                    <li>Runs in under 60 seconds</li>
+                </ul>
+                <button type="button" data-scroll-to="auditForm" class="neon-btn">Try it free &rarr;</button>
+            </div>
+
+            <!-- Done-for-you -->
+            <div class="ed-product-card" data-animate="fade-up">
+                <div class="ed-product-icon">&#x1F4CA;</div>
+                <div class="ed-product-tag">From $2,500</div>
+                <h3>Done-for-you audit report</h3>
+                <p>We run a full-site crawl, review the output, and deliver a branded audit report with a prioritized remediation plan. Includes a one-hour walkthrough call.</p>
+                <ul class="ed-feature-list">
+                    <li>Full public-site crawl (up to 1,000 pages)</li>
+                    <li>Branded PDF report with your institution's logo</li>
+                    <li>AI-generated remediation suggestions</li>
+                    <li>60-minute walkthrough call with Brooks</li>
+                </ul>
+                <button type="button" data-scroll-to="auditContact" class="neon-btn">Request a quote &rarr;</button>
+            </div>
+
+            <!-- Monitoring -->
+            <div class="ed-product-card" data-animate="fade-up">
+                <div class="ed-product-icon">&#x1F504;</div>
+                <div class="ed-product-tag">$99&ndash;$299/mo</div>
+                <h3>Continuous monitoring</h3>
+                <p>Scheduled scans of your public domain with quarterly trend reports. Catch accessibility regressions before they become legal exposure.</p>
+                <ul class="ed-feature-list">
+                    <li>Weekly automated scans</li>
+                    <li>Quarterly executive trend reports</li>
+                    <li>Email alerts on new critical issues</li>
+                    <li>Cancel anytime</li>
+                </ul>
+                <button type="button" data-scroll-to="auditContact" class="neon-btn">Get notified at launch &rarr;</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What we check -->
+<section class="section" style="background: #f0f5ff;">
+    <div class="container" data-animate="fade-up">
+        <h2 class="ed-section-heading">What we check</h2>
+        <p class="ed-section-subheading">Full WCAG 2.2 Level AA coverage, with extra focus on the issues that most often land public institutions in OCR complaints.</p>
+
+        <div class="ed-product-grid" data-stagger>
+            <div class="ed-product-card" data-animate="fade-up">
+                <h3>Perceivable</h3>
+                <ul class="ed-feature-list">
+                    <li>Color contrast (1.4.3)</li>
+                    <li>Alt text and text alternatives (1.1.1)</li>
+                    <li>Captions and audio descriptions (1.2.x)</li>
+                    <li>Resize and reflow (1.4.4, 1.4.10)</li>
+                </ul>
+            </div>
+            <div class="ed-product-card" data-animate="fade-up">
+                <h3>Operable</h3>
+                <ul class="ed-feature-list">
+                    <li>Keyboard accessibility (2.1.x)</li>
+                    <li>Focus visibility and target size (2.4.7, 2.5.8)</li>
+                    <li>Skip links and navigation (2.4.1, 2.4.3)</li>
+                    <li>Dragging alternatives &mdash; new in 2.2 (2.5.7)</li>
+                </ul>
+            </div>
+            <div class="ed-product-card" data-animate="fade-up">
+                <h3>Understandable</h3>
+                <ul class="ed-feature-list">
+                    <li>Language of page &amp; parts (3.1.x)</li>
+                    <li>Consistent navigation and identification (3.2.x)</li>
+                    <li>Form labels and instructions (3.3.x)</li>
+                    <li>Redundant entry &mdash; new in 2.2 (3.3.7)</li>
+                </ul>
+            </div>
+            <div class="ed-product-card" data-animate="fade-up">
+                <h3>Robust</h3>
+                <ul class="ed-feature-list">
+                    <li>Valid name, role, value (4.1.2)</li>
+                    <li>Status messages (4.1.3)</li>
+                    <li>ARIA usage audit</li>
+                    <li>Parsing and markup quality</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why AI-native -->
+<section class="section">
+    <div class="container">
+        <h2 class="ed-section-heading" data-animate="fade-up">Why AI-native matters</h2>
+        <p class="ed-section-subheading" data-animate="fade-up">Most audit tools give you a spreadsheet of failures. Ours hands your developer ticket-ready fixes.</p>
+
+        <div class="ed-product-grid" data-stagger>
+            <div class="ed-product-card" data-animate="fade-up">
+                <h3>axe, WAVE, Pa11y</h3>
+                <p>Great open-source scanners. Tell you <em>what</em> is wrong, with raw accessibility rules output. Requires an accessibility expert to translate into a remediation plan.</p>
+            </div>
+            <div class="ed-product-card" data-animate="fade-up">
+                <h3>Enterprise vendors</h3>
+                <p>Siteimprove, Level Access. Excellent tooling built for Fortune 500 IT teams. $20,000&ndash;$100,000+ per year. Overkill for a regional college with a discretionary budget.</p>
+            </div>
+            <div class="ed-product-card" data-animate="fade-up" style="border: 2px solid #2563eb;">
+                <h3>ES Designs Audit Tool</h3>
+                <p>WCAG 2.2 rules audit <em>plus</em> AI-generated remediation: code-level fixes, plain-English explanations for non-technical staff, ticket-ready descriptions for your web developer queue. Built for the resource profile of actual higher-ed institutions.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- No overlay callout -->
+<section class="ed-institution-cta">
+    <div class="container" data-animate="fade-up">
+        <h2>Zero accessibility overlays. Ever.</h2>
+        <p style="max-width: 680px; margin: 0 auto; color: var(--text-secondary);">The audit tool produces reports and remediation guidance. We do not inject third-party scripts into your website, we do not sell overlay products, and we do not work with vendors who do. Disability advocates and procurement officers actively screen against overlay vendors &mdash; and they're right to.</p>
+    </div>
+</section>
+
+<!-- Contact form -->
+<section class="section">
+    <div class="container">
+        <div class="ed-inline-contact" id="auditContact" data-animate="fade-up">
+            <h3>Request an audit report or monitoring quote</h3>
+            <p>Tell us about your site and we'll scope the work. Full-site done-for-you audits typically start at $2,500 for one domain and scale with page count.</p>
+            <form id="auditContactForm" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+                <input type="hidden" name="_subject" value="Audit Tool Inquiry">
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="false">
+                <div class="ed-inline-contact-grid">
+                    <div>
+                        <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div>
+                        <input type="email" name="email" placeholder="Work Email" required>
+                    </div>
+                    <div>
+                        <input type="text" name="institution" placeholder="Institution">
+                    </div>
+                    <div>
+                        <input type="url" name="site_url" placeholder="Site URL to audit">
+                    </div>
+                    <div class="full-width">
+                        <select name="interest" style="width:100%;padding:12px 16px;border:1px solid #d1d5db;border-radius:8px;font-size:1rem;font-family:inherit;outline:none;background:white;">
+                            <option value="">What are you interested in?</option>
+                            <option>Done-for-you audit report</option>
+                            <option>Continuous monitoring subscription</option>
+                            <option>Both</option>
+                            <option>Not sure yet &mdash; want to discuss</option>
+                        </select>
+                    </div>
+                    <div class="full-width">
+                        <textarea name="message" placeholder="Approximate page count, current compliance posture, timeline &mdash; whatever helps us scope." rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="ed-inline-contact-actions">
+                    <button type="submit" class="neon-btn btn-filled">Send inquiry &rarr;</button>
+                    <span class="contact-status" id="auditContactStatus"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

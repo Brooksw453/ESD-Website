@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ES Designs | VR Fitness & Education Technology</title>
     <meta name="description" content="ES Designs builds immersive VR fitness experiences and AI-powered education technology. Home of Elliptical Explorer and Document Ally.">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self'; frame-src https://brooksw453.github.io; connect-src 'self' https://formsubmit.co https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self'; frame-src https://brooksw453.github.io https://scheduler.zoom.us; connect-src 'self' https://formsubmit.co https://awcmkderlpyxpkmrnvwi.supabase.co https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;">
 
     <!-- Open Graph -->
     <meta property="og:title" content="ES Designs | VR Fitness & Education Technology">
-    <meta property="og:description" content="Immersive VR fitness experiences and AI-powered education technology.">
+    <meta property="og:description" content="ES Designs builds higher education accessibility, training, and adaptive learning technology. Home of Document Ally and Elliptical Explorer.">
     <meta property="og:image" content="assets/images/elliptical/cover.png">
     <meta property="og:url" content="https://esdesigns.org">
     <meta property="og:type" content="website">
@@ -67,12 +67,21 @@
                 "name": "Document Ally",
                 "description": "AI-powered tool that converts inaccessible documents into WCAG 2.2-compliant Word files.",
                 "applicationCategory": "UtilitiesApplication",
-                "url": "https://accessibility.esdesigns.org",
+                "url": "https://esdesigns.org/#/education/ally",
                 "offers": {
                     "@type": "Offer",
                     "price": "0",
                     "priceCurrency": "USD"
                 },
+                "author": { "@id": "https://esdesigns.org/#organization" }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "name": "Document Ally Pro",
+                "description": "Institutional AI-powered WCAG 2.2 document remediation for higher education. Bulk upload, large-document processing, branded conformance reports.",
+                "applicationCategory": "BusinessApplication",
+                "operatingSystem": "Web",
+                "url": "https://esdesigns.org/#/education/ally-pro",
                 "author": { "@id": "https://esdesigns.org/#organization" }
             }
         ]
@@ -264,6 +273,8 @@
     <audio id="audioElement" preload="metadata"></audio>
 
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
     <script src="js/particles.js"></script>
     <script src="js/music-player.js"></script>
     <script src="js/scroll-animations.js"></script>

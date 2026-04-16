@@ -20,16 +20,21 @@ class Router {
             '/education':         'ed',
             '/education/ally':    'ed',
             '/education/courses': 'ed',
-            '/education/demos':   'ed',
+            '/education/demos':        'ed',
+            '/education/ally-pro':     'ed',
+            '/education/audit':        'ed',
+            '/education/wcag-course':  'ed',
             '/about':             'shared',
             '/privacy':           'shared',
         };
 
         // Legacy route redirects
         this.redirects = {
-            '/vr':    '/elliptical',
-            '/ai':    '/education',
-            '/games': '/',
+            '/vr':                       '/elliptical',
+            '/elliptical-explorer':      '/elliptical',
+            '/ai':                       '/education',
+            '/games':                    '/',
+            '/education/document-ally':  '/education/ally',
         };
 
         // Page metadata for SEO
@@ -57,6 +62,18 @@ class Router {
             '/education/demos': {
                 title: 'White-Label Platform Demos | ES Designs Education Technology',
                 description: 'See the ES Designs adaptive learning platform in action. Explore live demo platforms for Westlake University and Cardinal Academy — each fully branded and customized.'
+            },
+            '/education/ally-pro': {
+                title: 'Document Ally Pro | Coming Soon — Join the Waitlist',
+                description: 'The institutional version of Document Ally. AI-powered WCAG 2.2 document remediation for higher ed. Join the waitlist for early access and pilot pricing.'
+            },
+            '/education/audit': {
+                title: 'AI Website Audit Tool | WCAG 2.2 AA for Higher Ed',
+                description: 'Crawl-based WCAG 2.2 audits with AI-generated remediation suggestions. Branded audit reports for higher education institutions. Run a free single-page audit today.'
+            },
+            '/education/wcag-course': {
+                title: 'WCAG 2.2 for Higher Ed | Self-Paced Course for Faculty',
+                description: 'A plain-English WCAG 2.2 course built for higher education faculty. 8 modules, completion certificate, included with every institutional Document Ally Pro license.'
             },
             '/about': {
                 title: 'About ES Designs | Brooks Winchell',
@@ -92,8 +109,10 @@ class Router {
                 brandHref: '#/education',
                 links: [
                     { href: '#/', label: 'Home' },
+                    { href: '#/education/ally-pro', label: 'Document Ally Pro' },
+                    { href: '#/education/audit', label: 'Audit Tool' },
+                    { href: '#/education/wcag-course', label: 'WCAG 2.2 Course' },
                     { href: '#/education/courses', label: 'Courses' },
-                    { href: '#/education/ally', label: 'Document Ally' },
                     { href: '#/about', label: 'About' },
                 ]
             },
@@ -124,8 +143,11 @@ class Router {
             ],
             ed: [
                 { href: '#/', label: 'Home' },
+                { href: '#/education/ally-pro', label: 'Document Ally Pro' },
+                { href: '#/education/audit', label: 'Audit Tool' },
+                { href: '#/education/wcag-course', label: 'WCAG 2.2 Course' },
                 { href: '#/education/courses', label: 'Courses' },
-                { href: '#/education/ally', label: 'Document Ally' },
+                { href: '#/education/ally', label: 'Document Ally (Free)' },
                 { href: '#/elliptical', label: 'Elliptical Explorer' },
                 { href: '#/about', label: 'About' },
                 { href: '#/privacy', label: 'Privacy Policy' },
@@ -373,29 +395,50 @@ class Router {
             // Inline contact form AJAX submission (generic — works for any form with class)
             document.querySelectorAll('.ed-inline-contact form').forEach(form => {
                 const status = form.querySelector('.contact-status') || form.parentElement.querySelector('.contact-status');
-                form.addEventListener('submit', (e) => {
+                const supabaseTable = form.getAttribute('data-supabase-table');
+
+                form.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     const btn = form.querySelector('button[type="submit"]');
                     const orig = btn.textContent;
                     btn.textContent = 'Sending...';
                     btn.disabled = true;
                     if (status) { status.textContent = ''; status.className = 'contact-status'; }
-                    fetch(form.action, { method: 'POST', body: new FormData(form) })
-                        .then(res => {
-                            if (res.ok) {
-                                if (status) status.textContent = "Sent! We'll be in touch soon.";
-                                form.reset();
-                            } else {
-                                if (status) { status.textContent = 'Something went wrong. Try again.'; status.className = 'contact-status error'; }
-                            }
-                        })
-                        .catch(() => {
-                            if (status) { status.textContent = 'Something went wrong. Try again.'; status.className = 'contact-status error'; }
-                        })
-                        .finally(() => {
-                            btn.textContent = orig;
-                            btn.disabled = false;
+
+                    let ok = false;
+
+                    if (supabaseTable && window.supabaseClient) {
+                        // Supabase submission — collect form data as plain object
+                        const data = {};
+                        new FormData(form).forEach((val, key) => {
+                            if (!key.startsWith('_')) data[key] = val;
                         });
+                        // Convert checkbox values
+                        form.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                            data[cb.name] = cb.checked;
+                        });
+                        const result = await window.supabaseClient.insertRecord(supabaseTable, data);
+                        ok = result.success;
+                    } else {
+                        // FormSubmit fallback
+                        try {
+                            const res = await fetch(form.action, { method: 'POST', body: new FormData(form) });
+                            ok = res.ok;
+                        } catch { ok = false; }
+                    }
+
+                    if (ok) {
+                        const successMsg = supabaseTable === 'waitlist'
+                            ? "You're on the list! We'll be in touch soon."
+                            : "Sent! We'll be in touch soon.";
+                        if (status) status.textContent = successMsg;
+                        form.reset();
+                    } else {
+                        if (status) { status.textContent = 'Something went wrong. Try again.'; status.className = 'contact-status error'; }
+                    }
+
+                    btn.textContent = orig;
+                    btn.disabled = false;
                 });
             });
         }

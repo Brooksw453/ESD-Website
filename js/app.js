@@ -24,6 +24,9 @@
     router.register('/education/ally', 'pages/education-ally.html');
     router.register('/education/courses', 'pages/education-courses.html');
     router.register('/education/demos', 'pages/education-demos.html');
+    router.register('/education/ally-pro', 'pages/education-ally-pro.html');
+    router.register('/education/audit', 'pages/education-audit.html');
+    router.register('/education/wcag-course', 'pages/education-wcag-course.html');
     router.register('/about', 'pages/about.html');
     router.register('/privacy', 'pages/privacy.html');
     router.start();
