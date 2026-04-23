@@ -123,7 +123,9 @@ body[data-section="ed"] {
     /* --- Text --- */
     --text-primary:     #0f172a;
     --text-secondary:   #475569;
-    --text-muted:       #94a3b8;
+    /* Was #94a3b8 — 2.85:1 on white, fails WCAG AA for body text.
+       Slate-500 (#64748b) gives 4.78:1 on white, passes AA. */
+    --text-muted:       #64748b;
 
     /* --- Gradients --- */
     --gradient-hero:    linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #f8fafc 100%);
