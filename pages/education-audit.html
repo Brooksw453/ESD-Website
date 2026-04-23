@@ -29,18 +29,18 @@
                 <input type="hidden" name="_template" value="table">
                 <div class="ed-inline-contact-grid">
                     <div class="full-width">
-                        <input type="url" name="audit_url" autocomplete="url" placeholder="https://your-institution.edu/catalog" required>
+                        <input type="url" name="audit_url" autocomplete="url" placeholder="https://your-institution.edu/catalog" aria-label="URL to audit" required>
                     </div>
                     <div>
-                        <input type="email" name="email" autocomplete="email" placeholder="Work email (for the full report)" required>
+                        <input type="email" name="email" autocomplete="email" placeholder="Work email (for the full report)" aria-label="Work email (for the full report)" required>
                     </div>
                     <div>
-                        <input type="text" name="institution" autocomplete="organization" placeholder="Institution (optional)">
+                        <input type="text" name="institution" autocomplete="organization" placeholder="Institution (optional)" aria-label="Institution (optional)">
                     </div>
                 </div>
                 <div class="ed-inline-contact-actions">
                     <button type="submit" class="neon-btn btn-filled">Run the audit &rarr;</button>
-                    <span class="contact-status" id="freeAuditStatus"></span>
+                    <span class="contact-status" id="freeAuditStatus" role="status" aria-live="polite"></span>
                 </div>
             </form>
             <p style="font-size: 0.85rem; color: #9ca3af; margin-top: var(--space-sm);">During our private beta, audits are delivered by email within one business day. Public launch: instant results.</p>
@@ -193,19 +193,19 @@
                 <input type="hidden" name="_captcha" value="false">
                 <div class="ed-inline-contact-grid">
                     <div>
-                        <input type="text" name="name" autocomplete="name" placeholder="Your Name" required>
+                        <input type="text" name="name" autocomplete="name" placeholder="Your Name" aria-label="Your Name" required>
                     </div>
                     <div>
-                        <input type="email" name="email" autocomplete="email" placeholder="Work Email" required>
+                        <input type="email" name="email" autocomplete="email" placeholder="Work Email" aria-label="Work Email" required>
                     </div>
                     <div>
-                        <input type="text" name="institution" autocomplete="organization" placeholder="Institution">
+                        <input type="text" name="institution" autocomplete="organization" placeholder="Institution" aria-label="Institution">
                     </div>
                     <div>
-                        <input type="url" name="site_url" autocomplete="url" placeholder="Site URL to audit">
+                        <input type="url" name="site_url" autocomplete="url" placeholder="Site URL to audit" aria-label="Site URL to audit">
                     </div>
                     <div class="full-width">
-                        <select name="interest" style="width:100%;padding:12px 16px;border:1px solid #d1d5db;border-radius:8px;font-size:1rem;font-family:inherit;outline:none;background:white;">
+                        <select name="interest" aria-label="What are you interested in?" style="width:100%;padding:12px 16px;border:1px solid #d1d5db;border-radius:8px;font-size:1rem;font-family:inherit;outline:none;background:white;">
                             <option value="">What are you interested in?</option>
                             <option>Done-for-you audit report</option>
                             <option>Continuous monitoring subscription</option>
@@ -214,12 +214,12 @@
                         </select>
                     </div>
                     <div class="full-width">
-                        <textarea name="message" placeholder="Approximate page count, current compliance posture, timeline &mdash; whatever helps us scope." rows="3"></textarea>
+                        <textarea name="message" placeholder="Approximate page count, current compliance posture, timeline &mdash; whatever helps us scope." aria-label="Approximate page count, current compliance posture, timeline — whatever helps us scope." rows="3"></textarea>
                     </div>
                 </div>
                 <div class="ed-inline-contact-actions">
                     <button type="submit" class="neon-btn btn-filled">Send inquiry &rarr;</button>
-                    <span class="contact-status" id="auditContactStatus"></span>
+                    <span class="contact-status" id="auditContactStatus" role="status" aria-live="polite"></span>
                 </div>
             </form>
         </div>

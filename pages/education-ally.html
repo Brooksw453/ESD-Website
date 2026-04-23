@@ -69,45 +69,45 @@
         </div>
         <div class="ed-features-grid" data-stagger>
             <div class="ed-feature-card-compact" data-animate="fade-up">
-                <div class="ed-compact-header">
-                    <h3>Heading Hierarchy</h3>
+                <button type="button" class="ed-compact-header" aria-expanded="false">
+                    <span class="ed-compact-title">Heading Hierarchy</span>
                     <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
-                </div>
+                </button>
                 <p>Enforces semantic heading structure (H1, H2, H3) &mdash; never skips levels, ensuring screen readers navigate correctly.</p>
             </div>
             <div class="ed-feature-card-compact" data-animate="fade-up">
-                <div class="ed-compact-header">
-                    <h3>Descriptive Links</h3>
+                <button type="button" class="ed-compact-header" aria-expanded="false">
+                    <span class="ed-compact-title">Descriptive Links</span>
                     <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
-                </div>
+                </button>
                 <p>Rewrites vague link text like "click here" into meaningful, descriptive hyperlinks.</p>
             </div>
             <div class="ed-feature-card-compact" data-animate="fade-up">
-                <div class="ed-compact-header">
-                    <h3>Proper Lists &amp; Tables</h3>
+                <button type="button" class="ed-compact-header" aria-expanded="false">
+                    <span class="ed-compact-title">Proper Lists &amp; Tables</span>
                     <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
-                </div>
+                </button>
                 <p>Converts content into properly structured lists and formats data tables with header rows for screen readers.</p>
             </div>
             <div class="ed-feature-card-compact" data-animate="fade-up">
-                <div class="ed-compact-header">
-                    <h3>Syllabus Detection</h3>
+                <button type="button" class="ed-compact-header" aria-expanded="false">
+                    <span class="ed-compact-title">Syllabus Detection</span>
                     <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
-                </div>
+                </button>
                 <p>Auto-detects course syllabi and inserts missing accessibility accommodation statements.</p>
             </div>
             <div class="ed-feature-card-compact" data-animate="fade-up">
-                <div class="ed-compact-header">
-                    <h3>Image Alt Text</h3>
+                <button type="button" class="ed-compact-header" aria-expanded="false">
+                    <span class="ed-compact-title">Image Alt Text</span>
                     <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
-                </div>
+                </button>
                 <p>Extracts images from PDFs and generates descriptive alt text using AI vision for screen reader compatibility.</p>
             </div>
             <div class="ed-feature-card-compact" data-animate="fade-up">
-                <div class="ed-compact-header">
-                    <h3>Accessible Tables</h3>
+                <button type="button" class="ed-compact-header" aria-expanded="false">
+                    <span class="ed-compact-title">Accessible Tables</span>
                     <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
-                </div>
+                </button>
                 <p>Formats data tables with color-coded header rows, proper structure, and screen reader-friendly markup.</p>
             </div>
         </div>
@@ -184,21 +184,21 @@
                 <input type="hidden" name="_captcha" value="false">
                 <div class="ed-inline-contact-grid">
                     <div>
-                        <input type="text" name="name" autocomplete="name" placeholder="Your Name" required>
+                        <input type="text" name="name" autocomplete="name" placeholder="Your Name" aria-label="Your Name" required>
                     </div>
                     <div>
-                        <input type="email" name="email" autocomplete="email" placeholder="Work Email" required>
+                        <input type="email" name="email" autocomplete="email" placeholder="Work Email" aria-label="Work Email" required>
                     </div>
                     <div class="full-width">
-                        <input type="text" name="institution" autocomplete="organization" placeholder="Institution Name">
+                        <input type="text" name="institution" autocomplete="organization" placeholder="Institution Name" aria-label="Institution Name">
                     </div>
                     <div class="full-width">
-                        <textarea name="message" placeholder="Tell us about your needs (estimated users, timeline, etc.)" rows="3"></textarea>
+                        <textarea name="message" placeholder="Tell us about your needs (estimated users, timeline, etc.)" aria-label="Tell us about your needs (estimated users, timeline, etc.)" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="ed-inline-contact-actions">
                     <button type="submit" class="neon-btn btn-filled">Send Inquiry &rarr;</button>
-                    <span class="contact-status" id="allyFormStatus"></span>
+                    <span class="contact-status" id="allyFormStatus" role="status" aria-live="polite"></span>
                 </div>
             </form>
         </div>

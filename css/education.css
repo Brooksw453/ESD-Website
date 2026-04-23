@@ -74,8 +74,19 @@ body[data-section="ed"] .site-header.scrolled {
     border-bottom-color: #e2e8f0;
 }
 
-body[data-section="ed"] .nav-brand {
+/* Force dark text on ed pages — audit showed cyan leaking through.
+   Include :link/:visited/:hover so nothing resets to the neon default. */
+body[data-section="ed"] a.nav-brand,
+body[data-section="ed"] a.nav-brand:link,
+body[data-section="ed"] a.nav-brand:visited,
+body[data-section="ed"] a.nav-brand:hover,
+body[data-section="ed"] .nav-brand .nav-brand-parent,
+body[data-section="ed"] .nav-brand .nav-brand-sep {
     color: #0f172a;
+    /* -webkit-text-fill-color inherits from the default .nav-brand rule's
+       neon glow effect and paints over `color`. Reset it so contrast
+       tooling reads the real foreground. */
+    -webkit-text-fill-color: #0f172a;
     text-shadow: none;
 }
 
@@ -756,10 +767,8 @@ body[data-section="ed"] .back-to-top:hover {
     background: var(--bg-card);
     border: 1px solid #e2e8f0;
     border-radius: var(--radius-lg, 12px);
-    padding: var(--space-md) var(--space-lg);
-    cursor: pointer;
+    padding: 0;
     transition: all var(--transition-base);
-    user-select: none;
 }
 
 .ed-feature-card-compact:hover {
@@ -767,16 +776,28 @@ body[data-section="ed"] .back-to-top:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
+/* Header is now a real <button> for keyboard + screen-reader support. */
 .ed-feature-card-compact .ed-compact-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-sm);
+    /* reset button defaults */
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    background: transparent;
+    border: 0;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
 }
 
-.ed-feature-card-compact h3 {
+.ed-feature-card-compact .ed-compact-title {
     font-size: var(--text-base);
-    margin: 0;
+    font-weight: 600;
+    color: var(--ed-heading, inherit);
+    line-height: 1.3;
 }
 
 .ed-feature-card-compact .ed-compact-toggle {
@@ -794,16 +815,17 @@ body[data-section="ed"] .back-to-top:hover {
     max-height: 0;
     overflow: hidden;
     margin: 0;
+    padding: 0 var(--space-lg);
     opacity: 0;
     font-size: var(--text-sm);
     color: var(--text-secondary);
-    transition: max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
+    transition: max-height 0.3s ease, opacity 0.25s ease, padding 0.3s ease;
 }
 
 .ed-feature-card-compact.open p {
-    max-height: 120px;
+    max-height: 200px;
     opacity: 1;
-    margin-top: var(--space-sm);
+    padding: 0 var(--space-lg) var(--space-md);
 }
 
 /* --- Inline Contact Form --- */

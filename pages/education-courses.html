@@ -21,45 +21,45 @@
         </div>
         <div class="ed-features-grid" data-stagger>
             <div class="ed-feature-card-compact" data-animate="fade-up">
-                <div class="ed-compact-header">
-                    <h3>&#x1F3E2; White-Label Branding</h3>
+                <button type="button" class="ed-compact-header" aria-expanded="false">
+                    <span class="ed-compact-title">&#x1F3E2; White-Label Branding</span>
                     <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
-                </div>
+                </button>
                 <p>Launch your own branded course portal. Your logo, your domain, your students' experience &mdash; fully customizable.</p>
             </div>
             <div class="ed-feature-card-compact" data-animate="fade-up">
-                <div class="ed-compact-header">
-                    <h3>&#x1F4B3; Integrated Payments</h3>
+                <button type="button" class="ed-compact-header" aria-expanded="false">
+                    <span class="ed-compact-title">&#x1F4B3; Integrated Payments</span>
                     <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
-                </div>
+                </button>
                 <p>Built-in payment processing for course fees. No third-party payment setup required &mdash; start collecting revenue immediately.</p>
             </div>
             <div class="ed-feature-card-compact" data-animate="fade-up">
-                <div class="ed-compact-header">
-                    <h3>&#x1F4CA; Admin Dashboard</h3>
+                <button type="button" class="ed-compact-header" aria-expanded="false">
+                    <span class="ed-compact-title">&#x1F4CA; Admin Dashboard</span>
                     <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
-                </div>
+                </button>
                 <p>Track enrollments, payments, completion rates, and usage data from a single dashboard. Full visibility into your program.</p>
             </div>
             <div class="ed-feature-card-compact" data-animate="fade-up">
-                <div class="ed-compact-header">
-                    <h3>&#x1F4DA; Course Catalog Management</h3>
+                <button type="button" class="ed-compact-header" aria-expanded="false">
+                    <span class="ed-compact-title">&#x1F4DA; Course Catalog Management</span>
                     <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
-                </div>
+                </button>
                 <p>Add courses by link to serve your existing content, or access our growing catalog of original, high-value courses.</p>
             </div>
             <div class="ed-feature-card-compact" data-animate="fade-up">
-                <div class="ed-compact-header">
-                    <h3>&#x1F916; Adaptive AI Features</h3>
+                <button type="button" class="ed-compact-header" aria-expanded="false">
+                    <span class="ed-compact-title">&#x1F916; Adaptive AI Features</span>
                     <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
-                </div>
+                </button>
                 <p>AI tutoring adapts to each learner's pace with real-time feedback and personalized difficulty scaling.</p>
             </div>
             <div class="ed-feature-card-compact" data-animate="fade-up">
-                <div class="ed-compact-header">
-                    <h3>&#x1F3AF; Workforce Development Ready</h3>
+                <button type="button" class="ed-compact-header" aria-expanded="false">
+                    <span class="ed-compact-title">&#x1F3AF; Workforce Development Ready</span>
                     <span class="ed-compact-toggle" aria-hidden="true">&#9660;</span>
-                </div>
+                </button>
                 <p>Purpose-built for workforce dev programs, community colleges, and continuing education providers with high-demand course content.</p>
             </div>
         </div>
@@ -117,21 +117,21 @@
                 <input type="hidden" name="_captcha" value="false">
                 <div class="ed-inline-contact-grid">
                     <div>
-                        <input type="text" name="name" autocomplete="name" placeholder="Your Name" required>
+                        <input type="text" name="name" autocomplete="name" placeholder="Your Name" aria-label="Your Name" required>
                     </div>
                     <div>
-                        <input type="email" name="email" autocomplete="email" placeholder="Work Email" required>
+                        <input type="email" name="email" autocomplete="email" placeholder="Work Email" aria-label="Work Email" required>
                     </div>
                     <div class="full-width">
-                        <input type="text" name="institution" autocomplete="organization" placeholder="Institution or Organization">
+                        <input type="text" name="institution" autocomplete="organization" placeholder="Institution or Organization" aria-label="Institution or Organization">
                     </div>
                     <div class="full-width">
-                        <textarea name="message" placeholder="Tell us about your program (audience, estimated learners, timeline, etc.)" rows="3"></textarea>
+                        <textarea name="message" placeholder="Tell us about your program (audience, estimated learners, timeline, etc.)" aria-label="Tell us about your program (audience, estimated learners, timeline, etc.)" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="ed-inline-contact-actions">
                     <button type="submit" class="neon-btn btn-filled">Request a Demo &rarr;</button>
-                    <span class="contact-status" id="coursesFormStatus"></span>
+                    <span class="contact-status" id="coursesFormStatus" role="status" aria-live="polite"></span>
                 </div>
             </form>
         </div>

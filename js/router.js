@@ -385,10 +385,15 @@ class Router {
                 });
             });
 
-            // Compact expandable feature cards (used on ally + courses)
-            document.querySelectorAll('.ed-feature-card-compact').forEach(card => {
-                card.addEventListener('click', () => {
-                    card.classList.toggle('open');
+            // Compact expandable feature cards (used on ally + courses).
+            // Header is a real <button aria-expanded>. Toggle both the
+            // card's .open class (for CSS transitions) and the button's
+            // aria-expanded attribute so screen readers announce state.
+            document.querySelectorAll('.ed-feature-card-compact .ed-compact-header').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const card = btn.closest('.ed-feature-card-compact');
+                    const opened = card.classList.toggle('open');
+                    btn.setAttribute('aria-expanded', opened ? 'true' : 'false');
                 });
             });
 

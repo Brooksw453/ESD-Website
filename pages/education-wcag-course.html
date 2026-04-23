@@ -209,16 +209,16 @@
                 <input type="hidden" name="_captcha" value="false">
                 <div class="ed-inline-contact-grid">
                     <div>
-                        <input type="text" name="name" autocomplete="name" placeholder="Your Name" required>
+                        <input type="text" name="name" autocomplete="name" placeholder="Your Name" aria-label="Your Name" required>
                     </div>
                     <div>
-                        <input type="email" name="email" autocomplete="email" placeholder="Work Email" required>
+                        <input type="email" name="email" autocomplete="email" placeholder="Work Email" aria-label="Work Email" required>
                     </div>
                     <div>
-                        <input type="text" name="institution" autocomplete="organization" placeholder="Institution" required>
+                        <input type="text" name="institution" autocomplete="organization" placeholder="Institution" aria-label="Institution" required>
                     </div>
                     <div>
-                        <input type="text" name="seat_count" placeholder="Approx. number of seats">
+                        <input type="text" name="seat_count" placeholder="Approx. number of seats" aria-label="Approx. number of seats" inputmode="numeric">
                     </div>
                     <div class="full-width">
                         <label style="display:flex;align-items:center;gap:8px;font-size:0.95rem;color:var(--text-secondary);cursor:pointer;">
@@ -227,12 +227,12 @@
                         </label>
                     </div>
                     <div class="full-width">
-                        <textarea name="message" placeholder="Timeline, questions, specific faculty group (STEM, humanities, full campus)." rows="3"></textarea>
+                        <textarea name="message" placeholder="Timeline, questions, specific faculty group (STEM, humanities, full campus)." aria-label="Timeline, questions, specific faculty group (STEM, humanities, full campus)." rows="3"></textarea>
                     </div>
                 </div>
                 <div class="ed-inline-contact-actions">
                     <button type="submit" class="neon-btn btn-filled">Request a quote &rarr;</button>
-                    <span class="contact-status" id="wcagCourseStatus"></span>
+                    <span class="contact-status" id="wcagCourseStatus" role="status" aria-live="polite"></span>
                 </div>
             </form>
         </div>
