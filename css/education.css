@@ -981,6 +981,26 @@ body[data-section="ed"] .back-to-top:hover {
     color: #1e3a5f;
     font-size: 0.95rem;
 }
+
+/* --- DOJ Title II extension announcement --- */
+.ed-extension-banner {
+    background: linear-gradient(90deg, #fff7ed, #fef3c7);
+    border-bottom: 1px solid #fcd34d;
+    padding: var(--space-md) 0;
+    text-align: center;
+}
+.ed-extension-banner p {
+    margin: 0 auto;
+    color: #78350f;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    max-width: 960px;
+    padding: 0 var(--space-md);
+}
+.ed-extension-banner strong {
+    color: #7c2d12;
+}
+
 .neon-link {
     color: #2563eb;
     text-decoration: underline;
