@@ -117,8 +117,11 @@
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
+    <!-- Skip-to-content link (visible on keyboard focus) -->
+    <a class="skip-link" href="#page-content">Skip to main content</a>
+
     <!-- Particle Canvas (behind everything) -->
-    <canvas id="particle-canvas"></canvas>
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
     <!-- Site Header / Navigation -->
     <header class="site-header" id="siteHeader">
@@ -134,7 +137,7 @@
     </header>
 
     <!-- Main Content (swapped by router) -->
-    <main id="page-content">
+    <main id="page-content" tabindex="-1">
         <!-- Page fragments loaded here -->
     </main>
 
@@ -173,10 +176,10 @@
                 <input type="text" name="_honey" style="display:none">
                 <input type="hidden" name="_captcha" value="false">
                 <div class="contact-form-field">
-                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="text" name="name" autocomplete="name" placeholder="Your Name" required>
                 </div>
                 <div class="contact-form-field">
-                    <input type="email" name="email" placeholder="Your Email" required>
+                    <input type="email" name="email" autocomplete="email" placeholder="Your Email" required>
                 </div>
                 <div class="contact-form-field">
                     <textarea name="message" placeholder="Your Message" rows="3" required></textarea>

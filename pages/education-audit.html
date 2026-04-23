@@ -29,13 +29,13 @@
                 <input type="hidden" name="_template" value="table">
                 <div class="ed-inline-contact-grid">
                     <div class="full-width">
-                        <input type="url" name="audit_url" placeholder="https://your-institution.edu/catalog" required>
+                        <input type="url" name="audit_url" autocomplete="url" placeholder="https://your-institution.edu/catalog" required>
                     </div>
                     <div>
-                        <input type="email" name="email" placeholder="Work email (for the full report)" required>
+                        <input type="email" name="email" autocomplete="email" placeholder="Work email (for the full report)" required>
                     </div>
                     <div>
-                        <input type="text" name="institution" placeholder="Institution (optional)">
+                        <input type="text" name="institution" autocomplete="organization" placeholder="Institution (optional)">
                     </div>
                 </div>
                 <div class="ed-inline-contact-actions">
@@ -193,16 +193,16 @@
                 <input type="hidden" name="_captcha" value="false">
                 <div class="ed-inline-contact-grid">
                     <div>
-                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="text" name="name" autocomplete="name" placeholder="Your Name" required>
                     </div>
                     <div>
-                        <input type="email" name="email" placeholder="Work Email" required>
+                        <input type="email" name="email" autocomplete="email" placeholder="Work Email" required>
                     </div>
                     <div>
-                        <input type="text" name="institution" placeholder="Institution">
+                        <input type="text" name="institution" autocomplete="organization" placeholder="Institution">
                     </div>
                     <div>
-                        <input type="url" name="site_url" placeholder="Site URL to audit">
+                        <input type="url" name="site_url" autocomplete="url" placeholder="Site URL to audit">
                     </div>
                     <div class="full-width">
                         <select name="interest" style="width:100%;padding:12px 16px;border:1px solid #d1d5db;border-radius:8px;font-size:1rem;font-family:inherit;outline:none;background:white;">
