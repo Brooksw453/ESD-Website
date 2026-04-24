@@ -81,11 +81,18 @@
     padding-right: var(--space-lg);
 }
 
-/* Page header titles — responsive on mobile */
+/* Page header titles — responsive on mobile.
+   No mid-word breaks: display headings (uppercase, 0.1em tracking)
+   look broken when forced to split a word. The clamp already scales
+   the font down on narrow viewports, so overflow is rare in practice.
+   text-wrap: balance distributes lines evenly so short headings land
+   as 2 balanced rows instead of 3 ragged ones. */
 .section h1 {
-    font-size: clamp(1.5rem, 7vw, var(--text-4xl));
-    word-break: break-word;
-    overflow-wrap: break-word;
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: none;
+    text-wrap: balance;
 }
 
 /* A&P Lab grid — single column on mobile */
