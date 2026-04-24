@@ -90,9 +90,11 @@ class Router {
             landing: {
                 brand: 'ES Designs',
                 brandHref: '#/',
+                // Order mirrors the landing-page tiles: Ed Tech on the left,
+                // Elliptical Explorer on the right.
                 links: [
-                    { href: '#/elliptical', label: 'Elliptical Explorer' },
                     { href: '#/education', label: 'Education Tech' },
+                    { href: '#/elliptical', label: 'Elliptical Explorer' },
                     { href: '#/about', label: 'About' },
                 ]
             },
@@ -119,9 +121,10 @@ class Router {
             shared: {
                 brand: 'ES Designs',
                 brandHref: '#/',
+                // Same ordering convention as .landing — Ed Tech first.
                 links: [
-                    { href: '#/elliptical', label: 'Elliptical Explorer' },
                     { href: '#/education', label: 'Education Tech' },
+                    { href: '#/elliptical', label: 'Elliptical Explorer' },
                     { href: '#/about', label: 'About' },
                 ]
             }
@@ -130,8 +133,8 @@ class Router {
         // Footer configurations per section
         this.footerConfigs = {
             landing: [
-                { href: '#/elliptical', label: 'Elliptical Explorer' },
                 { href: '#/education', label: 'Education Technology' },
+                { href: '#/elliptical', label: 'Elliptical Explorer' },
                 { href: '#/about', label: 'About' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ],
@@ -154,8 +157,8 @@ class Router {
             ],
             shared: [
                 { href: '#/', label: 'Home' },
-                { href: '#/elliptical', label: 'Elliptical Explorer' },
                 { href: '#/education', label: 'Education Technology' },
+                { href: '#/elliptical', label: 'Elliptical Explorer' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ]
         };
