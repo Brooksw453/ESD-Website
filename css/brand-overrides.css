@@ -180,63 +180,195 @@ body[data-section="shared"] .skip-link:focus {
     box-shadow: 0 4px 12px rgba(31, 61, 92, 0.2);
 }
 
-/* ===== Landing page panels — replace neon hover glows ===== */
-body[data-section="landing"] .landing-panel {
-    background: var(--bg-card);
-    border: 1px solid var(--color-border);
-    color: var(--color-text);
-    text-shadow: none;
-    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-    transition: all 250ms ease;
-}
-body[data-section="landing"] .landing-panel:hover {
-    border-color: var(--color-primary);
-    box-shadow:
-        0 4px 16px rgba(31, 61, 92, 0.12),
-        0 16px 40px rgba(31, 61, 92, 0.08);
-    transform: translateY(-2px);
-}
-body[data-section="landing"] .landing-panel-ed:hover {
-    border-color: var(--color-primary);
-}
-body[data-section="landing"] .landing-panel-ee:hover {
-    border-color: var(--color-accent);
-}
-body[data-section="landing"] .landing-panel h2 {
-    color: var(--color-primary);
-    text-shadow: none;
-}
-body[data-section="landing"] .landing-panel-subtitle {
-    color: var(--color-text-muted);
-    text-shadow: none;
-}
-body[data-section="landing"] .landing-panel-cta {
-    color: var(--color-accent);
-    text-shadow: none;
-    font-weight: 600;
-}
-body[data-section="landing"] .landing-panel-visual {
-    color: var(--color-primary);
-    text-shadow: none;
-    filter: none;
-}
-body[data-section="landing"] .landing-brand h1 {
-    color: var(--color-primary);
-    text-shadow: none;
-}
-body[data-section="landing"] .landing-tagline {
-    color: var(--color-text-muted);
-    text-shadow: none;
-}
-body[data-section="landing"] .landing-footer a {
-    color: var(--color-text);
-    text-shadow: none;
-}
-body[data-section="landing"] .landing-footer a:hover {
-    color: var(--color-primary);
+/* ============================================
+   LANDING-SPECIFIC OVERRIDES
+   education.css has 200 lines of hardcoded landing
+   styles that pre-date the brand pivot. We force
+   the canonical brand here with !important so the
+   page renders correctly without refactoring the
+   whole education.css file.
+   ============================================ */
+
+/* Force light body on landing — base.css uses var(--bg-primary)
+   which should resolve correctly, but specificity issues from
+   pages.css and education.css can override. !important guarantees. */
+html body[data-section="landing"],
+html body[data-section="ed"],
+html body[data-section="shared"] {
+    background: #ffffff !important;
+    color: var(--color-text) !important;
 }
 
-/* ===== Generic h1, h2 on light themes — kill neon glows ===== */
+/* Main content area */
+body[data-section="landing"] main,
+body[data-section="ed"] main,
+body[data-section="shared"] main,
+body[data-section="landing"] #page-content,
+body[data-section="ed"] #page-content,
+body[data-section="shared"] #page-content {
+    background: transparent !important;
+}
+
+/* Landing page outer container */
+body[data-section="landing"] .landing-page {
+    background: transparent !important;
+    color: var(--color-text) !important;
+}
+
+/* ===== Landing brand block (header text above panels) ===== */
+body[data-section="landing"] .landing-brand h1 {
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
+    font-size: clamp(2rem, 5vw, 3.5rem) !important;
+    font-weight: 700 !important;
+    text-transform: none !important;
+    letter-spacing: -0.02em !important;
+    color: var(--color-primary) !important;
+    text-shadow: none !important;
+    position: relative;
+    display: inline-block;
+}
+body[data-section="landing"] .landing-brand h1::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -10px;
+    width: 64px;
+    height: 4px;
+    background: var(--color-accent);
+    border-radius: 2px;
+}
+body[data-section="landing"] .landing-tagline {
+    color: var(--color-text-muted) !important;
+    font-style: normal !important;
+    font-size: 1.125rem !important;
+    margin-top: 24px !important;
+    line-height: 1.5 !important;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ===== Both landing panels — force light cards ===== */
+body[data-section="landing"] .landing-panel {
+    background: #ffffff !important;
+    border: 1px solid var(--color-border) !important;
+    color: var(--color-text) !important;
+    text-shadow: none !important;
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 4px 12px rgba(15, 23, 42, 0.06) !important;
+    transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+body[data-section="landing"] .landing-panel:hover {
+    border-color: var(--color-primary) !important;
+    box-shadow:
+        0 4px 16px rgba(31, 61, 92, 0.12),
+        0 16px 40px rgba(31, 61, 92, 0.08) !important;
+    transform: translateY(-4px);
+}
+
+/* Lead panel (Title II compliance) — brand-tinted bg + navy accent */
+body[data-section="landing"] .landing-panel-ed {
+    background: linear-gradient(135deg, #ffffff 0%, #F0F9FF 100%) !important;
+    border: 1px solid var(--color-border) !important;
+}
+body[data-section="landing"] .landing-panel-ed:hover {
+    border-color: var(--color-primary) !important;
+}
+body[data-section="landing"] .landing-panel-ed h2 {
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
+    color: var(--color-primary) !important;
+    text-shadow: none !important;
+    font-weight: 700 !important;
+    text-transform: none !important;
+    letter-spacing: -0.01em !important;
+}
+body[data-section="landing"] .landing-panel-ed p {
+    color: var(--color-text) !important;
+}
+body[data-section="landing"] .landing-panel-ed .landing-panel-cta {
+    color: var(--color-white) !important;
+    background: var(--color-primary) !important;
+    border: 1px solid var(--color-primary) !important;
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
+    text-transform: none !important;
+    letter-spacing: 0.01em !important;
+    text-shadow: none !important;
+    box-shadow: 0 1px 2px rgba(31, 61, 92, 0.1) !important;
+}
+body[data-section="landing"] .landing-panel-ed:hover .landing-panel-cta {
+    background: var(--color-primary-hover) !important;
+    border-color: var(--color-primary-hover) !important;
+    box-shadow: 0 4px 12px rgba(31, 61, 92, 0.2) !important;
+}
+
+/* Side-project panel (Elliptical) — also light, but quieter teal accent */
+body[data-section="landing"] .landing-panel-ee {
+    background: var(--color-surface) !important;
+    border: 1px solid var(--color-border) !important;
+}
+body[data-section="landing"] .landing-panel-ee:hover {
+    border-color: var(--color-accent) !important;
+    box-shadow:
+        0 4px 16px rgba(14, 124, 102, 0.10),
+        0 16px 40px rgba(14, 124, 102, 0.06) !important;
+}
+body[data-section="landing"] .landing-panel-ee h2 {
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
+    color: var(--color-text) !important;
+    text-shadow: none !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    letter-spacing: -0.01em !important;
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem) !important;
+}
+body[data-section="landing"] .landing-panel-ee p {
+    color: var(--color-text-muted) !important;
+}
+body[data-section="landing"] .landing-panel-ee .landing-panel-cta {
+    color: var(--color-accent) !important;
+    background: transparent !important;
+    border: 1px solid var(--color-accent) !important;
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
+    text-transform: none !important;
+    letter-spacing: 0.01em !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+body[data-section="landing"] .landing-panel-ee:hover .landing-panel-cta {
+    background: var(--color-accent) !important;
+    color: var(--color-white) !important;
+    box-shadow: 0 4px 12px rgba(14, 124, 102, 0.15) !important;
+}
+
+/* Subtitle text under panel headings */
+body[data-section="landing"] .landing-panel-subtitle {
+    color: var(--color-text-muted) !important;
+    text-shadow: none !important;
+}
+
+/* Panel icon/visual */
+body[data-section="landing"] .landing-panel-visual {
+    color: var(--color-primary) !important;
+    text-shadow: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+/* Landing-page footer links */
+body[data-section="landing"] .landing-footer a {
+    color: var(--color-text-muted) !important;
+    text-shadow: none !important;
+}
+body[data-section="landing"] .landing-footer a:hover {
+    color: var(--color-primary) !important;
+}
+body[data-section="landing"] .landing-footer .landing-dot {
+    color: var(--color-border) !important;
+}
+
+/* ===== Generic headings on light themes ===== */
 body[data-section="landing"] h1,
 body[data-section="landing"] h2,
 body[data-section="landing"] h3,
@@ -246,21 +378,11 @@ body[data-section="ed"] h3,
 body[data-section="shared"] h1,
 body[data-section="shared"] h2,
 body[data-section="shared"] h3 {
-    text-shadow: none;
-    color: var(--color-text);
-}
-
-/* Body text on light themes */
-body[data-section="landing"],
-body[data-section="ed"],
-body[data-section="shared"] {
-    background: var(--bg-primary);
-    color: var(--color-text);
+    text-shadow: none !important;
 }
 
 body[data-section="landing"] p,
 body[data-section="ed"] p,
 body[data-section="shared"] p {
-    color: var(--color-text);
-    text-shadow: none;
+    text-shadow: none !important;
 }
