@@ -1,0 +1,266 @@
+/* ============================================
+   Brand Overrides — Light Theme Cleanup
+   Loaded LAST in <head> so it wins specificity.
+
+   pages.css and components.css have ~60 hardcoded
+   rgba(0, 255, 255, ...) glows and shadows from
+   the synthwave era. They were fine when every
+   page was dark; on the new light theme (landing,
+   ed, shared) they bleed cyan into the brand.
+
+   This file scopes those decorative effects to
+   the dark-themed VR / Elliptical sections only,
+   and replaces them with calm brand-aligned
+   shadows on light pages.
+   ============================================ */
+
+/* ===== Neutralize neon glows on light themes ===== */
+body[data-section="landing"] .neon-card,
+body[data-section="ed"] .neon-card,
+body[data-section="shared"] .neon-card {
+    border: 1px solid var(--color-border);
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 4px 12px rgba(15, 23, 42, 0.06);
+    background: var(--bg-card);
+}
+
+body[data-section="landing"] .neon-card:hover,
+body[data-section="ed"] .neon-card:hover,
+body[data-section="shared"] .neon-card:hover {
+    border-color: var(--color-primary);
+    box-shadow:
+        0 4px 12px rgba(31, 61, 92, 0.12),
+        0 12px 32px rgba(31, 61, 92, 0.08);
+}
+
+/* ===== Brand-tinted text glow (very subtle) ===== */
+body[data-section="landing"] .neon-text,
+body[data-section="ed"] .neon-text,
+body[data-section="shared"] .neon-text {
+    color: var(--color-primary);
+    text-shadow: none;
+}
+
+/* ===== Buttons that used cyan glows now use brand palette ===== */
+body[data-section="landing"] .btn-cyan,
+body[data-section="ed"] .btn-cyan,
+body[data-section="shared"] .btn-cyan {
+    background: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    color: var(--color-white);
+    text-shadow: none;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+body[data-section="landing"] .btn-cyan:hover,
+body[data-section="ed"] .btn-cyan:hover,
+body[data-section="shared"] .btn-cyan:hover {
+    background: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    box-shadow: 0 4px 12px rgba(31, 61, 92, 0.2);
+    transform: translateY(-1px);
+}
+
+body[data-section="landing"] .btn-magenta,
+body[data-section="ed"] .btn-magenta,
+body[data-section="shared"] .btn-magenta {
+    background: var(--color-accent);
+    border: 2px solid var(--color-accent);
+    color: var(--color-white);
+    text-shadow: none;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+body[data-section="landing"] .btn-magenta:hover,
+body[data-section="ed"] .btn-magenta:hover,
+body[data-section="shared"] .btn-magenta:hover {
+    background: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+    box-shadow: 0 4px 12px rgba(14, 124, 102, 0.2);
+}
+
+body[data-section="landing"] .btn-green,
+body[data-section="ed"] .btn-green,
+body[data-section="shared"] .btn-green {
+    background: var(--color-accent);
+    border: 2px solid var(--color-accent);
+    color: var(--color-white);
+    text-shadow: none;
+}
+
+/* ===== Suppress legacy section background patterns (grid lines etc.) ===== */
+body[data-section="landing"] section::before,
+body[data-section="landing"] section::after,
+body[data-section="ed"] section::before,
+body[data-section="ed"] section::after {
+    opacity: 0;
+}
+
+/* ===== Header / nav on light themes ===== */
+body[data-section="landing"] .site-header,
+body[data-section="ed"] .site-header,
+body[data-section="shared"] .site-header {
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: saturate(180%) blur(8px);
+    -webkit-backdrop-filter: saturate(180%) blur(8px);
+}
+
+body[data-section="landing"] .nav-brand,
+body[data-section="ed"] .nav-brand,
+body[data-section="shared"] .nav-brand {
+    color: var(--color-primary);
+    text-shadow: none;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+body[data-section="landing"] .nav-link,
+body[data-section="ed"] .nav-link,
+body[data-section="shared"] .nav-link {
+    color: var(--color-text);
+    text-shadow: none;
+}
+
+body[data-section="landing"] .nav-link:hover,
+body[data-section="ed"] .nav-link:hover,
+body[data-section="shared"] .nav-link:hover,
+body[data-section="landing"] .nav-link.active,
+body[data-section="ed"] .nav-link.active,
+body[data-section="shared"] .nav-link.active {
+    color: var(--color-primary);
+}
+
+/* ===== Footer on light themes ===== */
+body[data-section="landing"] .site-footer,
+body[data-section="ed"] .site-footer,
+body[data-section="shared"] .site-footer {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+}
+
+body[data-section="landing"] .footer-copy,
+body[data-section="ed"] .footer-copy,
+body[data-section="shared"] .footer-copy {
+    color: var(--color-text-muted);
+}
+
+body[data-section="landing"] .footer-links a,
+body[data-section="ed"] .footer-links a,
+body[data-section="shared"] .footer-links a {
+    color: var(--color-text);
+    text-shadow: none;
+}
+body[data-section="landing"] .footer-links a:hover,
+body[data-section="ed"] .footer-links a:hover,
+body[data-section="shared"] .footer-links a:hover {
+    color: var(--color-primary);
+}
+
+body[data-section="landing"] .footer-logo-glow,
+body[data-section="ed"] .footer-logo-glow,
+body[data-section="shared"] .footer-logo-glow {
+    display: none;
+}
+
+/* ===== Particles canvas (decorative cyberpunk effect) ===== */
+body[data-section="landing"] #particle-canvas,
+body[data-section="ed"] #particle-canvas,
+body[data-section="shared"] #particle-canvas {
+    display: none;
+}
+
+/* ===== Skip link styling ===== */
+body[data-section="landing"] .skip-link:focus,
+body[data-section="ed"] .skip-link:focus,
+body[data-section="shared"] .skip-link:focus {
+    background: var(--color-primary);
+    color: var(--color-white);
+    text-shadow: none;
+    box-shadow: 0 4px 12px rgba(31, 61, 92, 0.2);
+}
+
+/* ===== Landing page panels — replace neon hover glows ===== */
+body[data-section="landing"] .landing-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    text-shadow: none;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    transition: all 250ms ease;
+}
+body[data-section="landing"] .landing-panel:hover {
+    border-color: var(--color-primary);
+    box-shadow:
+        0 4px 16px rgba(31, 61, 92, 0.12),
+        0 16px 40px rgba(31, 61, 92, 0.08);
+    transform: translateY(-2px);
+}
+body[data-section="landing"] .landing-panel-ed:hover {
+    border-color: var(--color-primary);
+}
+body[data-section="landing"] .landing-panel-ee:hover {
+    border-color: var(--color-accent);
+}
+body[data-section="landing"] .landing-panel h2 {
+    color: var(--color-primary);
+    text-shadow: none;
+}
+body[data-section="landing"] .landing-panel-subtitle {
+    color: var(--color-text-muted);
+    text-shadow: none;
+}
+body[data-section="landing"] .landing-panel-cta {
+    color: var(--color-accent);
+    text-shadow: none;
+    font-weight: 600;
+}
+body[data-section="landing"] .landing-panel-visual {
+    color: var(--color-primary);
+    text-shadow: none;
+    filter: none;
+}
+body[data-section="landing"] .landing-brand h1 {
+    color: var(--color-primary);
+    text-shadow: none;
+}
+body[data-section="landing"] .landing-tagline {
+    color: var(--color-text-muted);
+    text-shadow: none;
+}
+body[data-section="landing"] .landing-footer a {
+    color: var(--color-text);
+    text-shadow: none;
+}
+body[data-section="landing"] .landing-footer a:hover {
+    color: var(--color-primary);
+}
+
+/* ===== Generic h1, h2 on light themes — kill neon glows ===== */
+body[data-section="landing"] h1,
+body[data-section="landing"] h2,
+body[data-section="landing"] h3,
+body[data-section="ed"] h1,
+body[data-section="ed"] h2,
+body[data-section="ed"] h3,
+body[data-section="shared"] h1,
+body[data-section="shared"] h2,
+body[data-section="shared"] h3 {
+    text-shadow: none;
+    color: var(--color-text);
+}
+
+/* Body text on light themes */
+body[data-section="landing"],
+body[data-section="ed"],
+body[data-section="shared"] {
+    background: var(--bg-primary);
+    color: var(--color-text);
+}
+
+body[data-section="landing"] p,
+body[data-section="ed"] p,
+body[data-section="shared"] p {
+    color: var(--color-text);
+    text-shadow: none;
+}

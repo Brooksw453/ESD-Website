@@ -40,8 +40,8 @@ class Router {
         // Page metadata for SEO
         this.meta = {
             '/': {
-                title: 'ES Designs | VR Fitness & Education Technology',
-                description: 'ES Designs builds immersive VR fitness experiences and AI-powered education technology. Home of Elliptical Explorer and Document Ally.'
+                title: 'ES Designs | Title II Compliance Planning for Higher Ed',
+                description: 'ES Designs builds the integrated Title II compliance planning system for higher education. Home of the Compliance Roadmap Tool, AI Website Audit, and Document Ally Pro.'
             },
             '/elliptical': {
                 title: 'Elliptical Explorer | VR Fitness Adventure for Meta Quest',
@@ -77,11 +77,11 @@ class Router {
             },
             '/about': {
                 title: 'About ES Designs | Brooks Winchell',
-                description: 'About Education Simulation Designs and founder Brooks Winchell. Building immersive VR fitness and AI-powered education technology from Massachusetts.'
+                description: 'About ES Designs and founder Brooks Winchell. Building the integrated Title II compliance planning system for higher education from Massachusetts.'
             },
             '/privacy': {
                 title: 'Privacy Policy | ES Designs',
-                description: 'Privacy policy for Education Simulation Designs VR applications. No data collection, no tracking, no accounts.'
+                description: 'Privacy policy for ES Designs compliance planning, audit, document remediation, and training tools. No data collection beyond what each tool requires; no tracking, transparent accounts.'
             }
         };
 

@@ -1,11 +1,11 @@
 {
     "name": "ES Designs",
     "short_name": "ES Designs",
-    "description": "ES Designs - VR Fitness Adventures & AI-Powered Education Technology",
+    "description": "ES Designs - The integrated Title II compliance planning system for higher education.",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#0a0a1a",
-    "theme_color": "#00ffff",
+    "background_color": "#1F3D5C",
+    "theme_color": "#1F3D5C",
     "icons": [
         {
             "src": "assets/images/brand/esd-logo.png",

@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Page Not Found | ES Designs</title>
     <meta http-equiv="refresh" content="3;url=https://esdesigns.org">
+    <meta name="theme-color" content="#1F3D5C">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Rajdhani', sans-serif;
-            background: #0a0a1a;
-            color: #e0e0ff;
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #FFFFFF;
+            color: #1F2937;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -24,57 +25,73 @@
             padding: 24px;
         }
         h1 {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'IBM Plex Sans', sans-serif;
             font-size: clamp(4rem, 15vw, 8rem);
-            font-weight: 900;
-            color: #00ffff;
-            text-shadow: 0 0 7px #00ffff, 0 0 20px rgba(0,255,255,0.4),
-                         0 0 42px rgba(0,255,255,0.2), 0 0 82px rgba(0,255,255,0.1);
-            letter-spacing: 0.1em;
+            font-weight: 700;
+            color: #1F3D5C;
+            letter-spacing: -0.02em;
             margin-bottom: 16px;
+            position: relative;
+            display: inline-block;
+        }
+        h1::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -8px;
+            width: 64px;
+            height: 4px;
+            background: #0E7C66;
+            border-radius: 2px;
         }
         p {
-            font-size: 1.25rem;
-            color: rgba(224,224,255,0.6);
+            font-size: 1.125rem;
+            color: #6B7280;
             margin-bottom: 32px;
+            margin-top: 24px;
             line-height: 1.6;
+            max-width: 480px;
         }
         a {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            border: 2px solid #00ffff;
-            color: #00ffff;
+            background: #1F3D5C;
+            border: 2px solid #1F3D5C;
+            color: #FFFFFF;
             padding: 12px 32px;
             border-radius: 8px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.875rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
             text-decoration: none;
-            text-shadow: 0 0 8px rgba(0,255,255,0.3);
-            box-shadow: 0 0 15px rgba(0,255,255,0.1), inset 0 0 15px rgba(0,255,255,0.05);
             transition: all 150ms ease;
         }
         a:hover {
-            background: rgba(0,255,255,0.1);
-            box-shadow: 0 0 30px rgba(0,255,255,0.25), inset 0 0 20px rgba(0,255,255,0.08);
-            transform: translateY(-2px);
+            background: #2C547B;
+            border-color: #2C547B;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(31, 61, 92, 0.2);
+        }
+        a:focus-visible {
+            outline: 3px solid #0E7C66;
+            outline-offset: 3px;
         }
         .redirect-notice {
             font-size: 0.75rem;
-            color: rgba(224,224,255,0.35);
-            margin-top: 24px;
-            font-family: monospace;
+            color: #9CA3AF;
+            margin-top: 32px;
+            font-family: 'IBM Plex Sans', monospace;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
         }
     </style>
 </head>
 <body>
     <h1>404</h1>
-    <p>This page does not exist.<br>You will be redirected to the home page shortly.</p>
+    <p>This page does not exist. You will be redirected to the home page shortly.</p>
     <a href="https://esdesigns.org">Go Home</a>
     <p class="redirect-notice">Redirecting in 3 seconds...</p>
 </body>

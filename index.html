@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ES Designs | VR Fitness & Education Technology</title>
-    <meta name="description" content="ES Designs builds immersive VR fitness experiences and AI-powered education technology. Home of Elliptical Explorer and Document Ally.">
+    <title>ES Designs | Title II Compliance Planning for Higher Ed</title>
+    <meta name="description" content="ES Designs builds the integrated Title II compliance planning system for higher education. Home of the Compliance Roadmap Tool, AI Website Audit, and Document Ally Pro.">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self'; frame-src https://brooksw453.github.io https://scheduler.zoom.us; connect-src 'self' https://formsubmit.co https://awcmkderlpyxpkmrnvwi.supabase.co https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="ES Designs | VR Fitness & Education Technology">
-    <meta property="og:description" content="ES Designs builds higher education accessibility, training, and adaptive learning technology. Home of Document Ally and Elliptical Explorer.">
+    <meta property="og:title" content="ES Designs | Title II Compliance Planning for Higher Ed">
+    <meta property="og:description" content="The integrated Title II compliance planning system for higher education. Free 9-chapter roadmap tool, AI website audit, document remediation, WCAG 2.2 training.">
     <meta property="og:image" content="assets/images/elliptical/cover.png">
     <meta property="og:url" content="https://esdesigns.org">
     <meta property="og:type" content="website">
@@ -22,11 +22,10 @@
             {
                 "@type": "Organization",
                 "@id": "https://esdesigns.org/#organization",
-                "name": "Education Simulation Designs",
-                "alternateName": "ES Designs",
+                "name": "ES Designs",
                 "url": "https://esdesigns.org",
                 "logo": "https://esdesigns.org/assets/images/brand/esd-logo.png",
-                "description": "ES Designs builds immersive VR fitness experiences and AI-powered education technology.",
+                "description": "ES Designs builds the integrated Title II compliance planning system for higher education.",
                 "foundingDate": "2022",
                 "founder": {
                     "@type": "Person",
@@ -92,7 +91,7 @@
     <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
     <link rel="apple-touch-icon" href="assets/images/brand/esd-logo.png">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#00ffff">
+    <meta name="theme-color" content="#1F3D5C">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -115,8 +114,10 @@
     <link rel="stylesheet" href="css/pages.css">
     <link rel="stylesheet" href="css/education.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <!-- Brand overrides (loaded LAST — wins specificity for light themes) -->
+    <link rel="stylesheet" href="css/brand-overrides.css">
 </head>
-<body>
+<body data-section="landing">
     <!-- Skip-to-content link (visible on keyboard focus) -->
     <a class="skip-link" href="#page-content">Skip to main content</a>
 
@@ -152,7 +153,7 @@
                 <div class="footer-links">
                     <!-- Populated dynamically by router based on active section -->
                 </div>
-                <p class="footer-copy">&copy; 2025&ndash;2026 Education Simulation Designs. All rights reserved.</p>
+                <p class="footer-copy">&copy; 2025&ndash;2026 ES Designs. All rights reserved.</p>
             </div>
         </div>
     </footer>

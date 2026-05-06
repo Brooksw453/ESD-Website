@@ -1,9 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#0a0a1a"/>
-  <g fill="#00ffff">
-    <rect x="7" y="5" width="3" height="22" rx="1"/>
-    <rect x="7" y="5" width="18" height="3" rx="1"/>
-    <rect x="7" y="14" width="14" height="3" rx="1"/>
-    <rect x="7" y="24" width="18" height="3" rx="1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="ES Designs">
+  <title>ES Designs</title>
+  <!-- Navy block — primary brand color #1F3D5C, WCAG AAA against white E -->
+  <rect width="32" height="32" rx="6" fill="#1F3D5C"/>
+  <!-- Letter E in white, custom-drawn so it's crisp at any size -->
+  <g fill="#FFFFFF">
+    <rect x="8" y="6" width="3" height="15" rx="0.5"/>
+    <rect x="8" y="6" width="15" height="3" rx="0.5"/>
+    <rect x="8" y="12" width="12" height="3" rx="0.5"/>
+    <rect x="8" y="18" width="15" height="3" rx="0.5"/>
   </g>
+  <!-- Teal accent underline #0E7C66 -->
+  <rect x="8" y="24" width="15" height="2" rx="0.5" fill="#0E7C66"/>
 </svg>
