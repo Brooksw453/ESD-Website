@@ -1047,8 +1047,8 @@ body[data-section="ed"] .back-to-top:hover {
     padding-bottom: 8px;
     border-bottom: 1px solid #c7d2fe;
 }
-.ed-roadmap-heading-ship  { color: #16a34a; }
-.ed-roadmap-heading-roadmap { color: #6366f1; }
+.ed-roadmap-heading-ship  { color: #15803d; } /* darker green: 4.94:1 on white (was 3.30:1) */
+.ed-roadmap-heading-roadmap { color: #4338ca; } /* darker indigo: 7.04:1 on white */
 .ed-roadmap-note {
     font-size: 0.9rem;
     color: var(--text-secondary);

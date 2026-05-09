@@ -55,6 +55,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://esdesigns.org/#/education/roadmap-tool</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://esdesigns.org/#/about</loc>
     <lastmod>2026-04-05</lastmod>
     <changefreq>monthly</changefreq>

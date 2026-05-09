@@ -105,6 +105,14 @@ body[data-section="shared"] .site-header {
     -webkit-backdrop-filter: saturate(180%) blur(8px);
 }
 
+/* ===== Elliptical (ee) header — keep legacy synthwave styling =====
+   The default .site-header on EE renders dark navy (layout.css:30,
+   rgba(10,10,26,0.85)) with the legacy neon-cyan brand text and light
+   lavender nav links. That's the intended synthwave aesthetic and
+   already passes WCAG on the dark bar — do not override. (An earlier
+   pass mistakenly painted EE nav-link dark slate, which produced
+   dark-on-dark when the header rendered as designed.) */
+
 body[data-section="landing"] .nav-brand,
 body[data-section="ed"] .nav-brand,
 body[data-section="shared"] .nav-brand {
@@ -128,6 +136,34 @@ body[data-section="landing"] .nav-link.active,
 body[data-section="ed"] .nav-link.active,
 body[data-section="shared"] .nav-link.active {
     color: var(--color-primary);
+}
+
+/* ===== Mobile dropdown panel on light themes =====
+   responsive.css gives the mobile .nav-links dropdown a dark navy
+   background (rgba(10,10,26,0.97)) with a cyan hover glow. On light
+   themes that combination renders dark slate text on dark navy —
+   the screenshot bug. Repaint the panel light and use brand color
+   for hover/active so the legacy synthwave look only persists on
+   the dark-themed VR/Elliptical sections. */
+@media (max-width: 640px) {
+    body[data-section="landing"] .nav-links,
+    body[data-section="ed"] .nav-links,
+    body[data-section="shared"] .nav-links {
+        background: rgba(255, 255, 255, 0.98);
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    body[data-section="landing"] .nav-links .nav-link:hover,
+    body[data-section="ed"] .nav-links .nav-link:hover,
+    body[data-section="shared"] .nav-links .nav-link:hover,
+    body[data-section="landing"] .nav-links .nav-link.active,
+    body[data-section="ed"] .nav-links .nav-link.active,
+    body[data-section="shared"] .nav-links .nav-link.active {
+        color: var(--color-primary);
+        text-shadow: none;
+        border-left-color: var(--color-primary);
+        background: rgba(31, 61, 92, 0.06);
+    }
 }
 
 /* ===== Footer on light themes ===== */
@@ -207,6 +243,70 @@ body[data-section="landing"] #page-content,
 body[data-section="ed"] #page-content,
 body[data-section="shared"] #page-content {
     background: transparent !important;
+}
+
+/* ===== Sections on light themes inherit the white body =====
+   Legacy pages.css and base.css paint <section> with var(--bg-primary)
+   (rgb(10,10,26) navy). On the brand-pivoted light themes that produces
+   dark-on-dark text wherever the heading colors are slate. Force every
+   <section> transparent so the white body shows through. Inline-styled
+   sections that explicitly set a different bg (e.g. style="background:#f0f5ff;")
+   still win because inline styles beat this rule. */
+body[data-section="landing"] section,
+body[data-section="ed"] section,
+body[data-section="shared"] section {
+    background: transparent !important;
+}
+
+/* ===== Cards on light themes — force light surface =====
+   Earlier rule sets border/shadow/background:var(--bg-card) but
+   --bg-card resolves to a dark value on legacy CSS, leaving dark
+   cards inside a now-white page. Pin neon-cards to the brand
+   surface so internal text is readable. */
+body[data-section="landing"] .neon-card,
+body[data-section="ed"] .neon-card,
+body[data-section="shared"] .neon-card {
+    background: var(--color-surface) !important;
+}
+
+/* ===== Section headings + card sub-headings on light themes =====
+   .section-header h2/p and .neon-card h4 used the legacy synthwave
+   colors and rendered dark-on-dark. Force readable brand colors. */
+body[data-section="landing"] .section-header h2,
+body[data-section="ed"] .section-header h2,
+body[data-section="shared"] .section-header h2,
+body[data-section="landing"] section h2,
+body[data-section="ed"] section h2,
+body[data-section="shared"] section h2 {
+    color: var(--color-primary) !important;
+}
+
+body[data-section="landing"] .section-header p,
+body[data-section="ed"] .section-header p,
+body[data-section="shared"] .section-header p {
+    color: var(--color-text) !important;
+}
+
+body[data-section="landing"] .neon-card h3,
+body[data-section="ed"] .neon-card h3,
+body[data-section="shared"] .neon-card h3,
+body[data-section="landing"] .neon-card h4,
+body[data-section="ed"] .neon-card h4,
+body[data-section="shared"] .neon-card h4 {
+    color: var(--color-primary) !important;
+}
+
+/* Card links — keep brand teal but on light surface they hit AA
+   (4.5:1 against #F8FAFC = 4.91:1). */
+body[data-section="landing"] .neon-card a,
+body[data-section="ed"] .neon-card a,
+body[data-section="shared"] .neon-card a {
+    color: var(--color-accent) !important;
+}
+body[data-section="landing"] .neon-card a:hover,
+body[data-section="ed"] .neon-card a:hover,
+body[data-section="shared"] .neon-card a:hover {
+    color: var(--color-accent-hover) !important;
 }
 
 /* Landing page outer container */
@@ -348,6 +448,98 @@ body[data-section="landing"] .landing-panel-subtitle {
     text-shadow: none !important;
 }
 
+/* ===== Lead block — full-width Accessibility hero (v5 layout) =====
+   Reuses .landing-panel-ed styling but stretches to the page width
+   and gets larger heading/padding so it visually leads. */
+body[data-section="landing"] .landing-lead {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto var(--space-xl);
+    min-height: 320px;
+    padding: var(--space-3xl) var(--space-2xl) !important;
+}
+
+body[data-section="landing"] .landing-lead h2 {
+    font-size: clamp(1.75rem, 4vw, 2.75rem) !important;
+}
+
+body[data-section="landing"] .landing-lead p {
+    max-width: 640px !important;
+}
+
+body[data-section="landing"] .landing-lead-products {
+    color: var(--color-text-muted) !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.01em;
+    margin-top: var(--space-sm) !important;
+    margin-bottom: var(--space-lg) !important;
+    max-width: 720px !important;
+}
+
+/* ===== Secondary block — 2-column grid below the lead ===== */
+body[data-section="landing"] .landing-secondary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+@media (max-width: 767px) {
+    body[data-section="landing"] .landing-secondary {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Secondary tile — light, lower-key than the lead */
+body[data-section="landing"] .landing-panel-secondary {
+    background: var(--color-surface) !important;
+    border: 1px solid var(--color-border) !important;
+    color: var(--color-text) !important;
+    text-shadow: none !important;
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 4px 12px rgba(15, 23, 42, 0.06) !important;
+    min-height: 280px;
+}
+body[data-section="landing"] .landing-panel-secondary:hover {
+    border-color: var(--color-accent) !important;
+    box-shadow:
+        0 4px 16px rgba(14, 124, 102, 0.10),
+        0 16px 40px rgba(14, 124, 102, 0.06) !important;
+    transform: translateY(-4px);
+}
+body[data-section="landing"] .landing-panel-secondary h2 {
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
+    color: var(--color-text) !important;
+    text-shadow: none !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    letter-spacing: -0.01em !important;
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem) !important;
+}
+body[data-section="landing"] .landing-panel-secondary p {
+    color: var(--color-text-muted) !important;
+}
+body[data-section="landing"] .landing-panel-secondary .landing-panel-cta {
+    color: var(--color-accent) !important;
+    background: transparent !important;
+    border: 1px solid var(--color-accent) !important;
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
+    text-transform: none !important;
+    letter-spacing: 0.01em !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    padding: var(--space-sm) var(--space-xl);
+    border-radius: var(--radius-md);
+}
+body[data-section="landing"] .landing-panel-secondary:hover .landing-panel-cta {
+    background: var(--color-accent) !important;
+    color: var(--color-white) !important;
+    box-shadow: 0 4px 12px rgba(14, 124, 102, 0.15) !important;
+}
+
 /* Panel icon/visual */
 body[data-section="landing"] .landing-panel-visual {
     color: var(--color-primary) !important;
@@ -385,4 +577,556 @@ body[data-section="landing"] p,
 body[data-section="ed"] p,
 body[data-section="shared"] p {
     text-shadow: none !important;
+}
+
+/* ===== Body copy color on light themes =====
+   Legacy synthwave CSS sets --text-secondary to rgb(200,200,230) — a
+   light lavender that fails WCAG on white. Force readable slate on
+   any unstyled paragraph or list item inside light-themed sections.
+   Cards/components that explicitly set their own color (.ed-stat-label,
+   .label, .ed-roadmap-note) are still respected because they target
+   .className, which beats this element-only selector. */
+body[data-section="landing"] section p:not([class]),
+body[data-section="landing"] section li:not([class]),
+body[data-section="ed"] section p:not([class]),
+body[data-section="ed"] section li:not([class]),
+body[data-section="shared"] section p:not([class]),
+body[data-section="shared"] section li:not([class]) {
+    color: var(--color-text) !important;
+}
+
+/* Inline-styled paragraphs (color: var(--text-secondary), color: #64748b
+   etc. as inline style) need the muted brand value, not the lavender. */
+body[data-section="landing"] section p[style*="text-secondary"],
+body[data-section="ed"] section p[style*="text-secondary"],
+body[data-section="shared"] section p[style*="text-secondary"] {
+    color: var(--color-text-muted) !important;
+}
+
+/* Cards on light themes — body text inside neon-card / about-card
+   inherits the lavender. Same fix scoped to common card containers. */
+body[data-section="landing"] .neon-card p,
+body[data-section="landing"] .neon-card li,
+body[data-section="ed"] .neon-card p,
+body[data-section="ed"] .neon-card li,
+body[data-section="shared"] .neon-card p,
+body[data-section="shared"] .neon-card li,
+body[data-section="landing"] .about-card p,
+body[data-section="ed"] .about-card p,
+body[data-section="shared"] .about-card p {
+    color: var(--color-text) !important;
+}
+
+/* Card secondary text (subtitles, meta) uses muted brand grey. */
+body[data-section="landing"] .neon-card p.label,
+body[data-section="ed"] .neon-card p.label,
+body[data-section="shared"] .neon-card p.label {
+    color: var(--color-accent) !important;
+}
+
+/* Labels/eyebrows ANYWHERE on light themes — legacy --text-muted
+   resolves to rgb(162,162,192) which fails WCAG on white (3.42:1).
+   Map to brand teal for live link-like accent text, and brand
+   text-muted (#6B7280, 4.7:1 on white) for plain monospace eyebrows
+   carrying meta info. */
+body[data-section="landing"] .label,
+body[data-section="ed"] .label,
+body[data-section="shared"] .label {
+    color: var(--color-accent) !important;
+}
+
+/* Inline-styled eyebrow with var(--text-muted) — repaint to readable
+   muted slate. Matches the "Last Updated" timestamp style on privacy. */
+body[data-section="landing"] [style*="--text-muted"],
+body[data-section="ed"] [style*="--text-muted"],
+body[data-section="shared"] [style*="--text-muted"] {
+    color: var(--color-text-muted) !important;
+}
+
+/* ===== Contact widget on light themes =====
+   The widget panel ships with dark-synthwave styling: navy background,
+   magenta accents, and form fields styled as dark. My earlier overrides
+   forced text colors dark across light themes — which pushed dark text
+   onto the still-dark form fields, making them unreadable. Repaint the
+   whole widget light to match the brand on landing/ed/shared, with the
+   form fields rendered as proper light inputs. EE keeps the synthwave
+   look (no override). */
+body[data-section="landing"] .contact-panel,
+body[data-section="ed"] .contact-panel,
+body[data-section="shared"] .contact-panel {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid var(--color-border) !important;
+    box-shadow:
+        0 8px 32px rgba(15, 23, 42, 0.18),
+        0 2px 8px rgba(15, 23, 42, 0.08) !important;
+}
+
+body[data-section="landing"] .contact-panel-header,
+body[data-section="ed"] .contact-panel-header,
+body[data-section="shared"] .contact-panel-header {
+    border-bottom: 1px solid var(--color-border) !important;
+}
+
+body[data-section="landing"] .contact-panel-title,
+body[data-section="ed"] .contact-panel-title,
+body[data-section="shared"] .contact-panel-title {
+    color: var(--color-primary) !important;
+    text-shadow: none !important;
+}
+
+body[data-section="landing"] .contact-panel-close,
+body[data-section="ed"] .contact-panel-close,
+body[data-section="shared"] .contact-panel-close {
+    color: var(--color-text-muted) !important;
+}
+body[data-section="landing"] .contact-panel-close:hover,
+body[data-section="ed"] .contact-panel-close:hover,
+body[data-section="shared"] .contact-panel-close:hover {
+    background: rgba(31, 61, 92, 0.06) !important;
+    color: var(--color-primary) !important;
+}
+
+body[data-section="landing"] .contact-action-btn,
+body[data-section="ed"] .contact-action-btn,
+body[data-section="shared"] .contact-action-btn {
+    color: var(--color-text) !important;
+}
+body[data-section="landing"] .contact-action-btn:hover,
+body[data-section="ed"] .contact-action-btn:hover,
+body[data-section="shared"] .contact-action-btn:hover {
+    background: rgba(14, 124, 102, 0.08) !important;
+    color: var(--color-accent) !important;
+}
+
+body[data-section="landing"] .contact-divider,
+body[data-section="ed"] .contact-divider,
+body[data-section="shared"] .contact-divider {
+    background: var(--color-border) !important;
+}
+
+body[data-section="landing"] .contact-form-field input,
+body[data-section="landing"] .contact-form-field textarea,
+body[data-section="ed"] .contact-form-field input,
+body[data-section="ed"] .contact-form-field textarea,
+body[data-section="shared"] .contact-form-field input,
+body[data-section="shared"] .contact-form-field textarea {
+    background: #ffffff !important;
+    border: 1px solid var(--color-border) !important;
+    color: var(--color-text) !important;
+}
+
+body[data-section="landing"] .contact-form-field input::placeholder,
+body[data-section="landing"] .contact-form-field textarea::placeholder,
+body[data-section="ed"] .contact-form-field input::placeholder,
+body[data-section="ed"] .contact-form-field textarea::placeholder,
+body[data-section="shared"] .contact-form-field input::placeholder,
+body[data-section="shared"] .contact-form-field textarea::placeholder {
+    color: var(--color-text-muted) !important;
+}
+
+body[data-section="landing"] .contact-form-field input:focus,
+body[data-section="landing"] .contact-form-field textarea:focus,
+body[data-section="ed"] .contact-form-field input:focus,
+body[data-section="ed"] .contact-form-field textarea:focus,
+body[data-section="shared"] .contact-form-field input:focus,
+body[data-section="shared"] .contact-form-field textarea:focus {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 3px rgba(31, 61, 92, 0.12) !important;
+}
+
+body[data-section="landing"] .contact-submit-btn,
+body[data-section="ed"] .contact-submit-btn,
+body[data-section="shared"] .contact-submit-btn {
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: var(--color-white) !important;
+    text-shadow: none !important;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08) !important;
+}
+body[data-section="landing"] .contact-submit-btn:hover,
+body[data-section="ed"] .contact-submit-btn:hover,
+body[data-section="shared"] .contact-submit-btn:hover {
+    background: var(--color-primary-hover) !important;
+    border-color: var(--color-primary-hover) !important;
+    box-shadow: 0 4px 12px rgba(31, 61, 92, 0.2) !important;
+}
+
+/* FAB on light themes — currently navy with magenta glow.
+   Repaint to brand navy + teal accent so it reads as part of the brand. */
+body[data-section="landing"] .contact-fab,
+body[data-section="ed"] .contact-fab,
+body[data-section="shared"] .contact-fab,
+body[data-section="landing"] #contactFab,
+body[data-section="ed"] #contactFab,
+body[data-section="shared"] #contactFab {
+    background: var(--color-primary) !important;
+    color: var(--color-white) !important;
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 4px 16px rgba(31, 61, 92, 0.3) !important;
+}
+
+/* Back-to-Top button on light themes — currently dark navy with neon
+   cyan icon. On a white page that reads as a black blob until hover.
+   Match the FAB: brand navy bg + white icon at rest, accent teal on
+   hover. EE keeps the synthwave variant. */
+body[data-section="landing"] .back-to-top,
+body[data-section="ed"] .back-to-top,
+body[data-section="shared"] .back-to-top,
+body[data-section="landing"] #backToTop,
+body[data-section="ed"] #backToTop,
+body[data-section="shared"] #backToTop {
+    background: var(--color-primary) !important;
+    color: var(--color-white) !important;
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 4px 16px rgba(31, 61, 92, 0.25) !important;
+}
+body[data-section="landing"] .back-to-top:hover,
+body[data-section="ed"] .back-to-top:hover,
+body[data-section="shared"] .back-to-top:hover,
+body[data-section="landing"] #backToTop:hover,
+body[data-section="ed"] #backToTop:hover,
+body[data-section="shared"] #backToTop:hover {
+    background: var(--color-primary-hover) !important;
+    border-color: var(--color-primary-hover) !important;
+    box-shadow: 0 6px 20px rgba(31, 61, 92, 0.35) !important;
+}
+
+/* Privacy page accents — legacy classes used neon-green and light
+   lavender; both fail on white. Repaint to brand-aligned colors. */
+body[data-section="shared"] .privacy-app-name,
+body[data-section="landing"] .privacy-app-name,
+body[data-section="ed"] .privacy-app-name {
+    color: var(--color-primary) !important;
+}
+body[data-section="shared"] .privacy-highlight,
+body[data-section="landing"] .privacy-highlight,
+body[data-section="ed"] .privacy-highlight {
+    color: var(--color-accent) !important;
+    font-weight: 700;
+}
+
+/* ============================================
+   SYSTEM COMPONENTS
+   The five-step compliance system (Plan → Assess → Train →
+   Remediate → Monitor) shows up in two forms:
+     .system-strip — compact horizontal progress strip on
+                     every education product page.
+     .system-map  — full 5-card feature grid for the home
+                     and education hub.
+   Both are scoped to light themes (landing/ed/shared); the
+   Elliptical/EE section keeps its synthwave layout.
+   ============================================ */
+
+/* ===== System Strip — compact wayfinding above each product hero ===== */
+.system-strip {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-md) 0;
+}
+
+.system-strip-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+    flex-wrap: wrap;
+}
+
+.system-step {
+    flex: 1 1 0;
+    min-width: 0;
+    position: relative;
+    text-align: center;
+}
+
+/* Connector line between steps */
+.system-step + .system-step::before {
+    content: "";
+    position: absolute;
+    top: 17px;
+    left: -50%;
+    right: 50%;
+    height: 2px;
+    background: var(--color-border);
+    z-index: 0;
+}
+
+.system-step a,
+.system-step > span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: var(--space-xs) 4px;
+    text-decoration: none;
+    position: relative;
+    z-index: 1;
+    border-radius: 8px;
+    transition: background 0.18s ease, color 0.18s ease;
+}
+
+.system-step a:hover,
+.system-step a:focus-visible {
+    background: rgba(31, 61, 92, 0.06);
+}
+
+.system-step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid var(--color-accent);
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.system-step-name {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.system-step-meta {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* Current step — solid navy fill with white number */
+.system-step.is-current .system-step-num {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+    box-shadow: 0 2px 8px rgba(31, 61, 92, 0.25);
+    transform: scale(1.08);
+}
+.system-step.is-current .system-step-name {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+/* Pending step (Step 5 not yet shipped) */
+.system-step.is-pending .system-step-num {
+    border-color: var(--color-border);
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+}
+.system-step.is-pending .system-step-name {
+    color: var(--color-text-muted);
+}
+.system-step.is-pending > span {
+    cursor: default;
+}
+
+@media (max-width: 720px) {
+    .system-strip-list { padding: 0 var(--space-sm); }
+    .system-step-name { font-size: 0.7rem; letter-spacing: 0.04em; }
+    .system-step-meta { display: none; }
+    .system-step-num { width: 28px; height: 28px; font-size: 0.85rem; }
+    .system-step + .system-step::before { top: 13px; }
+}
+
+/* ===== System Map — full 5-card feature on home + education hub ===== */
+.system-map {
+    padding: var(--space-3xl) 0;
+}
+
+/* When the system-map is dropped inside the home page's flex-column
+   .landing-page wrapper (which align-items: center), force it to
+   stretch the full available width. */
+body[data-section="landing"] .landing-page .system-map {
+    align-self: stretch;
+    width: 100%;
+    margin-top: var(--space-2xl);
+}
+
+.system-map .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-xl);
+}
+
+.system-map-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 700;
+    color: var(--color-primary);
+    text-align: center;
+    margin: 0 0 var(--space-sm);
+    letter-spacing: -0.01em;
+}
+
+.system-map-subtitle {
+    text-align: center;
+    color: var(--color-text-muted);
+    max-width: 720px;
+    margin: 0 auto var(--space-2xl);
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+
+.system-map-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-lg);
+}
+
+.system-card {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: var(--space-xl) var(--space-lg) var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.system-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-primary);
+    box-shadow:
+        0 4px 16px rgba(31, 61, 92, 0.10),
+        0 12px 32px rgba(31, 61, 92, 0.06);
+}
+
+.system-card-num {
+    position: absolute;
+    top: -16px;
+    left: var(--space-lg);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: var(--color-white);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    line-height: 1;
+    box-shadow: 0 2px 8px rgba(31, 61, 92, 0.25);
+}
+
+.system-card-step {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-top: var(--space-sm);
+}
+
+.system-card-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.system-card-desc {
+    font-size: 0.92rem;
+    color: var(--color-text);
+    line-height: 1.5;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.system-card-price {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    padding-top: var(--space-xs);
+    border-top: 1px solid var(--color-border);
+}
+
+.system-card-link {
+    color: var(--color-accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    margin-top: 4px;
+}
+.system-card-link:hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+}
+
+/* Pending card (Step 5 — Monitor) */
+.system-card.is-pending {
+    background: var(--color-surface);
+    border-style: dashed;
+}
+.system-card.is-pending .system-card-num {
+    background: var(--color-text-muted);
+    box-shadow: none;
+}
+.system-card.is-pending:hover {
+    transform: none;
+    border-color: var(--color-border);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+.system-card-badge {
+    align-self: flex-start;
+    background: rgba(31, 61, 92, 0.08);
+    color: var(--color-primary);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-top: 4px;
+}
+
+/* Make the whole card clickable via the title link covering it,
+   but only for non-pending cards. */
+.system-card:not(.is-pending) .system-card-title { position: relative; }
+.system-card:not(.is-pending) .system-card-title::after {
+    content: "";
+    position: absolute;
+    inset: -16px -16px -100% -16px;
+    z-index: 0;
+}
+.system-card .system-card-link,
+.system-card .system-card-step,
+.system-card .system-card-desc,
+.system-card .system-card-price,
+.system-card-num { position: relative; z-index: 1; }
+
+/* Mobile / tablet layouts */
+@media (max-width: 1024px) {
+    .system-map-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 540px) {
+    .system-map-grid { grid-template-columns: 1fr; gap: var(--space-md); }
+    .system-card { padding: var(--space-lg) var(--space-md) var(--space-md); }
 }

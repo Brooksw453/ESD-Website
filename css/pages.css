@@ -282,7 +282,12 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: var(--space-4xl) var(--space-xl);
+    /* Top padding accounts for the fixed site-header so the cover-image
+       title art (the giant "VR FITNESS ADVENTURE" ghost text baked into
+       cover.png) isn't clipped by the header. The image fills the box,
+       so a taller box gives the cover more room and centers the title
+       below the header bar. */
+    padding: calc(var(--nav-height) + var(--space-2xl)) var(--space-xl) var(--space-4xl);
     overflow: hidden;
 }
 

@@ -24,6 +24,7 @@ class Router {
             '/education/ally-pro':     'ed',
             '/education/audit':        'ed',
             '/education/wcag-course':  'ed',
+            '/education/roadmap-tool': 'ed',
             '/about':             'shared',
             '/privacy':           'shared',
         };
@@ -75,6 +76,10 @@ class Router {
                 title: 'WCAG 2.2 for Higher Ed | Self-Paced Course for Faculty',
                 description: 'A plain-English WCAG 2.2 course built for higher education faculty. 8 modules, completion certificate, included with every institutional Document Ally Pro license.'
             },
+            '/education/roadmap-tool': {
+                title: 'Compliance Roadmap Tool | ADA Title II Planning for Higher Ed',
+                description: 'Free interactive Title II compliance planning tool for higher ed accessibility directors. 9 chapters, AI-drafted summaries, accessible PDF export. Build your plan in 30 minutes.'
+            },
             '/about': {
                 title: 'About ES Designs | Brooks Winchell',
                 description: 'About ES Designs and founder Brooks Winchell. Building the integrated Title II compliance planning system for higher education from Massachusetts.'
@@ -90,11 +95,12 @@ class Router {
             landing: {
                 brand: 'ES Designs',
                 brandHref: '#/',
-                // Order mirrors the landing-page tiles: Ed Tech on the left,
-                // Elliptical Explorer on the right.
+                // Order mirrors the v5 home page: Accessibility lead, then
+                // Adaptive Learning, then VR Development, then About.
                 links: [
-                    { href: '#/education', label: 'Education Tech' },
-                    { href: '#/elliptical', label: 'Elliptical Explorer' },
+                    { href: '#/education', label: 'Accessibility' },
+                    { href: '#/education/courses', label: 'Courses' },
+                    { href: '#/elliptical', label: 'VR' },
                     { href: '#/about', label: 'About' },
                 ]
             },
@@ -111,54 +117,64 @@ class Router {
                 brandHref: '#/education',
                 links: [
                     { href: '#/', label: 'Home' },
-                    { href: '#/education/ally-pro', label: 'Document Ally Pro' },
+                    { href: '#/education/roadmap-tool', label: 'Roadmap Tool' },
                     { href: '#/education/audit', label: 'Audit Tool' },
-                    { href: '#/education/wcag-course', label: 'WCAG 2.2 Course' },
-                    { href: '#/education/courses', label: 'Courses' },
+                    { href: '#/education/wcag-course', label: 'WCAG Courses' },
+                    { href: '#/education/ally-pro', label: 'Document Ally Pro' },
+                    { href: '#/education/courses', label: 'Adaptive Learning' },
                     { href: '#/about', label: 'About' },
                 ]
             },
             shared: {
                 brand: 'ES Designs',
                 brandHref: '#/',
-                // Same ordering convention as .landing — Ed Tech first.
+                // Same ordering convention as .landing — Accessibility first.
                 links: [
-                    { href: '#/education', label: 'Education Tech' },
-                    { href: '#/elliptical', label: 'Elliptical Explorer' },
+                    { href: '#/education', label: 'Accessibility' },
+                    { href: '#/education/courses', label: 'Courses' },
+                    { href: '#/elliptical', label: 'VR' },
                     { href: '#/about', label: 'About' },
                 ]
             }
         };
 
-        // Footer configurations per section
+        // Footer configurations per section. Mirror the top-nav link order
+        // (Accessibility / Courses / VR / About) on landing/shared so the
+        // footer reads as a parallel index rather than a different list.
+        // Privacy Policy stays as the trailing legal link everywhere.
         this.footerConfigs = {
             landing: [
-                { href: '#/education', label: 'Education Technology' },
-                { href: '#/elliptical', label: 'Elliptical Explorer' },
+                { href: '#/education', label: 'Accessibility' },
+                { href: '#/education/courses', label: 'Courses' },
+                { href: '#/elliptical', label: 'VR' },
                 { href: '#/about', label: 'About' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ],
             ee: [
                 { href: '#/', label: 'Home' },
-                { href: '#/education', label: 'Education Technology' },
+                { href: '#/education', label: 'Accessibility' },
+                { href: '#/education/courses', label: 'Courses' },
                 { href: '#/about', label: 'About' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ],
             ed: [
                 { href: '#/', label: 'Home' },
+                { href: '#/education/roadmap-tool', label: 'Compliance Roadmap Tool' },
+                { href: '#/education/audit', label: 'AI Website Audit' },
+                { href: '#/education/wcag-course', label: 'WCAG 2.2 Courses' },
                 { href: '#/education/ally-pro', label: 'Document Ally Pro' },
-                { href: '#/education/audit', label: 'Audit Tool' },
-                { href: '#/education/wcag-course', label: 'WCAG 2.2 Course' },
-                { href: '#/education/courses', label: 'Courses' },
+                { href: '#/education/courses', label: 'Adaptive Learning' },
                 { href: '#/education/ally', label: 'Document Ally (Free)' },
-                { href: '#/elliptical', label: 'Elliptical Explorer' },
+                { href: '#/elliptical', label: 'VR' },
                 { href: '#/about', label: 'About' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ],
             shared: [
                 { href: '#/', label: 'Home' },
-                { href: '#/education', label: 'Education Technology' },
-                { href: '#/elliptical', label: 'Elliptical Explorer' },
+                { href: '#/education', label: 'Accessibility' },
+                { href: '#/education/courses', label: 'Courses' },
+                { href: '#/elliptical', label: 'VR' },
+                { href: '#/about', label: 'About' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ]
         };

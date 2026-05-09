@@ -12,9 +12,12 @@ body {
     min-height: 100vh;
 }
 
-/* Scroll-padding so anchor jumps + focus do not land beneath the
-   fixed music player. Player is ~72px tall; 96px gives breathing room. */
+/* WCAG 2.2 SC 2.4.11 Focus Not Obscured (Minimum, AA): anchor jumps
+   and keyboard focus must not land underneath sticky chrome. Header is
+   ~64px; music player ~72px. Add breathing room on both ends so a
+   focused element is always fully visible. */
 html {
+    scroll-padding-top: 80px;
     scroll-padding-bottom: 96px;
 }
 

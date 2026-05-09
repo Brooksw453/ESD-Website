@@ -264,8 +264,9 @@
 .footer-links {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-lg);
+    gap: var(--space-md) var(--space-lg);
     margin-bottom: var(--space-sm);
+    align-items: center;
 }
 
 .footer-links a {
@@ -273,6 +274,13 @@
     font-size: var(--text-sm);
     color: var(--text-muted);
     transition: color var(--transition-fast);
+    /* WCAG 2.2 SC 2.5.8 (Target Size Minimum, AA): clickable
+       targets must be at least 24x24 CSS px. The font-size yields
+       ~22px line-box; padding bumps the hit area without changing
+       the visual rhythm. */
+    display: inline-block;
+    padding: 4px 0;
+    line-height: 1.2;
 }
 
 .footer-links a:hover {

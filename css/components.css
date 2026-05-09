@@ -253,6 +253,17 @@
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-top: none;
+    /* Hidden by default to prevent flash on initial load before the
+       router resolves the section. Only the Elliptical Explorer section
+       reveals the player. The legacy layout uses the default `display: block`
+       — internal children manage their own row layout — so re-show with
+       `block`, NOT `flex` (flex would break the player's internal grid
+       and squish the soundtrack column on the right). */
+    display: none;
+}
+
+body[data-section="ee"] .music-player {
+    display: block;
 }
 
 /* Animated multicolor gradient border along the top */
