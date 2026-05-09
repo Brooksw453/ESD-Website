@@ -805,6 +805,28 @@ body[data-section="ed"] .privacy-highlight {
     font-weight: 700;
 }
 
+/* Privacy bullet markers — legacy uses --neon-cyan (#00ffff) on white,
+   which fails contrast and reads as purely decorative neon out of step
+   with the brand pivot. Repaint with brand teal for the dot and remove
+   the cyan glow. Scoped to shared because the privacy page lives there. */
+body[data-section="shared"] .privacy-section ul li::before,
+body[data-section="landing"] .privacy-section ul li::before,
+body[data-section="ed"] .privacy-section ul li::before {
+    background: var(--color-accent) !important;
+    box-shadow: none !important;
+}
+
+/* Privacy hero subtitle — the unstyled paragraph under the H1.
+   Even though earlier overrides set its color via the
+   `section p:not([class])` rule, some browsers (and especially
+   cached clients) keep showing the legacy lavender. Pin the color
+   explicitly on this specific paragraph via its position. */
+body[data-section="shared"] .section .container > p[data-animate="fade-up"]:not([class]) {
+    color: var(--color-text) !important;
+    font-size: 1.05rem;
+    line-height: 1.55;
+}
+
 /* ============================================
    SYSTEM COMPONENTS
    The five-step compliance system (Plan → Assess → Train →
