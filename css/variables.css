@@ -18,7 +18,7 @@
     --color-accent-hover:   #0F8E76;
     --color-warm:           #C2410C;  /* warm pop, 5.7:1 — use sparingly */
     --color-text:           #1F2937;  /* slate, 16.5:1 */
-    --color-text-muted:     #6B7280;  /* 4.7:1 — AA for normal text */
+    --color-text-muted:     #5B6470;  /* 5.5:1 on white, 5.3:1 on surface — safe AA margin */
     --color-surface:        #F8FAFC;  /* off-white panel */
     --color-border:         #E5E7EB;
     --color-white:          #FFFFFF;

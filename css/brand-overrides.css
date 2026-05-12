@@ -153,6 +153,20 @@ body[data-section="shared"] .nav-link.active {
         border-bottom: 1px solid var(--color-border);
     }
 
+    body[data-section="landing"] .nav-links .nav-link,
+    body[data-section="ed"] .nav-links .nav-link,
+    body[data-section="shared"] .nav-links .nav-link {
+        color: var(--color-text);
+        text-shadow: none;
+        border-left-color: transparent;
+        border-top: 1px solid var(--color-border);
+    }
+    body[data-section="landing"] .nav-links .nav-link:first-child,
+    body[data-section="ed"] .nav-links .nav-link:first-child,
+    body[data-section="shared"] .nav-links .nav-link:first-child {
+        border-top: none;
+    }
+
     body[data-section="landing"] .nav-links .nav-link:hover,
     body[data-section="ed"] .nav-links .nav-link:hover,
     body[data-section="shared"] .nav-links .nav-link:hover,
@@ -957,12 +971,81 @@ body[data-section="shared"] .section .container > p[data-animate="fade-up"]:not(
     cursor: default;
 }
 
+/* Mobile: flip the strip to a vertical stepper so the process reads as
+   a deliberate roadmap instead of a wrapped/cramped row. */
 @media (max-width: 720px) {
-    .system-strip-list { padding: 0 var(--space-sm); }
-    .system-step-name { font-size: 0.7rem; letter-spacing: 0.04em; }
-    .system-step-meta { display: none; }
-    .system-step-num { width: 28px; height: 28px; font-size: 0.85rem; }
-    .system-step + .system-step::before { top: 13px; }
+    .system-strip { padding: var(--space-sm) 0; }
+
+    .system-strip-list {
+        flex-direction: column;
+        align-items: stretch;
+        flex-wrap: nowrap;
+        gap: 0;
+        padding: 0 var(--space-md);
+        max-width: 480px;
+    }
+
+    .system-step {
+        flex: 0 0 auto;
+        text-align: left;
+    }
+
+    /* Vertical connector line through badge centers. The desktop rule
+       (.system-step + .system-step::before) gave us a horizontal stub
+       between siblings — re-aim it as a 12px vertical drop into each
+       badge so the chain reads top-to-bottom. */
+    .system-step + .system-step::before {
+        top: -12px;
+        bottom: auto;
+        left: 19px;
+        right: auto;
+        width: 2px;
+        height: 12px;
+    }
+
+    .system-step a,
+    .system-step > span {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-md);
+        padding: var(--space-sm) var(--space-xs);
+        min-height: 56px;
+    }
+
+    .system-step-num {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        flex: 0 0 40px;
+    }
+
+    .system-step-name {
+        font-size: 0.95rem;
+        letter-spacing: 0.04em;
+    }
+
+    /* "Coming" pill — visible on mobile (we have horizontal room now)
+       and treated as a metadata chip, not body text. */
+    .system-step-meta {
+        display: inline-block;
+        margin-left: auto;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: var(--color-border);
+        color: var(--color-text);
+        font-size: 0.65rem;
+        letter-spacing: 0.08em;
+    }
+
+    .system-step.is-pending .system-step-num {
+        border-style: dashed;
+    }
+
+    /* Filled-in current badge bumps slightly on desktop via scale(1.08).
+       On the vertical layout that shift looks off-axis, so drop it. */
+    .system-step.is-current .system-step-num {
+        transform: none;
+    }
 }
 
 /* ===== System Map — full 5-card feature on home + education hub ===== */
@@ -1083,7 +1166,7 @@ body[data-section="landing"] .landing-page .system-map {
 .system-card-price {
     font-family: var(--font-mono);
     font-size: 0.78rem;
-    color: var(--color-text-muted);
+    color: var(--color-text);
     margin: 0;
     padding-top: var(--space-xs);
     border-top: 1px solid var(--color-border);
