@@ -172,11 +172,15 @@ body[data-section="landing"] {
 }
 
 /* ============================================
-   Education Section — Brand-aligned Light Theme
+   Education + Shared Sections — Brand-aligned Light Theme
    Now uses the exact ES Designs brand palette.
+   "shared" (About, Privacy, VR Development, A&P Lab) inherits the
+   identical education light theme so every non-Elliptical page is
+   visually consistent with the accessibility pages.
    ============================================ */
 
-body[data-section="ed"] {
+body[data-section="ed"],
+body[data-section="shared"] {
     /* --- Backgrounds (light) --- */
     --bg-primary:       #ffffff;
     --bg-secondary:     var(--color-surface);

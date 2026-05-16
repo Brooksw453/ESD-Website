@@ -1,62 +1,62 @@
 /* ============================================
    Education Section — Light Theme Overrides
-   Scoped to body[data-section="ed"]
+   Scoped to body:is([data-section="ed"], [data-section="shared"])
    ============================================ */
 
 /* --- Body & Scrollbar --- */
 
-body[data-section="ed"] {
+body:is([data-section="ed"], [data-section="shared"]) {
     scrollbar-color: rgba(37, 99, 235, 0.2) #f8fafc;
 }
 
-body[data-section="ed"] ::-webkit-scrollbar-track {
+body:is([data-section="ed"], [data-section="shared"]) ::-webkit-scrollbar-track {
     background: #f8fafc;
 }
 
-body[data-section="ed"] ::-webkit-scrollbar-thumb {
+body:is([data-section="ed"], [data-section="shared"]) ::-webkit-scrollbar-thumb {
     background: rgba(37, 99, 235, 0.2);
 }
 
-body[data-section="ed"] ::-webkit-scrollbar-thumb:hover {
+body:is([data-section="ed"], [data-section="shared"]) ::-webkit-scrollbar-thumb:hover {
     background: rgba(37, 99, 235, 0.35);
 }
 
-body[data-section="ed"] ::selection {
+body:is([data-section="ed"], [data-section="shared"]) ::selection {
     background: rgba(37, 99, 235, 0.15);
     color: #2563eb;
 }
 
 /* --- Typography — remove cyberpunk styling --- */
 
-body[data-section="ed"] h1,
-body[data-section="ed"] h2 {
+body:is([data-section="ed"], [data-section="shared"]) h1,
+body:is([data-section="ed"], [data-section="shared"]) h2 {
     text-transform: none;
     letter-spacing: -0.01em;
     font-weight: 800;
 }
 
-body[data-section="ed"] h1 {
+body:is([data-section="ed"], [data-section="shared"]) h1 {
     font-size: clamp(2rem, 5vw, 3.5rem);
 }
 
-body[data-section="ed"] h3,
-body[data-section="ed"] h4 {
+body:is([data-section="ed"], [data-section="shared"]) h3,
+body:is([data-section="ed"], [data-section="shared"]) h4 {
     font-family: var(--font-display);
 }
 
-body[data-section="ed"] a:hover {
+body:is([data-section="ed"], [data-section="shared"]) a:hover {
     color: #2563eb;
 }
 
 /* --- Neon Text — remove glow, use solid color --- */
 
-body[data-section="ed"] .neon-text,
-body[data-section="ed"] .neon-text-magenta,
-body[data-section="ed"] .neon-text-orange {
+body:is([data-section="ed"], [data-section="shared"]) .neon-text,
+body:is([data-section="ed"], [data-section="shared"]) .neon-text-magenta,
+body:is([data-section="ed"], [data-section="shared"]) .neon-text-orange {
     text-shadow: none;
 }
 
-body[data-section="ed"] .gradient-text {
+body:is([data-section="ed"], [data-section="shared"]) .gradient-text {
     background: linear-gradient(90deg, #2563eb, #0d9488);
     -webkit-background-clip: text;
     background-clip: text;
@@ -64,24 +64,24 @@ body[data-section="ed"] .gradient-text {
 
 /* --- Header — Light theme --- */
 
-body[data-section="ed"] .site-header {
+body:is([data-section="ed"], [data-section="shared"]) .site-header {
     background: rgba(255, 255, 255, 0.9);
     border-bottom: 1px solid #e2e8f0;
 }
 
-body[data-section="ed"] .site-header.scrolled {
+body:is([data-section="ed"], [data-section="shared"]) .site-header.scrolled {
     background: rgba(255, 255, 255, 0.97);
     border-bottom-color: #e2e8f0;
 }
 
 /* Force dark text on ed pages — audit showed cyan leaking through.
    Include :link/:visited/:hover so nothing resets to the neon default. */
-body[data-section="ed"] a.nav-brand,
-body[data-section="ed"] a.nav-brand:link,
-body[data-section="ed"] a.nav-brand:visited,
-body[data-section="ed"] a.nav-brand:hover,
-body[data-section="ed"] .nav-brand .nav-brand-parent,
-body[data-section="ed"] .nav-brand .nav-brand-sep {
+body:is([data-section="ed"], [data-section="shared"]) a.nav-brand,
+body:is([data-section="ed"], [data-section="shared"]) a.nav-brand:link,
+body:is([data-section="ed"], [data-section="shared"]) a.nav-brand:visited,
+body:is([data-section="ed"], [data-section="shared"]) a.nav-brand:hover,
+body:is([data-section="ed"], [data-section="shared"]) .nav-brand .nav-brand-parent,
+body:is([data-section="ed"], [data-section="shared"]) .nav-brand .nav-brand-sep {
     color: #0f172a;
     /* -webkit-text-fill-color inherits from the default .nav-brand rule's
        neon glow effect and paints over `color`. Reset it so contrast
@@ -90,37 +90,37 @@ body[data-section="ed"] .nav-brand .nav-brand-sep {
     text-shadow: none;
 }
 
-body[data-section="ed"] .nav-link {
+body:is([data-section="ed"], [data-section="shared"]) .nav-link {
     color: #334155;
 }
 
-body[data-section="ed"] .nav-link:hover,
-body[data-section="ed"] .nav-link.active {
+body:is([data-section="ed"], [data-section="shared"]) .nav-link:hover,
+body:is([data-section="ed"], [data-section="shared"]) .nav-link.active {
     color: #2563eb;
 }
 
-body[data-section="ed"] .nav-link::after {
+body:is([data-section="ed"], [data-section="shared"]) .nav-link::after {
     background: #2563eb;
     box-shadow: none;
 }
 
-body[data-section="ed"] .hamburger span {
+body:is([data-section="ed"], [data-section="shared"]) .hamburger span {
     background: #0f172a;
 }
 
 /* Mobile nav dropdown — light theme */
 @media (max-width: 767px) {
-    body[data-section="ed"] .nav-links {
+    body:is([data-section="ed"], [data-section="shared"]) .nav-links {
         background: rgba(255, 255, 255, 0.98);
         border-bottom: 1px solid #e2e8f0;
     }
 
-    body[data-section="ed"] .nav-links .nav-link {
+    body:is([data-section="ed"], [data-section="shared"]) .nav-links .nav-link {
         color: #0f172a;
     }
 
-    body[data-section="ed"] .nav-links .nav-link.active,
-    body[data-section="ed"] .nav-links .nav-link:hover {
+    body:is([data-section="ed"], [data-section="shared"]) .nav-links .nav-link.active,
+    body:is([data-section="ed"], [data-section="shared"]) .nav-links .nav-link:hover {
         color: #2563eb;
         text-shadow: none;
         border-left-color: #2563eb;
@@ -130,18 +130,18 @@ body[data-section="ed"] .hamburger span {
 
 /* --- Particle Canvas — hide in education section --- */
 
-body[data-section="ed"] #particle-canvas,
+body:is([data-section="ed"], [data-section="shared"]) #particle-canvas,
 body[data-section="landing"] #particle-canvas {
     display: none;
 }
 
 /* --- Music Player padding — remove when hidden --- */
 
-body[data-section="ed"] .section {
+body:is([data-section="ed"], [data-section="shared"]) .section {
     padding: var(--space-2xl) 0;
 }
 
-body[data-section="ed"] .section-header {
+body:is([data-section="ed"], [data-section="shared"]) .section-header {
     margin-bottom: var(--space-xl);
 }
 
@@ -163,43 +163,43 @@ body:not([data-section="ee"]) .back-to-top {
 
 /* --- Cards — clean shadows instead of neon glow --- */
 
-body[data-section="ed"] .neon-card {
+body:is([data-section="ed"], [data-section="shared"]) .neon-card {
     border: 1px solid #e2e8f0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
-body[data-section="ed"] .neon-card:hover {
+body:is([data-section="ed"], [data-section="shared"]) .neon-card:hover {
     border-color: #cbd5e1;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
     transform: translateY(-2px);
 }
 
-body[data-section="ed"] .neon-card .card-icon {
+body:is([data-section="ed"], [data-section="shared"]) .neon-card .card-icon {
     filter: none;
 }
 
-body[data-section="ed"] .glass-panel {
+body:is([data-section="ed"], [data-section="shared"]) .glass-panel {
     background: rgba(255, 255, 255, 0.8);
     border: 1px solid #e2e8f0;
 }
 
-body[data-section="ed"] .gradient-border-card {
+body:is([data-section="ed"], [data-section="shared"]) .gradient-border-card {
     border: 1px solid #e2e8f0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-body[data-section="ed"] .gradient-border-card::before {
+body:is([data-section="ed"], [data-section="shared"]) .gradient-border-card::before {
     display: none;
 }
 
-body[data-section="ed"] .neon-frame {
+body:is([data-section="ed"], [data-section="shared"]) .neon-frame {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid #e2e8f0;
 }
 
 /* --- Buttons — solid professional style --- */
 
-body[data-section="ed"] .neon-btn {
+body:is([data-section="ed"], [data-section="shared"]) .neon-btn {
     border: 2px solid #2563eb;
     color: #2563eb;
     text-shadow: none;
@@ -211,37 +211,37 @@ body[data-section="ed"] .neon-btn {
     border-radius: var(--radius-md);
 }
 
-body[data-section="ed"] .neon-btn::after {
+body:is([data-section="ed"], [data-section="shared"]) .neon-btn::after {
     display: none;
 }
 
-body[data-section="ed"] .neon-btn:hover {
+body:is([data-section="ed"], [data-section="shared"]) .neon-btn:hover {
     background: #2563eb;
     color: #ffffff;
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
     transform: translateY(-1px);
 }
 
-body[data-section="ed"] .neon-btn.btn-filled {
+body:is([data-section="ed"], [data-section="shared"]) .neon-btn.btn-filled {
     background: #2563eb;
     color: #ffffff;
     border-color: #2563eb;
 }
 
-body[data-section="ed"] .neon-btn.btn-filled:hover {
+body:is([data-section="ed"], [data-section="shared"]) .neon-btn.btn-filled:hover {
     background: #1d4ed8;
     border-color: #1d4ed8;
     box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
 }
 
-body[data-section="ed"] .neon-btn.btn-green {
+body:is([data-section="ed"], [data-section="shared"]) .neon-btn.btn-green {
     border-color: #059669;
     color: #059669;
     text-shadow: none;
     box-shadow: none;
 }
 
-body[data-section="ed"] .neon-btn.btn-green:hover {
+body:is([data-section="ed"], [data-section="shared"]) .neon-btn.btn-green:hover {
     background: #059669;
     color: #ffffff;
     box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
@@ -249,7 +249,7 @@ body[data-section="ed"] .neon-btn.btn-green:hover {
 
 /* --- Tech Badge — professional --- */
 
-body[data-section="ed"] .tech-badge {
+body:is([data-section="ed"], [data-section="shared"]) .tech-badge {
     color: #2563eb;
     border: 1px solid rgba(37, 99, 235, 0.25);
     background: rgba(37, 99, 235, 0.06);
@@ -260,58 +260,58 @@ body[data-section="ed"] .tech-badge {
 
 /* --- Footer — light theme --- */
 
-body[data-section="ed"] .site-footer {
+body:is([data-section="ed"], [data-section="shared"]) .site-footer {
     background: #f8fafc;
     border-top: 1px solid #e2e8f0;
 }
 
-body[data-section="ed"] .footer-logo {
+body:is([data-section="ed"], [data-section="shared"]) .footer-logo {
     filter: none;
 }
 
-body[data-section="ed"] .footer-logo-glow {
+body:is([data-section="ed"], [data-section="shared"]) .footer-logo-glow {
     display: none;
 }
 
-body[data-section="ed"] .footer-links a {
+body:is([data-section="ed"], [data-section="shared"]) .footer-links a {
     color: #475569;
     font-family: var(--font-body);
 }
 
-body[data-section="ed"] .footer-links a:hover {
+body:is([data-section="ed"], [data-section="shared"]) .footer-links a:hover {
     color: #2563eb;
 }
 
-body[data-section="ed"] .footer-copy {
+body:is([data-section="ed"], [data-section="shared"]) .footer-copy {
     color: #475569;
     font-size: var(--text-sm);
 }
 
 /* --- Contact Widget — light theme --- */
 
-body[data-section="ed"] .contact-fab {
+body:is([data-section="ed"], [data-section="shared"]) .contact-fab {
     background: #ffffff;
     border-color: #2563eb;
     color: #2563eb;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-body[data-section="ed"] .contact-fab:hover {
+body:is([data-section="ed"], [data-section="shared"]) .contact-fab:hover {
     background: #eff6ff;
     box-shadow: 0 4px 16px rgba(37, 99, 235, 0.2);
 }
 
-body[data-section="ed"] .contact-panel {
+body:is([data-section="ed"], [data-section="shared"]) .contact-panel {
     background: rgba(255, 255, 255, 0.98);
     border: 1px solid #e2e8f0;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
-body[data-section="ed"] .contact-panel-header {
+body:is([data-section="ed"], [data-section="shared"]) .contact-panel-header {
     border-bottom: 1px solid #e2e8f0;
 }
 
-body[data-section="ed"] .contact-panel-title {
+body:is([data-section="ed"], [data-section="shared"]) .contact-panel-title {
     color: #2563eb;
     text-shadow: none;
     text-transform: none;
@@ -319,50 +319,50 @@ body[data-section="ed"] .contact-panel-title {
     font-family: var(--font-body);
 }
 
-body[data-section="ed"] .contact-panel-close:hover {
+body:is([data-section="ed"], [data-section="shared"]) .contact-panel-close:hover {
     color: #2563eb;
     background: rgba(37, 99, 235, 0.08);
 }
 
-body[data-section="ed"] .contact-action-btn {
+body:is([data-section="ed"], [data-section="shared"]) .contact-action-btn {
     color: #0f172a;
 }
 
-body[data-section="ed"] .contact-action-btn:hover {
+body:is([data-section="ed"], [data-section="shared"]) .contact-action-btn:hover {
     background: rgba(37, 99, 235, 0.06);
     color: #2563eb;
 }
 
-body[data-section="ed"] .contact-divider {
+body:is([data-section="ed"], [data-section="shared"]) .contact-divider {
     background: #e2e8f0;
 }
 
-body[data-section="ed"] .contact-form-field input,
-body[data-section="ed"] .contact-form-field textarea {
+body:is([data-section="ed"], [data-section="shared"]) .contact-form-field input,
+body:is([data-section="ed"], [data-section="shared"]) .contact-form-field textarea {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     color: #0f172a;
 }
 
-body[data-section="ed"] .contact-form-field input::placeholder,
-body[data-section="ed"] .contact-form-field textarea::placeholder {
+body:is([data-section="ed"], [data-section="shared"]) .contact-form-field input::placeholder,
+body:is([data-section="ed"], [data-section="shared"]) .contact-form-field textarea::placeholder {
     color: #94a3b8;
 }
 
-body[data-section="ed"] .contact-form-field input:focus,
-body[data-section="ed"] .contact-form-field textarea:focus {
+body:is([data-section="ed"], [data-section="shared"]) .contact-form-field input:focus,
+body:is([data-section="ed"], [data-section="shared"]) .contact-form-field textarea:focus {
     border-color: #2563eb;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-body[data-section="ed"] .contact-submit-btn {
+body:is([data-section="ed"], [data-section="shared"]) .contact-submit-btn {
     border-color: #2563eb;
     color: #2563eb;
     text-shadow: none;
     box-shadow: none;
 }
 
-body[data-section="ed"] .contact-submit-btn:hover {
+body:is([data-section="ed"], [data-section="shared"]) .contact-submit-btn:hover {
     background: #2563eb;
     color: #ffffff;
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
@@ -370,14 +370,14 @@ body[data-section="ed"] .contact-submit-btn:hover {
 
 /* --- Back to Top — light theme --- */
 
-body[data-section="ed"] .back-to-top {
+body:is([data-section="ed"], [data-section="shared"]) .back-to-top {
     background: #ffffff;
     border: 1px solid #e2e8f0;
     color: #2563eb;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-body[data-section="ed"] .back-to-top:hover {
+body:is([data-section="ed"], [data-section="shared"]) .back-to-top:hover {
     background: #eff6ff;
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
 }

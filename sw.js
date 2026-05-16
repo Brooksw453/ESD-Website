@@ -4,7 +4,7 @@
    network-first for pages
    ============================================ */
 
-const CACHE_NAME = 'es-designs-v26';
+const CACHE_NAME = 'es-designs-v27';
 const CORE_ASSETS = [
     '/',
     '/index.html',
