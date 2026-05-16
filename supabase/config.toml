@@ -1,0 +1,9 @@
+# Supabase project config (functions only — the site itself is static).
+# Link with:  supabase link --project-ref awcmkderlpyxpkmrnvwi
+
+project_id = "awcmkderlpyxpkmrnvwi"
+
+# DB webhooks call this function without a Supabase JWT, so JWT verification
+# is disabled here; the function authenticates the caller via WEBHOOK_SECRET.
+[functions.notify-message]
+verify_jwt = false
