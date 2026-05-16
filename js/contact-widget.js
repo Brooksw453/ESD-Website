@@ -108,44 +108,71 @@
         else if (e.key === 'Tab') trapFocus(e);
     });
 
-    // Form submission via Formsubmit.co
+    // Form submission. Primary path is Supabase (always available, no
+    // activation step, CSP-allowed); FormSubmit.co is kept only as a
+    // last-ditch fallback for the rare case the Supabase client failed to load.
     if (form) {
-        form.addEventListener('submit', (e) => {
+        const supabaseTable = form.getAttribute('data-supabase-table');
+
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
 
-            const formData = new FormData(form);
-
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(res => {
-                if (res.ok) {
-                    formStatus.textContent = 'Message sent! We\'ll get back to you soon.';
-                    formStatus.className = 'contact-form-status success';
-                    form.reset();
-                } else {
-                    formStatus.textContent = 'Something went wrong. Try emailing us directly.';
-                    formStatus.className = 'contact-form-status error';
-                }
-            })
-            .catch(() => {
-                formStatus.textContent = 'Network error. Try emailing us directly.';
-                formStatus.className = 'contact-form-status error';
-            })
-            .finally(() => {
+            // Honeypot — if a bot filled the hidden _honey field, fake success
+            // and don't store anything.
+            const honey = form.querySelector('input[name="_honey"]');
+            if (honey && honey.value) {
+                formStatus.textContent = 'Message sent! We\'ll get back to you soon.';
+                formStatus.className = 'contact-form-status success';
+                form.reset();
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
-                setTimeout(() => {
-                    formStatus.textContent = '';
-                    formStatus.className = 'contact-form-status';
-                }, 5000);
-            });
+                return;
+            }
+
+            let ok = false;
+
+            if (supabaseTable && window.supabaseClient) {
+                // Collect form fields as a plain object, excluding FormSubmit's
+                // own `_`-prefixed control fields.
+                const data = {};
+                new FormData(form).forEach((val, key) => {
+                    if (!key.startsWith('_')) data[key] = val;
+                });
+                const result = await window.supabaseClient.insertRecord(supabaseTable, data);
+                ok = result.success;
+            } else {
+                // Fallback: FormSubmit.co (only if Supabase client unavailable)
+                try {
+                    const res = await fetch(form.action, {
+                        method: 'POST',
+                        body: new FormData(form),
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    ok = res.ok;
+                } catch {
+                    ok = false;
+                }
+            }
+
+            if (ok) {
+                formStatus.textContent = 'Message sent! We\'ll get back to you soon.';
+                formStatus.className = 'contact-form-status success';
+                form.reset();
+            } else {
+                formStatus.textContent = 'Something went wrong. Email us directly at bwinchell@esdesigns.org.';
+                formStatus.className = 'contact-form-status error';
+            }
+
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            setTimeout(() => {
+                formStatus.textContent = '';
+                formStatus.className = 'contact-form-status';
+            }, 6000);
         });
     }
 })();

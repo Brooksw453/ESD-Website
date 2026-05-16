@@ -17,6 +17,8 @@ class Router {
         this.sectionMap = {
             '/':                  'landing',
             '/elliptical':        'ee',
+            '/vr':                'shared',
+            '/vr/anatomy-physiology-lab': 'shared',
             '/education':         'ed',
             '/education/ally':    'ed',
             '/education/courses': 'ed',
@@ -31,7 +33,6 @@ class Router {
 
         // Legacy route redirects
         this.redirects = {
-            '/vr':                       '/elliptical',
             '/elliptical-explorer':      '/elliptical',
             '/ai':                       '/education',
             '/games':                    '/',
@@ -87,6 +88,14 @@ class Router {
             '/privacy': {
                 title: 'Privacy Policy | ES Designs',
                 description: 'Privacy policy for ES Designs compliance planning, audit, document remediation, and training tools. No data collection beyond what each tool requires; no tracking, transparent accounts.'
+            },
+            '/vr': {
+                title: 'VR Development | ES Designs Immersive Learning',
+                description: 'Immersive, self-directed learning experiences from ES Designs. The Anatomy & Physiology Lab brings interactive human anatomy to Meta Quest, alongside the Elliptical Explorer fitness adventure.'
+            },
+            '/vr/anatomy-physiology-lab': {
+                title: 'Anatomy & Physiology Lab | VR Learning for Meta Quest',
+                description: 'An immersive, self-directed VR learning adventure exploring human anatomy and physiology — interactive skeletal, heart, and exploration labs with learning modules and knowledge checks, on Meta Quest.'
             }
         };
 
@@ -95,12 +104,11 @@ class Router {
             landing: {
                 brand: 'ES Designs',
                 brandHref: '#/',
-                // Order mirrors the v5 home page: Accessibility lead, then
-                // Adaptive Learning, then VR Development, then About.
+                // Top nav stays focused on the compliance system. VR is reached
+                // from the landing "VR Development" panel and the footer.
                 links: [
                     { href: '#/education', label: 'Accessibility' },
                     { href: '#/education/courses', label: 'Courses' },
-                    { href: '#/elliptical', label: 'VR' },
                     { href: '#/about', label: 'About' },
                 ]
             },
@@ -109,6 +117,7 @@ class Router {
                 brandHref: '#/elliptical',
                 links: [
                     { href: '#/', label: 'Home' },
+                    { href: '#/vr', label: 'VR Development' },
                     { href: '#/about', label: 'About' },
                 ]
             },
@@ -128,11 +137,10 @@ class Router {
             shared: {
                 brand: 'ES Designs',
                 brandHref: '#/',
-                // Same ordering convention as .landing — Accessibility first.
+                // Compliance-focused top nav (matches landing). VR via footer.
                 links: [
                     { href: '#/education', label: 'Accessibility' },
                     { href: '#/education/courses', label: 'Courses' },
-                    { href: '#/elliptical', label: 'VR' },
                     { href: '#/about', label: 'About' },
                 ]
             }
@@ -146,12 +154,13 @@ class Router {
             landing: [
                 { href: '#/education', label: 'Accessibility' },
                 { href: '#/education/courses', label: 'Courses' },
-                { href: '#/elliptical', label: 'VR' },
+                { href: '#/vr', label: 'VR Development' },
                 { href: '#/about', label: 'About' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ],
             ee: [
                 { href: '#/', label: 'Home' },
+                { href: '#/vr', label: 'VR Development' },
                 { href: '#/education', label: 'Accessibility' },
                 { href: '#/education/courses', label: 'Courses' },
                 { href: '#/about', label: 'About' },
@@ -165,7 +174,7 @@ class Router {
                 { href: '#/education/ally-pro', label: 'Document Ally Pro' },
                 { href: '#/education/courses', label: 'Adaptive Learning' },
                 { href: '#/education/ally', label: 'Document Ally (Free)' },
-                { href: '#/elliptical', label: 'VR' },
+                { href: '#/vr', label: 'VR Development' },
                 { href: '#/about', label: 'About' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ],
@@ -173,7 +182,7 @@ class Router {
                 { href: '#/', label: 'Home' },
                 { href: '#/education', label: 'Accessibility' },
                 { href: '#/education/courses', label: 'Courses' },
-                { href: '#/elliptical', label: 'VR' },
+                { href: '#/vr', label: 'VR Development' },
                 { href: '#/about', label: 'About' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ]
@@ -416,8 +425,12 @@ class Router {
                 });
             });
 
-            // Inline contact form AJAX submission (generic — works for any form with class)
-            document.querySelectorAll('.ed-inline-contact form').forEach(form => {
+            // Inline form submission (generic). Catches the styled inline-contact
+            // forms plus any other in-page form opted into Supabase via
+            // data-supabase-table (e.g. the audit card + newsletter capture).
+            // #contactForm is the floating widget — owned by contact-widget.js,
+            // excluded here so it isn't bound twice.
+            document.querySelectorAll('.ed-inline-contact form, form[data-supabase-table]:not(#contactForm)').forEach(form => {
                 const status = form.querySelector('.contact-status') || form.parentElement.querySelector('.contact-status');
                 const supabaseTable = form.getAttribute('data-supabase-table');
 

@@ -1056,6 +1056,22 @@ body[data-section="ed"] .back-to-top:hover {
     margin-top: var(--space-md);
 }
 
+/* The roadmap card's feature lists hold rich inline content (strong + text +
+   links). The global `.ed-feature-list li` flexbox turns every inline run into a
+   separate non-wrapping flex item, which collapses into broken columns on narrow
+   screens. Scope a hanging-indent block layout here so the text wraps naturally. */
+.ed-roadmap-col .ed-feature-list li {
+    display: block;
+    position: relative;
+    padding-left: 1.6em;
+    line-height: 1.5;
+}
+.ed-roadmap-col .ed-feature-list li::before {
+    position: absolute;
+    left: 0;
+    top: var(--space-xs);
+}
+
 /* --- Module list (WCAG 2.2 course page) --- */
 .ed-module-list {
     max-width: 820px;

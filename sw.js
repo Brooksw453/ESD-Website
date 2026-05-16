@@ -4,7 +4,7 @@
    network-first for pages
    ============================================ */
 
-const CACHE_NAME = 'es-designs-v25';
+const CACHE_NAME = 'es-designs-v26';
 const CORE_ASSETS = [
     '/',
     '/index.html',
@@ -26,6 +26,8 @@ const CORE_ASSETS = [
     '/js/analytics.js',
     '/pages/landing.html',
     '/pages/elliptical.html',
+    '/pages/vr.html',
+    '/pages/vr-anatomy-physiology.html',
     '/pages/education.html',
     '/pages/education-ally.html',
     '/pages/education-courses.html',

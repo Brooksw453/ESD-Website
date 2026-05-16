@@ -32,7 +32,8 @@
             <h2>Run a free single-page WCAG 2.2 audit</h2>
             <p class="ed-featured-tagline">Paste any public URL. Get a one-page report card in seconds.</p>
             <p class="ed-featured-description">Leave your email to unlock the full branded PDF with line-by-line findings, priority ranking, and AI remediation suggestions.</p>
-            <form id="freeAuditForm" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+            <form id="freeAuditForm" data-supabase-table="messages" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+                <input type="hidden" name="source" value="audit-free-scan">
                 <input type="hidden" name="_subject" value="Free Audit Request">
                 <input type="text" name="_honey" style="display:none">
                 <input type="hidden" name="_captcha" value="false">
@@ -197,7 +198,8 @@
         <div class="ed-inline-contact" id="auditContact" data-animate="fade-up">
             <h3>Request an audit report or monitoring quote</h3>
             <p>Tell us about your site and we'll scope the work. Full-site done-for-you audits typically start at $2,500 for one domain and scale with page count.</p>
-            <form id="auditContactForm" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+            <form id="auditContactForm" data-supabase-table="messages" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+                <input type="hidden" name="source" value="audit-contact">
                 <input type="hidden" name="_subject" value="Audit Tool Inquiry">
                 <input type="text" name="_honey" style="display:none">
                 <input type="hidden" name="_captcha" value="false">

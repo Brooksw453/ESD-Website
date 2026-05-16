@@ -111,7 +111,8 @@
         <div class="ed-inline-contact" id="coursesContactForm" data-animate="fade-up">
             <h3>Ready to Launch Your Own Platform?</h3>
             <p>Tell us about your program and we'll set up a personalized demo.</p>
-            <form id="coursesInlineForm" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+            <form id="coursesInlineForm" data-supabase-table="messages" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+                <input type="hidden" name="source" value="courses-inquiry">
                 <input type="hidden" name="_subject" value="Platform Demo Request — Adaptive Learning">
                 <input type="text" name="_honey" style="display:none">
                 <input type="hidden" name="_captcha" value="false">

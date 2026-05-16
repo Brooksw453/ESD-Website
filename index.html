@@ -172,7 +172,8 @@
                 </a>
             </div>
             <div class="contact-divider"></div>
-            <form id="contactForm" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+            <form id="contactForm" data-supabase-table="messages" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+                <input type="hidden" name="source" value="contact-widget">
                 <input type="hidden" name="_subject" value="New message from esdesigns.org">
                 <input type="text" name="_honey" style="display:none">
                 <input type="hidden" name="_captcha" value="false">

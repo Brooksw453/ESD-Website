@@ -178,7 +178,8 @@
         <div class="ed-inline-contact" id="allyContactForm" data-animate="fade-up">
             <h3>Interested in an Institutional License?</h3>
             <p>Tell us about your institution and we'll follow up with pricing and next steps.</p>
-            <form id="allyInlineForm" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+            <form id="allyInlineForm" data-supabase-table="messages" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+                <input type="hidden" name="source" value="ally-institutional">
                 <input type="hidden" name="_subject" value="Institutional License Inquiry — Document Ally">
                 <input type="text" name="_honey" style="display:none">
                 <input type="hidden" name="_captcha" value="false">
