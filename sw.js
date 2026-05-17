@@ -4,7 +4,7 @@
    network-first for pages
    ============================================ */
 
-const CACHE_NAME = 'es-designs-v27';
+const CACHE_NAME = 'es-designs-v28';
 const CORE_ASSETS = [
     '/',
     '/index.html',
@@ -61,7 +61,7 @@ self.addEventListener('activate', (event) => {
     self.clients.claim();
 });
 
-// Fetch: network-first for pages, cache-first for static assets
+// Fetch: network-first for pages, stale-while-revalidate for static assets
 self.addEventListener('fetch', (event) => {
     // Skip non-GET requests
     if (event.request.method !== 'GET') return;
@@ -71,19 +71,26 @@ self.addEventListener('fetch', (event) => {
     // Audio files: network-only (too large to cache, streaming works better)
     if (url.pathname.startsWith('/assets/audio/')) return;
 
-    // Static assets (CSS, JS, images, fonts): cache-first
+    // Static assets (CSS, JS, images, fonts): stale-while-revalidate.
+    // Serve the cached copy instantly for speed, but always refetch in the
+    // background and update the cache, so a deploy is picked up on the next
+    // load WITHOUT needing a CACHE_NAME bump. (Cache-first previously pinned
+    // returning visitors to stale CSS/JS until the cache name changed.)
     if (url.pathname.match(/\.(css|js|png|jpg|jpeg|svg|webp|woff2?)$/)) {
         event.respondWith(
-            caches.match(event.request).then((cached) => {
-                if (cached) return cached;
-                return fetch(event.request).then((response) => {
-                    if (response.ok) {
-                        const clone = response.clone();
-                        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-                    }
-                    return response;
-                });
-            })
+            caches.open(CACHE_NAME).then((cache) =>
+                cache.match(event.request).then((cached) => {
+                    const networked = fetch(event.request).then((response) => {
+                        if (response && response.ok) {
+                            cache.put(event.request, response.clone());
+                        }
+                        return response;
+                    }).catch(() => cached);
+                    // Fresh if we have no cached copy; otherwise cached now +
+                    // fresh next time.
+                    return cached || networked;
+                })
+            )
         );
         return;
     }
