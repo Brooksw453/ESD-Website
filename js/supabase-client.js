@@ -25,7 +25,7 @@
             const { error } = await client.from(table).insert([data]);
             if (error) {
                 console.error('Supabase insert error:', error.message);
-                return { success: false, error: error.message };
+                return { success: false, error: error.message, code: error.code };
             }
             return { success: true };
         } catch (err) {

@@ -20,7 +20,6 @@ class Router {
             '/vr':                'shared',
             '/vr/anatomy-physiology-lab': 'shared',
             '/education':         'ed',
-            '/education/ally':    'ed',
             '/education/courses': 'ed',
             '/education/demos':        'ed',
             '/education/ally-pro':     'ed',
@@ -36,7 +35,8 @@ class Router {
             '/elliptical-explorer':      '/elliptical',
             '/ai':                       '/education',
             '/games':                    '/',
-            '/education/document-ally':  '/education/ally',
+            '/education/document-ally':  '/education/ally-pro',
+            '/education/ally':           '/education/ally-pro',
         };
 
         // Page metadata for SEO
@@ -51,11 +51,7 @@ class Router {
             },
             '/education': {
                 title: 'ES Designs Education Technology | Adaptive Learning Courses & Document Accessibility',
-                description: 'Adaptive learning courses and AI-powered document accessibility for higher education. White-label course platform with integrated payments. Document Ally for WCAG 2.2 compliance.'
-            },
-            '/education/ally': {
-                title: 'Document Ally | AI-Powered WCAG 2.2 Document Accessibility',
-                description: 'Convert inaccessible documents to WCAG 2.2-compliant Word files with AI. Free to use, no account required. Built for higher education institutions.'
+                description: 'Adaptive learning courses and AI-powered document accessibility for higher education. White-label course platform with integrated payments. Document Ally Pro for free AI-powered WCAG 2.2 document remediation.'
             },
             '/education/courses': {
                 title: 'Adaptive Learning Platform | White-Label Course Platform by ES Designs',
@@ -66,8 +62,8 @@ class Router {
                 description: 'See the ES Designs adaptive learning platform in action. Explore live demo platforms for Westlake University and Cardinal Academy — each fully branded and customized.'
             },
             '/education/ally-pro': {
-                title: 'Document Ally Pro | Coming Soon — Join the Waitlist',
-                description: 'The institutional version of Document Ally. AI-powered WCAG 2.2 document remediation for higher ed. Join the waitlist for early access and pilot pricing.'
+                title: 'Document Ally Pro | Free AI WCAG 2.2 Document Remediation for Higher Ed',
+                description: 'AI-powered WCAG 2.2 document remediation for higher ed — free to start. Batch upload, branded conformance analytics, and a FERPA-friendly pipeline. Built for the Title II window.'
             },
             '/education/audit': {
                 title: 'AI Website Audit Tool | WCAG 2.2 AA for Higher Ed',
@@ -173,7 +169,6 @@ class Router {
                 { href: '#/education/wcag-course', label: 'WCAG 2.2 Courses' },
                 { href: '#/education/ally-pro', label: 'Document Ally Pro' },
                 { href: '#/education/courses', label: 'Adaptive Learning' },
-                { href: '#/education/ally', label: 'Document Ally (Free)' },
                 { href: '#/vr', label: 'VR Development' },
                 { href: '#/about', label: 'About' },
                 { href: '#/privacy', label: 'Privacy Policy' },
@@ -443,6 +438,7 @@ class Router {
                     if (status) { status.textContent = ''; status.className = 'contact-status'; }
 
                     let ok = false;
+                    let alreadyOnList = false;
 
                     if (supabaseTable && window.supabaseClient) {
                         // Supabase submission — collect form data as plain object
@@ -456,6 +452,15 @@ class Router {
                         });
                         const result = await window.supabaseClient.insertRecord(supabaseTable, data);
                         ok = result.success;
+                        // An email already on the waitlist is a unique-constraint
+                        // violation (Postgres 23505), not a real failure — the
+                        // visitor is already in, so treat it as success.
+                        if (!ok && supabaseTable === 'waitlist' &&
+                            (result.code === '23505' ||
+                             /duplicate key|already exists/i.test(result.error || ''))) {
+                            ok = true;
+                            alreadyOnList = true;
+                        }
                     } else {
                         // FormSubmit fallback
                         try {
@@ -465,9 +470,14 @@ class Router {
                     }
 
                     if (ok) {
-                        const successMsg = supabaseTable === 'waitlist'
-                            ? "You're on the list! We'll be in touch soon."
-                            : "Sent! We'll be in touch soon.";
+                        let successMsg;
+                        if (supabaseTable === 'waitlist') {
+                            successMsg = alreadyOnList
+                                ? "You're already on the list — we'll be in touch soon."
+                                : "You're on the list! We'll be in touch soon.";
+                        } else {
+                            successMsg = "Sent! We'll be in touch soon.";
+                        }
                         if (status) status.textContent = successMsg;
                         form.reset();
                     } else {

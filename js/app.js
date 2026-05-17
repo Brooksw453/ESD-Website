@@ -23,7 +23,6 @@
     router.register('/vr', 'pages/vr.html');
     router.register('/vr/anatomy-physiology-lab', 'pages/vr-anatomy-physiology.html');
     router.register('/education', 'pages/education.html');
-    router.register('/education/ally', 'pages/education-ally.html');
     router.register('/education/courses', 'pages/education-courses.html');
     router.register('/education/demos', 'pages/education-demos.html');
     router.register('/education/ally-pro', 'pages/education-ally-pro.html');
