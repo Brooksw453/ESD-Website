@@ -439,10 +439,22 @@ body:is([data-section="ed"], [data-section="shared"]) .back-to-top:hover {
     transition: all var(--transition-base);
 }
 
+.ed-product-card.is-featured {
+    border-color: #2563eb;
+    border-width: 2px;
+}
+
 .ed-product-card:hover {
-    border-color: #cbd5e1;
+    border-color: #2563eb;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     transform: translateY(-2px);
+}
+
+/* The default "featured" emphasis follows the pointer: while the cursor
+   is over the grid, the pinned card yields its highlight to whichever
+   card is actually hovered, so the highlight tracks the cursor. */
+.ed-product-grid:hover .ed-product-card.is-featured:not(:hover) {
+    border-color: #e2e8f0;
 }
 
 .ed-product-card h3 {
