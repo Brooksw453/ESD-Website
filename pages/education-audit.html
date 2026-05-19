@@ -18,43 +18,23 @@
         <p class="ed-subtitle" data-animate="fade-up">AI-powered accessibility audits built for higher ed. Crawl-based, code-level, branded reports &mdash; and no accessibility overlay.</p>
         <p class="ed-description" data-animate="fade-up">Most accessibility scanners tell you what&rsquo;s wrong. The ES Designs Audit Tool tells you how to fix it, with AI-generated, ticket-ready remediation suggestions for every issue it finds. Run a free single-page audit, get a done-for-you audit report, or subscribe to continuous monitoring &mdash; all on the same underlying engine. Audit findings feed directly into Chapter&nbsp;2 (Current State Assessment) of your <a href="https://roadmap.esdesigns.org" target="_blank" rel="noopener">Compliance Roadmap Tool</a> plan.</p>
         <div class="ed-hero-actions" data-animate="fade-up">
-            <button type="button" data-scroll-to="auditForm" class="neon-btn btn-filled">Try the free audit &rarr;</button>
+            <a href="https://audit.esdesigns.org/audit" target="_blank" rel="noopener" class="neon-btn btn-filled">Try the free audit &rarr;</a>
             <button type="button" data-scroll-to="auditContact" class="neon-btn">Request an audit report &rarr;</button>
         </div>
     </div>
 </section>
 
-<!-- Free single-page audit form -->
+<!-- Free single-page audit — CTA into the live tool -->
 <section class="section">
     <div class="container">
         <div class="ed-featured-card" id="auditForm" data-animate="fade-up">
             <div class="ed-featured-badge">Free &middot; No signup to see results</div>
             <h2>Run a free single-page WCAG 2.2 audit</h2>
             <p class="ed-featured-tagline">Paste any public URL. Get a one-page report card in seconds.</p>
-            <p class="ed-featured-description">Leave your email to unlock the full branded PDF with line-by-line findings, priority ranking, and AI remediation suggestions.</p>
-            <form id="freeAuditForm" data-supabase-table="messages" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
-                <input type="hidden" name="source" value="audit-free-scan">
-                <input type="hidden" name="_subject" value="Free Audit Request">
-                <input type="text" name="_honey" style="display:none" aria-label="Leave this field blank">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_template" value="table">
-                <div class="ed-inline-contact-grid">
-                    <div class="full-width">
-                        <input type="url" name="audit_url" autocomplete="url" placeholder="https://your-institution.edu/catalog" aria-label="URL to audit" required>
-                    </div>
-                    <div>
-                        <input type="email" name="email" autocomplete="email" placeholder="Work email (for the full report)" aria-label="Work email (for the full report)" required>
-                    </div>
-                    <div>
-                        <input type="text" name="institution" autocomplete="organization" placeholder="Institution (optional)" aria-label="Institution (optional)">
-                    </div>
-                </div>
-                <div class="ed-inline-contact-actions">
-                    <button type="submit" class="neon-btn btn-filled">Run the audit &rarr;</button>
-                    <span class="contact-status" id="freeAuditStatus" role="status" aria-live="polite"></span>
-                </div>
-            </form>
-            <p style="font-size: 0.85rem; color: #475569; margin-top: var(--space-sm);">Results are generated instantly. Leave your email to receive the full branded PDF report.</p>
+            <p class="ed-featured-description">The audit runs in our live tool: an instant on-screen WCAG&nbsp;2.2&nbsp;AA report card, with the option to get the full branded PDF &mdash; line-by-line findings, priority ranking, and AI remediation suggestions &mdash; delivered by email.</p>
+            <div class="ed-hero-actions">
+                <a href="https://audit.esdesigns.org/audit" target="_blank" rel="noopener" class="neon-btn btn-filled">Open the free audit tool &rarr;</a>
+            </div>
         </div>
     </div>
 </section>
