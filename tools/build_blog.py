@@ -34,12 +34,27 @@ DEFAULT_OG_IMAGE = "assets/images/brand/esd-logo.png"
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
+# Default in-article CTA. Appended to every post unless front matter sets
+# `cta: false` — used for newsletter-style posts ("The Planning Window")
+# that must honor the v7 1-in-5 / no-pitch rule.
+CTA_HTML = (
+    '        <aside class="blog-cta" aria-labelledby="blog-cta-title">\n'
+    '            <h2 id="blog-cta-title">Build your Title II plan &mdash; free</h2>\n'
+    "            <p>The Compliance Roadmap Tool walks you through a complete "
+    "Title II plan in about 30 minutes: institution profile, current state, "
+    "priority framework, budget worksheet, timeline, and governance. Free to "
+    "use, no credit card.</p>\n"
+    '            <a class="blog-btn" href="/#/education/roadmap-tool">Open the '
+    "Compliance Roadmap Tool &rarr;</a>\n"
+    "        </aside>"
+)
+
 # ---------------------------------------------------------------------------
 # Newsletter provider: "none" (placeholder), "convertkit", or "beehiiv".
 # Switching providers is a one-line change here + a rebuild. When set to a
 # provider, fill in the embed id/uid marked TODO in _newsletter_embed().
 # ---------------------------------------------------------------------------
-NEWSLETTER_PROVIDER = "none"
+NEWSLETTER_PROVIDER = "beehiiv"
 
 # ---- Content Security Policy (blog pages only; independent of the SPA) -----
 CSP_BASE = (
@@ -200,10 +215,9 @@ def newsletter_html():
     return (
         '        <section class="blog-newsletter" aria-labelledby="nl-t">\n'
         '            <h2 id="nl-t">The Planning Window</h2>\n'
-        '            <p>One inside observation, one practical tip, one useful link. Bi-weekly. No pitch.</p>\n'
+        '            <p>A short bi-weekly note for higher-ed accessibility leads: one inside observation, one practical tip, one useful link. No pitch.</p>\n'
         '            <div class="blog-newsletter-embed">\n'
-        '                <!-- TODO: paste Beehiiv embed iframe; set the form src -->\n'
-        '                <iframe src="https://subscribe-forms.beehiiv.com/REPLACE_ME" title="Subscribe to The Planning Window" style="width:100%;height:320px;border:0;"></iframe>\n'
+        '                <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="3d441e77-9763-4b52-80b9-f9e39062fd90"></script>\n'
         "            </div>\n"
         "        </section>"
     )
@@ -333,6 +347,8 @@ def render_post(meta, body, source):
         "at Quinsigamond Community College.</span>"
     )
 
+    show_cta = str(meta.get("cta", "true")).strip().lower() != "false"
+
     page = fill(
         read(TEMPLATES / "post.html"),
         {
@@ -341,6 +357,7 @@ def render_post(meta, body, source):
             "TITLE": attr(title),
             "BYLINE": byline,
             "BODY": body_html,
+            "CTA": CTA_HTML if show_cta else "",
             "NEWSLETTER": newsletter_html(),
             "FOOTER": read(TEMPLATES / "_footer.html").rstrip("\n"),
         },
