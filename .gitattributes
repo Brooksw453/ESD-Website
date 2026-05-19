@@ -1,0 +1,9 @@
+# Keep blog source + generated output and build tooling LF so the
+# idempotent `python tools/build_blog.py` rebuild stays diff-free on Windows.
+blog/**           text eol=lf
+content/**        text eol=lf
+templates/**      text eol=lf
+tools/**          text eol=lf
+css/blog.css      text eol=lf
+robots.txt        text eol=lf
+sitemap.xml       text eol=lf

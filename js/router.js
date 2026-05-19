@@ -152,6 +152,7 @@ class Router {
                 { href: '#/education/courses', label: 'Courses' },
                 { href: '#/vr', label: 'VR Development' },
                 { href: '#/about', label: 'About' },
+                { href: '/blog/', label: 'Blog' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ],
             ee: [
@@ -171,6 +172,7 @@ class Router {
                 { href: '#/education/courses', label: 'Adaptive Learning' },
                 { href: '#/vr', label: 'VR Development' },
                 { href: '#/about', label: 'About' },
+                { href: '/blog/', label: 'Blog' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ],
             shared: [
@@ -179,6 +181,7 @@ class Router {
                 { href: '#/education/courses', label: 'Courses' },
                 { href: '#/vr', label: 'VR Development' },
                 { href: '#/about', label: 'About' },
+                { href: '/blog/', label: 'Blog' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ]
         };
