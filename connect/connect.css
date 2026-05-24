@@ -1,0 +1,179 @@
+/* ============================================================
+   /connect/ — digital business card
+   Layered on top of the existing site CSS. Only adds page-specific
+   refinements; relies on variables.css for all colors and on
+   brand-overrides.css (data-section="landing") for theming.
+   ============================================================ */
+
+/* Container width — narrower than the homepage so the card reads as a card. */
+.connect-page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding-top: clamp(2rem, 6vw, 4rem);
+    padding-bottom: clamp(3rem, 8vw, 5rem);
+}
+
+/* Identity */
+.connect-identity {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.connect-identity h1 {
+    font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.15;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+}
+.connect-role {
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+}
+.connect-pitch {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    max-width: 36ch;
+    margin: 0 auto;
+}
+
+/* Primary save panel */
+.connect-save-panel {
+    text-align: center;
+    padding: 2rem clamp(1rem, 4vw, 2.5rem);
+    margin-bottom: 1.25rem;
+}
+.connect-save-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 56px;          /* WCAG 2.5.5 target — comfortable on mobile */
+    padding: 0.95rem 1.75rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.connect-save-btn:active {
+    transform: translateY(0);
+}
+.connect-save-btn svg {
+    flex-shrink: 0;
+}
+.connect-save-help {
+    margin-top: 0.85rem;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+}
+.connect-save-help a {
+    color: var(--color-accent);
+    text-decoration: underline;
+}
+
+/* Quick actions — 2x2 on mobile, 4-up on wide screens */
+.connect-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+}
+@media (min-width: 720px) {
+    .connect-actions {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+.connect-action {
+    text-align: center;
+    padding: 1.25rem 0.85rem;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    text-decoration: none;
+    color: var(--color-text);
+}
+.connect-action h2 {
+    font-size: 1rem;
+    margin: 0;
+    color: var(--color-primary);
+}
+.connect-action .landing-panel-subtitle {
+    font-size: 0.8rem;
+    margin: 0;
+    color: var(--color-text-muted);
+    word-break: break-word;
+}
+.connect-action .landing-panel-visual {
+    color: var(--color-accent);
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Services blurb */
+.connect-blurb {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+.connect-blurb h2 {
+    font-size: 1.15rem;
+    color: var(--color-primary);
+    margin-bottom: 0.6rem;
+}
+.connect-blurb p {
+    margin-bottom: 0.5rem;
+    line-height: 1.55;
+}
+.connect-blurb-products {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+.connect-blurb .landing-panel-cta {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
+/* QR panel */
+.connect-qr-panel {
+    text-align: center;
+}
+.connect-qr-panel h2 {
+    font-size: 1.05rem;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+.connect-qr-img {
+    display: block;
+    margin: 0 auto 0.75rem;
+    width: clamp(180px, 50vw, 220px);
+    height: auto;
+    background: var(--color-white);
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+}
+.connect-qr-help {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Visually-hidden helper (matches WCAG-friendly pattern used elsewhere) */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
