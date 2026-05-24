@@ -153,6 +153,7 @@ class Router {
                 { href: '#/vr', label: 'VR Development' },
                 { href: '#/about', label: 'About' },
                 { href: '/blog/', label: 'Blog' },
+                { href: '/connect/', label: 'Connect' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ],
             ee: [
@@ -161,6 +162,7 @@ class Router {
                 { href: '#/education', label: 'Accessibility' },
                 { href: '#/education/courses', label: 'Courses' },
                 { href: '#/about', label: 'About' },
+                { href: '/connect/', label: 'Connect' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ],
             ed: [
@@ -173,6 +175,7 @@ class Router {
                 { href: '#/vr', label: 'VR Development' },
                 { href: '#/about', label: 'About' },
                 { href: '/blog/', label: 'Blog' },
+                { href: '/connect/', label: 'Connect' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ],
             shared: [
@@ -182,6 +185,7 @@ class Router {
                 { href: '#/vr', label: 'VR Development' },
                 { href: '#/about', label: 'About' },
                 { href: '/blog/', label: 'Blog' },
+                { href: '/connect/', label: 'Connect' },
                 { href: '#/privacy', label: 'Privacy Policy' },
             ]
         };
