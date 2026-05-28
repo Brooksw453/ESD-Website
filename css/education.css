@@ -1343,6 +1343,13 @@ body:is([data-section="ed"], [data-section="shared"]) .back-to-top:hover {
     opacity: 0.8;
 }
 
+.landing-panel-visual-svg svg {
+    width: 4rem;
+    height: auto;
+    display: block;
+    color: currentColor;
+}
+
 .landing-panel-subtitle {
     font-size: var(--text-sm);
     color: var(--text-muted);
@@ -1378,11 +1385,4 @@ body:is([data-section="ed"], [data-section="shared"]) .back-to-top:hover {
         grid-template-columns: 1fr;
     }
 
-    .landing-panel {
-        min-height: 280px;
-    }
-
-    .landing-brand {
-        margin-bottom: var(--space-2xl);
-    }
-}
+    .landin
