@@ -1,3 +1,8 @@
+# Normalize all text to LF on checkout (overrides core.autocrlf=true) so
+# Windows working copies don't show phantom CRLF-only diffs. Binary files are
+# auto-detected and left untouched.
+* text=auto eol=lf
+
 # Keep blog source + generated output and build tooling LF so the
 # idempotent `python tools/build_blog.py` rebuild stays diff-free on Windows.
 blog/**           text eol=lf
