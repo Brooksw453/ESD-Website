@@ -1385,4 +1385,11 @@ body:is([data-section="ed"], [data-section="shared"]) .back-to-top:hover {
         grid-template-columns: 1fr;
     }
 
-    .landin
+    .landing-panel {
+        min-height: 280px;
+    }
+
+    .landing-brand {
+        margin-bottom: var(--space-2xl);
+    }
+}
