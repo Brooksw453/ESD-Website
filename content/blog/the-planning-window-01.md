@@ -15,7 +15,7 @@ Welcome to the first issue of *The Planning Window* — a short note every other
 
 I've spent the last few weeks talking with accessibility leads across New England — community colleges in Massachusetts and New Hampshire, state university offices in Connecticut and Maine. Different institutions, same conversation, almost every time.
 
-It starts with relief. "We're fine on timing — we have until April 2027." Then I ask one question: is your institution an instrumentality of a state system or a sizable local government? And the room gets quiet, because for most public colleges the answer puts them on the *earlier* date — April 24, 2026 — not the later one.
+It starts with relief. "We're fine on timing — we have until April 2028." Then I ask one question: is your institution an instrumentality of a state system or a sizable local government? And the room gets quiet, because for most public colleges the answer puts them on the *earlier* date — April 26, 2027 — not the later one.
 
 This isn't a small mix-up. It's the difference between having a year to plan and having already lost it. The institutions that are calm about Title II aren't the ones with more runway. They're the ones who confirmed their actual date early and built backward from it. The ones in trouble all made the same comfortable assumption and never checked it.
 
@@ -27,7 +27,7 @@ Confirm your date. It's a short exercise:
 
 1. Determine what your institution legally *is* — an instrumentality of a state system, or a unit of a local government.
 2. Find the population of that governing jurisdiction (the state system or the locality), not your enrollment.
-3. Population 50,000 or more → **April 24, 2026**. Under 50,000, or a special district → **April 24, 2027**.
+3. Population 50,000 or more → **April 26, 2027**. Under 50,000, or a special district → **April 26, 2028**.
 4. Write that date at the top of your plan, where everyone who opens the document sees it first.
 
 Five minutes, and the rest of your planning is now anchored to something real instead of an assumption.

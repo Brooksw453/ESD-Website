@@ -65,7 +65,7 @@ A rough, transparent budget you can walk through beats a precise number nobody b
 
 ## Sequence it against the real deadline
 
-The ADA Title II rule sets concrete dates — the larger-entity compliance date lands in **April 2026**, with **April 2027** for smaller public entities. Which one applies to your institution depends on the governing jurisdiction, and it's worth confirming rather than assuming. (I wrote a separate piece on [what the Title II timeline actually means for institutions](/blog/ada-title-ii-deadline-extension/).)
+The ADA Title II rule sets concrete dates — the larger-entity compliance date lands in **April 2027**, with **April 2028** for smaller public entities. Which one applies to your institution depends on the governing jurisdiction, and it's worth confirming rather than assuming. (I wrote a separate piece on [what the Title II timeline actually means for institutions](/blog/ada-title-ii-deadline-extension/).)
 
 Work backward from your date. If documents are 80% of your remediation surface — and for most institutions [they are](/blog/documents-80-percent-higher-ed-accessibility/) — then a timeline that spends six months on the marketing site and three weeks on documents is sequenced backward.
 
