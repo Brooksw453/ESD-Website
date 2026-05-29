@@ -2,3 +2,4 @@ node_modules/
 logo-generator.html
 __pycache__/
 *.pyc
+.claude/worktrees/
