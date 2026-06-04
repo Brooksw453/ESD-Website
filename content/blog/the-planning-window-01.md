@@ -2,7 +2,7 @@
 title: "The Planning Window #1: The Title II date almost everyone gets wrong"
 slug: the-planning-window-01
 description: First issue of The Planning Window — why so many higher-ed institutions assume the wrong ADA Title II deadline, a five-minute fix, and one resource.
-date: 2026-05-19
+date: 2026-06-04
 author: Brooks Winchell
 cta: false
 draft: false
