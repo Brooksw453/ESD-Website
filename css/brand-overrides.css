@@ -1239,26 +1239,3 @@ body[data-section="landing"] .landing-page .system-map {
     .system-map-grid { grid-template-columns: 1fr; gap: var(--space-md); }
     .system-card { padding: var(--space-lg) var(--space-md) var(--space-md); }
 }
-
-/* ============================================
-   Line-icon system (replaces emoji) + value-first landing hero
-   Added in design refresh — June 2026
-   ============================================ */
-.ed-product-icon svg{ width:2.5rem; height:2.5rem; stroke:var(--color-primary); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; display:block; }
-.landing-panel-visual svg{ width:3.25rem; height:3.25rem; stroke:var(--color-primary); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; display:block; margin:0 auto; }
-.ico-inline{ width:1.05em; height:1.05em; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; vertical-align:-0.16em; flex:none; display:inline-block; }
-.ico-feature{ width:2rem; height:2rem; stroke:var(--color-primary); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; display:block; margin:0 auto; }
-
-/* ---- Value-first landing hero ---- */
-body[data-section="landing"] .landing-hero{ max-width:800px; margin:0 auto var(--space-3xl); text-align:center; padding-top:var(--space-xl); }
-body[data-section="landing"] .landing-hero-pill{ display:inline-flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--color-primary); background:#E6F0F7; border:1px solid #CFE2EF; padding:7px 14px; border-radius:999px; margin-bottom:var(--space-lg); }
-body[data-section="landing"] .landing-hero-pill-dot{ width:7px; height:7px; border-radius:50%; background:var(--color-warm); }
-body[data-section="landing"] .landing-hero-title{ font-family:'IBM Plex Sans','Inter',sans-serif; font-weight:600; letter-spacing:-0.02em; line-height:1.12; font-size:clamp(2rem, 4.6vw, 3.25rem); color:var(--color-primary); margin-bottom:var(--space-lg); text-wrap:balance; text-transform:none; }
-body[data-section="landing"] .landing-hero-title em{ font-style:normal; color:var(--color-accent); }
-body[data-section="landing"] .landing-hero-sub{ font-size:clamp(1rem, 2vw, 1.2rem); color:var(--text-secondary); max-width:620px; margin:0 auto var(--space-2xl); line-height:1.6; }
-body[data-section="landing"] .landing-hero-cta{ display:flex; gap:var(--space-md); justify-content:center; flex-wrap:wrap; }
-body[data-section="landing"] .landing-hero-btn{ font-family:'IBM Plex Sans','Inter',sans-serif; font-weight:600; font-size:1rem; padding:14px 26px; border-radius:var(--radius-md); text-decoration:none; transition:background var(--transition-fast), color var(--transition-fast); border:1px solid transparent; display:inline-block; }
-body[data-section="landing"] .landing-hero-btn-primary{ background:var(--color-primary); color:#fff; }
-body[data-section="landing"] .landing-hero-btn-primary:hover{ background:var(--color-primary-hover); }
-body[data-section="landing"] .landing-hero-btn-ghost{ background:transparent; color:var(--color-primary); border-color:var(--color-primary); }
-body[data-section="landing"] .landing-hero-btn-ghost:hover{ background:var(--color-primary); color:#fff; }
