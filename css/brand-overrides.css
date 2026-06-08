@@ -597,21 +597,49 @@ body[data-section="landing"] .landing-panel-secondary p {
     color: var(--color-text-muted) !important;
 }
 body[data-section="landing"] .landing-panel-secondary .landing-panel-cta {
-    color: var(--color-primary) !important;
-    background: transparent !important;
+    color: var(--color-white) !important;
+    background: var(--color-primary) !important;
     border: 1px solid var(--color-primary) !important;
     font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
+    font-size: var(--text-sm) !important;
+    font-weight: 600 !important;
     text-transform: none !important;
     letter-spacing: 0.01em !important;
     text-shadow: none !important;
-    box-shadow: none !important;
+    box-shadow: 0 1px 2px rgba(31, 61, 92, 0.1) !important;
     padding: var(--space-sm) var(--space-xl);
     border-radius: var(--radius-md);
 }
 body[data-section="landing"] .landing-panel-secondary:hover .landing-panel-cta {
-    background: var(--color-primary) !important;
-    color: var(--color-white) !important;
-    box-shadow: 0 4px 12px rgba(31, 61, 92, 0.15) !important;
+    background: var(--color-primary-hover) !important;
+    border-color: var(--color-primary-hover) !important;
+    box-shadow: 0 4px 12px rgba(31, 61, 92, 0.2) !important;
+}
+
+/* ===== Homepage tiles — normalize all four to ONE rhythm =====
+   Only .landing-panel-ed carried the base body styling (color, size,
+   max-width, margins). -ai and -secondary are newer classes that inherited
+   defaults, so body color, width, and spacing drifted between cards. Force
+   every tile identical: top-aligned content, bottom-aligned CTA, same body. */
+body[data-section="landing"] .landing-secondary .landing-panel {
+    justify-content: flex-start !important;
+    padding: var(--space-3xl) var(--space-xl) !important;
+}
+body[data-section="landing"] .landing-secondary .landing-panel h2 {
+    margin: 0 0 var(--space-sm) !important;
+}
+body[data-section="landing"] .landing-secondary .landing-panel .landing-panel-subtitle {
+    margin: 0 0 var(--space-md) !important;
+}
+body[data-section="landing"] .landing-secondary .landing-panel p:not(.landing-panel-subtitle) {
+    color: var(--color-text) !important;
+    font-size: var(--text-base) !important;
+    line-height: 1.6 !important;
+    max-width: 300px !important;
+    margin: 0 auto var(--space-xl) !important;
+}
+body[data-section="landing"] .landing-secondary .landing-panel .landing-panel-cta {
+    margin-top: auto !important;
 }
 
 /* Panel icon/visual */
