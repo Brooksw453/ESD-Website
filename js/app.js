@@ -29,6 +29,7 @@
     router.register('/education/audit', 'pages/education-audit.html');
     router.register('/education/wcag-course', 'pages/education-wcag-course.html');
     router.register('/education/roadmap-tool', 'pages/education-roadmap.html');
+    router.register('/ai', 'pages/ai.html');
     router.register('/about', 'pages/about.html');
     router.register('/privacy', 'pages/privacy.html');
     router.start();

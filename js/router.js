@@ -26,6 +26,7 @@ class Router {
             '/education/audit':        'ed',
             '/education/wcag-course':  'ed',
             '/education/roadmap-tool': 'ed',
+            '/ai':                'ed',
             '/about':             'shared',
             '/privacy':           'shared',
         };
@@ -33,7 +34,6 @@ class Router {
         // Legacy route redirects
         this.redirects = {
             '/elliptical-explorer':      '/elliptical',
-            '/ai':                       '/education',
             '/games':                    '/',
             '/education/document-ally':  '/education/ally-pro',
             '/education/ally':           '/education/ally-pro',
@@ -42,8 +42,8 @@ class Router {
         // Page metadata for SEO
         this.meta = {
             '/': {
-                title: 'ES Designs | Title II Compliance Planning for Higher Ed',
-                description: 'ES Designs builds the integrated Title II compliance planning system for higher education. Home of the Compliance Roadmap Tool, AI Website Audit, and Document Ally Pro.'
+                title: 'ES Designs | Accessibility & AI for Higher Education',
+                description: 'ES Designs helps higher ed on two fronts: ADA Title II accessibility compliance and teaching with AI. Compliance Roadmap Tool, Document Ally Pro, WCAG 2.2 courses, plus AI courses and workshops — built by a 21-year educator.'
             },
             '/elliptical': {
                 title: 'Elliptical Explorer | VR Fitness Adventure for Meta Quest',
@@ -77,6 +77,10 @@ class Router {
                 title: 'Compliance Roadmap Tool | ADA Title II Planning for Higher Ed',
                 description: 'Free interactive Title II compliance planning tool for higher ed accessibility directors. 9 chapters, AI-drafted summaries, accessible PDF export. Build your plan in 30 minutes.'
             },
+            '/ai': {
+                title: 'AI in Higher Ed | Teaching Past the Detection Trap — ES Designs',
+                description: 'Most colleges are policing AI. ES Designs helps you teach it. Self-paced AI courses for faculty and administrators, campus workshops, and a free AI tools guide — built by a 21-year higher ed practitioner.'
+            },
             '/about': {
                 title: 'About ES Designs | Brooks Winchell',
                 description: 'About ES Designs and founder Brooks Winchell. Building the integrated Title II compliance planning system for higher education from Massachusetts.'
@@ -104,6 +108,7 @@ class Router {
                 // from the landing "VR Development" panel and the footer.
                 links: [
                     { href: '#/education', label: 'Accessibility' },
+                    { href: '#/ai', label: 'AI in Higher Ed' },
                     { href: '#/education/courses', label: 'Courses' },
                     { href: '#/about', label: 'About' },
                 ]
@@ -122,6 +127,7 @@ class Router {
                 brandHref: '#/education',
                 links: [
                     { href: '#/', label: 'Home' },
+                    { href: '#/ai', label: 'AI in Higher Ed' },
                     { href: '#/education/roadmap-tool', label: 'Roadmap Tool' },
                     { href: '#/education/audit', label: 'Audit Tool' },
                     { href: '#/education/wcag-course', label: 'WCAG Courses' },
@@ -136,6 +142,7 @@ class Router {
                 // Compliance-focused top nav (matches landing). VR via footer.
                 links: [
                     { href: '#/education', label: 'Accessibility' },
+                    { href: '#/ai', label: 'AI in Higher Ed' },
                     { href: '#/education/courses', label: 'Courses' },
                     { href: '#/about', label: 'About' },
                 ]
@@ -149,6 +156,7 @@ class Router {
         this.footerConfigs = {
             landing: [
                 { href: '#/education', label: 'Accessibility' },
+                { href: '#/ai', label: 'AI in Higher Ed' },
                 { href: '#/education/courses', label: 'Courses' },
                 { href: '#/vr', label: 'VR Development' },
                 { href: '#/about', label: 'About' },
@@ -167,6 +175,7 @@ class Router {
             ],
             ed: [
                 { href: '#/', label: 'Home' },
+                { href: '#/ai', label: 'AI in Higher Ed' },
                 { href: '#/education/roadmap-tool', label: 'Compliance Roadmap Tool' },
                 { href: '#/education/audit', label: 'AI Website Audit' },
                 { href: '#/education/wcag-course', label: 'WCAG 2.2 Courses' },
@@ -181,6 +190,7 @@ class Router {
             shared: [
                 { href: '#/', label: 'Home' },
                 { href: '#/education', label: 'Accessibility' },
+                { href: '#/ai', label: 'AI in Higher Ed' },
                 { href: '#/education/courses', label: 'Courses' },
                 { href: '#/vr', label: 'VR Development' },
                 { href: '#/about', label: 'About' },
@@ -401,8 +411,9 @@ class Router {
             });
         }
 
-        // Shared: scroll-to buttons, inline forms, compact tiles (all education pages)
-        if (path.startsWith('/education')) {
+        // Shared: scroll-to buttons, inline forms, compact tiles
+        // (all education pages + the AI page, which reuses the same components)
+        if (path.startsWith('/education') || path === '/ai') {
             // Scroll-to buttons (offset by nav height so title isn't cut off)
             document.querySelectorAll('[data-scroll-to]').forEach(btn => {
                 btn.addEventListener('click', (e) => {

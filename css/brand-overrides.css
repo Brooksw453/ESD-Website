@@ -421,6 +421,55 @@ body[data-section="landing"] .landing-panel-ed:hover .landing-panel-cta {
     box-shadow: 0 4px 12px rgba(31, 61, 92, 0.2) !important;
 }
 
+/* AI front-door panel — co-equal with Title II lead, teal accent */
+body[data-section="landing"] .landing-panel-ai {
+    background: linear-gradient(135deg, #ffffff 0%, #ECFDF5 100%) !important;
+    border: 1px solid var(--color-border) !important;
+}
+body[data-section="landing"] .landing-panel-ai:hover {
+    border-color: var(--color-accent) !important;
+    box-shadow:
+        0 4px 16px rgba(14, 124, 102, 0.12),
+        0 16px 40px rgba(14, 124, 102, 0.08) !important;
+}
+body[data-section="landing"] .landing-panel-ai h2 {
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
+    color: var(--color-accent) !important;
+    text-shadow: none !important;
+    font-weight: 700 !important;
+    text-transform: none !important;
+    letter-spacing: -0.01em !important;
+}
+body[data-section="landing"] .landing-panel-ai p {
+    color: var(--color-text) !important;
+}
+body[data-section="landing"] .landing-panel-ai .landing-panel-cta {
+    color: var(--color-white) !important;
+    background: var(--color-accent) !important;
+    border: 1px solid var(--color-accent) !important;
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
+    text-transform: none !important;
+    letter-spacing: 0.01em !important;
+    text-shadow: none !important;
+    box-shadow: 0 1px 2px rgba(14, 124, 102, 0.1) !important;
+}
+body[data-section="landing"] .landing-panel-ai:hover .landing-panel-cta {
+    background: var(--color-accent-hover) !important;
+    border-color: var(--color-accent-hover) !important;
+    box-shadow: 0 4px 12px rgba(14, 124, 102, 0.2) !important;
+}
+
+/* Lead pair — two prominent front doors, a touch taller than secondary tiles */
+body[data-section="landing"] .landing-leads {
+    margin-bottom: var(--space-xl);
+}
+body[data-section="landing"] .landing-leads .landing-panel {
+    min-height: 300px;
+}
+body[data-section="landing"] .landing-leads h2 {
+    font-size: clamp(1.4rem, 2.8vw, 2rem) !important;
+}
+
 /* Side-project panel (Elliptical) — also light, but quieter teal accent */
 body[data-section="landing"] .landing-panel-ee {
     background: var(--color-surface) !important;
