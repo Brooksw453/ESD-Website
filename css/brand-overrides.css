@@ -386,9 +386,9 @@ body[data-section="landing"] .landing-panel:hover {
     transform: translateY(-4px);
 }
 
-/* Lead panel (Title II compliance) — brand-tinted bg + navy accent */
+/* Lead panel (Title II compliance) — white card, navy accent */
 body[data-section="landing"] .landing-panel-ed {
-    background: linear-gradient(135deg, #ffffff 0%, #F0F9FF 100%) !important;
+    background: #ffffff !important;
     border: 1px solid var(--color-border) !important;
 }
 body[data-section="landing"] .landing-panel-ed:hover {
@@ -421,9 +421,9 @@ body[data-section="landing"] .landing-panel-ed:hover .landing-panel-cta {
     box-shadow: 0 4px 12px rgba(31, 61, 92, 0.2) !important;
 }
 
-/* AI front-door panel — co-equal with Title II lead, teal accent */
+/* AI front-door panel — white card, teal accent (the one accent on the page) */
 body[data-section="landing"] .landing-panel-ai {
-    background: linear-gradient(135deg, #ffffff 0%, #ECFDF5 100%) !important;
+    background: #ffffff !important;
     border: 1px solid var(--color-border) !important;
 }
 body[data-section="landing"] .landing-panel-ai:hover {
@@ -459,15 +459,25 @@ body[data-section="landing"] .landing-panel-ai:hover .landing-panel-cta {
     box-shadow: 0 4px 12px rgba(14, 124, 102, 0.2) !important;
 }
 
-/* Lead pair — two prominent front doors, a touch taller than secondary tiles */
-body[data-section="landing"] .landing-leads {
-    margin-bottom: var(--space-xl);
-}
-body[data-section="landing"] .landing-leads .landing-panel {
+/* ===== Cohesive 2×2 tile set — one icon language, matched typography =====
+   All four tiles share the same white card, icon size, heading weight and
+   height. Hierarchy reads from the CTA (filled = business line, outline =
+   adjacent line) and the single teal accent on the AI tile. */
+body[data-section="landing"] .landing-secondary .landing-panel {
     min-height: 300px;
 }
-body[data-section="landing"] .landing-leads h2 {
-    font-size: clamp(1.4rem, 2.8vw, 2rem) !important;
+body[data-section="landing"] .landing-panel h2 {
+    font-size: clamp(1.35rem, 2.6vw, 1.85rem) !important;
+    font-weight: 700 !important;
+}
+/* Unified line-icon sizing — equal heights, aspect ratio preserved */
+body[data-section="landing"] .landing-panel-visual-svg svg {
+    height: 3rem !important;
+    width: auto !important;
+}
+/* The AI tile is the one teal accent — icon matches its heading + CTA */
+body[data-section="landing"] .landing-panel-ai .landing-panel-visual {
+    color: var(--color-accent) !important;
 }
 
 /* Side-project panel (Elliptical) — also light, but quieter teal accent */
@@ -559,40 +569,37 @@ body[data-section="landing"] .landing-secondary {
     }
 }
 
-/* Secondary tile — light, lower-key than the lead */
+/* Adjacent-line tiles (Courses, VR) — same white card, navy outline CTA */
 body[data-section="landing"] .landing-panel-secondary {
-    background: var(--color-surface) !important;
+    background: #ffffff !important;
     border: 1px solid var(--color-border) !important;
     color: var(--color-text) !important;
     text-shadow: none !important;
     box-shadow:
         0 1px 2px rgba(15, 23, 42, 0.04),
         0 4px 12px rgba(15, 23, 42, 0.06) !important;
-    min-height: 280px;
 }
 body[data-section="landing"] .landing-panel-secondary:hover {
-    border-color: var(--color-accent) !important;
+    border-color: var(--color-primary) !important;
     box-shadow:
-        0 4px 16px rgba(14, 124, 102, 0.10),
-        0 16px 40px rgba(14, 124, 102, 0.06) !important;
+        0 4px 16px rgba(31, 61, 92, 0.10),
+        0 16px 40px rgba(31, 61, 92, 0.06) !important;
     transform: translateY(-4px);
 }
 body[data-section="landing"] .landing-panel-secondary h2 {
     font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
-    color: var(--color-text) !important;
+    color: var(--color-primary) !important;
     text-shadow: none !important;
-    font-weight: 600 !important;
     text-transform: none !important;
     letter-spacing: -0.01em !important;
-    font-size: clamp(1.25rem, 2.5vw, 1.75rem) !important;
 }
 body[data-section="landing"] .landing-panel-secondary p {
     color: var(--color-text-muted) !important;
 }
 body[data-section="landing"] .landing-panel-secondary .landing-panel-cta {
-    color: var(--color-accent) !important;
+    color: var(--color-primary) !important;
     background: transparent !important;
-    border: 1px solid var(--color-accent) !important;
+    border: 1px solid var(--color-primary) !important;
     font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
     text-transform: none !important;
     letter-spacing: 0.01em !important;
@@ -602,9 +609,9 @@ body[data-section="landing"] .landing-panel-secondary .landing-panel-cta {
     border-radius: var(--radius-md);
 }
 body[data-section="landing"] .landing-panel-secondary:hover .landing-panel-cta {
-    background: var(--color-accent) !important;
+    background: var(--color-primary) !important;
     color: var(--color-white) !important;
-    box-shadow: 0 4px 12px rgba(14, 124, 102, 0.15) !important;
+    box-shadow: 0 4px 12px rgba(31, 61, 92, 0.15) !important;
 }
 
 /* Panel icon/visual */
