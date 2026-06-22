@@ -50,11 +50,14 @@ CTA_HTML = (
 )
 
 # ---------------------------------------------------------------------------
-# Newsletter provider: "none" (placeholder), "convertkit", or "beehiiv".
-# Switching providers is a one-line change here + a rebuild. When set to a
-# provider, fill in the embed id/uid marked TODO in _newsletter_embed().
+# Newsletter provider: "none" (placeholder), "unified", "convertkit", or
+# "beehiiv". "unified" posts to the shared courses.esdesigns.org/api/subscribe
+# endpoint (Beehiiv + Supabase mirror) via the self-hosted /js/blog-subscribe.js
+# handler — so blog signups land on the single Planning Window list AND mirror
+# to Supabase, exactly like the home / AI / education capture points.
+# Switching providers is a one-line change here + a rebuild.
 # ---------------------------------------------------------------------------
-NEWSLETTER_PROVIDER = "beehiiv"
+NEWSLETTER_PROVIDER = "unified"
 
 # ---- Content Security Policy (blog pages only; independent of the SPA) -----
 CSP_BASE = (
@@ -96,9 +99,27 @@ CSP_BEEHIIV = (
     "frame-src https://subscribe-forms.beehiiv.com https://embeds.beehiiv.com; "
     "base-uri 'self'"
 )
-CSP = {"none": CSP_BASE, "convertkit": CSP_CONVERTKIT, "beehiiv": CSP_BEEHIIV}[
-    NEWSLETTER_PROVIDER
-]
+# Unified capture needs only 'self' (the /js/blog-subscribe.js handler) plus the
+# courses.esdesigns.org host it POSTs to — no third-party embed/script/frame.
+CSP_UNIFIED = (
+    "default-src 'self'; "
+    "script-src 'self' https://www.googletagmanager.com; "
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+    "font-src https://fonts.gstatic.com; "
+    "img-src 'self' data: https://www.google-analytics.com "
+    "https://*.google-analytics.com https://*.googletagmanager.com; "
+    "connect-src 'self' https://courses.esdesigns.org "
+    "https://awcmkderlpyxpkmrnvwi.supabase.co https://www.google-analytics.com "
+    "https://*.google-analytics.com https://*.analytics.google.com "
+    "https://*.googletagmanager.com; "
+    "frame-src 'none'; base-uri 'self'"
+)
+CSP = {
+    "none": CSP_BASE,
+    "unified": CSP_UNIFIED,
+    "convertkit": CSP_CONVERTKIT,
+    "beehiiv": CSP_BEEHIIV,
+}[NEWSLETTER_PROVIDER]
 
 # ---- Sitemap: hand-maintained SPA routes (hash URLs) ----------------------
 # FULL regeneration. Update this table if SPA routes change. <lastmod> is
@@ -199,6 +220,23 @@ def first_paragraph(body):
 def newsletter_html():
     if NEWSLETTER_PROVIDER == "none":
         return read(TEMPLATES / "_newsletter.html").rstrip("\n")
+    if NEWSLETTER_PROVIDER == "unified":
+        # Unified capture: a plain form posted by /js/blog-subscribe.js to the
+        # shared courses.esdesigns.org/api/subscribe endpoint (Beehiiv + Supabase
+        # mirror). No third-party embed; the Beehiiv key stays server-side.
+        return (
+            '        <section class="blog-newsletter" aria-labelledby="nl-t">\n'
+            '            <h2 id="nl-t">The Planning Window</h2>\n'
+            '            <p>A short bi-weekly note for higher-ed accessibility leads: one inside observation, one practical tip, one useful link. No pitch.</p>\n'
+            '            <form class="blog-newsletter-form" data-capture-endpoint="https://courses.esdesigns.org/api/subscribe" data-source="blog" novalidate>\n'
+            '                <label class="sr-only" for="nl-email">Email address</label>\n'
+            '                <input id="nl-email" type="email" name="email" autocomplete="email" placeholder="you@university.edu" aria-label="Email address" required>\n'
+            '                <button type="submit">Subscribe</button>\n'
+            '                <p class="contact-status" role="status" aria-live="polite"></p>\n'
+            '            </form>\n'
+            '            <script src="/js/blog-subscribe.js" defer></script>\n'
+            "        </section>"
+        )
     # TODO when switching providers: paste the official embed snippet and set
     # the form id/uid below. CSP for the chosen provider is already wired.
     if NEWSLETTER_PROVIDER == "convertkit":

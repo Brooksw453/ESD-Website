@@ -10,7 +10,7 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
 
     <!-- Standalone CSP for blog pages — independent of the SPA's index.html CSP. -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://subscribe-forms.beehiiv.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://subscribe-forms.beehiiv.com https://awcmkderlpyxpkmrnvwi.supabase.co https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src https://subscribe-forms.beehiiv.com https://embeds.beehiiv.com; base-uri 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://courses.esdesigns.org https://awcmkderlpyxpkmrnvwi.supabase.co https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src 'none'; base-uri 'self'">
 
     <!-- Open Graph -->
     <meta property="og:type" content="article">
@@ -150,9 +150,13 @@
         <section class="blog-newsletter" aria-labelledby="nl-t">
             <h2 id="nl-t">The Planning Window</h2>
             <p>A short bi-weekly note for higher-ed accessibility leads: one inside observation, one practical tip, one useful link. No pitch.</p>
-            <div class="blog-newsletter-embed">
-                <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="3d441e77-9763-4b52-80b9-f9e39062fd90"></script>
-            </div>
+            <form class="blog-newsletter-form" data-capture-endpoint="https://courses.esdesigns.org/api/subscribe" data-source="blog" novalidate>
+                <label class="sr-only" for="nl-email">Email address</label>
+                <input id="nl-email" type="email" name="email" autocomplete="email" placeholder="you@university.edu" aria-label="Email address" required>
+                <button type="submit">Subscribe</button>
+                <p class="contact-status" role="status" aria-live="polite"></p>
+            </form>
+            <script src="/js/blog-subscribe.js" defer></script>
         </section>
     </main>
     <footer class="blog-footer">

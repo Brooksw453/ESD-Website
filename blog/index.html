@@ -10,7 +10,7 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
 
     <!-- Standalone CSP for blog pages — independent of the SPA's index.html CSP. -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://subscribe-forms.beehiiv.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://subscribe-forms.beehiiv.com https://awcmkderlpyxpkmrnvwi.supabase.co https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src https://subscribe-forms.beehiiv.com https://embeds.beehiiv.com; base-uri 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://courses.esdesigns.org https://awcmkderlpyxpkmrnvwi.supabase.co https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src 'none'; base-uri 'self'">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -104,16 +104,16 @@
 
         <ol class="blog-list">
             <li class="blog-card">
-                <h2><a href="/blog/wcag-2-2-compliance-plan-higher-ed/">How to Build a WCAG 2.2 Compliance Plan for Higher Ed</a></h2>
-                <p class="blog-card-date"><time datetime="2026-05-19">May 19, 2026</time></p>
-                <p class="blog-card-excerpt">Most institutions don't have a WCAG 2.2 accessibility problem. They have a planning problem. Here's the plan an ADA coordinator can actually defend in a budget meeting.</p>
-                <a class="blog-card-more" href="/blog/wcag-2-2-compliance-plan-higher-ed/">Read more &rarr;</a>
-            </li>
-            <li class="blog-card">
                 <h2><a href="/blog/the-planning-window-01/">The Planning Window #1: The Title II date almost everyone gets wrong</a></h2>
                 <p class="blog-card-date"><time datetime="2026-06-04">June 4, 2026</time></p>
                 <p class="blog-card-excerpt">First issue of The Planning Window — the Title II date almost everyone gets wrong, a five-minute fix, and one resource worth your time.</p>
                 <a class="blog-card-more" href="/blog/the-planning-window-01/">Read more &rarr;</a>
+            </li>
+            <li class="blog-card">
+                <h2><a href="/blog/wcag-2-2-compliance-plan-higher-ed/">How to Build a WCAG 2.2 Compliance Plan for Higher Ed</a></h2>
+                <p class="blog-card-date"><time datetime="2026-05-19">May 19, 2026</time></p>
+                <p class="blog-card-excerpt">Most institutions don't have a WCAG 2.2 accessibility problem. They have a planning problem. Here's the plan an ADA coordinator can actually defend in a budget meeting.</p>
+                <a class="blog-card-more" href="/blog/wcag-2-2-compliance-plan-higher-ed/">Read more &rarr;</a>
             </li>
             <li class="blog-card">
                 <h2><a href="/blog/documents-80-percent-higher-ed-accessibility/">Why Documents Are 80% of Higher-Ed Accessibility Work</a></h2>
@@ -132,9 +132,13 @@
         <section class="blog-newsletter" aria-labelledby="nl-t">
             <h2 id="nl-t">The Planning Window</h2>
             <p>A short bi-weekly note for higher-ed accessibility leads: one inside observation, one practical tip, one useful link. No pitch.</p>
-            <div class="blog-newsletter-embed">
-                <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="3d441e77-9763-4b52-80b9-f9e39062fd90"></script>
-            </div>
+            <form class="blog-newsletter-form" data-capture-endpoint="https://courses.esdesigns.org/api/subscribe" data-source="blog" novalidate>
+                <label class="sr-only" for="nl-email">Email address</label>
+                <input id="nl-email" type="email" name="email" autocomplete="email" placeholder="you@university.edu" aria-label="Email address" required>
+                <button type="submit">Subscribe</button>
+                <p class="contact-status" role="status" aria-live="polite"></p>
+            </form>
+            <script src="/js/blog-subscribe.js" defer></script>
         </section>
     </main>
     <footer class="blog-footer">
