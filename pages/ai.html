@@ -252,12 +252,7 @@
     <div class="container" style="max-width: 600px; text-align: center;" data-animate="fade-up">
         <h2 style="color: var(--ed-heading); margin-bottom: var(--space-sm);">The Planning Window</h2>
         <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">A bi-weekly note on teaching with AI and accessibility in higher ed &mdash; evidence, not hype, and one practical thing you can use. Both frontiers, one masthead.</p>
-        <form data-supabase-table="messages" action="https://formsubmit.co/bwinchell@esdesigns.org" method="POST" style="display: flex; gap: var(--space-sm); flex-wrap: wrap; justify-content: center;">
-            <input type="hidden" name="source" value="planning-window">
-            <input type="hidden" name="_subject" value="The Planning Window Signup">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_next" value="https://esdesigns.org/#/ai">
+        <form data-capture-endpoint="https://courses.esdesigns.org/api/subscribe" data-source="planning-window" style="display: flex; gap: var(--space-sm); flex-wrap: wrap; justify-content: center;">
             <label for="planningWindowEmail" class="visually-hidden">Work email for The Planning Window newsletter</label>
             <input type="email" id="planningWindowEmail" name="email" autocomplete="email" placeholder="Enter your work email" required
                 style="flex: 1; min-width: 250px; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem; font-family: inherit; outline: none;">

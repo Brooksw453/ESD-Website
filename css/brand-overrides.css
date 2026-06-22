@@ -1478,9 +1478,15 @@ body[data-section="landing"] .landing-capture .contact-status {
     font-size: 0.9rem;
     min-height: 1.2em;
 }
-/* Status colors — teal for success, warm for the (rare) error */
-body[data-section="landing"] .contact-status.success { color: var(--color-accent); }
-body[data-section="landing"] .contact-status.error   { color: var(--color-warm); }
+/* Status colors — teal for success, warm for the (rare) error. Covers the
+   landing capture forms plus the migrated newsletter forms on the ed pages
+   (The Planning Window on /ai, The Title II Briefing on /education). */
+body[data-section="landing"] .contact-status.success,
+body[data-section="ed"] .contact-status.success,
+body[data-section="shared"] .contact-status.success { color: var(--color-accent); }
+body[data-section="landing"] .contact-status.error,
+body[data-section="ed"] .contact-status.error,
+body[data-section="shared"] .contact-status.error   { color: var(--color-warm); }
 
 /* ===== Slim capture band above the footer ===== */
 body[data-section="landing"] .landing-capture-footer {
