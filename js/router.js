@@ -42,8 +42,8 @@ class Router {
         // Page metadata for SEO
         this.meta = {
             '/': {
-                title: 'ES Designs | Accessibility & AI for Higher Education',
-                description: 'ES Designs helps higher ed on two fronts: ADA Title II accessibility compliance and teaching with AI. Compliance Roadmap Tool, Document Ally Pro, WCAG 2.2 courses, plus AI courses and workshops — built by a 21-year educator.'
+                title: 'ES Designs | Teaching With AI in Higher Education + Title II Accessibility',
+                description: 'Most colleges are policing AI. ES Designs helps you teach it — practical, evidence-based AI courses and workshops for higher ed, plus ADA Title II accessibility compliance. Built by a 21-year educator. Start the free AI course.'
             },
             '/elliptical': {
                 title: 'Elliptical Explorer | VR Fitness Adventure for Meta Quest',
@@ -111,6 +111,7 @@ class Router {
                     { href: '#/ai', label: 'AI in Higher Ed' },
                     { href: '#/education/courses', label: 'Courses' },
                     { href: '#/about', label: 'About' },
+                    { href: 'https://courses.esdesigns.org/courses/zero-to-agent', label: 'Free AI course', external: true },
                 ]
             },
             ee: {
@@ -353,7 +354,9 @@ class Router {
 
         if (navLinks) {
             navLinks.innerHTML = config.links.map(link =>
-                `<a href="${link.href}" class="nav-link">${link.label}</a>`
+                link.external
+                    ? `<a href="${link.href}" class="nav-link nav-link-cta" target="_blank" rel="noopener" data-ga="free-course" data-ga-source="nav">${link.label}</a>`
+                    : `<a href="${link.href}" class="nav-link">${link.label}</a>`
             ).join('');
         }
     }
@@ -412,8 +415,22 @@ class Router {
         }
 
         // Shared: scroll-to buttons, inline forms, compact tiles
-        // (all education pages + the AI page, which reuses the same components)
-        if (path.startsWith('/education') || path === '/ai') {
+        // (all education pages, the AI page, and the home/landing page —
+        // all reuse the same inline-form + capture components)
+        if (path.startsWith('/education') || path === '/ai' || path === '/') {
+            // Free-course CTA tracking (home hero + nav). Fire a GA4
+            // free_course_click before the new tab opens. No-op on pages
+            // that have no [data-ga="free-course"] elements.
+            document.querySelectorAll('[data-ga="free-course"]').forEach(el => {
+                el.addEventListener('click', () => {
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'free_course_click', {
+                            source: el.getAttribute('data-ga-source') || 'home-hero'
+                        });
+                    }
+                });
+            });
+
             // Scroll-to buttons (offset by nav height so title isn't cut off)
             document.querySelectorAll('[data-scroll-to]').forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -443,22 +460,39 @@ class Router {
             // data-supabase-table (e.g. the audit card + newsletter capture).
             // #contactForm is the floating widget — owned by contact-widget.js,
             // excluded here so it isn't bound twice.
-            document.querySelectorAll('.ed-inline-contact form, form[data-supabase-table]:not(#contactForm)').forEach(form => {
+            document.querySelectorAll('.ed-inline-contact form, form[data-supabase-table]:not(#contactForm), form[data-capture-endpoint]').forEach(form => {
                 const status = form.querySelector('.contact-status') || form.parentElement.querySelector('.contact-status');
                 const supabaseTable = form.getAttribute('data-supabase-table');
+                const captureEndpoint = form.getAttribute('data-capture-endpoint');
 
                 form.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     const btn = form.querySelector('button[type="submit"]');
                     const orig = btn.textContent;
-                    btn.textContent = 'Sending...';
+                    btn.textContent = captureEndpoint ? 'Subscribing…' : 'Sending...';
                     btn.disabled = true;
                     if (status) { status.textContent = ''; status.className = 'contact-status'; }
 
                     let ok = false;
                     let alreadyOnList = false;
 
-                    if (supabaseTable && window.supabaseClient) {
+                    if (captureEndpoint) {
+                        // Unified email capture — server-side POST to the courses
+                        // endpoint, which writes to Beehiiv (the sender) and mirrors
+                        // to Supabase. The Beehiiv API key never touches the client.
+                        const source = form.getAttribute('data-source') || 'esdesigns.org';
+                        try {
+                            const res = await fetch(captureEndpoint, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ email: form.email.value, source })
+                            });
+                            ok = res.ok;
+                        } catch { ok = false; }
+                        if (ok && typeof gtag === 'function') {
+                            gtag('event', 'email_capture', { source });
+                        }
+                    } else if (supabaseTable && window.supabaseClient) {
                         // Supabase submission — collect form data as plain object
                         const data = {};
                         new FormData(form).forEach((val, key) => {
@@ -489,17 +523,27 @@ class Router {
 
                     if (ok) {
                         let successMsg;
-                        if (supabaseTable === 'waitlist') {
+                        if (captureEndpoint) {
+                            successMsg = "You're on the list — check your inbox.";
+                        } else if (supabaseTable === 'waitlist') {
                             successMsg = alreadyOnList
                                 ? "You're already on the list — we'll be in touch soon."
                                 : "You're on the list! We'll be in touch soon.";
                         } else {
                             successMsg = "Sent! We'll be in touch soon.";
                         }
-                        if (status) status.textContent = successMsg;
+                        if (status) {
+                            status.textContent = successMsg;
+                            if (captureEndpoint) status.className = 'contact-status success';
+                        }
                         form.reset();
                     } else {
-                        if (status) { status.textContent = 'Something went wrong. Try again.'; status.className = 'contact-status error'; }
+                        if (status) {
+                            status.textContent = captureEndpoint
+                                ? 'Something went wrong — try again or email bwinchell@esdesigns.org.'
+                                : 'Something went wrong. Try again.';
+                            status.className = 'contact-status error';
+                        }
                     }
 
                     btn.textContent = orig;

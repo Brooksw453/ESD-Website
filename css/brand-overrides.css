@@ -1323,3 +1323,183 @@ body[data-section="landing"] .landing-page .system-map {
     .system-map-grid { grid-template-columns: 1fr; gap: var(--space-md); }
     .system-card { padding: var(--space-lg) var(--space-md) var(--space-md); }
 }
+
+/* ============================================
+   LANDING — AI HERO + UNIFIED EMAIL CAPTURE (v6)
+   The home page now leads with the AI voice and a single
+   accessible capture form. components.css styles .neon-btn as
+   synthwave cyan and the ed/shared brand override (education.css)
+   doesn't reach the landing section — so brand the buttons here,
+   then lay out the hero and the capture form from brand tokens.
+   ============================================ */
+
+/* ===== Brand buttons on the landing section ===== */
+body[data-section="landing"] .neon-btn {
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    background: transparent;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+}
+body[data-section="landing"] .neon-btn::after { display: none !important; }
+body[data-section="landing"] .neon-btn:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+    box-shadow: 0 4px 12px rgba(31, 61, 92, 0.25) !important;
+    transform: translateY(-1px);
+}
+/* Filled = teal, the page's single AI accent (primary "Start free" CTA) */
+body[data-section="landing"] .neon-btn.btn-filled {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-white);
+}
+body[data-section="landing"] .neon-btn.btn-filled:hover {
+    background: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+    box-shadow: 0 4px 16px rgba(14, 124, 102, 0.3) !important;
+}
+/* The Subscribe button reads as navy so it doesn't twin the teal CTA */
+body[data-section="landing"] .landing-capture-btn.btn-filled {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+}
+body[data-section="landing"] .landing-capture-btn.btn-filled:hover {
+    background: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    box-shadow: 0 4px 16px rgba(31, 61, 92, 0.3) !important;
+}
+/* Keyboard focus must be visible on every landing button */
+body[data-section="landing"] .neon-btn:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* ===== AI hero — full-width, light, leads the page ===== */
+body[data-section="landing"] .landing-hero {
+    align-self: stretch;
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto var(--space-2xl);
+    text-align: center;
+    padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
+}
+body[data-section="landing"] .landing-hero-eyebrow {
+    display: inline-block;
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent) !important;
+    margin: 0 0 var(--space-md);
+}
+body[data-section="landing"] .landing-hero h1 {
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
+    color: var(--color-primary) !important;
+    font-size: clamp(2rem, 5vw, 3.25rem) !important;
+    font-weight: 700 !important;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    text-transform: none !important;
+    margin: 0 auto var(--space-md);
+    max-width: 680px;
+}
+body[data-section="landing"] .landing-hero-subhead {
+    color: var(--color-text) !important;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    line-height: 1.5;
+    max-width: 600px;
+    margin: 0 auto var(--space-xl);
+}
+body[data-section="landing"] .landing-hero-actions {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: var(--space-2xl);
+}
+
+/* ===== Unified email capture form (accessible by default) ===== */
+body[data-section="landing"] .landing-capture {
+    max-width: 540px;
+    margin: 0 auto;
+    text-align: left;
+}
+body[data-section="landing"] .landing-capture-label {
+    display: block;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    margin-bottom: var(--space-sm);
+}
+body[data-section="landing"] .landing-capture-label strong {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+body[data-section="landing"] .landing-capture-row {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+}
+body[data-section="landing"] .landing-capture input[type="email"] {
+    flex: 1 1 220px;
+    min-width: 0;
+    padding: 12px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif;
+    color: var(--color-text);
+    background: var(--color-white);
+    box-sizing: border-box;
+}
+body[data-section="landing"] .landing-capture input[type="email"]::placeholder {
+    color: var(--color-text-muted);
+}
+body[data-section="landing"] .landing-capture input[type="email"]:focus,
+body[data-section="landing"] .landing-capture input[type="email"]:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 1px;
+    border-color: var(--color-accent);
+}
+body[data-section="landing"] .landing-capture .neon-btn {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+body[data-section="landing"] .landing-capture .contact-status {
+    display: block;
+    margin-top: var(--space-sm);
+    font-size: 0.9rem;
+    min-height: 1.2em;
+}
+/* Status colors — teal for success, warm for the (rare) error */
+body[data-section="landing"] .contact-status.success { color: var(--color-accent); }
+body[data-section="landing"] .contact-status.error   { color: var(--color-warm); }
+
+/* ===== Slim capture band above the footer ===== */
+body[data-section="landing"] .landing-capture-footer {
+    align-self: stretch;
+    width: 100%;
+    max-width: 920px;
+    margin: var(--space-2xl) auto 0;
+    padding: var(--space-2xl) var(--space-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg, 12px);
+    box-sizing: border-box;
+}
+body[data-section="landing"] .landing-capture-slim {
+    text-align: center;
+}
+body[data-section="landing"] .landing-capture-slim .landing-capture-label {
+    text-align: center;
+}
+body[data-section="landing"] .landing-capture-slim .landing-capture-row {
+    justify-content: center;
+}

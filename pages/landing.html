@@ -1,26 +1,40 @@
-<!-- Landing Page — Accessibility-led front door (v5) -->
+<!-- Landing Page — AI-led front door (v6) -->
 
 <div class="landing-page">
-    <div class="landing-brand" data-animate="fade-up">
-        <h1><span class="brand-es">ES</span> Designs</h1>
-        <p class="landing-tagline">Accessibility and AI for higher education &mdash; built by an educator who spent 21 years inside it</p>
-    </div>
 
-    <!-- Four tiles — two business lines (Accessibility, AI) + two adjacent lines (Courses, VR) -->
+    <!-- AI hero — full-width, first thing seen -->
+    <section class="landing-hero" data-animate="fade-up" aria-labelledby="landingHeroTitle">
+        <p class="landing-hero-eyebrow">ES Designs &middot; AI in Higher Education</p>
+        <h1 id="landingHeroTitle">Most colleges are policing AI. We help you teach it.</h1>
+        <p class="landing-hero-subhead">Practical, evidence-based AI for higher ed &mdash; from a 21-year educator. Start free.</p>
+        <div class="landing-hero-actions">
+            <a href="https://courses.esdesigns.org/courses/zero-to-agent" target="_blank" rel="noopener"
+               class="neon-btn btn-filled" data-ga="free-course" data-ga-source="home-hero">Start the free AI course &rarr;</a>
+            <a href="#/ai" class="neon-btn">Explore the AI line &rarr;</a>
+        </div>
+
+        <!-- Unified email capture — Beehiiv (sender) + Supabase mirror, server-side -->
+        <form class="landing-capture" data-capture-endpoint="https://courses.esdesigns.org/api/subscribe" data-source="home-hero">
+            <span class="landing-capture-label" id="capDescHero">
+                Get <strong>The Planning Window</strong> &mdash; a short, practical note on AI &amp; accessibility in higher ed. No hype, no spam.
+            </span>
+            <div class="landing-capture-row">
+                <label for="capEmailHero" class="visually-hidden">Email address for The Planning Window newsletter</label>
+                <input id="capEmailHero" name="email" type="email" autocomplete="email"
+                       placeholder="you@college.edu" aria-describedby="capDescHero" required>
+                <button type="submit" class="neon-btn btn-filled landing-capture-btn">Subscribe &rarr;</button>
+            </div>
+            <span class="contact-status" role="status" aria-live="polite"></span>
+        </form>
+    </section>
+
+    <!-- Four tiles — AI line first, then the adjacent + accessibility lines -->
     <div class="landing-secondary" data-animate="fade-up">
-        <a href="#/education" class="landing-panel landing-panel-ed">
-            <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="3.7" r="1.6"/><path d="M4.5 7.5c2.4 1.1 4.9 1.6 7.5 1.6s5.1-.5 7.5-1.6"/><path d="M12 8.6V14"/><path d="M8.7 21l3.3-7 3.3 7"/></svg></div>
-            <h2>Higher Ed Title&nbsp;II Compliance</h2>
-            <p class="landing-panel-subtitle">Plan &middot; Assess &middot; Train &middot; Remediate &middot; Monitor</p>
-            <p>The integrated planning system for ADA Title&nbsp;II accessibility. Build your full compliance plan in 30 minutes &mdash; free &mdash; then audit, train, and remediate from one connected system.</p>
-            <span class="landing-panel-cta">Build your plan &rarr;</span>
-        </a>
-
         <a href="#/ai" class="landing-panel landing-panel-ai">
             <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l1.8 4.4 4.4 1.8-4.4 1.8L12 15.9l-1.8-4.4L5.8 9.7l4.4-1.8L12 3.5z"/><path d="M18.6 14.6l.75 1.9 1.9.75-1.9.75-.75 1.9-.75-1.9-1.9-.75 1.9-.75z"/></svg></div>
             <h2>AI in Higher Education</h2>
             <p class="landing-panel-subtitle">Teach with AI &mdash; don't police it</p>
-            <p>Most colleges are policing AI. We help you teach it. Self-paced courses for faculty and administrators, campus workshops, and a free AI tools guide &mdash; practical, not hype.</p>
+            <p>Self-paced courses for faculty and administrators, campus workshops, and a free AI tools guide &mdash; evidence-based, built for how teaching actually works.</p>
             <span class="landing-panel-cta">Explore the AI line &rarr;</span>
         </a>
 
@@ -32,6 +46,14 @@
             <span class="landing-panel-cta">Browse courses &rarr;</span>
         </a>
 
+        <a href="#/education" class="landing-panel landing-panel-ed">
+            <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="3.7" r="1.6"/><path d="M4.5 7.5c2.4 1.1 4.9 1.6 7.5 1.6s5.1-.5 7.5-1.6"/><path d="M12 8.6V14"/><path d="M8.7 21l3.3-7 3.3 7"/></svg></div>
+            <h2>Higher Ed Title&nbsp;II Compliance</h2>
+            <p class="landing-panel-subtitle">Plan &middot; Assess &middot; Train &middot; Remediate &middot; Monitor</p>
+            <p>The integrated planning system for ADA Title&nbsp;II accessibility. Build your full compliance plan in 30 minutes &mdash; free &mdash; then audit, train, and remediate from one connected system.</p>
+            <span class="landing-panel-cta">Build your plan &rarr;</span>
+        </a>
+
         <a href="#/vr" class="landing-panel landing-panel-secondary landing-panel-vr">
             <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6h44a6 6 0 0 1 6 6v16a6 6 0 0 1-6 6H42a4 4 0 0 1-3.2-1.6L34 26a2.5 2.5 0 0 0-4 0l-4.8 6.4A4 4 0 0 1 22 34H10a6 6 0 0 1-6-6V12a6 6 0 0 1 6-6Z"/><circle cx="18" cy="20" r="5"/><circle cx="46" cy="20" r="5"/></svg></div>
             <h2>VR Development</h2>
@@ -41,11 +63,11 @@
         </a>
     </div>
 
-    <!-- Five-step compliance system map -->
-<section class="system-map" aria-label="The five-step compliance system">
+    <!-- Five-step compliance system map — reframed as the back-end that funds the mission -->
+<section class="system-map" aria-label="The accessibility system">
     <div class="container">
-        <h2 class="system-map-title">One integrated system. Five connected products.</h2>
-        <p class="system-map-subtitle">Build your plan, assess your gaps, train your team, remediate the work, and monitor compliance &mdash; all from one connected vendor.</p>
+        <h2 class="system-map-title">The accessibility system that funds the mission</h2>
+        <p class="system-map-subtitle">Behind the free AI education is a full ADA Title&nbsp;II compliance system &mdash; plan, assess, train, remediate, and monitor, from one connected vendor. It&rsquo;s the work that funds the mission.</p>
         <ol class="system-map-grid">
             <li class="system-card">
                 <span class="system-card-num" aria-hidden="true">1</span>
@@ -90,6 +112,22 @@
         </ol>
     </div>
 </section>
+
+    <!-- Slim capture — one more chance before the footer -->
+    <section class="landing-capture-footer" aria-label="Newsletter signup">
+        <form class="landing-capture landing-capture-slim" data-capture-endpoint="https://courses.esdesigns.org/api/subscribe" data-source="home-footer">
+            <span class="landing-capture-label" id="capDescFooter">
+                One practical note every other week &mdash; <strong>The Planning Window</strong>, on AI &amp; accessibility in higher ed.
+            </span>
+            <div class="landing-capture-row">
+                <label for="capEmailFooter" class="visually-hidden">Email address for The Planning Window newsletter</label>
+                <input id="capEmailFooter" name="email" type="email" autocomplete="email"
+                       placeholder="you@college.edu" aria-describedby="capDescFooter" required>
+                <button type="submit" class="neon-btn btn-filled landing-capture-btn">Subscribe &rarr;</button>
+            </div>
+            <span class="contact-status" role="status" aria-live="polite"></span>
+        </form>
+    </section>
 
     <div class="landing-footer" data-animate="fade-up">
         <a href="#/about">About</a>
