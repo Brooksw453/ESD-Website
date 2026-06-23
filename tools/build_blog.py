@@ -35,7 +35,7 @@ SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 # Default in-article CTA. Appended to every post unless front matter sets
-# `cta: false` — used for newsletter-style posts ("The Planning Window")
+# `cta: false` — used for newsletter-style posts ("The Learning Curve")
 # that must honor the v7 1-in-5 / no-pitch rule.
 CTA_HTML = (
     '        <aside class="blog-cta" aria-labelledby="blog-cta-title">\n'
@@ -53,7 +53,7 @@ CTA_HTML = (
 # Newsletter provider: "none" (placeholder), "unified", "convertkit", or
 # "beehiiv". "unified" posts to the shared courses.esdesigns.org/api/subscribe
 # endpoint (Beehiiv + Supabase mirror) via the self-hosted /js/blog-subscribe.js
-# handler — so blog signups land on the single Planning Window list AND mirror
+# handler — so blog signups land on the single Learning Curve list AND mirror
 # to Supabase, exactly like the home / AI / education capture points.
 # Switching providers is a one-line change here + a rebuild.
 # ---------------------------------------------------------------------------
@@ -226,8 +226,8 @@ def newsletter_html():
         # mirror). No third-party embed; the Beehiiv key stays server-side.
         return (
             '        <section class="blog-newsletter" aria-labelledby="nl-t">\n'
-            '            <h2 id="nl-t">The Planning Window</h2>\n'
-            '            <p>A short bi-weekly note for higher-ed accessibility leads: one inside observation, one practical tip, one useful link. No pitch.</p>\n'
+            '            <h2 id="nl-t">The Learning Curve</h2>\n'
+            '            <p>A short bi-weekly note for people who teach in higher ed: one field note, one practical takeaway, one useful link. No hype.</p>\n'
             '            <form class="blog-newsletter-form" data-capture-endpoint="https://courses.esdesigns.org/api/subscribe" data-source="blog" novalidate>\n'
             '                <label class="sr-only" for="nl-email">Email address</label>\n'
             '                <input id="nl-email" type="email" name="email" autocomplete="email" placeholder="you@university.edu" aria-label="Email address" required>\n'
@@ -242,8 +242,8 @@ def newsletter_html():
     if NEWSLETTER_PROVIDER == "convertkit":
         return (
             '        <section class="blog-newsletter" aria-labelledby="nl-t">\n'
-            '            <h2 id="nl-t">The Planning Window</h2>\n'
-            '            <p>One inside observation, one practical tip, one useful link. Bi-weekly. No pitch.</p>\n'
+            '            <h2 id="nl-t">The Learning Curve</h2>\n'
+            '            <p>One field note, one practical takeaway, one useful link. Bi-weekly. No hype.</p>\n'
             '            <div class="blog-newsletter-embed">\n'
             '                <!-- TODO: paste ConvertKit/Kit embed; set data-uid -->\n'
             '                <script async data-uid="REPLACE_ME" src="https://f.convertkit.com/REPLACE_ME/REPLACE_ME.js"></script>\n'
@@ -252,8 +252,8 @@ def newsletter_html():
         )
     return (
         '        <section class="blog-newsletter" aria-labelledby="nl-t">\n'
-        '            <h2 id="nl-t">The Planning Window</h2>\n'
-        '            <p>A short bi-weekly note for higher-ed accessibility leads: one inside observation, one practical tip, one useful link. No pitch.</p>\n'
+        '            <h2 id="nl-t">The Learning Curve</h2>\n'
+        '            <p>A short bi-weekly note for people who teach in higher ed: one field note, one practical takeaway, one useful link. No hype.</p>\n'
         '            <div class="blog-newsletter-embed">\n'
         '                <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="3d441e77-9763-4b52-80b9-f9e39062fd90"></script>\n'
         "            </div>\n"

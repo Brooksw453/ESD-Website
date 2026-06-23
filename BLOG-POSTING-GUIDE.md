@@ -16,11 +16,11 @@ Consistency beats volume. A realistic, sustainable rhythm:
 
 | Type | Cadence | Length | Pitch? |
 | --- | --- | --- | --- |
-| **The Planning Window** (newsletter) | Every other Thursday | 400–600 words | No pitch (issue 4, 8, 12… may add one soft line) |
+| **The Learning Curve** (newsletter) | Every other Thursday | 400–600 words | No pitch (issue 4, 8, 12… may add one soft line) |
 | **SEO post** (evergreen, search-targeted) | 1–2 per month | 700–1,200 words | One soft Roadmap Tool CTA (automatic) |
 
 You do not need to hit both every week. If a month is busy, ship the two
-Planning Window issues and skip the SEO post. Missing a beat is fine; going
+Learning Curve issues and skip the SEO post. Missing a beat is fine; going
 quiet for two months is the thing to avoid.
 
 ---
@@ -32,7 +32,7 @@ Evergreen, keyword-led, ends with the automatic Roadmap Tool CTA. This is the
 top-of-funnel content. Examples already live: the WCAG 2.2 plan guide, the
 Title II deadline explainer, the "documents are 80%" piece.
 
-**B. The Planning Window issue** — your bi-weekly note. Timely, personal, and
+**B. The Learning Curve issue** — your bi-weekly note. Timely, personal, and
 **no pitch**. Format (from the v7 strategy):
 
 - One inside observation (200–300 words) — something from a recent call or
@@ -44,7 +44,7 @@ Title II deadline explainer, the "documents are 80%" piece.
 - Sign off: "— Brooks Winchell. 21 years inside higher education, including a
   long run at Quinsigamond Community College."
 
-Planning Window posts are set to `cta: false` so the system never pitches on
+Learning Curve posts are set to `cta: false` so the system never pitches on
 them. After it's published, Claude gives you the clean text to paste into
 Beehiiv and send.
 
@@ -60,13 +60,13 @@ Beehiiv and send.
 - Lead with the practical problem. No throat-clearing.
 - One soft CTA at most on SEO posts (handled automatically). The 1-in-5 / no
   pitch discipline is enforced by `cta: false` on newsletter posts — don't
-  add product pitches into Planning Window body copy.
+  add product pitches into Learning Curve body copy.
 
 ---
 
 ## 4. How to brief Claude (copy-paste template)
 
-> I want to publish a **[SEO post / Planning Window issue]**.
+> I want to publish a **[SEO post / Learning Curve issue]**.
 >
 > **Topic / angle:** …
 > **Key points I want to make:** …
@@ -74,7 +74,7 @@ Beehiiv and send.
 > **Target keyword** (SEO posts only): …
 >
 > Draft it in our brand voice per BLOG-POSTING-GUIDE.md, build, verify, and
-> deploy. For a Planning Window issue, also give me the paste-ready Beehiiv
+> deploy. For a Learning Curve issue, also give me the paste-ready Beehiiv
 > text and a subject line.
 
 You can also just paste a finished draft and say "polish, format, and
@@ -90,7 +90,7 @@ publish this." Either works.
 3. Verify: one canonical/title/description, valid JSON-LD, no banned words,
    accessible structure, the form embed present.
 4. Commit and push to `main` → live on esdesigns.org in ~1–2 minutes.
-5. For Planning Window issues: hand you the Beehiiv-ready text + subject.
+5. For Learning Curve issues: hand you the Beehiiv-ready text + subject.
 
 Then you: open the live URL to eyeball it, and (for newsletters) paste into
 Beehiiv and send on schedule.
@@ -107,7 +107,7 @@ description: 150–160 chars, keyword near the front
 date: YYYY-MM-DD
 updated: YYYY-MM-DD            # optional
 author: Brooks Winchell        # optional (default)
-cta: false                     # optional; set false for Planning Window
+cta: false                     # optional; set false for Learning Curve
 draft: true                    # optional; true = written but not published
 excerpt: One-line teaser for the blog index   # optional
 ---

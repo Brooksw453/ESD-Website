@@ -72,7 +72,7 @@ them; edit the `.md` or templates and rebuild.
 If SPA routes change, update `STATIC_ROUTES` in `tools/build_blog.py` so the
 regenerated sitemap stays correct.
 
-## Newsletter ("The Planning Window")
+## Newsletter ("The Learning Curve")
 
 `NEWSLETTER_PROVIDER` at the top of `tools/build_blog.py` is `"none"` by
 default and renders a placeholder card. When the ConvertKit/Kit or Beehiiv
