@@ -104,14 +104,15 @@ class Router {
             landing: {
                 brand: 'ES Designs',
                 brandHref: '#/',
-                // Top nav stays focused on the compliance system. VR is reached
-                // from the landing "VR Development" panel and the footer.
+                // Top nav: the two product lines (Accessibility + AI), Courses,
+                // VR Development, then About. "Free AI course" was dropped as
+                // redundant with the AI course funnel in the hero.
                 links: [
                     { href: '#/education', label: 'Accessibility' },
                     { href: '#/ai', label: 'AI in Higher Ed' },
                     { href: '#/education/courses', label: 'Courses' },
+                    { href: '#/vr', label: 'VR Development' },
                     { href: '#/about', label: 'About' },
-                    { href: 'https://courses.esdesigns.org/courses/zero-to-agent', label: 'Free AI course', external: true },
                 ]
             },
             ee: {
@@ -141,11 +142,12 @@ class Router {
             shared: {
                 brand: 'ES Designs',
                 brandHref: '#/',
-                // Compliance-focused top nav (matches landing). VR via footer.
+                // Top nav mirrors landing: Accessibility, AI, Courses, VR, About.
                 links: [
                     { href: '#/education', label: 'Accessibility' },
                     { href: '#/ai', label: 'AI in Higher Ed' },
                     { href: '#/education/courses', label: 'Courses' },
+                    { href: '#/vr', label: 'VR Development' },
                     { href: '#/about', label: 'About' },
                 ]
             }
