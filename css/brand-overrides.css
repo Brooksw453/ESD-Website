@@ -1425,6 +1425,55 @@ body[data-section="landing"] .landing-hero-actions {
     margin-bottom: var(--space-2xl);
 }
 
+/* ===== Hero course funnel — labeled two-button group + explore link ===== */
+body[data-section="landing"] .landing-hero-courses {
+    margin-bottom: var(--space-2xl);
+}
+body[data-section="landing"] .landing-hero-courses-label {
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 0 0 var(--space-md);
+}
+/* reuse .landing-hero-actions for the flex row; drop its own bottom margin
+   since the wrapper now owns spacing */
+body[data-section="landing"] .landing-hero-courses .landing-hero-actions {
+    margin-bottom: var(--space-md);
+}
+body[data-section="landing"] .landing-course-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    max-width: 260px;
+}
+/* match the two buttons to equal width so they read as a pair */
+body[data-section="landing"] .landing-course-cta .neon-btn {
+    width: 100%;
+    justify-content: center;
+}
+body[data-section="landing"] .landing-course-cta-note {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--color-text-muted);
+}
+/* tertiary "browse everything" link — quieter than the buttons */
+body[data-section="landing"] .landing-hero-explore {
+    display: inline-block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    text-decoration: none;
+}
+body[data-section="landing"] .landing-hero-explore:hover {
+    text-decoration: underline;
+}
+body[data-section="landing"] .landing-hero-explore:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
 /* ===== Unified email capture form (accessible by default) ===== */
 body[data-section="landing"] .landing-capture {
     max-width: 540px;
