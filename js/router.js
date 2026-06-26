@@ -126,13 +126,14 @@ class Router {
             ed: {
                 brand: '<span class="nav-brand-parent">ES Designs</span> <span class="nav-brand-sep">&rsaquo;</span> Education',
                 brandHref: '#/education',
+                // Slim nav: the Plan->Monitor step rail (system-strip, on the hub
+                // and every product page) already handles product wayfinding, so
+                // the products group under "Accessibility" (the #/education hub).
+                // The footer keeps the full product index.
                 links: [
                     { href: '#/', label: 'Home' },
                     { href: '#/ai', label: 'AI in Higher Ed' },
-                    { href: '#/education/roadmap-tool', label: 'Roadmap Tool' },
-                    { href: '#/education/audit', label: 'Audit Tool' },
-                    { href: '#/education/wcag-course', label: 'WCAG Courses' },
-                    { href: '#/education/ally-pro', label: 'Document Ally Pro' },
+                    { href: '#/education', label: 'Accessibility' },
                     { href: '#/education/courses', label: 'Adaptive Learning' },
                     { href: '#/about', label: 'About' },
                 ]
