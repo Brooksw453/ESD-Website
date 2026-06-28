@@ -29,6 +29,10 @@
     // on close (spec says return focus to the element that invoked the dialog).
     let lastTrigger = null;
 
+    // Anti-bot signals: a real person opens the panel before submitting.
+    let hasOpened = false;
+    let openedAt = 0;
+
     // Selectors for anything a keyboard user can land focus on inside the panel.
     const FOCUSABLE = [
         'a[href]',
@@ -48,6 +52,8 @@
         if (isOpen) return;
         lastTrigger = document.activeElement instanceof HTMLElement ? document.activeElement : fab;
         isOpen = true;
+        hasOpened = true;
+        openedAt = Date.now();
         widget.classList.add('open');
         fab.setAttribute('aria-expanded', 'true');
         panel.setAttribute('aria-hidden', 'false');
@@ -114,6 +120,21 @@
     if (form) {
         const supabaseTable = form.getAttribute('data-supabase-table');
 
+        // Anti-bot: add an off-screen honeypot. The existing _honey field is
+        // display:none, which the current spam bot skips; an off-screen field
+        // catches more of them. The `_` prefix keeps it out of the data sent
+        // to Supabase.
+        if (!form.querySelector('input[name="_hp"]')) {
+            const hp = document.createElement('input');
+            hp.type = 'text';
+            hp.name = '_hp';
+            hp.tabIndex = -1;
+            hp.autocomplete = 'off';
+            hp.setAttribute('aria-hidden', 'true');
+            hp.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0;';
+            form.appendChild(hp);
+        }
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = form.querySelector('button[type="submit"]');
@@ -121,10 +142,13 @@
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
 
-            // Honeypot — if a bot filled the hidden _honey field, fake success
-            // and don't store anything.
+            // Honeypot + behaviour trap. A real person opens the panel and takes
+            // a moment to type. If a bot filled either honeypot, never opened the
+            // panel, or submitted almost instantly, fake success and store nothing.
             const honey = form.querySelector('input[name="_honey"]');
-            if (honey && honey.value) {
+            const honey2 = form.querySelector('input[name="_hp"]');
+            if ((honey && honey.value) || (honey2 && honey2.value) ||
+                !hasOpened || (Date.now() - openedAt < 1200)) {
                 formStatus.textContent = 'Message sent! We\'ll get back to you soon.';
                 formStatus.className = 'contact-form-status success';
                 form.reset();

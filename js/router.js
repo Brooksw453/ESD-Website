@@ -468,10 +468,44 @@ class Router {
                 const supabaseTable = form.getAttribute('data-supabase-table');
                 const captureEndpoint = form.getAttribute('data-capture-endpoint');
 
+                // --- Anti-bot: off-screen honeypot + submit-timing trap ---
+                // The `_` prefix means this field is auto-excluded from the data
+                // sent to Supabase (see the `!key.startsWith('_')` filter below),
+                // so it needs no DB column. Positioned off-screen rather than
+                // display:none because the spam bot hitting these forms skips
+                // display:none fields.
+                if (!form.querySelector('input[name="_hp"]')) {
+                    const hp = document.createElement('input');
+                    hp.type = 'text';
+                    hp.name = '_hp';
+                    hp.tabIndex = -1;
+                    hp.autocomplete = 'off';
+                    hp.setAttribute('aria-hidden', 'true');
+                    hp.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0;';
+                    form.appendChild(hp);
+                }
+                const boundAt = Date.now();
+
                 form.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     const btn = form.querySelector('button[type="submit"]');
                     const orig = btn.textContent;
+
+                    // Bot check: honeypot filled, or submitted implausibly fast
+                    // (a person needs more than ~2s to fill and submit). Fake a
+                    // success so the bot moves on, and store nothing.
+                    const hpField = form.querySelector('input[name="_hp"]');
+                    if ((hpField && hpField.value) || (Date.now() - boundAt < 2000)) {
+                        if (status) {
+                            status.textContent = captureEndpoint
+                                ? "You're on the list — check your inbox."
+                                : "Sent! We'll be in touch soon.";
+                            status.className = 'contact-status success';
+                        }
+                        form.reset();
+                        return;
+                    }
+
                     btn.textContent = captureEndpoint ? 'Subscribing…' : 'Sending...';
                     btn.disabled = true;
                     if (status) { status.textContent = ''; status.className = 'contact-status'; }
