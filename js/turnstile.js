@@ -20,7 +20,7 @@
     'use strict';
 
     // 🔑 Paste your Cloudflare Turnstile SITE key here to activate (public key).
-    const SITE_KEY = '';
+    const SITE_KEY = '0x4AAAAAADs6Js0C_Z7Omft3';
 
     const SCRIPT_SRC =
         'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
