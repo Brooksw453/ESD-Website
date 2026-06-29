@@ -4,7 +4,7 @@
    network-first for pages
    ============================================ */
 
-const CACHE_NAME = 'es-designs-v30';
+const CACHE_NAME = 'es-designs-v31';
 const CORE_ASSETS = [
     '/',
     '/index.html',
@@ -23,6 +23,7 @@ const CORE_ASSETS = [
     '/js/particles.js',
     '/js/scroll-animations.js',
     '/js/contact-widget.js',
+    '/js/turnstile.js',
     '/js/analytics.js',
     '/pages/landing.html',
     '/pages/elliptical.html',
