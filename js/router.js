@@ -486,6 +486,9 @@ class Router {
                 }
                 const boundAt = Date.now();
 
+                // Show a Turnstile widget when configured (inert otherwise).
+                if (window.esdTurnstile) window.esdTurnstile.mount(form);
+
                 form.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     const btn = form.querySelector('button[type="submit"]');
@@ -510,6 +513,21 @@ class Router {
                     btn.disabled = true;
                     if (status) { status.textContent = ''; status.className = 'contact-status'; }
 
+                    // Turnstile (only when a site key is configured). The token is
+                    // verified server-side by the courses.esdesigns.org endpoints —
+                    // a token alone is not a security control.
+                    const turnstileOn = !!(window.esdTurnstile && window.esdTurnstile.enabled());
+                    const captchaToken = turnstileOn ? window.esdTurnstile.getToken(form) : '';
+                    if (turnstileOn && !captchaToken) {
+                        if (status) {
+                            status.textContent = 'Please complete the verification check, then submit again.';
+                            status.className = 'contact-status error';
+                        }
+                        btn.textContent = orig;
+                        btn.disabled = false;
+                        return;
+                    }
+
                     let ok = false;
                     let alreadyOnList = false;
 
@@ -522,15 +540,15 @@ class Router {
                             const res = await fetch(captureEndpoint, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ email: form.email.value, source })
+                                body: JSON.stringify({ email: form.email.value, source, captchaToken })
                             });
                             ok = res.ok;
                         } catch { ok = false; }
                         if (ok && typeof gtag === 'function') {
                             gtag('event', 'email_capture', { source });
                         }
-                    } else if (supabaseTable && window.supabaseClient) {
-                        // Supabase submission — collect form data as plain object
+                    } else if (supabaseTable) {
+                        // Collect form data as a plain object (skip _ control fields).
                         const data = {};
                         new FormData(form).forEach((val, key) => {
                             if (!key.startsWith('_')) data[key] = val;
@@ -539,16 +557,33 @@ class Router {
                         form.querySelectorAll('input[type="checkbox"]').forEach(cb => {
                             data[cb.name] = cb.checked;
                         });
-                        const result = await window.supabaseClient.insertRecord(supabaseTable, data);
-                        ok = result.success;
-                        // An email already on the waitlist is a unique-constraint
-                        // violation (Postgres 23505), not a real failure — the
-                        // visitor is already in, so treat it as success.
-                        if (!ok && supabaseTable === 'waitlist' &&
-                            (result.code === '23505' ||
-                             /duplicate key|already exists/i.test(result.error || ''))) {
-                            ok = true;
-                            alreadyOnList = true;
+
+                        if (turnstileOn) {
+                            // Verified server path — the endpoint checks the Turnstile
+                            // token before inserting, so bots posting straight to
+                            // Supabase can't get through.
+                            try {
+                                const res = await fetch('https://courses.esdesigns.org/api/form-submit', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ table: supabaseTable, data, captchaToken })
+                                });
+                                ok = res.ok;
+                            } catch { ok = false; }
+                        } else if (window.supabaseClient) {
+                            // Direct Supabase insert (current behaviour until Turnstile
+                            // is configured). Honeypot + timing trap still apply above.
+                            const result = await window.supabaseClient.insertRecord(supabaseTable, data);
+                            ok = result.success;
+                            // An email already on the waitlist is a unique-constraint
+                            // violation (Postgres 23505), not a real failure — the
+                            // visitor is already in, so treat it as success.
+                            if (!ok && supabaseTable === 'waitlist' &&
+                                (result.code === '23505' ||
+                                 /duplicate key|already exists/i.test(result.error || ''))) {
+                                ok = true;
+                                alreadyOnList = true;
+                            }
                         }
                     } else {
                         // FormSubmit fallback
@@ -557,6 +592,10 @@ class Router {
                             ok = res.ok;
                         } catch { ok = false; }
                     }
+
+                    // Turnstile tokens are single-use — drop ours so the next submit
+                    // gets a fresh one (the managed widget auto-refreshes).
+                    if (turnstileOn && window.esdTurnstile) window.esdTurnstile.reset(form);
 
                     if (ok) {
                         let successMsg;

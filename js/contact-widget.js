@@ -135,6 +135,9 @@
             form.appendChild(hp);
         }
 
+        // Show a Turnstile widget when configured (inert otherwise).
+        if (window.esdTurnstile) window.esdTurnstile.mount(form);
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = form.querySelector('button[type="submit"]');
@@ -157,15 +160,40 @@
                 return;
             }
 
+            // Turnstile (only when a site key is configured). The token is
+            // verified server-side — a token alone is not a security control.
+            const turnstileOn = !!(window.esdTurnstile && window.esdTurnstile.enabled());
+            const captchaToken = turnstileOn ? window.esdTurnstile.getToken(form) : '';
+            if (turnstileOn && !captchaToken) {
+                formStatus.textContent = 'Please complete the verification check, then send again.';
+                formStatus.className = 'contact-form-status error';
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                return;
+            }
+
+            // Collect form fields as a plain object, excluding `_`-prefixed
+            // control/honeypot fields.
+            const data = {};
+            new FormData(form).forEach((val, key) => {
+                if (!key.startsWith('_')) data[key] = val;
+            });
+
             let ok = false;
 
-            if (supabaseTable && window.supabaseClient) {
-                // Collect form fields as a plain object, excluding FormSubmit's
-                // own `_`-prefixed control fields.
-                const data = {};
-                new FormData(form).forEach((val, key) => {
-                    if (!key.startsWith('_')) data[key] = val;
-                });
+            if (turnstileOn) {
+                // Verified server path — the endpoint checks the Turnstile token
+                // before inserting, so bots posting straight to Supabase can't pass.
+                try {
+                    const res = await fetch('https://courses.esdesigns.org/api/form-submit', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ table: supabaseTable || 'messages', data, captchaToken })
+                    });
+                    ok = res.ok;
+                } catch { ok = false; }
+            } else if (supabaseTable && window.supabaseClient) {
+                // Direct Supabase insert (current behaviour until Turnstile is set).
                 const result = await window.supabaseClient.insertRecord(supabaseTable, data);
                 ok = result.success;
             } else {
@@ -181,6 +209,8 @@
                     ok = false;
                 }
             }
+
+            if (turnstileOn && window.esdTurnstile) window.esdTurnstile.reset(form);
 
             if (ok) {
                 formStatus.textContent = 'Message sent! We\'ll get back to you soon.';
