@@ -6,11 +6,12 @@
         <p class="label" data-animate="fade-up">Legal</p>
         <h1 class="neon-text" data-animate="fade-up">Privacy Policy</h1>
         <p data-animate="fade-up" style="max-width: 640px; margin: var(--space-md) auto 0;">
-            How ES Designs handles your data across our compliance planning, audit, document remediation, and training tools.
+            How ES Designs handles your data across our compliance planning, audit, document remediation,
+            training, and immersive learning tools.
         </p>
         <p data-animate="fade-up" style="margin-top: var(--space-sm);">
             <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">
-                Last Updated: March 8, 2026
+                Last Updated: July 29, 2026
             </span>
         </p>
     </div>
@@ -28,27 +29,103 @@
                     <p>
                         ES Designs (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) operates the website
                         <a href="https://esdesigns.org" style="color: var(--color-accent);">esdesigns.org</a> and develops compliance planning,
-                        accessibility audit, document remediation, and training tools for higher education. We also maintain a small set of
-                        VR applications for the Meta Quest platform. This privacy policy explains how all of our applications handle user data.
+                        accessibility audit, document remediation, and training tools for higher education. We also
+                        develop applications for the Meta Quest platform. This privacy policy explains how each of our
+                        applications handles user data.
                     </p>
                     <p>This policy applies to the following applications:</p>
                     <ul>
+                        <li><strong>Vantura</strong> &mdash; A 360 video platform for higher education and CTE, made up of a Quest app and an instructor web portal</li>
                         <li><strong>Elliptical Explorer</strong> &mdash; A VR fitness and exploration game</li>
                         <li><strong>Anatomy &amp; Physiology Lab</strong> &mdash; An immersive VR educational experience</li>
                     </ul>
                     <p>
-                        We are committed to transparency. Our applications are designed with privacy in mind and collect
-                        <span class="privacy-highlight">minimal data that never leaves your device</span>.
+                        <span class="privacy-highlight">These applications differ significantly in how they handle data.</span>
+                        Elliptical Explorer and Anatomy &amp; Physiology Lab run entirely offline and collect nothing.
+                        Vantura is an account-based service that a school uses to deliver its own video to its own
+                        students, so it necessarily stores account and usage information. Each is described separately
+                        below. We never sell personal information, and we never use it for advertising.
                     </p>
                 </div>
 
-                <!-- 2. Information We Collect -->
+                <!-- 2. Vantura -->
                 <div class="privacy-section">
-                    <h2>2. Information We Collect</h2>
+                    <h2>2. Vantura</h2>
                     <p>
-                        <span class="privacy-highlight">We do not collect personal information.</span>
-                        Our applications do not require user accounts, login, registration, email addresses, or any
-                        personally identifiable information.
+                        Vantura lets faculty upload 360 videos they have filmed and deliver them to Quest headsets their
+                        institution already owns. It requires an account, and it communicates with our servers. This
+                        section describes exactly what that involves.
+                    </p>
+
+                    <span class="privacy-app-name">Account information</span>
+                    <p>
+                        Signing in to the Vantura portal or the Quest app requires an ES Designs account. We store your
+                        email address, an account identifier, and your role (student, instructor, or administrator).
+                        Authentication is handled by Supabase. We do not store your password; it is held by our
+                        authentication provider in hashed form and is never visible to us.
+                    </p>
+
+                    <span class="privacy-app-name">Classes and enrollment</span>
+                    <p>
+                        Instructors create classes, and students join them with a short join code. We store which
+                        classes exist, who teaches them, who is enrolled, and when they enrolled. This is what
+                        determines which videos a given headset is allowed to download.
+                    </p>
+
+                    <span class="privacy-app-name">Headset information</span>
+                    <p>
+                        When a headset is paired to an account, the Vantura app reports information about that headset
+                        so an instructor can confirm a cart is ready before class:
+                    </p>
+                    <ul>
+                        <li>A device identifier generated by the app</li>
+                        <li>The headset model (for example, &ldquo;Oculus Quest 3&rdquo;)</li>
+                        <li>The installed app version</li>
+                        <li>Available free storage space on the headset</li>
+                        <li>Which lesson videos are currently downloaded, their size, and when they downloaded</li>
+                    </ul>
+                    <p>
+                        We do not collect headset serial numbers, advertising identifiers, or any Meta account
+                        information.
+                    </p>
+
+                    <span class="privacy-app-name">Viewing activity</span>
+                    <p>
+                        When a video is watched in the Vantura app, we record a session containing which video was
+                        watched, the class it belongs to, when viewing started and ended, how long it was actually
+                        playing, the headset model, and the app version. Time spent paused is excluded from the
+                        recorded duration.
+                    </p>
+                    <p>
+                        <span class="privacy-highlight">This activity is tied to the signed-in account, and an instructor can see it for their own class.</span>
+                        It exists so faculty can tell whether students completed an assigned lesson. It is not used for
+                        profiling, advertising, or any purpose beyond reporting to the instructor and the institution.
+                    </p>
+
+                    <span class="privacy-app-name">Video content</span>
+                    <p>
+                        Videos uploaded by faculty are stored in Cloudflare R2 object storage, along with a title,
+                        description, and technical details such as duration, resolution, and codec. Access is granted
+                        through short-lived signed links issued only to accounts enrolled in the relevant class. The
+                        institution owns this content; we host and deliver it on the institution&rsquo;s behalf.
+                    </p>
+
+                    <span class="privacy-app-name">Stored on the headset</span>
+                    <p>
+                        Vantura is download-first, so lessons play without a network connection. Downloaded video files
+                        and a copy of the class lesson list are stored in the app&rsquo;s private storage on the headset,
+                        along with the sign-in tokens that keep you logged in. Signing out or uninstalling the app
+                        removes them from the device.
+                    </p>
+                </div>
+
+                <!-- 3. Elliptical Explorer and Anatomy & Physiology Lab -->
+                <div class="privacy-section">
+                    <h2>3. Elliptical Explorer and Anatomy &amp; Physiology Lab</h2>
+                    <p>
+                        <span class="privacy-highlight">These two applications collect no personal information.</span>
+                        They require no account, login, registration, or email address, they make no network requests,
+                        and they do not communicate with any external server, API, or third-party service.
                     </p>
 
                     <span class="privacy-app-name">Elliptical Explorer</span>
@@ -73,31 +150,40 @@
                     </p>
                 </div>
 
-                <!-- 3. Information We Do NOT Collect -->
+                <!-- 4. Information We Do Not Collect -->
                 <div class="privacy-section">
-                    <h2>3. Information We Do Not Collect</h2>
-                    <p>For full transparency, our applications do <strong>not</strong> collect any of the following:</p>
+                    <h2>4. Information We Do Not Collect</h2>
+                    <p>For full transparency, none of our applications collect any of the following:</p>
                     <ul>
-                        <li>Analytics, usage tracking, or telemetry</li>
-                        <li>Crash reports or diagnostic data</li>
                         <li>Location or GPS data</li>
-                        <li>Personal information (names, emails, phone numbers)</li>
-                        <li>Financial or payment information</li>
-                        <li>Advertising identifiers</li>
+                        <li>Financial or payment information (billing, where applicable, is handled by our payment processor and never reaches our servers)</li>
+                        <li>Advertising identifiers, or any data used for advertising</li>
                         <li>Social media data</li>
                         <li>Microphone or camera recordings</li>
-                        <li>Biometric data beyond what is described in Device Permissions below</li>
+                        <li>Eye, face, or body tracking data, or any other biometric data</li>
+                        <li>Contacts, calendars, or files outside the application</li>
                     </ul>
+                    <p>
+                        We do not sell personal information, and we do not share it with third parties for their own
+                        marketing purposes.
+                    </p>
                 </div>
 
-                <!-- 4. Device Permissions -->
+                <!-- 5. Device Permissions -->
                 <div class="privacy-section">
-                    <h2>4. Device Permissions</h2>
+                    <h2>5. Device Permissions</h2>
                     <p>
                         Our apps request certain VR hardware permissions <strong>solely for functionality</strong>,
-                        not for data collection. All sensor data is processed locally in real-time and is never
+                        not for data collection. Sensor data is processed locally in real time and is never
                         recorded, stored, or transmitted.
                     </p>
+
+                    <span class="privacy-app-name">Vantura</span>
+                    <ul>
+                        <li><strong>VR Head Tracking</strong> &mdash; Required to display 360 video, so the view follows where you look. Processed locally in real time.</li>
+                        <li><strong>Hand Tracking</strong> &mdash; Lets you operate the menus with your hands instead of controllers. Processed locally; hand data is never recorded or transmitted.</li>
+                        <li><strong>Network Access</strong> &mdash; Used to sign in, download assigned lesson videos, and report class readiness and viewing activity as described above.</li>
+                    </ul>
 
                     <span class="privacy-app-name">Elliptical Explorer</span>
                     <ul>
@@ -109,69 +195,123 @@
                     <span class="privacy-app-name">Anatomy &amp; Physiology Lab</span>
                     <ul>
                         <li><strong>Hand Tracking</strong> &mdash; Enables natural hand interactions with 3D anatomy models and UI elements. Processed locally.</li>
-                        <li><strong>Eye Tracking</strong> &mdash; Used for gaze-based interaction with educational content. Processed locally.</li>
+                        <li><strong>Eye Tracking</strong> &mdash; Used for gaze-based interaction with educational content. Processed locally; gaze data is never recorded or transmitted.</li>
                         <li><strong>Passthrough</strong> &mdash; Blends the real-world environment with virtual content for mixed-reality experiences. Video data never leaves the device.</li>
                     </ul>
                 </div>
 
-                <!-- 5. Third-Party Services -->
+                <!-- 6. Student Data and Institutional Use -->
                 <div class="privacy-section">
-                    <h2>5. Third-Party Services</h2>
+                    <h2>6. Student Data and Institutional Use</h2>
                     <p>
-                        Our applications are distributed through the <strong>Meta Quest Store</strong>. The Meta Quest
-                        platform itself may collect certain data as part of its operating system and store services
-                        (such as app install events and platform telemetry). This data collection is controlled by Meta,
-                        not by our applications.
+                        When an institution uses Vantura with enrolled students, the account, enrollment, and viewing
+                        records described in Section 2 may constitute education records under the Family Educational
+                        Rights and Privacy Act (FERPA) and comparable state laws.
                     </p>
                     <p>
-                        Please refer to
-                        <a href="https://www.meta.com/legal/privacy-policy/" style="color: var(--neon-cyan);" target="_blank" rel="noopener">Meta&rsquo;s Privacy Policy</a>
+                        <span class="privacy-highlight">The institution controls those records.</span> We process them
+                        only to provide the service to that institution, under its direction. We do not use student
+                        data to build advertising profiles, to train machine learning models, or for any purpose
+                        other than operating Vantura for the school. An institution may request export or deletion of
+                        its data at any time, and we will act on that request.
+                    </p>
+                    <p>
+                        Institutions that require a written data protection agreement or student data privacy addendum
+                        should contact us using the details below.
+                    </p>
+                </div>
+
+                <!-- 7. Third-Party Services -->
+                <div class="privacy-section">
+                    <h2>7. Third-Party Services</h2>
+                    <p>
+                        Elliptical Explorer and Anatomy &amp; Physiology Lab use no third-party services of any kind.
+                    </p>
+                    <p>Vantura relies on the following providers to operate:</p>
+                    <ul>
+                        <li><strong>Supabase</strong> &mdash; Authentication, database, and application logic</li>
+                        <li><strong>Cloudflare R2</strong> &mdash; Storage and delivery of uploaded video files</li>
+                        <li><strong>Cloudflare Turnstile</strong> &mdash; Bot protection on portal sign-in</li>
+                        <li><strong>Vercel</strong> &mdash; Hosting for the instructor web portal</li>
+                    </ul>
+                    <p>
+                        These providers process data on our behalf in order to run the service. They are not permitted
+                        to use it for their own purposes.
+                    </p>
+                    <p>
+                        Our Quest applications are distributed through the <strong>Meta Horizon Store</strong>. The Meta
+                        platform itself may collect certain data as part of its operating system and store services,
+                        such as app install events and platform telemetry. That collection is controlled by Meta, not by
+                        our applications. Please refer to
+                        <a href="https://www.meta.com/legal/privacy-policy/" style="color: var(--color-accent);" target="_blank" rel="noopener">Meta&rsquo;s Privacy Policy</a>
                         for details on their data practices.
                     </p>
+                </div>
+
+                <!-- 8. Children's Privacy -->
+                <div class="privacy-section">
+                    <h2>8. Children&rsquo;s Privacy</h2>
                     <p>
-                        <span class="privacy-highlight">Our applications themselves make no network requests</span>
-                        and do not communicate with any external servers, APIs, or third-party services.
+                        Our applications are intended for higher education, career and technical education, and adult
+                        users, and are not directed at children under 13. We do not knowingly collect personal
+                        information from children under 13.
+                    </p>
+                    <p>
+                        Elliptical Explorer and Anatomy &amp; Physiology Lab collect no personal information from any
+                        user, so no child-specific data is at risk. For Vantura, accounts are created by or on behalf of
+                        an institution for its enrolled learners. If you believe a child under 13 has created a Vantura
+                        account, contact us and we will delete it.
                     </p>
                 </div>
 
-                <!-- 6. Children's Privacy -->
+                <!-- 9. Data Retention -->
                 <div class="privacy-section">
-                    <h2>6. Children&rsquo;s Privacy</h2>
-                    <p>
-                        Our applications are not directed at children under the age of 13. We do not knowingly collect
-                        personal information from children. Since our apps do not collect any personal information from
-                        any user, there is no child-specific data at risk.
-                    </p>
-                    <p>
-                        Parents or guardians with concerns may contact us using the information provided below.
-                    </p>
-                </div>
-
-                <!-- 7. Data Retention -->
-                <div class="privacy-section">
-                    <h2>7. Data Retention</h2>
+                    <h2>9. Data Retention</h2>
                     <ul>
+                        <li><strong>Vantura</strong> &mdash; Account, class, enrollment, headset, and viewing records are retained while the account or institutional subscription is active. Uploaded videos are retained until deleted by the institution. On request, we delete an account or an institution&rsquo;s data; deletion is completed within 30 days. Downloaded video on a headset is removed when the user signs out or the app is uninstalled.</li>
                         <li><strong>Elliptical Explorer</strong> &mdash; Local game progress remains on your device until you uninstall the app or clear its data through your Meta Quest device settings.</li>
                         <li><strong>Anatomy &amp; Physiology Lab</strong> &mdash; No data is retained. All session data is cleared when the application closes.</li>
                     </ul>
+                </div>
+
+                <!-- 10. Data Security -->
+                <div class="privacy-section">
+                    <h2>10. Data Security</h2>
                     <p>
-                        We do not retain any data on any servers because our applications do not transmit data.
+                        Elliptical Explorer and Anatomy &amp; Physiology Lab operate entirely offline with no network
+                        communication, so there is no risk of interception or server breach. Local data is protected by
+                        the Meta Quest platform&rsquo;s built-in device-level security.
+                    </p>
+                    <p>
+                        For Vantura, all traffic between the app, the portal, and our servers is encrypted in transit
+                        using HTTPS, and stored data is encrypted at rest by our hosting providers. Access to class
+                        content is enforced at the database level, so an account can only reach videos for classes it
+                        teaches or is enrolled in. Video links are short-lived and individually signed rather than
+                        publicly accessible. No system is perfectly secure, but we design for least privilege and keep
+                        the amount of personal data we hold small.
                     </p>
                 </div>
 
-                <!-- 8. Data Security -->
+                <!-- 11. Your Choices and Rights -->
                 <div class="privacy-section">
-                    <h2>8. Data Security</h2>
+                    <h2>11. Your Choices and Rights</h2>
                     <p>
-                        Since our apps operate entirely offline with no network communication, there is no risk of
-                        data interception or server breach. Any local data stored by Elliptical Explorer is protected
-                        by the Meta Quest platform&rsquo;s built-in device-level security and user access controls.
+                        You may request access to the personal information we hold about you, request a correction, or
+                        request deletion. Contact us using the details below and we will respond within 30 days.
+                    </p>
+                    <p>
+                        If you use Vantura through your school, your school administers your account. We may direct
+                        requests about student records to your institution, since it controls those records.
+                    </p>
+                    <p>
+                        You can stop all data collection by Vantura at any time by signing out of the app, which also
+                        removes downloaded lessons from the headset.
                     </p>
                 </div>
 
-                <!-- 9. Changes to This Policy -->
+                <!-- 12. Changes to This Policy -->
                 <div class="privacy-section">
-                    <h2>9. Changes to This Policy</h2>
+                    <h2>12. Changes to This Policy</h2>
                     <p>
                         We may update this privacy policy from time to time. Any changes will be posted on this page
                         with an updated revision date at the top. Continued use of our applications after changes are
@@ -179,16 +319,16 @@
                     </p>
                 </div>
 
-                <!-- 10. Contact Us -->
+                <!-- 13. Contact Us -->
                 <div class="privacy-section" style="margin-bottom: 0;">
-                    <h2>10. Contact Us</h2>
+                    <h2>13. Contact Us</h2>
                     <p>
                         If you have any questions or concerns about this privacy policy or our data practices,
                         please contact ES Designs:
                     </p>
                     <ul>
-                        <li><strong>Website:</strong> <a href="https://esdesigns.org" style="color: var(--neon-cyan);">esdesigns.org</a></li>
-                        <li><strong>Email:</strong> <a href="mailto:bwinchell@esdesigns.org" style="color: var(--neon-cyan);">bwinchell@esdesigns.org</a></li>
+                        <li><strong>Website:</strong> <a href="https://esdesigns.org" style="color: var(--color-accent);">esdesigns.org</a></li>
+                        <li><strong>Email:</strong> <a href="mailto:bwinchell@esdesigns.org" style="color: var(--color-accent);">bwinchell@esdesigns.org</a></li>
                     </ul>
                 </div>
 
