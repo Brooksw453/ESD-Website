@@ -96,7 +96,7 @@ class Router {
             },
             '/vr': {
                 title: 'VR Development | ES Designs Immersive Learning',
-                description: 'Immersive, self-directed learning experiences from ES Designs. The Anatomy & Physiology Lab brings interactive human anatomy to Meta Quest, alongside the Elliptical Explorer fitness adventure.'
+                description: 'Immersive learning for Meta Quest from ES Designs. Vantura delivers your program\'s own 360 video to the headsets you already own, alongside the Anatomy & Physiology Lab and the Elliptical Explorer fitness adventure.'
             },
             '/vr/anatomy-physiology-lab': {
                 title: 'Anatomy & Physiology Lab | VR Learning for Meta Quest',
