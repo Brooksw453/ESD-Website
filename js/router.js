@@ -117,7 +117,6 @@ class Router {
                     { href: '#/ai', label: 'AI in Higher Ed' },
                     { href: '#/education/courses', label: 'Courses' },
                     { href: '#/vr', label: 'VR Development' },
-                    { href: '#/vantura', label: 'Vantura' },
                     { href: '#/about', label: 'About' },
                 ]
             },
@@ -142,20 +141,20 @@ class Router {
                     { href: '#/ai', label: 'AI in Higher Ed' },
                     { href: '#/education', label: 'Accessibility' },
                     { href: '#/education/courses', label: 'Adaptive Learning' },
-                    { href: '#/vantura', label: 'Vantura' },
                     { href: '#/about', label: 'About' },
                 ]
             },
             shared: {
                 brand: 'ES Designs',
                 brandHref: '#/',
-                // Top nav mirrors landing: Accessibility, AI, Courses, VR, Vantura, About.
+                // Top nav mirrors landing: Accessibility, AI, Courses, VR, About.
+                // Vantura is deliberately NOT in the top nav — the VR Development hub
+                // leads with it, and the footers carry the full product index.
                 links: [
                     { href: '#/education', label: 'Accessibility' },
                     { href: '#/ai', label: 'AI in Higher Ed' },
                     { href: '#/education/courses', label: 'Courses' },
                     { href: '#/vr', label: 'VR Development' },
-                    { href: '#/vantura', label: 'Vantura' },
                     { href: '#/about', label: 'About' },
                 ]
             }
