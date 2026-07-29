@@ -4,7 +4,7 @@
    network-first for pages
    ============================================ */
 
-const CACHE_NAME = 'es-designs-v31';
+const CACHE_NAME = 'es-designs-v32';
 const CORE_ASSETS = [
     '/',
     '/index.html',
@@ -36,6 +36,7 @@ const CORE_ASSETS = [
     '/pages/education-audit.html',
     '/pages/education-wcag-course.html',
     '/js/supabase-client.js',
+    '/pages/vantura.html',
     '/pages/about.html',
     '/pages/privacy.html',
     '/manifest.json',

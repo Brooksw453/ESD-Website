@@ -27,6 +27,7 @@ class Router {
             '/education/wcag-course':  'ed',
             '/education/roadmap-tool': 'ed',
             '/ai':                'ed',
+            '/vantura':           'ed',
             '/about':             'shared',
             '/privacy':           'shared',
         };
@@ -81,6 +82,10 @@ class Router {
                 title: 'AI in Higher Ed | Teaching Past the Detection Trap — ES Designs',
                 description: 'Most colleges are policing AI. ES Designs helps you teach it. Self-paced AI courses for faculty and administrators, campus workshops, and a free AI tools guide — built by a 21-year higher ed practitioner.'
             },
+            '/vantura': {
+                title: 'Vantura: 360 Video for Higher Ed and CTE | ES Designs',
+                description: 'Host your program\'s own 360 videos and deliver them to the Quest headsets you already own. No per-student fees. Offline playback. Start a free pilot.'
+            },
             '/about': {
                 title: 'About ES Designs | Brooks Winchell',
                 description: 'About ES Designs and founder Brooks Winchell. Building the integrated Title II compliance planning system for higher education from Massachusetts.'
@@ -112,6 +117,7 @@ class Router {
                     { href: '#/ai', label: 'AI in Higher Ed' },
                     { href: '#/education/courses', label: 'Courses' },
                     { href: '#/vr', label: 'VR Development' },
+                    { href: '#/vantura', label: 'Vantura' },
                     { href: '#/about', label: 'About' },
                 ]
             },
@@ -136,18 +142,20 @@ class Router {
                     { href: '#/ai', label: 'AI in Higher Ed' },
                     { href: '#/education', label: 'Accessibility' },
                     { href: '#/education/courses', label: 'Adaptive Learning' },
+                    { href: '#/vantura', label: 'Vantura' },
                     { href: '#/about', label: 'About' },
                 ]
             },
             shared: {
                 brand: 'ES Designs',
                 brandHref: '#/',
-                // Top nav mirrors landing: Accessibility, AI, Courses, VR, About.
+                // Top nav mirrors landing: Accessibility, AI, Courses, VR, Vantura, About.
                 links: [
                     { href: '#/education', label: 'Accessibility' },
                     { href: '#/ai', label: 'AI in Higher Ed' },
                     { href: '#/education/courses', label: 'Courses' },
                     { href: '#/vr', label: 'VR Development' },
+                    { href: '#/vantura', label: 'Vantura' },
                     { href: '#/about', label: 'About' },
                 ]
             }
@@ -163,6 +171,7 @@ class Router {
                 { href: '#/ai', label: 'AI in Higher Ed' },
                 { href: '#/education/courses', label: 'Courses' },
                 { href: '#/vr', label: 'VR Development' },
+                { href: '#/vantura', label: 'Vantura' },
                 { href: '#/about', label: 'About' },
                 { href: '/blog/', label: 'Blog' },
                 { href: '/connect/', label: 'Connect' },
@@ -186,6 +195,7 @@ class Router {
                 { href: '#/education/ally-pro', label: 'Document Ally Pro' },
                 { href: '#/education/courses', label: 'Adaptive Learning' },
                 { href: '#/vr', label: 'VR Development' },
+                { href: '#/vantura', label: 'Vantura' },
                 { href: '#/about', label: 'About' },
                 { href: '/blog/', label: 'Blog' },
                 { href: '/connect/', label: 'Connect' },
@@ -197,6 +207,7 @@ class Router {
                 { href: '#/ai', label: 'AI in Higher Ed' },
                 { href: '#/education/courses', label: 'Courses' },
                 { href: '#/vr', label: 'VR Development' },
+                { href: '#/vantura', label: 'Vantura' },
                 { href: '#/about', label: 'About' },
                 { href: '/blog/', label: 'Blog' },
                 { href: '/connect/', label: 'Connect' },
@@ -420,7 +431,7 @@ class Router {
         // Shared: scroll-to buttons, inline forms, compact tiles
         // (all education pages, the AI page, and the home/landing page —
         // all reuse the same inline-form + capture components)
-        if (path.startsWith('/education') || path === '/ai' || path === '/') {
+        if (path.startsWith('/education') || path === '/ai' || path === '/vantura' || path === '/') {
             // Free-course CTA tracking (home hero + nav). Fire a GA4
             // free_course_click before the new tab opens. No-op on pages
             // that have no [data-ga="free-course"] elements.
