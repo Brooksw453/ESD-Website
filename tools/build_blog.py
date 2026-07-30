@@ -135,6 +135,10 @@ STATIC_ROUTES = [
     ("https://esdesigns.org/#/education/audit", "monthly", "0.8", "2026-04-16"),
     ("https://esdesigns.org/#/education/wcag-course", "monthly", "0.8", "2026-04-16"),
     ("https://esdesigns.org/#/education/roadmap-tool", "monthly", "0.95", "2026-05-09"),
+    ("https://esdesigns.org/#/ai", "monthly", "0.95", "2026-07-29"),
+    ("https://esdesigns.org/#/vr", "monthly", "0.9", "2026-07-29"),
+    ("https://esdesigns.org/#/vantura", "monthly", "0.9", "2026-07-29"),
+    ("https://esdesigns.org/#/vr/anatomy-physiology-lab", "monthly", "0.7", "2026-07-29"),
     ("https://esdesigns.org/#/about", "monthly", "0.6", "2026-04-05"),
     ("https://esdesigns.org/#/privacy", "yearly", "0.3", "2026-04-05"),
 ]

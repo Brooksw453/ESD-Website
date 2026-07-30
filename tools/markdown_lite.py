@@ -31,6 +31,18 @@ def _esc(text):
     return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
+def _attr(text):
+    """Escape a value going into a double-quoted HTML attribute.
+
+    inline() runs _esc() over the whole run before images and links are
+    matched, so & < > are already handled by the time we build an attribute.
+    The remaining hole is a literal double quote, which ends the attribute
+    early. That silently truncates alt text (an accessibility bug that the
+    rendered page does not show) and turns the rest into junk attributes.
+    """
+    return text.replace('"', "&quot;")
+
+
 # ---- Inline ---------------------------------------------------------------
 
 _CODE_SPAN = re.compile(r"`([^`]+)`")
@@ -64,8 +76,8 @@ def inline(text):
     # 3. images
     def _img(m):
         alt, src, title = m.group(1), m.group(2), m.group(3) or ""
-        t = ' title="%s"' % title if title else ""
-        return stash('<img src="%s" alt="%s"%s>' % (src, alt, t))
+        t = ' title="%s"' % _attr(title) if title else ""
+        return stash('<img src="%s" alt="%s"%s>' % (_attr(src), _attr(alt), t))
 
     text = _IMG.sub(_img, text)
 
@@ -74,10 +86,10 @@ def inline(text):
         label, url, title = m.group(1), m.group(2), m.group(3) or ""
         attrs = ""
         if title:
-            attrs += ' title="%s"' % title
+            attrs += ' title="%s"' % _attr(title)
         if _external(url):
             attrs += ' target="_blank" rel="noopener"'
-        return stash('<a href="%s"%s>%s</a>' % (url, attrs, label))
+        return stash('<a href="%s"%s>%s</a>' % (_attr(url), attrs, label))
 
     text = _LINK.sub(_a, text)
 
