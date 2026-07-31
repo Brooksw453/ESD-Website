@@ -20,7 +20,11 @@
 <!-- Policy Content -->
 <section class="section" style="padding-top: 0;">
     <div class="container">
-        <div class="privacy-content" data-animate="fade-up">
+        <!-- Deliberately NOT data-animate: this is a legal document a store
+             reviewer has to be able to read. Fading in a ~6,900px block is
+             imperceptible anyway, and it made the entire policy depend on an
+             IntersectionObserver reveal that could never fire on a short viewport. -->
+        <div class="privacy-content">
             <div class="neon-card" style="padding: var(--space-3xl);">
 
                 <!-- 1. Introduction -->
