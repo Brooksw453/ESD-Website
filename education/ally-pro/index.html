@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ES Designs | Teaching With AI in Higher Education + Title II Accessibility</title>
-    <meta name="description" content="Most colleges are policing AI. ES Designs helps you teach it — practical, evidence-based AI courses and workshops for higher ed, plus ADA Title II accessibility compliance. Built by a 21-year educator. Start the free AI course.">
-    <link rel="canonical" href="https://esdesigns.org/">
+    <title>Document Ally Pro | Free AI WCAG 2.2 Document Remediation for Higher Ed</title>
+    <meta name="description" content="AI-powered WCAG 2.2 document remediation for higher ed — free to start. Batch upload, branded conformance analytics, and a FERPA-friendly pipeline. Built for the Title II window.">
+    <link rel="canonical" href="https://esdesigns.org/education/ally-pro/">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://cdn.jsdelivr.net https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self'; frame-src https://brooksw453.github.io https://scheduler.zoom.us https://challenges.cloudflare.com; connect-src 'self' https://formsubmit.co https://awcmkderlpyxpkmrnvwi.supabase.co https://courses.esdesigns.org https://cdn.jsdelivr.net https://challenges.cloudflare.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="ES Designs | Teaching With AI in Higher Education + Title II Accessibility">
-    <meta property="og:description" content="Most colleges are policing AI. ES Designs helps you teach it — practical, evidence-based AI courses and workshops for higher ed, plus ADA Title II accessibility compliance. Built by a 21-year educator. Start the free AI course.">
+    <meta property="og:title" content="Document Ally Pro | Free AI WCAG 2.2 Document Remediation for Higher Ed">
+    <meta property="og:description" content="AI-powered WCAG 2.2 document remediation for higher ed — free to start. Batch upload, branded conformance analytics, and a FERPA-friendly pipeline. Built for the Title II window.">
     <meta property="og:image" content="/assets/images/elliptical/cover.png">
-    <meta property="og:url" content="https://esdesigns.org/">
+    <meta property="og:url" content="https://esdesigns.org/education/ally-pro/">
     <meta property="og:type" content="website">
 
     <!-- Structured Data (Schema.org) -->
@@ -106,7 +106,7 @@
     <!-- Brand overrides (loaded LAST — wins specificity for light themes) -->
     <link rel="stylesheet" href="/css/brand-overrides.css">
 </head>
-<body data-section="landing">
+<body data-section="ed">
     <!-- Skip-to-content link (visible on keyboard focus) -->
     <a class="skip-link" href="#page-content">Skip to main content</a>
 
@@ -127,163 +127,213 @@
     </header>
 
     <!-- Main Content (swapped by router) -->
-    <main id="page-content" tabindex="-1" data-prerendered="/" data-prerendered="/">
-<!-- Landing Page — AI-led front door (v6) -->
+    <main id="page-content" tabindex="-1" data-prerendered="/" data-prerendered="/education/ally-pro">
+<!-- Document Ally Pro — Early Access / Design Partner Page -->
 
-<div class="landing-page">
-
-    <!-- AI hero — full-width, first thing seen -->
-    <section class="landing-hero" data-animate="fade-up" aria-labelledby="landingHeroTitle">
-        <p class="landing-hero-eyebrow">ES Designs &middot; AI in Higher Education</p>
-        <h1 id="landingHeroTitle">Most colleges are policing AI. We help you teach it.</h1>
-        <p class="landing-hero-subhead">Practical, evidence-based AI for higher ed &mdash; from a 21-year educator.</p>
-        <div class="landing-hero-courses">
-            <p class="landing-hero-courses-label">Sign up for free courses now</p>
-            <div class="landing-hero-actions">
-                <div class="landing-course-cta">
-                    <a href="https://courses.esdesigns.org/courses/ai-teaching-essentials"
-                       target="_blank" rel="noopener" class="neon-btn btn-filled"
-                       data-ga="free-course" data-ga-source="home-hero"
-                       data-ga-course="ai-teaching-essentials">AI Teaching Essentials &rarr;</a>
-                    <span class="landing-course-cta-note">For faculty new to teaching with AI</span>
-                </div>
-                <div class="landing-course-cta">
-                    <a href="https://courses.esdesigns.org/courses/zero-to-agent"
-                       target="_blank" rel="noopener" class="neon-btn"
-                       data-ga="free-course" data-ga-source="home-hero"
-                       data-ga-course="zero-to-agent">Advanced Claude Code &rarr;</a>
-                    <span class="landing-course-cta-note">Build agentic AI with Claude Code</span>
-                </div>
-            </div>
-            <a href="https://courses.esdesigns.org/ai" target="_blank" rel="noopener"
-               class="landing-hero-explore" data-ga="explore-ai"
-               data-ga-source="home-hero">Or browse the full AI course line &rarr;</a>
-        </div>
-
-        <!-- Unified email capture — Beehiiv (sender) + Supabase mirror, server-side -->
-        <form class="landing-capture" data-capture-endpoint="https://courses.esdesigns.org/api/subscribe" data-source="home-hero">
-            <span class="landing-capture-label" id="capDescHero">
-                Get <strong>The Learning Curve</strong>, a short, practical note on AI, accessibility, and what&rsquo;s next in higher ed. No hype, no spam.
-            </span>
-            <div class="landing-capture-row">
-                <label for="capEmailHero" class="visually-hidden">Email address for The Learning Curve newsletter</label>
-                <input id="capEmailHero" name="email" type="email" autocomplete="email"
-                       placeholder="you@college.edu" aria-describedby="capDescHero" required>
-                <button type="submit" class="neon-btn btn-filled landing-capture-btn">Subscribe &rarr;</button>
-            </div>
-            <span class="contact-status" role="status" aria-live="polite"></span>
-        </form>
-    </section>
-
-    <!-- Four tiles — AI line first, then the adjacent + accessibility lines -->
-    <div class="landing-secondary" data-animate="fade-up">
-        <a href="/ai/" class="landing-panel landing-panel-ai">
-            <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l1.8 4.4 4.4 1.8-4.4 1.8L12 15.9l-1.8-4.4L5.8 9.7l4.4-1.8L12 3.5z"/><path d="M18.6 14.6l.75 1.9 1.9.75-1.9.75-.75 1.9-.75-1.9-1.9-.75 1.9-.75z"/></svg></div>
-            <h2>AI in Higher Education</h2>
-            <p class="landing-panel-subtitle">Teach with AI &mdash; don't police it</p>
-            <p>Self-paced courses for faculty and administrators, campus workshops, and a free AI tools guide &mdash; evidence-based, built for how teaching actually works.</p>
-            <span class="landing-panel-cta">Explore the AI line &rarr;</span>
-        </a>
-
-        <a href="/education/courses/" class="landing-panel landing-panel-secondary landing-panel-courses">
-            <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.3L2.5 9 12 13.7 21.5 9 12 4.3z"/><path d="M6.5 11v4.3c0 1.2 2.5 2.2 5.5 2.2s5.5-1 5.5-2.2V11"/><path d="M21.5 9v4.6"/></svg></div>
-            <h2>Adaptive Learning Courses</h2>
-            <p class="landing-panel-subtitle">AI-tutored, self-paced courses for higher ed</p>
-            <p>Adaptive courses with text-to-speech, speech-to-text, AI tutoring, and accessible delivery &mdash; running today on courses.esdesigns.org.</p>
-            <span class="landing-panel-cta">Browse courses &rarr;</span>
-        </a>
-
-        <a href="/education/" class="landing-panel landing-panel-ed">
-            <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="3.7" r="1.6"/><path d="M4.5 7.5c2.4 1.1 4.9 1.6 7.5 1.6s5.1-.5 7.5-1.6"/><path d="M12 8.6V14"/><path d="M8.7 21l3.3-7 3.3 7"/></svg></div>
-            <h2>Higher Ed Title&nbsp;II Compliance</h2>
-            <p class="landing-panel-subtitle">Plan &middot; Assess &middot; Train &middot; Remediate &middot; Monitor</p>
-            <p>The integrated planning system for ADA Title&nbsp;II accessibility. Build your full compliance plan in 30 minutes &mdash; free &mdash; then audit, train, and remediate from one connected system.</p>
-            <span class="landing-panel-cta">Build your plan &rarr;</span>
-        </a>
-
-        <a href="/vr/" class="landing-panel landing-panel-secondary landing-panel-vr">
-            <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6h44a6 6 0 0 1 6 6v16a6 6 0 0 1-6 6H42a4 4 0 0 1-3.2-1.6L34 26a2.5 2.5 0 0 0-4 0l-4.8 6.4A4 4 0 0 1 22 34H10a6 6 0 0 1-6-6V12a6 6 0 0 1 6-6Z"/><circle cx="18" cy="20" r="5"/><circle cx="46" cy="20" r="5"/></svg></div>
-            <h2>VR Development</h2>
-            <p class="landing-panel-subtitle">Immersive learning experiences for Meta Quest</p>
-            <p>Vantura delivers the 360 video your own faculty film to the Quest headsets your school already owns. Alongside it, the Anatomy &amp; Physiology Lab and Elliptical Explorer &mdash; both shipped and maintained.</p>
-            <span class="landing-panel-cta">Explore VR development &rarr;</span>
-        </a>
-    </div>
-
-    <!-- Five-step accessibility system map — customer-facing: plan -> monitor, one connected vendor -->
-<section class="system-map" aria-label="The accessibility system">
+<!-- DOJ Extension Banner -->
+<!-- Five-step compliance system strip -->
+<nav class="system-strip" aria-label="Compliance system steps">
+    <ol class="system-strip-list">
+        <li class="system-step"><a href="/education/roadmap-tool/"><span class="system-step-num" aria-hidden="true">1</span><span class="system-step-name">Plan</span></a></li>
+        <li class="system-step"><a href="/education/audit/"><span class="system-step-num" aria-hidden="true">2</span><span class="system-step-name">Assess</span></a></li>
+        <li class="system-step"><a href="/education/wcag-course/"><span class="system-step-num" aria-hidden="true">3</span><span class="system-step-name">Train</span></a></li>
+        <li class="system-step is-current"><a href="/education/ally-pro/" aria-current="step"><span class="system-step-num" aria-hidden="true">4</span><span class="system-step-name">Remediate</span></a></li>
+        <li class="system-step is-pending"><span><span class="system-step-num" aria-hidden="true">5</span><span class="system-step-name">Monitor</span><span class="system-step-meta">Coming</span></span></li>
+    </ol>
+</nav>
+<section class="ed-extension-banner">
     <div class="container">
-        <h2 class="system-map-title">Digital accessibility for higher ed, end to end</h2>
-        <p class="system-map-subtitle">Plan, assess, train, remediate, and monitor your ADA Title&nbsp;II and WCAG&nbsp;2.2 compliance &mdash; from one connected vendor. Not a scanner that hands you a list and walks away.</p>
-        <ol class="system-map-grid">
-            <li class="system-card">
-                <span class="system-card-num" aria-hidden="true">1</span>
-                <span class="system-card-step">Plan</span>
-                <h3 class="system-card-title"><a href="/education/roadmap-tool/" class="system-card-link-overlay">Compliance Roadmap Tool</a></h3>
-                <p class="system-card-desc">Build your full Title II compliance plan in 30 minutes. Nine chapters, AI-drafted summaries, accessible PDF export.</p>
-                <p class="system-card-price">Free &middot; Premium $349</p>
-                <a class="system-card-link" href="/education/roadmap-tool/">Learn more &rarr;</a>
-            </li>
-            <li class="system-card">
-                <span class="system-card-num" aria-hidden="true">2</span>
-                <span class="system-card-step">Assess</span>
-                <h3 class="system-card-title"><a href="/education/audit/" class="system-card-link-overlay">AI Website Audit</a></h3>
-                <p class="system-card-desc">Crawl-based WCAG 2.2 AA audits with AI-generated remediation suggestions and branded PDF reports.</p>
-                <p class="system-card-price">Free single page &middot; From $2,500</p>
-                <a class="system-card-link" href="/education/audit/">Learn more &rarr;</a>
-            </li>
-            <li class="system-card">
-                <span class="system-card-num" aria-hidden="true">3</span>
-                <span class="system-card-step">Train</span>
-                <h3 class="system-card-title"><a href="/education/wcag-course/" class="system-card-link-overlay">WCAG 2.2 Course Family</a></h3>
-                <p class="system-card-desc">Plain-English accessibility courses for faculty, instructional designers, and admins. Self-paced, certificate on completion.</p>
-                <p class="system-card-price">$49&ndash;$149 per seat</p>
-                <a class="system-card-link" href="/education/wcag-course/">Learn more &rarr;</a>
-            </li>
-            <li class="system-card">
-                <span class="system-card-num" aria-hidden="true">4</span>
-                <span class="system-card-step">Remediate</span>
-                <h3 class="system-card-title"><a href="/education/ally-pro/" class="system-card-link-overlay">Document Ally Pro</a></h3>
-                <p class="system-card-desc">AI-powered WCAG 2.2 document remediation for higher ed. Batch upload, branded analytics, FERPA-friendly.</p>
-                <p class="system-card-price">$29 credit packs &middot; $5K+ institutional</p>
-                <a class="system-card-link" href="/education/ally-pro/">Learn more &rarr;</a>
-            </li>
-            <li class="system-card is-pending">
-                <span class="system-card-num" aria-hidden="true">5</span>
-                <span class="system-card-step">Monitor</span>
-                <h3 class="system-card-title">Continuous Monitoring</h3>
-                <p class="system-card-desc">Weekly automated scans, quarterly trend reports, email alerts. Keeps your compliance posture current after launch.</p>
-                <p class="system-card-price">$99&ndash;$299 per month</p>
-                <span class="system-card-badge">In development</span>
-            </li>
-        </ol>
+        <p>
+            <strong>Update &mdash; April 2026:</strong> DOJ extended ADA Title II web compliance by one year. Large entities now <strong>April 26, 2027</strong>; small entities and special districts now <strong>April 26, 2028</strong>. Use the window to get the hard documents done right.
+            <a href="https://www.ada.gov" target="_blank" rel="noopener" class="neon-link">Read the rule &rarr;</a>
+        </p>
     </div>
 </section>
 
-    <!-- Slim capture — one more chance before the footer -->
-    <section class="landing-capture-footer" aria-label="Newsletter signup">
-        <form class="landing-capture landing-capture-slim" data-capture-endpoint="https://courses.esdesigns.org/api/subscribe" data-source="home-footer">
-            <span class="landing-capture-label" id="capDescFooter">
-                One practical note every other week, <strong>The Learning Curve</strong>, on AI, accessibility, and what&rsquo;s next in higher ed.
-            </span>
-            <div class="landing-capture-row">
-                <label for="capEmailFooter" class="visually-hidden">Email address for The Learning Curve newsletter</label>
-                <input id="capEmailFooter" name="email" type="email" autocomplete="email"
-                       placeholder="you@college.edu" aria-describedby="capDescFooter" required>
-                <button type="submit" class="neon-btn btn-filled landing-capture-btn">Subscribe &rarr;</button>
-            </div>
-            <span class="contact-status" role="status" aria-live="polite"></span>
-        </form>
-    </section>
-
-    <div class="landing-footer" data-animate="fade-up">
-        <a href="/about/">About</a>
-        <span class="landing-dot">&middot;</span>
-        <a href="/privacy/">Privacy</a>
-        <span class="landing-dot">&middot;</span>
-        <a href="/connect/">Connect</a>
+<!-- Hero -->
+<section class="ed-hero">
+    <div class="container">
+        <p class="ed-hero-eyebrow" data-animate="fade-up">Step 4 of the system &middot; Document remediation at scale</p>
+        <h1 data-animate="fade-up">Documents are 80% of higher-ed accessibility work. We&rsquo;re built for that.</h1>
+        <p class="ed-subtitle" data-animate="fade-up">Document Ally Pro is the AI-powered document remediation tool already used across Massachusetts community colleges. Free to start.</p>
+        <p class="ed-description" data-animate="fade-up">Built for higher ed accessibility offices, disability services, and faculty teams using the Title&nbsp;II window to do this right. Authenticated tenants, batch upload (up to 15 at a time), branded WCAG 2.2 conformance analytics, and a FERPA-friendly remediation pipeline &mdash; without the enterprise price tag and without an accessibility overlay. Pairs with the free <a href="https://roadmap.esdesigns.org" target="_blank" rel="noopener">Compliance Roadmap Tool</a>: build your plan first, see exactly where document remediation fits in your timeline and budget, then unlock institutional pricing.</p>
+        <div class="ed-hero-actions" data-animate="fade-up">
+            <a href="https://document-ally-pro.vercel.app/login" target="_blank" rel="noopener" class="neon-btn btn-filled">Sign in &middot; Start free &rarr;</a>
+            <a href="https://scheduler.zoom.us/brooks-winchell/30-mins-with-brooks" target="_blank" rel="noopener" class="neon-btn">Book 30 min with Brooks &rarr;</a>
+        </div>
     </div>
-</div>
+</section>
+
+<!-- Three-stat pressure band -->
+<section class="ed-trust-section">
+    <div class="container" data-animate="fade-up">
+        <div class="ed-stats-bar">
+            <div class="ed-stat">
+                <span class="ed-stat-number">2027 / 2028</span>
+                <span class="ed-stat-label">Title II deadlines, large / small entities (DOJ-extended)</span>
+            </div>
+            <div class="ed-stat">
+                <span class="ed-stat-number">80%</span>
+                <span class="ed-stat-label">of accessibility work lives in documents</span>
+            </div>
+            <div class="ed-stat">
+                <span class="ed-stat-number">$2,400&ndash;$4,500</span>
+                <span class="ed-stat-label">manual cost to remediate one 300-page catalog</span>
+            </div>
+            <div class="ed-stat">
+                <span class="ed-stat-number">$29&mdash;$299</span>
+                <span class="ed-stat-label">credit packs &mdash; credits never expire</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why this matters -->
+<section class="section">
+    <div class="container">
+        <h2 class="ed-section-heading" data-animate="fade-up">Why we built Pro</h2>
+        <p class="ed-section-subheading" data-animate="fade-up">Start free on a single document. Scale to your whole institution when you're ready.</p>
+
+        <div class="ed-product-grid" data-stagger>
+            <div class="ed-product-card" data-animate="fade-up">
+                <div class="ed-product-icon">&#x23F1;&#xFE0F;</div>
+                <h3>One year to do this right</h3>
+                <p>DOJ's April 2026 extension moves large-entity Title II compliance to April 2027 and small entities to April 2028. That is the window &mdash; not a pass. Complaint-driven enforcement is already underway against institutions that missed the original date.</p>
+            </div>
+            <div class="ed-product-card" data-animate="fade-up">
+                <div class="ed-product-icon">&#x1F4DA;</div>
+                <h3>Documents are the hard part</h3>
+                <p>Course catalogs. Syllabi. Faculty handbooks. Board reports. Scanned legacy PDFs. The document layer is where compliance breaks down &mdash; and where enterprise vendor tools are weakest.</p>
+            </div>
+            <div class="ed-product-card" data-animate="fade-up">
+                <div class="ed-product-icon">&#x1F393;</div>
+                <h3>Built by an educator</h3>
+                <p>Siteimprove and Level Access are built for Fortune 500 IT teams. Overlay vendors get sued. Document Ally Pro is built by someone who worked inside higher ed for the people actually doing the remediation.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured roadmap card -->
+<section class="section">
+    <div class="container">
+        <div class="ed-featured-card" data-animate="fade-up">
+            <div class="ed-featured-badge">Available now</div>
+            <h2>What Pro ships today &mdash; and what's next</h2>
+            <p class="ed-featured-tagline">Built from conversations with accessibility offices. Roadmap shaped by institutional feedback.</p>
+
+            <div class="ed-roadmap-grid">
+                <div class="ed-roadmap-col">
+                    <h3 class="ed-roadmap-heading ed-roadmap-heading-ship">&#x2713; Shipping now</h3>
+                    <ul class="ed-feature-list">
+                        <li>Authenticated tenants with row-level security</li>
+                        <li>Batch upload (up to 15 documents at a time)</li>
+                        <li>Preflight scoring before you spend a credit</li>
+                        <li>Admin dashboard &amp; compliance analytics</li>
+                        <li>Branded quarterly compliance PDFs</li>
+                        <li>8 preview themes incl. high-contrast &amp; dyslexia-friendly</li>
+                        <li>Credit packs from $29 &mdash; credits never expire</li>
+                        <li>Section 508 &amp; WCAG 2.2 AA output</li>
+                    </ul>
+                </div>
+                <div class="ed-roadmap-col">
+                    <h3 class="ed-roadmap-heading ed-roadmap-heading-roadmap">&#x25D0; On the roadmap</h3>
+                    <ul class="ed-feature-list">
+                        <li>Large-document remediation (300&ndash;500+ pages)</li>
+                        <li>Canvas &middot; Blackboard &middot; Moodle integrations</li>
+                        <li>SSO (SAML, Google, Microsoft)</li>
+                        <li>CSV/PO procurement workflows</li>
+                        <li>White-label / custom branding</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p class="ed-roadmap-note">Roadmap evolves based on design-partner feedback. Your input shapes what ships when.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Design Partner CTA -->
+<section class="ed-institution-cta">
+    <div class="container" data-animate="fade-up">
+        <h2>Become a design partner.</h2>
+        <p style="max-width: 640px; margin: 0 auto; color: var(--text-secondary);">We're working with a small number of higher-ed institutions as design partners. You get hands-on onboarding, direct input on what ships next (large-document remediation, LMS integrations, SSO), and discounted year-one institutional pricing. Ideal fit: accessibility or disability-services offices handling real remediation backlogs ahead of April 2027.</p>
+        <ul class="ed-institution-features">
+            <li>Immediate tenant setup &amp; onboarding</li>
+            <li>Direct line to Brooks for feature requests</li>
+            <li>50% off year-one institutional pricing</li>
+            <li>Case-study rights negotiated individually</li>
+            <li>Zero cost during the pilot period</li>
+        </ul>
+        <button type="button" data-scroll-to="waitlistForm" class="neon-btn btn-filled">Apply to pilot &rarr;</button>
+    </div>
+</section>
+
+<!-- Waitlist Form -->
+<section class="section">
+    <div class="container">
+        <div class="ed-inline-contact" id="waitlistForm" data-animate="fade-up">
+            <h3>Get started or apply to be a design partner</h3>
+            <p>Tell us about your institution and we'll set up your tenant, walk through onboarding, and discuss pricing. No spam &mdash; we'll only email about Document Ally Pro.</p>
+            <form id="allyProWaitlistForm" data-supabase-table="waitlist" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+                <input type="hidden" name="_subject" value="Document Ally Pro Waitlist Signup">
+                <input type="text" name="_honey" style="display:none" aria-label="Leave this field blank">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <div class="ed-inline-contact-grid">
+                    <div>
+                        <input type="text" name="name" autocomplete="name" placeholder="Your Name" aria-label="Your Name" required>
+                    </div>
+                    <div>
+                        <input type="email" name="email" autocomplete="email" placeholder="Work Email" aria-label="Work Email" required>
+                    </div>
+                    <div>
+                        <input type="text" name="institution" autocomplete="organization" placeholder="Institution" aria-label="Institution" required>
+                    </div>
+                    <div>
+                        <select name="role" required aria-label="Your role" style="width:100%;padding:12px 16px;border:1px solid #d1d5db;border-radius:8px;font-size:1rem;font-family:inherit;outline:none;background:white;">
+                            <option value="">Your role</option>
+                            <option>Accessibility / ADA Coordinator</option>
+                            <option>Disability Services Director</option>
+                            <option>IT Accessibility / Web Director</option>
+                            <option>Center for Teaching &amp; Learning</option>
+                            <option>Faculty / Instructional Designer</option>
+                            <option>General Counsel / Risk</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="full-width">
+                        <label style="display:flex;align-items:center;gap:8px;font-size:0.95rem;color:var(--text-secondary);cursor:pointer;">
+                            <input type="checkbox" name="pilot_interest" value="Yes" style="width:auto;margin:0;">
+                            I'd like to be considered for the free design-partner pilot.
+                        </label>
+                    </div>
+                    <div class="full-width">
+                        <textarea name="message" placeholder="Optional: what's your current accessibility remediation workflow?" aria-label="Optional: what's your current accessibility remediation workflow?" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="ed-inline-contact-actions">
+                    <button type="submit" class="neon-btn btn-filled">Get started &rarr;</button>
+                    <span class="contact-status" id="allyProWaitlistStatus" role="status" aria-live="polite"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Or, Research Call -->
+<section class="section" style="background: #f0f5ff; padding: var(--space-2xl) 0;">
+    <div class="container" style="max-width: 700px; text-align: center;" data-animate="fade-up">
+        <h2 id="researchCall" style="color: var(--ed-heading); margin-bottom: var(--space-sm);">Or, just talk to me.</h2>
+        <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">I'm Brooks Winchell &mdash; founder of ES Designs and the builder of Document Ally Pro. I'm talking to accessibility directors, ADA coordinators, and disability-services leads to learn how institutions are planning their remediation roadmaps for the April 2027 deadline. No pitch. Thirty minutes. You tell me what's actually broken in your world, and I'll share what we've built.</p>
+        <div style="display:flex;gap:var(--space-sm);justify-content:center;flex-wrap:wrap;">
+            <a href="https://scheduler.zoom.us/brooks-winchell/30-mins-with-brooks" target="_blank" rel="noopener" class="neon-btn btn-filled">Book a 30-minute research call &rarr;</a>
+            <a href="mailto:bwinchell@esdesigns.org" class="neon-btn">Email directly</a>
+        </div>
+        <p style="font-size: 0.85rem; color: #475569; margin-top: var(--space-md);">Research-call participants get early access, a free pilot invitation, and a small thank-you.</p>
+    </div>
+</section>
+
 
     </main>
 

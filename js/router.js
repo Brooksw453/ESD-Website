@@ -1,5 +1,5 @@
 /* ============================================
-   Hash-Based Client-Side Router
+   History API Client-Side Router
    Two-brand navigation with section-aware theming
    ============================================ */
 
@@ -108,54 +108,54 @@ class Router {
         this.navConfigs = {
             landing: {
                 brand: 'ES Designs',
-                brandHref: '#/',
+                brandHref: '/',
                 // Top nav: the two product lines (Accessibility + AI), Courses,
                 // VR Development, then About. "Free AI course" was dropped as
                 // redundant with the AI course funnel in the hero.
                 links: [
-                    { href: '#/education', label: 'Accessibility' },
-                    { href: '#/ai', label: 'AI in Higher Ed' },
-                    { href: '#/education/courses', label: 'Courses' },
-                    { href: '#/vr', label: 'VR Development' },
-                    { href: '#/about', label: 'About' },
+                    { href: '/education/', label: 'Accessibility' },
+                    { href: '/ai/', label: 'AI in Higher Ed' },
+                    { href: '/education/courses/', label: 'Courses' },
+                    { href: '/vr/', label: 'VR Development' },
+                    { href: '/about/', label: 'About' },
                 ]
             },
             ee: {
                 brand: '<span class="nav-brand-parent">ES Designs</span> <span class="nav-brand-sep">&rsaquo;</span> Elliptical Explorer',
-                brandHref: '#/elliptical',
+                brandHref: '/elliptical/',
                 links: [
-                    { href: '#/', label: 'Home' },
-                    { href: '#/vr', label: 'VR Development' },
-                    { href: '#/about', label: 'About' },
+                    { href: '/', label: 'Home' },
+                    { href: '/vr/', label: 'VR Development' },
+                    { href: '/about/', label: 'About' },
                 ]
             },
             ed: {
                 brand: '<span class="nav-brand-parent">ES Designs</span> <span class="nav-brand-sep">&rsaquo;</span> Education',
-                brandHref: '#/education',
+                brandHref: '/education/',
                 // Slim nav: the Plan->Monitor step rail (system-strip, on the hub
                 // and every product page) already handles product wayfinding, so
                 // the products group under "Accessibility" (the #/education hub).
                 // The footer keeps the full product index.
                 links: [
-                    { href: '#/', label: 'Home' },
-                    { href: '#/ai', label: 'AI in Higher Ed' },
-                    { href: '#/education', label: 'Accessibility' },
-                    { href: '#/education/courses', label: 'Adaptive Learning' },
-                    { href: '#/about', label: 'About' },
+                    { href: '/', label: 'Home' },
+                    { href: '/ai/', label: 'AI in Higher Ed' },
+                    { href: '/education/', label: 'Accessibility' },
+                    { href: '/education/courses/', label: 'Adaptive Learning' },
+                    { href: '/about/', label: 'About' },
                 ]
             },
             shared: {
                 brand: 'ES Designs',
-                brandHref: '#/',
+                brandHref: '/',
                 // Top nav mirrors landing: Accessibility, AI, Courses, VR, About.
                 // Vantura is deliberately NOT in the top nav — the VR Development hub
                 // leads with it, and the footers carry the full product index.
                 links: [
-                    { href: '#/education', label: 'Accessibility' },
-                    { href: '#/ai', label: 'AI in Higher Ed' },
-                    { href: '#/education/courses', label: 'Courses' },
-                    { href: '#/vr', label: 'VR Development' },
-                    { href: '#/about', label: 'About' },
+                    { href: '/education/', label: 'Accessibility' },
+                    { href: '/ai/', label: 'AI in Higher Ed' },
+                    { href: '/education/courses/', label: 'Courses' },
+                    { href: '/vr/', label: 'VR Development' },
+                    { href: '/about/', label: 'About' },
                 ]
             }
         };
@@ -166,75 +166,146 @@ class Router {
         // Privacy Policy stays as the trailing legal link everywhere.
         this.footerConfigs = {
             landing: [
-                { href: '#/education', label: 'Accessibility' },
-                { href: '#/ai', label: 'AI in Higher Ed' },
-                { href: '#/education/courses', label: 'Courses' },
-                { href: '#/vr', label: 'VR Development' },
-                { href: '#/vantura', label: 'Vantura' },
-                { href: '#/about', label: 'About' },
+                { href: '/education/', label: 'Accessibility' },
+                { href: '/ai/', label: 'AI in Higher Ed' },
+                { href: '/education/courses/', label: 'Courses' },
+                { href: '/vr/', label: 'VR Development' },
+                { href: '/vantura/', label: 'Vantura' },
+                { href: '/about/', label: 'About' },
                 { href: '/blog/', label: 'Blog' },
                 { href: '/connect/', label: 'Connect' },
-                { href: '#/privacy', label: 'Privacy Policy' },
+                { href: '/privacy/', label: 'Privacy Policy' },
             ],
             ee: [
-                { href: '#/', label: 'Home' },
-                { href: '#/vr', label: 'VR Development' },
-                { href: '#/education', label: 'Accessibility' },
-                { href: '#/education/courses', label: 'Courses' },
-                { href: '#/about', label: 'About' },
+                { href: '/', label: 'Home' },
+                { href: '/vr/', label: 'VR Development' },
+                { href: '/education/', label: 'Accessibility' },
+                { href: '/education/courses/', label: 'Courses' },
+                { href: '/about/', label: 'About' },
                 { href: '/connect/', label: 'Connect' },
-                { href: '#/privacy', label: 'Privacy Policy' },
+                { href: '/privacy/', label: 'Privacy Policy' },
             ],
             ed: [
-                { href: '#/', label: 'Home' },
-                { href: '#/ai', label: 'AI in Higher Ed' },
-                { href: '#/education/roadmap-tool', label: 'Compliance Roadmap Tool' },
-                { href: '#/education/audit', label: 'AI Website Audit' },
-                { href: '#/education/wcag-course', label: 'WCAG 2.2 Courses' },
-                { href: '#/education/ally-pro', label: 'Document Ally Pro' },
-                { href: '#/education/courses', label: 'Adaptive Learning' },
-                { href: '#/vr', label: 'VR Development' },
-                { href: '#/vantura', label: 'Vantura' },
-                { href: '#/about', label: 'About' },
+                { href: '/', label: 'Home' },
+                { href: '/ai/', label: 'AI in Higher Ed' },
+                { href: '/education/roadmap-tool/', label: 'Compliance Roadmap Tool' },
+                { href: '/education/audit/', label: 'AI Website Audit' },
+                { href: '/education/wcag-course/', label: 'WCAG 2.2 Courses' },
+                { href: '/education/ally-pro/', label: 'Document Ally Pro' },
+                { href: '/education/courses/', label: 'Adaptive Learning' },
+                { href: '/vr/', label: 'VR Development' },
+                { href: '/vantura/', label: 'Vantura' },
+                { href: '/about/', label: 'About' },
                 { href: '/blog/', label: 'Blog' },
                 { href: '/connect/', label: 'Connect' },
-                { href: '#/privacy', label: 'Privacy Policy' },
+                { href: '/privacy/', label: 'Privacy Policy' },
             ],
             shared: [
-                { href: '#/', label: 'Home' },
-                { href: '#/education', label: 'Accessibility' },
-                { href: '#/ai', label: 'AI in Higher Ed' },
-                { href: '#/education/courses', label: 'Courses' },
-                { href: '#/vr', label: 'VR Development' },
-                { href: '#/vantura', label: 'Vantura' },
-                { href: '#/about', label: 'About' },
+                { href: '/', label: 'Home' },
+                { href: '/education/', label: 'Accessibility' },
+                { href: '/ai/', label: 'AI in Higher Ed' },
+                { href: '/education/courses/', label: 'Courses' },
+                { href: '/vr/', label: 'VR Development' },
+                { href: '/vantura/', label: 'Vantura' },
+                { href: '/about/', label: 'About' },
                 { href: '/blog/', label: 'Blog' },
                 { href: '/connect/', label: 'Connect' },
-                { href: '#/privacy', label: 'Privacy Policy' },
+                { href: '/privacy/', label: 'Privacy Policy' },
             ]
         };
 
-        window.addEventListener('hashchange', () => this.handleRoute());
+        window.addEventListener('popstate', () => this.handleRoute());
+        window.addEventListener('hashchange', () => this.migrateHash());
+        document.addEventListener('click', (e) => this.interceptLink(e));
+    }
+
+    /* '/education/' -> '/education'; '/' stays '/'. Also tolerates a
+       leading '#' so legacy hash URLs normalize through the same path. */
+    static normalizePath(raw) {
+        let p = (raw || '/').trim();
+        if (p.startsWith('#')) p = p.slice(1);
+        p = p.replace(/index\.html$/, '');
+        if (p.length > 1) p = p.replace(/\/+$/, '');
+        return p || '/';
+    }
+
+    /* '/education' -> '/education/'  (GitHub Pages serves directory URLs) */
+    static toHref(path) {
+        const p = Router.normalizePath(path);
+        return p === '/' ? '/' : p + '/';
     }
 
     register(path, fragmentUrl) {
         this.routes[path] = fragmentUrl;
     }
 
+    /* Intercept same-origin clicks that land on a registered SPA route.
+       Anything else (blog, connect, assets, external, downloads, new-tab
+       modifier clicks) is left alone for the browser to handle normally. */
+    interceptLink(e) {
+        if (e.defaultPrevented || e.button !== 0) return;
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+        const a = e.target.closest('a');
+        if (!a) return;
+        if (a.target && a.target !== '_self') return;
+        if (a.hasAttribute('download')) return;
+
+        const href = a.getAttribute('href');
+        if (!href || href.startsWith('#') || href.startsWith('mailto:') ||
+            href.startsWith('tel:')) return;
+
+        const url = new URL(a.href, window.location.origin);
+        if (url.origin !== window.location.origin) return;
+
+        const path = Router.normalizePath(url.pathname);
+        const target = this.redirects[path] || path;
+        if (!(target in this.routes)) return;   // real page, not an SPA route
+
+        e.preventDefault();
+        this.navigate(target);
+    }
+
+    /* A stray legacy '#/x' link (an old blog post, courses.esdesigns.org, a
+       bookmark) only mutates the hash when the visitor is already on the
+       site, which fires no navigation at all. Convert it to a real route. */
+    migrateHash() {
+        const h = window.location.hash;
+        if (!h || !h.startsWith('#/')) return;
+        const p = Router.normalizePath(h);
+        history.replaceState({}, '', Router.toHref(this.redirects[p] || p));
+        this.handleRoute();
+    }
+
+    navigate(path) {
+        const href = Router.toHref(path);
+        if (Router.normalizePath(window.location.pathname) !== Router.normalizePath(path)) {
+            history.pushState({}, '', href);
+        }
+        this.handleRoute();
+    }
+
     async start() {
+        /* Legacy '#/education' links (old sitemap, bookmarks, backlinks)
+           become real '/education/' URLs without a round trip. */
+        const legacy = window.location.hash;
+        if (legacy && legacy.startsWith('#/')) {
+            const p = Router.normalizePath(legacy);
+            history.replaceState({}, '', Router.toHref(this.redirects[p] || p));
+        }
         await this.handleRoute();
     }
 
     async handleRoute() {
         if (this.transitioning) return;
 
-        const hash = window.location.hash || '#/';
-        let path = hash.replace('#', '') || '/';
+        let path = Router.normalizePath(window.location.pathname);
 
         // Handle legacy redirects
         if (this.redirects[path]) {
-            window.location.hash = '#' + this.redirects[path];
-            return;
+            const to = this.redirects[path];
+            history.replaceState({}, '', Router.toHref(to));
+            path = to;
         }
 
         if (path === this.currentRoute) return;
@@ -244,20 +315,27 @@ class Router {
         // Determine section
         const section = this.sectionMap[path] || 'shared';
 
-        // Fade out
-        this.container.classList.add('page-exit');
-        await this.wait(250);
+        /* build.py ships this route's markup inside the static file, so the
+           first paint needs no fetch and no fade. Later navigations do. */
+        const pre = this.container.dataset.prerendered;
+        if (pre !== undefined && Router.normalizePath(pre) === path) {
+            delete this.container.dataset.prerendered;
+        } else {
+            // Fade out
+            this.container.classList.add('page-exit');
+            await this.wait(250);
 
-        // Load new content
-        const html = await this.loadFragment(path);
+            // Load new content
+            const html = await this.loadFragment(path);
 
-        // Inject
-        this.container.innerHTML = html;
-        this.container.classList.remove('page-exit');
-        this.container.classList.add('page-enter');
+            // Inject
+            this.container.innerHTML = html;
+            this.container.classList.remove('page-exit');
+            this.container.classList.add('page-enter');
 
-        // Scroll to top
-        window.scrollTo(0, 0);
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
 
         // Set section on body for CSS theming
         document.body.dataset.section = section;
@@ -282,7 +360,7 @@ class Router {
         // Send pageview to Google Analytics (SPA route change)
         if (typeof gtag === 'function') {
             gtag('event', 'page_view', {
-                page_path: path,
+                page_path: Router.toHref(path),
                 page_title: (this.meta[path] || this.meta['/']).title
             });
         }
@@ -333,13 +411,13 @@ class Router {
                     <div class="container">
                         <h1 class="neon-text">404</h1>
                         <p>Page not found</p>
-                        <a href="#/" class="neon-btn" style="margin-top: 24px;">Go Home</a>
+                        <a href="/" class="neon-btn" style="margin-top: 24px;">Go Home</a>
                     </div>
                 </div>`;
         }
 
         try {
-            const response = await fetch(url);
+            const response = await fetch(url.startsWith('/') ? url : '/' + url);
             if (!response.ok) throw new Error('Failed to load page');
             const html = await response.text();
             this.contentCache[path] = html;
@@ -395,7 +473,7 @@ class Router {
     updateNavActive(path) {
         document.querySelectorAll('.nav-link').forEach(link => {
             const href = link.getAttribute('href');
-            const linkPath = href ? href.replace('#', '') : '';
+            const linkPath = href ? Router.normalizePath(href) : '';
             link.classList.toggle('active', linkPath === path);
         });
     }
@@ -412,6 +490,14 @@ class Router {
 
         const ogDesc = document.querySelector('meta[property="og:description"]');
         if (ogDesc) ogDesc.setAttribute('content', pageMeta.description);
+
+        const url = 'https://esdesigns.org' + Router.toHref(path);
+
+        const canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) canonical.setAttribute('href', url);
+
+        const ogUrl = document.querySelector('meta[property="og:url"]');
+        if (ogUrl) ogUrl.setAttribute('content', url);
     }
 
     bindPageEvents(path) {

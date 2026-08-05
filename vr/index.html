@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ES Designs | Teaching With AI in Higher Education + Title II Accessibility</title>
-    <meta name="description" content="Most colleges are policing AI. ES Designs helps you teach it — practical, evidence-based AI courses and workshops for higher ed, plus ADA Title II accessibility compliance. Built by a 21-year educator. Start the free AI course.">
-    <link rel="canonical" href="https://esdesigns.org/">
+    <title>VR Development | ES Designs Immersive Learning</title>
+    <meta name="description" content="Immersive learning for Meta Quest from ES Designs. Vantura delivers your program&#x27;s own 360 video to the headsets you already own, alongside the Anatomy &amp; Physiology Lab and the Elliptical Explorer fitness adventure.">
+    <link rel="canonical" href="https://esdesigns.org/vr/">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://cdn.jsdelivr.net https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self'; frame-src https://brooksw453.github.io https://scheduler.zoom.us https://challenges.cloudflare.com; connect-src 'self' https://formsubmit.co https://awcmkderlpyxpkmrnvwi.supabase.co https://courses.esdesigns.org https://cdn.jsdelivr.net https://challenges.cloudflare.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="ES Designs | Teaching With AI in Higher Education + Title II Accessibility">
-    <meta property="og:description" content="Most colleges are policing AI. ES Designs helps you teach it — practical, evidence-based AI courses and workshops for higher ed, plus ADA Title II accessibility compliance. Built by a 21-year educator. Start the free AI course.">
+    <meta property="og:title" content="VR Development | ES Designs Immersive Learning">
+    <meta property="og:description" content="Immersive learning for Meta Quest from ES Designs. Vantura delivers your program&#x27;s own 360 video to the headsets you already own, alongside the Anatomy &amp; Physiology Lab and the Elliptical Explorer fitness adventure.">
     <meta property="og:image" content="/assets/images/elliptical/cover.png">
-    <meta property="og:url" content="https://esdesigns.org/">
+    <meta property="og:url" content="https://esdesigns.org/vr/">
     <meta property="og:type" content="website">
 
     <!-- Structured Data (Schema.org) -->
@@ -106,7 +106,7 @@
     <!-- Brand overrides (loaded LAST — wins specificity for light themes) -->
     <link rel="stylesheet" href="/css/brand-overrides.css">
 </head>
-<body data-section="landing">
+<body data-section="shared">
     <!-- Skip-to-content link (visible on keyboard focus) -->
     <a class="skip-link" href="#page-content">Skip to main content</a>
 
@@ -127,163 +127,107 @@
     </header>
 
     <!-- Main Content (swapped by router) -->
-    <main id="page-content" tabindex="-1" data-prerendered="/" data-prerendered="/">
-<!-- Landing Page — AI-led front door (v6) -->
+    <main id="page-content" tabindex="-1" data-prerendered="/" data-prerendered="/vr">
+<!-- VR Development hub — clean brand theme (section: shared) -->
 
-<div class="landing-page">
-
-    <!-- AI hero — full-width, first thing seen -->
-    <section class="landing-hero" data-animate="fade-up" aria-labelledby="landingHeroTitle">
-        <p class="landing-hero-eyebrow">ES Designs &middot; AI in Higher Education</p>
-        <h1 id="landingHeroTitle">Most colleges are policing AI. We help you teach it.</h1>
-        <p class="landing-hero-subhead">Practical, evidence-based AI for higher ed &mdash; from a 21-year educator.</p>
-        <div class="landing-hero-courses">
-            <p class="landing-hero-courses-label">Sign up for free courses now</p>
-            <div class="landing-hero-actions">
-                <div class="landing-course-cta">
-                    <a href="https://courses.esdesigns.org/courses/ai-teaching-essentials"
-                       target="_blank" rel="noopener" class="neon-btn btn-filled"
-                       data-ga="free-course" data-ga-source="home-hero"
-                       data-ga-course="ai-teaching-essentials">AI Teaching Essentials &rarr;</a>
-                    <span class="landing-course-cta-note">For faculty new to teaching with AI</span>
-                </div>
-                <div class="landing-course-cta">
-                    <a href="https://courses.esdesigns.org/courses/zero-to-agent"
-                       target="_blank" rel="noopener" class="neon-btn"
-                       data-ga="free-course" data-ga-source="home-hero"
-                       data-ga-course="zero-to-agent">Advanced Claude Code &rarr;</a>
-                    <span class="landing-course-cta-note">Build agentic AI with Claude Code</span>
-                </div>
-            </div>
-            <a href="https://courses.esdesigns.org/ai" target="_blank" rel="noopener"
-               class="landing-hero-explore" data-ga="explore-ai"
-               data-ga-source="home-hero">Or browse the full AI course line &rarr;</a>
-        </div>
-
-        <!-- Unified email capture — Beehiiv (sender) + Supabase mirror, server-side -->
-        <form class="landing-capture" data-capture-endpoint="https://courses.esdesigns.org/api/subscribe" data-source="home-hero">
-            <span class="landing-capture-label" id="capDescHero">
-                Get <strong>The Learning Curve</strong>, a short, practical note on AI, accessibility, and what&rsquo;s next in higher ed. No hype, no spam.
-            </span>
-            <div class="landing-capture-row">
-                <label for="capEmailHero" class="visually-hidden">Email address for The Learning Curve newsletter</label>
-                <input id="capEmailHero" name="email" type="email" autocomplete="email"
-                       placeholder="you@college.edu" aria-describedby="capDescHero" required>
-                <button type="submit" class="neon-btn btn-filled landing-capture-btn">Subscribe &rarr;</button>
-            </div>
-            <span class="contact-status" role="status" aria-live="polite"></span>
-        </form>
-    </section>
-
-    <!-- Four tiles — AI line first, then the adjacent + accessibility lines -->
-    <div class="landing-secondary" data-animate="fade-up">
-        <a href="/ai/" class="landing-panel landing-panel-ai">
-            <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l1.8 4.4 4.4 1.8-4.4 1.8L12 15.9l-1.8-4.4L5.8 9.7l4.4-1.8L12 3.5z"/><path d="M18.6 14.6l.75 1.9 1.9.75-1.9.75-.75 1.9-.75-1.9-1.9-.75 1.9-.75z"/></svg></div>
-            <h2>AI in Higher Education</h2>
-            <p class="landing-panel-subtitle">Teach with AI &mdash; don't police it</p>
-            <p>Self-paced courses for faculty and administrators, campus workshops, and a free AI tools guide &mdash; evidence-based, built for how teaching actually works.</p>
-            <span class="landing-panel-cta">Explore the AI line &rarr;</span>
-        </a>
-
-        <a href="/education/courses/" class="landing-panel landing-panel-secondary landing-panel-courses">
-            <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.3L2.5 9 12 13.7 21.5 9 12 4.3z"/><path d="M6.5 11v4.3c0 1.2 2.5 2.2 5.5 2.2s5.5-1 5.5-2.2V11"/><path d="M21.5 9v4.6"/></svg></div>
-            <h2>Adaptive Learning Courses</h2>
-            <p class="landing-panel-subtitle">AI-tutored, self-paced courses for higher ed</p>
-            <p>Adaptive courses with text-to-speech, speech-to-text, AI tutoring, and accessible delivery &mdash; running today on courses.esdesigns.org.</p>
-            <span class="landing-panel-cta">Browse courses &rarr;</span>
-        </a>
-
-        <a href="/education/" class="landing-panel landing-panel-ed">
-            <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="3.7" r="1.6"/><path d="M4.5 7.5c2.4 1.1 4.9 1.6 7.5 1.6s5.1-.5 7.5-1.6"/><path d="M12 8.6V14"/><path d="M8.7 21l3.3-7 3.3 7"/></svg></div>
-            <h2>Higher Ed Title&nbsp;II Compliance</h2>
-            <p class="landing-panel-subtitle">Plan &middot; Assess &middot; Train &middot; Remediate &middot; Monitor</p>
-            <p>The integrated planning system for ADA Title&nbsp;II accessibility. Build your full compliance plan in 30 minutes &mdash; free &mdash; then audit, train, and remediate from one connected system.</p>
-            <span class="landing-panel-cta">Build your plan &rarr;</span>
-        </a>
-
-        <a href="/vr/" class="landing-panel landing-panel-secondary landing-panel-vr">
-            <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6h44a6 6 0 0 1 6 6v16a6 6 0 0 1-6 6H42a4 4 0 0 1-3.2-1.6L34 26a2.5 2.5 0 0 0-4 0l-4.8 6.4A4 4 0 0 1 22 34H10a6 6 0 0 1-6-6V12a6 6 0 0 1 6-6Z"/><circle cx="18" cy="20" r="5"/><circle cx="46" cy="20" r="5"/></svg></div>
-            <h2>VR Development</h2>
-            <p class="landing-panel-subtitle">Immersive learning experiences for Meta Quest</p>
-            <p>Vantura delivers the 360 video your own faculty film to the Quest headsets your school already owns. Alongside it, the Anatomy &amp; Physiology Lab and Elliptical Explorer &mdash; both shipped and maintained.</p>
-            <span class="landing-panel-cta">Explore VR development &rarr;</span>
-        </a>
-    </div>
-
-    <!-- Five-step accessibility system map — customer-facing: plan -> monitor, one connected vendor -->
-<section class="system-map" aria-label="The accessibility system">
+<!-- Hero -->
+<section class="ed-hero">
     <div class="container">
-        <h2 class="system-map-title">Digital accessibility for higher ed, end to end</h2>
-        <p class="system-map-subtitle">Plan, assess, train, remediate, and monitor your ADA Title&nbsp;II and WCAG&nbsp;2.2 compliance &mdash; from one connected vendor. Not a scanner that hands you a list and walks away.</p>
-        <ol class="system-map-grid">
-            <li class="system-card">
-                <span class="system-card-num" aria-hidden="true">1</span>
-                <span class="system-card-step">Plan</span>
-                <h3 class="system-card-title"><a href="/education/roadmap-tool/" class="system-card-link-overlay">Compliance Roadmap Tool</a></h3>
-                <p class="system-card-desc">Build your full Title II compliance plan in 30 minutes. Nine chapters, AI-drafted summaries, accessible PDF export.</p>
-                <p class="system-card-price">Free &middot; Premium $349</p>
-                <a class="system-card-link" href="/education/roadmap-tool/">Learn more &rarr;</a>
-            </li>
-            <li class="system-card">
-                <span class="system-card-num" aria-hidden="true">2</span>
-                <span class="system-card-step">Assess</span>
-                <h3 class="system-card-title"><a href="/education/audit/" class="system-card-link-overlay">AI Website Audit</a></h3>
-                <p class="system-card-desc">Crawl-based WCAG 2.2 AA audits with AI-generated remediation suggestions and branded PDF reports.</p>
-                <p class="system-card-price">Free single page &middot; From $2,500</p>
-                <a class="system-card-link" href="/education/audit/">Learn more &rarr;</a>
-            </li>
-            <li class="system-card">
-                <span class="system-card-num" aria-hidden="true">3</span>
-                <span class="system-card-step">Train</span>
-                <h3 class="system-card-title"><a href="/education/wcag-course/" class="system-card-link-overlay">WCAG 2.2 Course Family</a></h3>
-                <p class="system-card-desc">Plain-English accessibility courses for faculty, instructional designers, and admins. Self-paced, certificate on completion.</p>
-                <p class="system-card-price">$49&ndash;$149 per seat</p>
-                <a class="system-card-link" href="/education/wcag-course/">Learn more &rarr;</a>
-            </li>
-            <li class="system-card">
-                <span class="system-card-num" aria-hidden="true">4</span>
-                <span class="system-card-step">Remediate</span>
-                <h3 class="system-card-title"><a href="/education/ally-pro/" class="system-card-link-overlay">Document Ally Pro</a></h3>
-                <p class="system-card-desc">AI-powered WCAG 2.2 document remediation for higher ed. Batch upload, branded analytics, FERPA-friendly.</p>
-                <p class="system-card-price">$29 credit packs &middot; $5K+ institutional</p>
-                <a class="system-card-link" href="/education/ally-pro/">Learn more &rarr;</a>
-            </li>
-            <li class="system-card is-pending">
-                <span class="system-card-num" aria-hidden="true">5</span>
-                <span class="system-card-step">Monitor</span>
-                <h3 class="system-card-title">Continuous Monitoring</h3>
-                <p class="system-card-desc">Weekly automated scans, quarterly trend reports, email alerts. Keeps your compliance posture current after launch.</p>
-                <p class="system-card-price">$99&ndash;$299 per month</p>
-                <span class="system-card-badge">In development</span>
-            </li>
-        </ol>
+        <p class="ed-hero-eyebrow" data-animate="fade-up">ES Designs &middot; VR Development</p>
+        <h1 data-animate="fade-up">Immersive learning you can step inside.</h1>
+        <p class="ed-subtitle" data-animate="fade-up">Self-directed VR experiences built by an educator, learning first.</p>
+        <p class="ed-description" data-animate="fade-up">ES Designs builds virtual-reality learning for Meta&nbsp;Quest. Vantura is the platform line: it hosts the 360 videos your own faculty film and delivers them to the headsets your school already owns. Alongside it are two shipped apps, an interactive Anatomy &amp; Physiology Lab and the Elliptical Explorer fitness adventure.</p>
+        <div class="ed-hero-actions" data-animate="fade-up">
+            <a href="/vantura/" class="neon-btn btn-filled">See how Vantura works &rarr;</a>
+            <a href="/vr/anatomy-physiology-lab/" class="neon-btn">Explore the A&amp;P Lab &rarr;</a>
+        </div>
     </div>
 </section>
 
-    <!-- Slim capture — one more chance before the footer -->
-    <section class="landing-capture-footer" aria-label="Newsletter signup">
-        <form class="landing-capture landing-capture-slim" data-capture-endpoint="https://courses.esdesigns.org/api/subscribe" data-source="home-footer">
-            <span class="landing-capture-label" id="capDescFooter">
-                One practical note every other week, <strong>The Learning Curve</strong>, on AI, accessibility, and what&rsquo;s next in higher ed.
-            </span>
-            <div class="landing-capture-row">
-                <label for="capEmailFooter" class="visually-hidden">Email address for The Learning Curve newsletter</label>
-                <input id="capEmailFooter" name="email" type="email" autocomplete="email"
-                       placeholder="you@college.edu" aria-describedby="capDescFooter" required>
-                <button type="submit" class="neon-btn btn-filled landing-capture-btn">Subscribe &rarr;</button>
+<!-- Featured: Vantura (the platform product — listed first) -->
+<section class="section">
+    <div class="container">
+        <div class="ed-featured-card" data-animate="fade-up">
+            <div class="ed-featured-badge">Private beta &middot; Meta Quest &middot; Higher ed &amp; CTE</div>
+            <h2>Vantura</h2>
+            <p class="ed-featured-tagline">Your environments, on your headsets, for your whole class.</p>
+            <img src="/assets/images/vantura/cover.jpg" alt="Vantura, a 360 video platform for Meta Quest" width="1200" height="675" loading="lazy" style="width:100%; height:auto; border-radius:12px; border:1px solid var(--color-border); margin:var(--space-lg) 0;">
+            <p class="ed-featured-description">Every other VR option hands a program someone else&rsquo;s scenarios. Vantura hosts the real places your program teaches in, filmed by your own faculty. Faculty upload 360 video through a web portal, each headset pairs once with a short code, and the lesson library downloads to the device.</p>
+            <p>Because playback is local, seeking is instant and a weak classroom network never stops a lesson. There is nothing to sideload and no device-management system to buy, and it is priced by the department rather than per student.</p>
+            <div style="display:flex; gap:var(--space-sm); flex-wrap:wrap; margin:var(--space-lg) 0;">
+                <span class="tech-badge">Unity</span>
+                <span class="tech-badge">Meta Quest</span>
+                <span class="tech-badge">Offline playback</span>
+                <span class="tech-badge">Web portal</span>
+                <span class="tech-badge">No per-student fees</span>
             </div>
-            <span class="contact-status" role="status" aria-live="polite"></span>
-        </form>
-    </section>
-
-    <div class="landing-footer" data-animate="fade-up">
-        <a href="/about/">About</a>
-        <span class="landing-dot">&middot;</span>
-        <a href="/privacy/">Privacy</a>
-        <span class="landing-dot">&middot;</span>
-        <a href="/connect/">Connect</a>
+            <div class="ed-featured-actions">
+                <a href="/vantura/" class="neon-btn btn-filled">See how Vantura works &rarr;</a>
+            </div>
+        </div>
     </div>
-</div>
+</section>
+
+<!-- Anatomy & Physiology Lab -->
+<section class="section">
+    <div class="container">
+        <div class="ed-featured-card" data-animate="fade-up">
+            <div class="ed-featured-badge">Shipped &middot; Meta Quest &middot; Education</div>
+            <h2>Anatomy &amp; Physiology Lab</h2>
+            <p class="ed-featured-tagline">An interactive human-anatomy lab for students who can&rsquo;t get into a physical one.</p>
+            <img src="/assets/images/ap-lab/cover.jpg" alt="Anatomy &amp; Physiology Lab in VR" loading="lazy" style="width:100%; border-radius:12px; border:1px solid var(--color-border); margin:var(--space-lg) 0;">
+            <p>A self-directed VR learning adventure exploring human anatomy and physiology. Students walk through skeletal, cranial, and cardiovascular systems with interactive 3D models, then check their understanding with built-in learning modules and knowledge-check quizzes. Built for nursing, allied-health, and intro-biology programs where lab access is limited.</p>
+            <div style="display:flex; gap:var(--space-sm); flex-wrap:wrap; margin:var(--space-lg) 0;">
+                <span class="tech-badge">Unity</span>
+                <span class="tech-badge">Meta Quest</span>
+                <span class="tech-badge">Self-directed</span>
+                <span class="tech-badge">Knowledge checks</span>
+            </div>
+            <div class="ed-hero-actions">
+                <a href="/vr/anatomy-physiology-lab/" class="neon-btn btn-filled">See what&rsquo;s inside the lab &rarr;</a>
+                <a href="https://www.meta.com/en-gb/experiences/anatomy-physiology-lab/5826680474102104/" target="_blank" rel="noopener" class="neon-btn">View on Meta Quest &rarr;</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Also shipped + in development -->
+<section class="section">
+    <div class="container">
+        <h2 class="ed-section-heading" data-animate="fade-up">The rest of the VR line</h2>
+        <p class="ed-section-subheading" data-animate="fade-up">One more shipped product, and an honest note on what&rsquo;s next.</p>
+        <div class="ed-product-grid" data-stagger>
+            <div class="ed-product-card" data-animate="fade-up">
+                <div class="ed-product-icon">&#x1F3AE;</div>
+                <h3>Elliptical Explorer</h3>
+                <p>A VR fitness adventure for Meta Quest where your real-world elliptical movement powers the game &mdash; branching tracks, collectible gems, and timed gate challenges. The first product ES Designs shipped, and a side project from before the pivot to compliance. Still live and maintained.</p>
+                <a href="/elliptical/" style="display:inline-block; margin-top:var(--space-md); color:var(--color-accent); font-weight:600;">Explore Elliptical Explorer &rarr;</a>
+            </div>
+            <div class="ed-product-card" data-animate="fade-up">
+                <div class="ed-product-icon">&#x1F6E0;</div>
+                <h3>More in development</h3>
+                <p>Vantura is in private beta with pilot programs, and the A&amp;P Lab is expanding with additional interactive modules and knowledge checks. We ship when something is genuinely useful for learning, not on a marketing schedule.</p>
+                <a href="/vantura/" style="display:inline-block; margin-top:var(--space-md); color:var(--color-accent); font-weight:600;">Start a Vantura pilot &rarr;</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Privacy -->
+<section class="section" style="padding: var(--space-3xl) 0;">
+    <div class="container" style="text-align: center;" data-animate="fade-up">
+        <div class="neon-card" style="padding: var(--space-2xl); max-width: 640px; margin: 0 auto; text-align: center;">
+            <div style="font-size: 1.8rem; margin-bottom: var(--space-md);" aria-hidden="true">&#x1F512;</div>
+            <h3 style="color: var(--color-primary); margin-bottom: var(--space-md);">Privacy-first, like everything we build</h3>
+            <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-xl); line-height: 1.7;">
+                Elliptical Explorer and the Anatomy &amp; Physiology Lab need no account and collect nothing; session data stays on the device. Vantura is an account-based service a school runs for its own classes, so it stores what a class needs and nothing more. We never sell personal information or use it for advertising. Both cases are set out in full in the privacy policy.
+            </p>
+            <a href="/privacy/" class="neon-btn" style="display: inline-flex; align-items: center; gap: var(--space-sm);">
+                View Privacy Policy &rarr;
+            </a>
+        </div>
+    </div>
+</section>
 
     </main>
 

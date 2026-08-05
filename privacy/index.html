@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | ES Designs</title>
+    <meta name="description" content="Privacy policy for ES Designs compliance planning, audit, document remediation, and training tools. No data collection beyond what each tool requires; no tracking, transparent accounts.">
+    <link rel="canonical" href="https://esdesigns.org/privacy/">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://cdn.jsdelivr.net https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self'; frame-src https://brooksw453.github.io https://scheduler.zoom.us https://challenges.cloudflare.com; connect-src 'self' https://formsubmit.co https://awcmkderlpyxpkmrnvwi.supabase.co https://courses.esdesigns.org https://cdn.jsdelivr.net https://challenges.cloudflare.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Privacy Policy | ES Designs">
+    <meta property="og:description" content="Privacy policy for ES Designs compliance planning, audit, document remediation, and training tools. No data collection beyond what each tool requires; no tracking, transparent accounts.">
+    <meta property="og:image" content="/assets/images/elliptical/cover.png">
+    <meta property="og:url" content="https://esdesigns.org/privacy/">
+    <meta property="og:type" content="website">
+
+    <!-- Structured Data (Schema.org) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "https://esdesigns.org/#organization",
+                "name": "ES Designs",
+                "url": "https://esdesigns.org",
+                "logo": "https://esdesigns.org/assets/images/brand/esd-logo.png",
+                "description": "ES Designs helps higher education on two fronts: ADA Title II accessibility compliance and teaching with AI — courses, tools, and workshops built by a 21-year educator.",
+                "knowsAbout": ["ADA Title II compliance", "WCAG 2.2 accessibility", "Document remediation", "Artificial intelligence in higher education", "Faculty AI literacy", "Assessment redesign"],
+                "foundingDate": "2022",
+                "founder": {
+                    "@type": "Person",
+                    "name": "Brooks Winchell",
+                    "sameAs": "https://www.linkedin.com/in/brooks-winchell-42900185/"
+                },
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "email": "bwinchell@esdesigns.org",
+                    "contactType": "sales"
+                },
+                "sameAs": [
+                    "https://github.com/brooksw453",
+                    "https://www.linkedin.com/in/brooks-winchell-42900185/"
+                ]
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://esdesigns.org/#website",
+                "url": "https://esdesigns.org",
+                "name": "ES Designs",
+                "publisher": { "@id": "https://esdesigns.org/#organization" }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "name": "Elliptical Explorer",
+                "description": "VR fitness adventure for Meta Quest where real-world elliptical movement powers gameplay through branching tracks, collectible gems, and timed challenges.",
+                "applicationCategory": "GameApplication",
+                "operatingSystem": "Meta Quest",
+                "offers": {
+                    "@type": "Offer",
+                    "availability": "https://schema.org/InStock"
+                },
+                "author": { "@id": "https://esdesigns.org/#organization" }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "name": "Document Ally Pro",
+                "description": "Institutional AI-powered WCAG 2.2 document remediation for higher education. Bulk upload, large-document processing, branded conformance reports.",
+                "applicationCategory": "BusinessApplication",
+                "operatingSystem": "Web",
+                "url": "https://esdesigns.org/#/education/ally-pro",
+                "author": { "@id": "https://esdesigns.org/#organization" }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Favicon & PWA -->
+    <link rel="icon" type="image/svg+xml" href="/assets/images/brand/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/images/brand/esd-logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1F3D5C">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1J3K52PMLD"></script>
+    <script src="/js/analytics.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link rel="stylesheet" href="/css/pages.css">
+    <link rel="stylesheet" href="/css/education.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <!-- Brand overrides (loaded LAST — wins specificity for light themes) -->
+    <link rel="stylesheet" href="/css/brand-overrides.css">
+</head>
+<body data-section="shared">
+    <!-- Skip-to-content link (visible on keyboard focus) -->
+    <a class="skip-link" href="#page-content">Skip to main content</a>
+
+    <!-- Particle Canvas (behind everything) -->
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+    <!-- Site Header / Navigation -->
+    <header class="site-header" id="siteHeader">
+        <a href="/" class="nav-brand">ES Designs</a>
+        <nav class="nav-links" id="navLinks">
+            <!-- Populated dynamically by router based on active section -->
+        </nav>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Main Content (swapped by router) -->
+    <main id="page-content" tabindex="-1" data-prerendered="/" data-prerendered="/privacy">
+<!-- Privacy Policy Page Fragment -->
+
+<!-- Page Header -->
+<section class="section" style="padding-bottom: var(--space-lg);">
+    <div class="container" style="text-align: center;">
+        <p class="label" data-animate="fade-up">Legal</p>
+        <h1 class="neon-text" data-animate="fade-up">Privacy Policy</h1>
+        <p data-animate="fade-up" style="max-width: 640px; margin: var(--space-md) auto 0;">
+            How ES Designs handles your data across our compliance planning, audit, document remediation,
+            training, and immersive learning tools.
+        </p>
+        <p data-animate="fade-up" style="margin-top: var(--space-sm);">
+            <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">
+                Last Updated: July 30, 2026
+            </span>
+        </p>
+    </div>
+</section>
+
+<!-- Policy Content -->
+<section class="section" style="padding-top: 0;">
+    <div class="container">
+        <!-- Deliberately NOT data-animate: this is a legal document a store
+             reviewer has to be able to read. Fading in a ~6,900px block is
+             imperceptible anyway, and it made the entire policy depend on an
+             IntersectionObserver reveal that could never fire on a short viewport. -->
+        <div class="privacy-content">
+            <div class="neon-card" style="padding: var(--space-3xl);">
+
+                <!-- 1. Introduction -->
+                <div class="privacy-section">
+                    <h2>1. Introduction</h2>
+                    <p>
+                        ES Designs (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) operates the website
+                        <a href="https://esdesigns.org" style="color: var(--color-accent);">esdesigns.org</a> and develops compliance planning,
+                        accessibility audit, document remediation, and training tools for higher education. We also
+                        develop applications for the Meta Quest platform. This privacy policy explains how each of our
+                        applications handles user data.
+                    </p>
+                    <p>This policy applies to the following applications:</p>
+                    <ul>
+                        <li><strong>Vantura</strong> &mdash; A 360 video platform for higher education and CTE, made up of a Quest app and an instructor web portal</li>
+                        <li><strong>Elliptical Explorer</strong> &mdash; A VR fitness and exploration game</li>
+                        <li><strong>Anatomy &amp; Physiology Lab</strong> &mdash; An immersive VR educational experience</li>
+                    </ul>
+                    <p>
+                        <span class="privacy-highlight">These applications differ significantly in how they handle data.</span>
+                        Elliptical Explorer and Anatomy &amp; Physiology Lab run entirely offline and collect nothing.
+                        Vantura is an account-based service that a school uses to deliver its own video to its own
+                        students, so it necessarily stores account and usage information. Each is described separately
+                        below. We never sell personal information, and we never use it for advertising.
+                    </p>
+                </div>
+
+                <!-- 2. Vantura -->
+                <div class="privacy-section">
+                    <h2>2. Vantura</h2>
+                    <p>
+                        Vantura lets faculty upload 360 videos they have filmed and deliver them to Quest headsets their
+                        institution already owns. It requires an account, and it communicates with our servers. This
+                        section describes exactly what that involves.
+                    </p>
+
+                    <span class="privacy-app-name">Account information</span>
+                    <p>
+                        Signing in to the Vantura portal or the Quest app requires an ES Designs account. We store your
+                        email address, an account identifier, and your role (student, instructor, or administrator).
+                        Authentication is handled by Supabase. We do not store your password; it is held by our
+                        authentication provider in hashed form and is never visible to us.
+                    </p>
+
+                    <span class="privacy-app-name">Classes and enrollment</span>
+                    <p>
+                        Instructors create classes, and students join them with a short join code. We store which
+                        classes exist, who teaches them, who is enrolled, and when they enrolled. This is what
+                        determines which videos a given headset is allowed to download.
+                    </p>
+
+                    <span class="privacy-app-name">Headset information</span>
+                    <p>
+                        When a headset is paired to an account, the Vantura app reports information about that headset
+                        so an instructor can confirm a cart is ready before class:
+                    </p>
+                    <ul>
+                        <li>A device identifier generated by the app</li>
+                        <li>The headset model (for example, &ldquo;Oculus Quest 3&rdquo;)</li>
+                        <li>The installed app version</li>
+                        <li>Available free storage space on the headset</li>
+                        <li>Which lesson videos are currently downloaded, their size, and when they downloaded</li>
+                    </ul>
+                    <p>
+                        We do not collect headset serial numbers, advertising identifiers, or any Meta account
+                        information.
+                    </p>
+
+                    <span class="privacy-app-name">Viewing activity</span>
+                    <p>
+                        When a video is watched in the Vantura app, we record a session containing which video was
+                        watched, the class it belongs to, when viewing started and ended, how long it was actually
+                        playing, the headset model, and the app version. Time spent paused is excluded from the
+                        recorded duration.
+                    </p>
+                    <p>
+                        <span class="privacy-highlight">This activity is tied to the signed-in account, and an instructor can see it for their own class.</span>
+                        It exists so faculty can tell whether students completed an assigned lesson. It is not used for
+                        profiling, advertising, or any purpose beyond reporting to the instructor and the institution.
+                    </p>
+
+                    <span class="privacy-app-name">Video content</span>
+                    <p>
+                        Videos uploaded by faculty are stored in Cloudflare R2 object storage, along with a title,
+                        description, and technical details such as duration, resolution, and codec. Access is granted
+                        through short-lived signed links issued only to accounts enrolled in the relevant class. The
+                        institution owns this content; we host and deliver it on the institution&rsquo;s behalf.
+                    </p>
+
+                    <span class="privacy-app-name">Stored on the headset</span>
+                    <p>
+                        Vantura is download-first, so lessons play without a network connection. Downloaded video files
+                        and a copy of the class lesson list are stored in the app&rsquo;s private storage on the headset,
+                        along with the sign-in tokens that keep you logged in. Signing out or uninstalling the app
+                        removes them from the device.
+                    </p>
+                </div>
+
+                <!-- 3. Elliptical Explorer and Anatomy & Physiology Lab -->
+                <div class="privacy-section">
+                    <h2>3. Elliptical Explorer and Anatomy &amp; Physiology Lab</h2>
+                    <p>
+                        <span class="privacy-highlight">These two applications collect no personal information.</span>
+                        They require no account, login, registration, or email address, they make no network requests,
+                        and they do not communicate with any external server, API, or third-party service.
+                    </p>
+
+                    <span class="privacy-app-name">Elliptical Explorer</span>
+                    <p>
+                        This app stores game progress data locally on your device using Unity&rsquo;s PlayerPrefs system.
+                        This includes:
+                    </p>
+                    <ul>
+                        <li>Lifetime calories burned and distance traveled</li>
+                        <li>Level unlock status and mission completion progress</li>
+                        <li>Best times and accuracy scores per level and difficulty</li>
+                    </ul>
+                    <p>
+                        This data is stored entirely on your Meta Quest device and is
+                        <span class="privacy-highlight">never transmitted to any server or third party</span>.
+                    </p>
+
+                    <span class="privacy-app-name">Anatomy &amp; Physiology Lab</span>
+                    <p>
+                        This app stores quiz progress in session memory only. No data is written to your device&rsquo;s
+                        storage. When you close the app, all session data is cleared automatically.
+                    </p>
+                </div>
+
+                <!-- 4. Information We Do Not Collect -->
+                <div class="privacy-section">
+                    <h2>4. Information We Do Not Collect</h2>
+                    <p>For full transparency, none of our applications collect any of the following:</p>
+                    <ul>
+                        <li>Location or GPS data</li>
+                        <li>Financial or payment information (billing, where applicable, is handled by our payment processor and never reaches our servers)</li>
+                        <li>Advertising identifiers, or any data used for advertising</li>
+                        <li>Social media data</li>
+                        <li>Microphone or camera recordings</li>
+                        <li>Eye, face, or body tracking data, or any other biometric data</li>
+                        <li>Contacts, calendars, or files outside the application</li>
+                    </ul>
+                    <p>
+                        We do not sell personal information, and we do not share it with third parties for their own
+                        marketing purposes.
+                    </p>
+                </div>
+
+                <!-- 5. Device Permissions -->
+                <div class="privacy-section">
+                    <h2>5. Device Permissions</h2>
+                    <p>
+                        Our apps request certain VR hardware permissions <strong>solely for functionality</strong>,
+                        not for data collection. Sensor data is processed locally in real time and is never
+                        recorded, stored, or transmitted.
+                    </p>
+
+                    <span class="privacy-app-name">Vantura</span>
+                    <ul>
+                        <li><strong>VR Head Tracking</strong> &mdash; Required to display 360 video, so the view follows where you look. Processed locally in real time.</li>
+                        <li><strong>Hand Tracking</strong> &mdash; Lets you operate the menus with your hands instead of controllers. Processed locally; hand data is never recorded or transmitted.</li>
+                        <li><strong>Network Access</strong> &mdash; Used to sign in, download assigned lesson videos, and report class readiness and viewing activity as described above.</li>
+                    </ul>
+
+                    <span class="privacy-app-name">Elliptical Explorer</span>
+                    <ul>
+                        <li><strong>VR Head Tracking</strong> &mdash; Detects physical movement on exercise equipment to drive in-game locomotion. Processed locally in real-time.</li>
+                        <li><strong>Spatial Anchors</strong> &mdash; Used for VR environment alignment and persistence. Data stays on your device.</li>
+                        <li><strong>Scene Understanding</strong> &mdash; Enables awareness of your physical space for safe play boundaries. Processed locally.</li>
+                    </ul>
+
+                    <span class="privacy-app-name">Anatomy &amp; Physiology Lab</span>
+                    <ul>
+                        <li><strong>Hand Tracking</strong> &mdash; Enables natural hand interactions with 3D anatomy models and UI elements. Processed locally.</li>
+                        <li><strong>Eye Tracking</strong> &mdash; Used for gaze-based interaction with educational content. Processed locally; gaze data is never recorded or transmitted.</li>
+                        <li><strong>Passthrough</strong> &mdash; Blends the real-world environment with virtual content for mixed-reality experiences. Video data never leaves the device.</li>
+                    </ul>
+                </div>
+
+                <!-- 6. Student Data and Institutional Use -->
+                <div class="privacy-section">
+                    <h2>6. Student Data and Institutional Use</h2>
+                    <p>
+                        When an institution uses Vantura with enrolled students, the account, enrollment, and viewing
+                        records described in Section 2 may constitute education records under the Family Educational
+                        Rights and Privacy Act (FERPA) and comparable state laws.
+                    </p>
+                    <p>
+                        <span class="privacy-highlight">The institution controls those records.</span> We process them
+                        only to provide the service to that institution, under its direction. We do not use student
+                        data to build advertising profiles, to train machine learning models, or for any purpose
+                        other than operating Vantura for the school. An institution may request export or deletion of
+                        its data at any time, and we will act on that request.
+                    </p>
+                    <p>
+                        Institutions that require a written data protection agreement or student data privacy addendum
+                        should contact us using the details below.
+                    </p>
+                </div>
+
+                <!-- 7. Third-Party Services -->
+                <div class="privacy-section">
+                    <h2>7. Third-Party Services</h2>
+                    <p>
+                        Elliptical Explorer and Anatomy &amp; Physiology Lab use no third-party services of any kind.
+                    </p>
+                    <p>Vantura relies on the following providers to operate:</p>
+                    <ul>
+                        <li><strong>Supabase</strong> &mdash; Authentication, database, and application logic</li>
+                        <li><strong>Cloudflare R2</strong> &mdash; Storage and delivery of uploaded video files</li>
+                        <li><strong>Cloudflare Turnstile</strong> &mdash; Bot protection on portal sign-in</li>
+                        <li><strong>Vercel</strong> &mdash; Hosting for the instructor web portal</li>
+                    </ul>
+                    <p>
+                        These providers process data on our behalf in order to run the service. They are not permitted
+                        to use it for their own purposes.
+                    </p>
+                    <p>
+                        Our Quest applications are distributed through the <strong>Meta Horizon Store</strong>. The Meta
+                        platform itself may collect certain data as part of its operating system and store services,
+                        such as app install events and platform telemetry. That collection is controlled by Meta, not by
+                        our applications. Please refer to
+                        <a href="https://www.meta.com/legal/privacy-policy/" style="color: var(--color-accent);" target="_blank" rel="noopener">Meta&rsquo;s Privacy Policy</a>
+                        for details on their data practices.
+                    </p>
+                </div>
+
+                <!-- 8. Children's Privacy -->
+                <div class="privacy-section">
+                    <h2>8. Children&rsquo;s Privacy</h2>
+                    <p>
+                        Our applications are intended for higher education, career and technical education, and adult
+                        users, and are not directed at children under 13. We do not knowingly collect personal
+                        information from children under 13.
+                    </p>
+                    <p>
+                        Elliptical Explorer and Anatomy &amp; Physiology Lab collect no personal information from any
+                        user, so no child-specific data is at risk. For Vantura, accounts are created by or on behalf of
+                        an institution for its enrolled learners. If you believe a child under 13 has created a Vantura
+                        account, contact us and we will delete it.
+                    </p>
+                </div>
+
+                <!-- 9. Data Retention -->
+                <div class="privacy-section">
+                    <h2>9. Data Retention</h2>
+                    <ul>
+                        <li><strong>Vantura</strong> &mdash; Account, class, enrollment, headset, and viewing records are retained while the account or institutional subscription is active. Uploaded videos are retained until deleted by the institution. On request, we delete an account or an institution&rsquo;s data; deletion is completed within 30 days. Downloaded video on a headset is removed when the user signs out or the app is uninstalled.</li>
+                        <li><strong>Elliptical Explorer</strong> &mdash; Local game progress remains on your device until you uninstall the app or clear its data through your Meta Quest device settings.</li>
+                        <li><strong>Anatomy &amp; Physiology Lab</strong> &mdash; No data is retained. All session data is cleared when the application closes.</li>
+                    </ul>
+                </div>
+
+                <!-- 10. Data Security -->
+                <div class="privacy-section">
+                    <h2>10. Data Security</h2>
+                    <p>
+                        Elliptical Explorer and Anatomy &amp; Physiology Lab operate entirely offline with no network
+                        communication, so there is no risk of interception or server breach. Local data is protected by
+                        the Meta Quest platform&rsquo;s built-in device-level security.
+                    </p>
+                    <p>
+                        For Vantura, all traffic between the app, the portal, and our servers is encrypted in transit
+                        using HTTPS, and stored data is encrypted at rest by our hosting providers. Access to class
+                        content is enforced at the database level, so an account can only reach videos for classes it
+                        teaches or is enrolled in. Video links are short-lived and individually signed rather than
+                        publicly accessible. No system is perfectly secure, but we design for least privilege and keep
+                        the amount of personal data we hold small.
+                    </p>
+                </div>
+
+                <!-- 11. Your Choices and Rights -->
+                <div class="privacy-section">
+                    <h2>11. Your Choices and Rights</h2>
+                    <p>
+                        You may request access to the personal information we hold about you, request a correction, or
+                        request deletion. Contact us using the details below and we will respond within 30 days.
+                    </p>
+                    <p>
+                        If you use Vantura through your school, your school administers your account. We may direct
+                        requests about student records to your institution, since it controls those records.
+                    </p>
+                    <p>
+                        You can stop all data collection by Vantura at any time by signing out of the app, which also
+                        removes downloaded lessons from the headset.
+                    </p>
+                </div>
+
+                <!-- 12. Changes to This Policy -->
+                <div class="privacy-section">
+                    <h2>12. Changes to This Policy</h2>
+                    <p>
+                        We may update this privacy policy from time to time. Any changes will be posted on this page
+                        with an updated revision date at the top. Continued use of our applications after changes are
+                        posted constitutes acceptance of the updated policy.
+                    </p>
+                </div>
+
+                <!-- 13. Contact Us -->
+                <div class="privacy-section" style="margin-bottom: 0;">
+                    <h2>13. Contact Us</h2>
+                    <p>
+                        If you have any questions or concerns about this privacy policy or our data practices,
+                        please contact ES Designs:
+                    </p>
+                    <ul>
+                        <li><strong>Website:</strong> <a href="https://esdesigns.org" style="color: var(--color-accent);">esdesigns.org</a></li>
+                        <li><strong>Email:</strong> <a href="mailto:privacy@esdesigns.org" style="color: var(--color-accent);">privacy@esdesigns.org</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+    </main>
+
+    <!-- Site Footer -->
+    <footer class="site-footer" id="siteFooter">
+        <div class="footer-top">
+            <a href="/" class="footer-logo-link" aria-label="Home">
+                <img src="/assets/images/brand/esd-logo.png" alt="ESD" class="footer-logo">
+                <div class="footer-logo-glow"></div>
+            </a>
+            <div class="footer-main">
+                <div class="footer-links">
+                    <!-- Populated dynamically by router based on active section -->
+                </div>
+                <p class="footer-copy">&copy; 2025&ndash;2026 ES Designs. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Widget -->
+    <div class="contact-widget" id="contactWidget">
+        <div class="contact-panel" id="contactPanel" role="dialog" aria-modal="true" aria-labelledby="contactPanelTitle" aria-hidden="true">
+            <div class="contact-panel-header">
+                <h2 class="contact-panel-title" id="contactPanelTitle">Connect</h2>
+                <button class="contact-panel-close" id="contactClose" aria-label="Close contact panel" type="button">&times;</button>
+            </div>
+            <div class="contact-quick-actions">
+                <a href="/connect/" class="contact-action-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+                    Save my contact card
+                </a>
+                <a href="mailto:bwinchell@esdesigns.org" class="contact-action-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+                    Email Us
+                </a>
+            </div>
+            <div class="contact-divider"></div>
+            <form id="contactForm" data-supabase-table="messages" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
+                <input type="hidden" name="source" value="contact-widget">
+                <input type="hidden" name="_subject" value="New message from esdesigns.org">
+                <input type="text" name="_honey" style="display:none" aria-label="Leave this field blank">
+                <input type="hidden" name="_captcha" value="false">
+                <div class="contact-form-field">
+                    <input type="text" name="name" autocomplete="name" placeholder="Your Name" aria-label="Your Name" required>
+                </div>
+                <div class="contact-form-field">
+                    <input type="email" name="email" autocomplete="email" placeholder="Your Email" aria-label="Your Email" required>
+                </div>
+                <div class="contact-form-field">
+                    <textarea name="message" placeholder="Your Message" aria-label="Your Message" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="neon-btn contact-submit-btn">Send Message</button>
+                <div class="contact-form-status" id="contactFormStatus" role="status" aria-live="polite"></div>
+            </form>
+        </div>
+        <button class="contact-fab" id="contactFab" aria-label="Connect" aria-expanded="false">
+            <svg class="contact-fab-icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+            <svg class="contact-fab-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <!-- Music Player (persistent, fixed bottom) - Compact single-line bar -->
+    <div class="music-player" id="musicPlayer">
+        <div class="player-progress" id="playerProgress">
+            <div class="player-progress-fill" id="progressFill"></div>
+        </div>
+        <div class="player-bar" id="playerBar">
+            <button class="player-btn" id="prevBtn" aria-label="Previous track">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                    <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                    <line x1="5" y1="19" x2="5" y2="5"></line>
+                </svg>
+            </button>
+            <button class="player-btn player-btn-main" id="playPauseBtn" aria-label="Play">
+                <svg id="playIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                <svg id="pauseIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+                    <rect x="6" y="4" width="4" height="16"></rect>
+                    <rect x="14" y="4" width="4" height="16"></rect>
+                </svg>
+            </button>
+            <button class="player-btn" id="nextBtn" aria-label="Next track">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                    <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                    <line x1="19" y1="5" x2="19" y2="19"></line>
+                </svg>
+            </button>
+            <button class="player-btn player-shuffle-btn" id="shuffleBtn" aria-label="Shuffle tracks">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="16 3 21 3 21 8"></polyline>
+                    <line x1="4" y1="20" x2="21" y2="3"></line>
+                    <polyline points="21 16 21 21 16 21"></polyline>
+                    <line x1="15" y1="15" x2="21" y2="21"></line>
+                    <line x1="4" y1="4" x2="9" y2="9"></line>
+                </svg>
+            </button>
+            <span class="player-track-name" id="trackName">Loading...</span>
+            <button class="player-btn player-expand-btn" id="expandBtn" aria-label="Expand player">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="18 15 12 9 6 15"></polyline>
+                </svg>
+            </button>
+        </div>
+        <div class="player-visualizer-row" id="visualizerRow">
+            <canvas id="visualizerCanvas" class="visualizer-canvas"></canvas>
+        </div>
+        <!-- Expandable panel (hidden by default) -->
+        <div class="player-expanded" id="playerExpanded">
+            <div class="player-expanded-volume">
+                <button class="player-btn" id="muteBtn" aria-label="Toggle mute">
+                    <svg id="volumeOnIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <svg id="volumeOffIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <line x1="23" y1="9" x2="17" y2="15"></line>
+                        <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                </button>
+                <input type="range" id="volumeSlider" class="volume-slider"
+                       min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
+            </div>
+            <div class="player-tracklist" id="trackList"></div>
+        </div>
+    </div>
+
+    <!-- Hidden audio element -->
+    <audio id="audioElement" preload="metadata"></audio>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2/dist/umd/supabase.js" integrity="sha256-6MVI+htiTxo+/n5J4b2QjlkOKQoQWjglES7N1nZf0Xw=" crossorigin="anonymous"></script>
+    <script src="/js/supabase-client.js"></script>
+    <script src="/js/turnstile.js"></script>
+    <script src="/js/particles.js"></script>
+    <script src="/js/music-player.js"></script>
+    <script src="/js/scroll-animations.js"></script>
+    <script src="/js/router.js"></script>
+    <script src="/js/contact-widget.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

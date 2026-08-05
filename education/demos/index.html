@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ES Designs | Teaching With AI in Higher Education + Title II Accessibility</title>
-    <meta name="description" content="Most colleges are policing AI. ES Designs helps you teach it — practical, evidence-based AI courses and workshops for higher ed, plus ADA Title II accessibility compliance. Built by a 21-year educator. Start the free AI course.">
-    <link rel="canonical" href="https://esdesigns.org/">
+    <title>White-Label Platform Demos | ES Designs Education Technology</title>
+    <meta name="description" content="See the ES Designs adaptive learning platform in action. Explore live demo platforms for Westlake University and Cardinal Academy — each fully branded and customized.">
+    <link rel="canonical" href="https://esdesigns.org/education/demos/">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://cdn.jsdelivr.net https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self'; frame-src https://brooksw453.github.io https://scheduler.zoom.us https://challenges.cloudflare.com; connect-src 'self' https://formsubmit.co https://awcmkderlpyxpkmrnvwi.supabase.co https://courses.esdesigns.org https://cdn.jsdelivr.net https://challenges.cloudflare.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="ES Designs | Teaching With AI in Higher Education + Title II Accessibility">
-    <meta property="og:description" content="Most colleges are policing AI. ES Designs helps you teach it — practical, evidence-based AI courses and workshops for higher ed, plus ADA Title II accessibility compliance. Built by a 21-year educator. Start the free AI course.">
+    <meta property="og:title" content="White-Label Platform Demos | ES Designs Education Technology">
+    <meta property="og:description" content="See the ES Designs adaptive learning platform in action. Explore live demo platforms for Westlake University and Cardinal Academy — each fully branded and customized.">
     <meta property="og:image" content="/assets/images/elliptical/cover.png">
-    <meta property="og:url" content="https://esdesigns.org/">
+    <meta property="og:url" content="https://esdesigns.org/education/demos/">
     <meta property="og:type" content="website">
 
     <!-- Structured Data (Schema.org) -->
@@ -106,7 +106,7 @@
     <!-- Brand overrides (loaded LAST — wins specificity for light themes) -->
     <link rel="stylesheet" href="/css/brand-overrides.css">
 </head>
-<body data-section="landing">
+<body data-section="ed">
     <!-- Skip-to-content link (visible on keyboard focus) -->
     <a class="skip-link" href="#page-content">Skip to main content</a>
 
@@ -127,163 +127,120 @@
     </header>
 
     <!-- Main Content (swapped by router) -->
-    <main id="page-content" tabindex="-1" data-prerendered="/" data-prerendered="/">
-<!-- Landing Page — AI-led front door (v6) -->
+    <main id="page-content" tabindex="-1" data-prerendered="/" data-prerendered="/education/demos">
+<!-- White-Label Platform Demos Page -->
 
-<div class="landing-page">
-
-    <!-- AI hero — full-width, first thing seen -->
-    <section class="landing-hero" data-animate="fade-up" aria-labelledby="landingHeroTitle">
-        <p class="landing-hero-eyebrow">ES Designs &middot; AI in Higher Education</p>
-        <h1 id="landingHeroTitle">Most colleges are policing AI. We help you teach it.</h1>
-        <p class="landing-hero-subhead">Practical, evidence-based AI for higher ed &mdash; from a 21-year educator.</p>
-        <div class="landing-hero-courses">
-            <p class="landing-hero-courses-label">Sign up for free courses now</p>
-            <div class="landing-hero-actions">
-                <div class="landing-course-cta">
-                    <a href="https://courses.esdesigns.org/courses/ai-teaching-essentials"
-                       target="_blank" rel="noopener" class="neon-btn btn-filled"
-                       data-ga="free-course" data-ga-source="home-hero"
-                       data-ga-course="ai-teaching-essentials">AI Teaching Essentials &rarr;</a>
-                    <span class="landing-course-cta-note">For faculty new to teaching with AI</span>
-                </div>
-                <div class="landing-course-cta">
-                    <a href="https://courses.esdesigns.org/courses/zero-to-agent"
-                       target="_blank" rel="noopener" class="neon-btn"
-                       data-ga="free-course" data-ga-source="home-hero"
-                       data-ga-course="zero-to-agent">Advanced Claude Code &rarr;</a>
-                    <span class="landing-course-cta-note">Build agentic AI with Claude Code</span>
-                </div>
-            </div>
-            <a href="https://courses.esdesigns.org/ai" target="_blank" rel="noopener"
-               class="landing-hero-explore" data-ga="explore-ai"
-               data-ga-source="home-hero">Or browse the full AI course line &rarr;</a>
-        </div>
-
-        <!-- Unified email capture — Beehiiv (sender) + Supabase mirror, server-side -->
-        <form class="landing-capture" data-capture-endpoint="https://courses.esdesigns.org/api/subscribe" data-source="home-hero">
-            <span class="landing-capture-label" id="capDescHero">
-                Get <strong>The Learning Curve</strong>, a short, practical note on AI, accessibility, and what&rsquo;s next in higher ed. No hype, no spam.
-            </span>
-            <div class="landing-capture-row">
-                <label for="capEmailHero" class="visually-hidden">Email address for The Learning Curve newsletter</label>
-                <input id="capEmailHero" name="email" type="email" autocomplete="email"
-                       placeholder="you@college.edu" aria-describedby="capDescHero" required>
-                <button type="submit" class="neon-btn btn-filled landing-capture-btn">Subscribe &rarr;</button>
-            </div>
-            <span class="contact-status" role="status" aria-live="polite"></span>
-        </form>
-    </section>
-
-    <!-- Four tiles — AI line first, then the adjacent + accessibility lines -->
-    <div class="landing-secondary" data-animate="fade-up">
-        <a href="/ai/" class="landing-panel landing-panel-ai">
-            <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l1.8 4.4 4.4 1.8-4.4 1.8L12 15.9l-1.8-4.4L5.8 9.7l4.4-1.8L12 3.5z"/><path d="M18.6 14.6l.75 1.9 1.9.75-1.9.75-.75 1.9-.75-1.9-1.9-.75 1.9-.75z"/></svg></div>
-            <h2>AI in Higher Education</h2>
-            <p class="landing-panel-subtitle">Teach with AI &mdash; don't police it</p>
-            <p>Self-paced courses for faculty and administrators, campus workshops, and a free AI tools guide &mdash; evidence-based, built for how teaching actually works.</p>
-            <span class="landing-panel-cta">Explore the AI line &rarr;</span>
-        </a>
-
-        <a href="/education/courses/" class="landing-panel landing-panel-secondary landing-panel-courses">
-            <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.3L2.5 9 12 13.7 21.5 9 12 4.3z"/><path d="M6.5 11v4.3c0 1.2 2.5 2.2 5.5 2.2s5.5-1 5.5-2.2V11"/><path d="M21.5 9v4.6"/></svg></div>
-            <h2>Adaptive Learning Courses</h2>
-            <p class="landing-panel-subtitle">AI-tutored, self-paced courses for higher ed</p>
-            <p>Adaptive courses with text-to-speech, speech-to-text, AI tutoring, and accessible delivery &mdash; running today on courses.esdesigns.org.</p>
-            <span class="landing-panel-cta">Browse courses &rarr;</span>
-        </a>
-
-        <a href="/education/" class="landing-panel landing-panel-ed">
-            <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="3.7" r="1.6"/><path d="M4.5 7.5c2.4 1.1 4.9 1.6 7.5 1.6s5.1-.5 7.5-1.6"/><path d="M12 8.6V14"/><path d="M8.7 21l3.3-7 3.3 7"/></svg></div>
-            <h2>Higher Ed Title&nbsp;II Compliance</h2>
-            <p class="landing-panel-subtitle">Plan &middot; Assess &middot; Train &middot; Remediate &middot; Monitor</p>
-            <p>The integrated planning system for ADA Title&nbsp;II accessibility. Build your full compliance plan in 30 minutes &mdash; free &mdash; then audit, train, and remediate from one connected system.</p>
-            <span class="landing-panel-cta">Build your plan &rarr;</span>
-        </a>
-
-        <a href="/vr/" class="landing-panel landing-panel-secondary landing-panel-vr">
-            <div class="landing-panel-visual landing-panel-visual-svg" aria-hidden="true"><svg viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6h44a6 6 0 0 1 6 6v16a6 6 0 0 1-6 6H42a4 4 0 0 1-3.2-1.6L34 26a2.5 2.5 0 0 0-4 0l-4.8 6.4A4 4 0 0 1 22 34H10a6 6 0 0 1-6-6V12a6 6 0 0 1 6-6Z"/><circle cx="18" cy="20" r="5"/><circle cx="46" cy="20" r="5"/></svg></div>
-            <h2>VR Development</h2>
-            <p class="landing-panel-subtitle">Immersive learning experiences for Meta Quest</p>
-            <p>Vantura delivers the 360 video your own faculty film to the Quest headsets your school already owns. Alongside it, the Anatomy &amp; Physiology Lab and Elliptical Explorer &mdash; both shipped and maintained.</p>
-            <span class="landing-panel-cta">Explore VR development &rarr;</span>
-        </a>
-    </div>
-
-    <!-- Five-step accessibility system map — customer-facing: plan -> monitor, one connected vendor -->
-<section class="system-map" aria-label="The accessibility system">
+<!-- Hero -->
+<section class="ed-hero">
     <div class="container">
-        <h2 class="system-map-title">Digital accessibility for higher ed, end to end</h2>
-        <p class="system-map-subtitle">Plan, assess, train, remediate, and monitor your ADA Title&nbsp;II and WCAG&nbsp;2.2 compliance &mdash; from one connected vendor. Not a scanner that hands you a list and walks away.</p>
-        <ol class="system-map-grid">
-            <li class="system-card">
-                <span class="system-card-num" aria-hidden="true">1</span>
-                <span class="system-card-step">Plan</span>
-                <h3 class="system-card-title"><a href="/education/roadmap-tool/" class="system-card-link-overlay">Compliance Roadmap Tool</a></h3>
-                <p class="system-card-desc">Build your full Title II compliance plan in 30 minutes. Nine chapters, AI-drafted summaries, accessible PDF export.</p>
-                <p class="system-card-price">Free &middot; Premium $349</p>
-                <a class="system-card-link" href="/education/roadmap-tool/">Learn more &rarr;</a>
-            </li>
-            <li class="system-card">
-                <span class="system-card-num" aria-hidden="true">2</span>
-                <span class="system-card-step">Assess</span>
-                <h3 class="system-card-title"><a href="/education/audit/" class="system-card-link-overlay">AI Website Audit</a></h3>
-                <p class="system-card-desc">Crawl-based WCAG 2.2 AA audits with AI-generated remediation suggestions and branded PDF reports.</p>
-                <p class="system-card-price">Free single page &middot; From $2,500</p>
-                <a class="system-card-link" href="/education/audit/">Learn more &rarr;</a>
-            </li>
-            <li class="system-card">
-                <span class="system-card-num" aria-hidden="true">3</span>
-                <span class="system-card-step">Train</span>
-                <h3 class="system-card-title"><a href="/education/wcag-course/" class="system-card-link-overlay">WCAG 2.2 Course Family</a></h3>
-                <p class="system-card-desc">Plain-English accessibility courses for faculty, instructional designers, and admins. Self-paced, certificate on completion.</p>
-                <p class="system-card-price">$49&ndash;$149 per seat</p>
-                <a class="system-card-link" href="/education/wcag-course/">Learn more &rarr;</a>
-            </li>
-            <li class="system-card">
-                <span class="system-card-num" aria-hidden="true">4</span>
-                <span class="system-card-step">Remediate</span>
-                <h3 class="system-card-title"><a href="/education/ally-pro/" class="system-card-link-overlay">Document Ally Pro</a></h3>
-                <p class="system-card-desc">AI-powered WCAG 2.2 document remediation for higher ed. Batch upload, branded analytics, FERPA-friendly.</p>
-                <p class="system-card-price">$29 credit packs &middot; $5K+ institutional</p>
-                <a class="system-card-link" href="/education/ally-pro/">Learn more &rarr;</a>
-            </li>
-            <li class="system-card is-pending">
-                <span class="system-card-num" aria-hidden="true">5</span>
-                <span class="system-card-step">Monitor</span>
-                <h3 class="system-card-title">Continuous Monitoring</h3>
-                <p class="system-card-desc">Weekly automated scans, quarterly trend reports, email alerts. Keeps your compliance posture current after launch.</p>
-                <p class="system-card-price">$99&ndash;$299 per month</p>
-                <span class="system-card-badge">In development</span>
-            </li>
-        </ol>
+        <h1 data-animate="fade-up">See the Platform in Action</h1>
+        <p class="ed-subtitle" data-animate="fade-up">Every institution gets its own branded experience &mdash; custom colors, logo, domain, and course catalog.</p>
+        <p class="ed-description" data-animate="fade-up">Explore two live demo platforms below. Each one runs on the same adaptive learning engine, but looks and feels completely different &mdash; because it's built to match the institution's brand.</p>
     </div>
 </section>
 
-    <!-- Slim capture — one more chance before the footer -->
-    <section class="landing-capture-footer" aria-label="Newsletter signup">
-        <form class="landing-capture landing-capture-slim" data-capture-endpoint="https://courses.esdesigns.org/api/subscribe" data-source="home-footer">
-            <span class="landing-capture-label" id="capDescFooter">
-                One practical note every other week, <strong>The Learning Curve</strong>, on AI, accessibility, and what&rsquo;s next in higher ed.
-            </span>
-            <div class="landing-capture-row">
-                <label for="capEmailFooter" class="visually-hidden">Email address for The Learning Curve newsletter</label>
-                <input id="capEmailFooter" name="email" type="email" autocomplete="email"
-                       placeholder="you@college.edu" aria-describedby="capDescFooter" required>
-                <button type="submit" class="neon-btn btn-filled landing-capture-btn">Subscribe &rarr;</button>
+<!-- Demo Platforms -->
+<section class="section">
+    <div class="container">
+        <div class="section-header" data-animate="fade-up">
+            <h2>Live Demo Platforms</h2>
+            <p>Click through to explore each platform as a student would.</p>
+        </div>
+        <div class="ed-product-grid" data-stagger>
+            <!-- Westlake University -->
+            <div class="ed-product-card" data-animate="fade-up" style="border-top: 4px solid #059669;">
+                <div style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #059669; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 1.2rem;">W</div>
+                    <div>
+                        <h3 style="margin: 0;">Westlake University</h3>
+                        <span style="font-size: var(--text-sm); color: var(--text-secondary);">westlake.esdesigns.org</span>
+                    </div>
+                </div>
+                <p>A green-themed university platform with 4 courses and an integrated Document Ally Pro accessibility tool. Features adaptive learning, AI tutoring, and self-paced progress tracking.</p>
+                <ul class="ed-feature-list">
+                    <li>Custom green/teal branding</li>
+                    <li>4 courses + Document Ally Pro tool</li>
+                    <li>Custom subdomain</li>
+                    <li>AI-powered adaptive learning</li>
+                </ul>
+                <a href="https://westlake.esdesigns.org" target="_blank" rel="noopener" class="neon-btn btn-filled" style="background: #059669; border-color: #059669;">Visit Westlake Demo &rarr;</a>
             </div>
-            <span class="contact-status" role="status" aria-live="polite"></span>
-        </form>
-    </section>
 
-    <div class="landing-footer" data-animate="fade-up">
-        <a href="/about/">About</a>
-        <span class="landing-dot">&middot;</span>
-        <a href="/privacy/">Privacy</a>
-        <span class="landing-dot">&middot;</span>
-        <a href="/connect/">Connect</a>
+            <!-- Cardinal Academy -->
+            <div class="ed-product-card" data-animate="fade-up" style="border-top: 4px solid #dc2626;">
+                <div style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #dc2626; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 1.2rem;">C</div>
+                    <div>
+                        <h3 style="margin: 0;">Cardinal Academy</h3>
+                        <span style="font-size: var(--text-sm); color: var(--text-secondary);">cardinal.esdesigns.org</span>
+                    </div>
+                </div>
+                <p>A red-themed academy platform with 3 courses featuring adaptive AI tutoring and personalized feedback. Same engine, completely different brand identity.</p>
+                <ul class="ed-feature-list">
+                    <li>Custom red/burgundy branding</li>
+                    <li>3 courses with AI tutoring</li>
+                    <li>Custom subdomain</li>
+                    <li>Personalized difficulty scaling</li>
+                </ul>
+                <a href="https://cardinal.esdesigns.org" target="_blank" rel="noopener" class="neon-btn btn-filled" style="background: #dc2626; border-color: #dc2626;">Visit Cardinal Demo &rarr;</a>
+            </div>
+        </div>
     </div>
-</div>
+</section>
+
+<!-- What You Get -->
+<section class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+        <div class="section-header" data-animate="fade-up">
+            <h2>What Every Institution Gets</h2>
+            <p>The same powerful platform, fully customized to your brand.</p>
+        </div>
+        <div class="ed-features-grid" data-stagger>
+            <div class="ed-feature-card" data-animate="fade-up">
+                <div style="font-size: 2rem; margin-bottom: var(--space-md);">&#x1F3A8;</div>
+                <h3>Your Brand, Your Colors</h3>
+                <p>Custom logo, color scheme, and visual identity. Students see your institution's brand throughout.</p>
+            </div>
+            <div class="ed-feature-card" data-animate="fade-up">
+                <div style="font-size: 2rem; margin-bottom: var(--space-md);">&#x1F310;</div>
+                <h3>Your Domain</h3>
+                <p>Run the platform on your own subdomain or custom domain. Full ownership of the student experience.</p>
+            </div>
+            <div class="ed-feature-card" data-animate="fade-up">
+                <div style="font-size: 2rem; margin-bottom: var(--space-md);">&#x1F4DA;</div>
+                <h3>Your Course Catalog</h3>
+                <p>Choose from our growing library of adaptive courses, or add your own content by link.</p>
+            </div>
+            <div class="ed-feature-card" data-animate="fade-up">
+                <div style="font-size: 2rem; margin-bottom: var(--space-md);">&#x1F4B3;</div>
+                <h3>Your Revenue</h3>
+                <p>Integrated payment processing lets you charge for courses and collect revenue directly.</p>
+            </div>
+            <div class="ed-feature-card" data-animate="fade-up">
+                <div style="font-size: 2rem; margin-bottom: var(--space-md);">&#x1F4CA;</div>
+                <h3>Your Dashboard</h3>
+                <p>Track enrollments, completions, payments, and student progress from a single admin dashboard.</p>
+            </div>
+            <div class="ed-feature-card" data-animate="fade-up">
+                <div style="font-size: 2rem; margin-bottom: var(--space-md);">&#x1F680;</div>
+                <h3>Launch in Weeks</h3>
+                <p>No development required. We configure and deploy your branded platform &mdash; ready for students fast.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="ed-institution-cta">
+    <div class="container" data-animate="fade-up">
+        <h2>Ready to Launch Your Own?</h2>
+        <p style="max-width: 600px; margin: 0 auto; color: var(--text-secondary);">Get a fully branded course platform deployed under your institution's domain. We handle the setup &mdash; you focus on your students.</p>
+        <div style="display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; margin-top: var(--space-xl);">
+            <a href="mailto:bwinchell@esdesigns.org?subject=White-Label%20Platform%20Demo%20Request" class="neon-btn btn-filled">Schedule a Free Demo &rarr;</a>
+            <a href="/education/courses/" class="neon-btn">Learn More About the Platform &rarr;</a>
+        </div>
+    </div>
+</section>
 
     </main>
 
