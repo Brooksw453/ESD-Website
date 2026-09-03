@@ -43,16 +43,16 @@ class Router {
         // Page metadata for SEO
         this.meta = {
             '/': {
-                title: 'ES Designs | Teaching With AI in Higher Education + Title II Accessibility',
-                description: 'Most colleges are policing AI. ES Designs helps you teach it — practical, evidence-based AI courses and workshops for higher ed, plus ADA Title II accessibility compliance. Built by a 21-year educator. Start the free AI course.'
+                title: 'ES Designs | Title II Document Remediation for Higher Ed, With the Record to Prove It',
+                description: 'April 26, 2027 is the ADA Title II date for public colleges. ES Designs remediates your documents and returns every file with a verified before/after record, at a price one director can approve. Free Title II planning tool; ten documents fixed free. Plus practical AI for teaching, from a 21-year educator.'
             },
             '/elliptical': {
                 title: 'Elliptical Explorer | VR Fitness Adventure for Meta Quest',
                 description: 'A VR fitness adventure where your real elliptical movement powers gameplay. Branching tracks, collectible gems, and timed challenges on Meta Quest.'
             },
             '/education': {
-                title: 'ES Designs Education Technology | Adaptive Learning Courses & Document Accessibility',
-                description: 'Adaptive learning courses and AI-powered document accessibility for higher education. White-label course platform with integrated payments. Document Ally Pro for free AI-powered WCAG 2.2 document remediation.'
+                title: 'Title II Document Remediation & Planning for Higher Ed | ES Designs',
+                description: 'Document remediation with the before/after record, the free Title II roadmap tool, WCAG 2.2 courses, and website audits for colleges facing the April 26, 2027 ADA Title II deadline. Send ten documents and see the record on your own files.'
             },
             '/education/courses': {
                 title: 'Adaptive Learning Platform | White-Label Course Platform by ES Designs',
@@ -263,7 +263,7 @@ class Router {
         if (!(target in this.routes)) return;   // real page, not an SPA route
 
         e.preventDefault();
-        this.navigate(target);
+        this.navigate(target, url.hash);
     }
 
     /* A stray legacy '#/x' link (an old blog post, courses.esdesigns.org, a
@@ -277,12 +277,33 @@ class Router {
         this.handleRoute();
     }
 
-    navigate(path) {
-        const href = Router.toHref(path);
+    /* `hash` is an in-page anchor ('#sampleForm') carried on a route link,
+       e.g. /education/#sampleForm from an email or another page. Kept in
+       the URL and scrolled to once the route has rendered. */
+    async navigate(path, hash = '') {
+        if (hash && hash.startsWith('#/')) hash = '';
+        const href = Router.toHref(path) + hash;
         if (Router.normalizePath(window.location.pathname) !== Router.normalizePath(path)) {
             history.pushState({}, '', href);
+        } else if (hash) {
+            history.replaceState({}, '', href);
         }
-        this.handleRoute();
+        await this.handleRoute();
+        if (hash) this.scrollToHash(hash);
+    }
+
+    /* Scroll an in-page anchor into view under the fixed header. */
+    scrollToHash(hash) {
+        const go = () => {
+            const el = hash && document.getElementById(hash.slice(1));
+            if (!el) return;
+            const y = el.getBoundingClientRect().top + window.scrollY - 80;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+        };
+        go();
+        // The fade-up reveal shifts sections a few px after first paint;
+        // re-aim once it has settled so the target lands under the header.
+        setTimeout(go, 450);
     }
 
     async start() {
@@ -294,6 +315,10 @@ class Router {
             history.replaceState({}, '', Router.toHref(this.redirects[p] || p));
         }
         await this.handleRoute();
+        // Cold load of /education/#sampleForm: land under the header, not
+        // behind it (the browser's own anchor jump ignores the fixed nav).
+        const anchor = window.location.hash;
+        if (anchor && !anchor.startsWith('#/')) this.scrollToHash(anchor);
     }
 
     async handleRoute() {

@@ -161,14 +161,23 @@ def main():
                                 f'<link rel="canonical" href="{url}">\n    <meta property="og:title"', 1)
 
         page = re.sub(r'<body data-section="[^"]*"', f'<body data-section="{section}"', page, count=1)
+        # The shell is the previous build's index.html, so its <main> already
+        # carries data-prerendered="/". Drop any existing attribute before
+        # stamping this route's own, or they accumulate on every rebuild and
+        # the browser keeps the first one ("/"), which defeats the no-fetch
+        # first paint on every route except the home page.
         page = main_re.sub(
-            lambda mm: (mm.group(1).replace(">", f' data-prerendered="{path}">', 1)
+            lambda mm: (re.sub(r'\s+data-prerendered="[^"]*"', "", mm.group(1))
+                          .replace(">", f' data-prerendered="{path}">', 1)
                         + "\n" + fragment + "\n    " + mm.group(3)),
             page, count=1)
 
         out = ROOT / ("index.html" if path == "/" else path.strip("/") + "/index.html")
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(page, encoding="utf-8", newline="")
+        # Write only when the output actually changed, so an untouched route
+        # keeps its mtime and the sitemap's <lastmod> stays honest.
+        if not (out.exists() and out.read_text(encoding="utf-8") == page):
+            out.write_text(page, encoding="utf-8", newline="")
         written.append((href_for(path), out.relative_to(ROOT).as_posix(), len(page)))
 
     for href, rel, size in written:

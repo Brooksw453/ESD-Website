@@ -1558,3 +1558,183 @@ body[data-section="landing"] .landing-capture-slim .landing-capture-label {
 body[data-section="landing"] .landing-capture-slim .landing-capture-row {
     justify-content: center;
 }
+
+/* ============================================
+   SEPTEMBER 2026 REBOOT — two doors, three signposts
+   The five-step map now has four cards (Plan, Assess, Train,
+   Remediate) with a real button on the two doors (Plan and
+   Remediate) and a one-line footnote for Monitor. The home page
+   also gains the ten-document sample form (the ed-inline-contact
+   component) and an AI section that reuses the hero classes.
+   Scoped to the light themes; the synthwave sections are untouched.
+   ============================================ */
+
+/* ===== Four-card map ===== */
+.system-map-grid-doors {
+    grid-template-columns: repeat(4, 1fr);
+}
+@media (max-width: 1024px) {
+    .system-map-grid-doors { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 540px) {
+    .system-map-grid-doors { grid-template-columns: 1fr; }
+}
+
+/* The two doors read as the actionable cards: teal top edge, teal number */
+.system-card.is-door {
+    border-top: 3px solid var(--color-accent);
+}
+.system-card.is-door .system-card-num {
+    background: var(--color-accent);
+    box-shadow: 0 2px 8px rgba(14, 124, 102, 0.25);
+}
+.system-card.is-door:hover {
+    border-color: var(--color-accent);
+    border-top-color: var(--color-accent);
+}
+
+/* Card button: full width, compact, above the title's click overlay */
+.system-card .system-card-btn {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+    margin-top: var(--space-sm);
+    padding: 10px 14px !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.01em !important;
+    text-transform: none !important;
+    white-space: nowrap;
+}
+/* Signpost links sit on the same baseline as the door buttons */
+.system-card .system-card-link {
+    margin-top: var(--space-sm);
+    padding: 10px 0;
+}
+
+/* Monitor — one line under the grid, not a card */
+.system-map-footnote {
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    margin: var(--space-xl) auto 0;
+    max-width: 720px;
+}
+.system-map-footnote-step {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    border: 1px dashed var(--color-border);
+    border-radius: 999px;
+    padding: 3px 10px;
+    margin-right: var(--space-sm);
+    vertical-align: middle;
+}
+
+/* Home page: the map sits closer to the hero now that it is the second thing seen */
+body[data-section="landing"] .landing-page .system-map-home {
+    margin-top: 0;
+    padding-top: var(--space-xl);
+}
+
+/* ===== Ten-document sample form on the home page ===== */
+body[data-section="landing"] .landing-sample {
+    align-self: stretch;
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto var(--space-3xl);
+    padding: 0 var(--space-lg);
+    box-sizing: border-box;
+}
+body[data-section="landing"] .ed-inline-contact h3,
+body[data-section="ed"] .ed-inline-contact h3 {
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif;
+    color: var(--color-primary);
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+body[data-section="landing"] .ed-inline-contact p,
+body[data-section="ed"] .ed-inline-contact p {
+    color: var(--color-text);
+    font-size: 0.98rem;
+    line-height: 1.55;
+}
+body[data-section="landing"] .ed-inline-contact input:focus,
+body[data-section="landing"] .ed-inline-contact textarea:focus,
+body[data-section="ed"] .ed-inline-contact input:focus,
+body[data-section="ed"] .ed-inline-contact textarea:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(14, 124, 102, 0.15);
+}
+/* "Prefer email?" line under the form */
+.landing-sample-alt,
+.ed-inline-contact-alt {
+    margin: var(--space-md) 0 0 !important;
+    font-size: 0.9rem !important;
+    color: var(--color-text-muted) !important;
+}
+.landing-sample-alt a,
+.ed-inline-contact-alt a {
+    color: var(--color-accent);
+    font-weight: 600;
+    text-decoration: none;
+}
+.landing-sample-alt a:hover,
+.ed-inline-contact-alt a:hover {
+    text-decoration: underline;
+}
+
+/* ===== AI section on the home page — second, reuses the hero classes ===== */
+body[data-section="landing"] .landing-ai {
+    align-self: stretch;
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto var(--space-2xl);
+    padding: var(--space-3xl) var(--space-lg) var(--space-2xl);
+    text-align: center;
+    border-top: 1px solid var(--color-border);
+}
+body[data-section="landing"] .landing-ai h2 {
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
+    color: var(--color-primary) !important;
+    font-size: clamp(1.6rem, 3.6vw, 2.4rem) !important;
+    font-weight: 700 !important;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-transform: none !important;
+    margin: 0 auto var(--space-md);
+    max-width: 640px;
+}
+
+/* Map title: a legacy landing rule uppercases section h2s; the map title
+   is sentence case on /education and should match on the home page. */
+body[data-section="landing"] .system-map-title {
+    text-transform: none !important;
+    letter-spacing: -0.01em !important;
+}
+/* Tighter hero -> map handoff on the home page */
+body[data-section="landing"] .landing-hero {
+    padding-bottom: var(--space-xl);
+}
+body[data-section="landing"] .landing-page .system-map-home {
+    padding-top: 0;
+}
+/* The two door buttons are teal on both pages, matching the card's
+   teal edge, whatever the section's default button color is. */
+body .system-card .system-card-btn.btn-filled {
+    background: var(--color-accent) !important;
+    border-color: var(--color-accent) !important;
+    color: var(--color-white) !important;
+}
+body .system-card .system-card-btn.btn-filled:hover,
+body .system-card .system-card-btn.btn-filled:focus-visible {
+    background: var(--color-accent-hover) !important;
+    border-color: var(--color-accent-hover) !important;
+    box-shadow: 0 4px 16px rgba(14, 124, 102, 0.3) !important;
+}
