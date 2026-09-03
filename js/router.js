@@ -84,7 +84,7 @@ class Router {
             },
             '/vantura': {
                 title: 'Vantura: 360 Video for Higher Ed and CTE | ES Designs',
-                description: 'Host your program\'s own 360 videos and deliver them to the Quest headsets you already own. No per-student fees. Offline playback. Start a free pilot.'
+                description: 'Host your program\'s own 360 videos and deliver them to the Quest headsets you already own. Free Quest app on the Meta Horizon Store, free plan with sample lessons, no per-student fees, offline playback.'
             },
             '/about': {
                 title: 'About ES Designs | Brooks Winchell',
