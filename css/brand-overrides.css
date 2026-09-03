@@ -1738,3 +1738,93 @@ body .system-card .system-card-btn.btn-filled:focus-visible {
     border-color: var(--color-accent-hover) !important;
     box-shadow: 0 4px 16px rgba(14, 124, 102, 0.3) !important;
 }
+
+/* ============================================
+   ED + SHARED SECTIONS — buttons and accents on brand
+   education.css still paints buttons, inline links and the
+   number accents in the pre-pivot blue (#2563eb). The home page
+   is navy/teal, and a visitor now goes hero -> /education in one
+   click, so the seam showed. Same mapping as the landing section:
+   outline button = navy, filled button = teal, links = teal,
+   numbers = navy. Scoped to ed + shared; nothing synthwave changes.
+   ============================================ */
+body[data-section="ed"] .neon-btn,
+body[data-section="shared"] .neon-btn {
+    border-color: var(--color-primary) !important;
+    color: var(--color-primary) !important;
+    background: transparent;
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
+}
+body[data-section="ed"] .neon-btn:hover,
+body[data-section="shared"] .neon-btn:hover {
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: var(--color-white) !important;
+    box-shadow: 0 4px 12px rgba(31, 61, 92, 0.25) !important;
+}
+body[data-section="ed"] .neon-btn.btn-filled,
+body[data-section="shared"] .neon-btn.btn-filled {
+    background: var(--color-accent) !important;
+    border-color: var(--color-accent) !important;
+    color: var(--color-white) !important;
+}
+body[data-section="ed"] .neon-btn.btn-filled:hover,
+body[data-section="shared"] .neon-btn.btn-filled:hover {
+    background: var(--color-accent-hover) !important;
+    border-color: var(--color-accent-hover) !important;
+    box-shadow: 0 4px 16px rgba(14, 124, 102, 0.3) !important;
+}
+body[data-section="ed"] .neon-btn:focus-visible,
+body[data-section="shared"] .neon-btn:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* Inline text links and generic link hover */
+body[data-section="ed"] .neon-link,
+body[data-section="shared"] .neon-link,
+body[data-section="ed"] a:hover,
+body[data-section="shared"] a:hover {
+    color: var(--color-accent);
+}
+body[data-section="ed"] .neon-link:hover,
+body[data-section="shared"] .neon-link:hover {
+    color: var(--color-accent-hover);
+}
+
+/* Number accents: stats, numbered steps, module numbers, course tags */
+body[data-section="ed"] .ed-stat-number,
+body[data-section="ed"] .ed-step-number,
+body[data-section="ed"] .ed-module-number {
+    color: var(--color-primary);
+}
+body[data-section="ed"] .ed-course-tag {
+    background: var(--color-primary);
+}
+
+/* Card hover borders */
+body[data-section="ed"] .ed-product-card:hover,
+body[data-section="ed"] .ed-product-card.is-featured,
+body[data-section="ed"] .ed-course-card:hover,
+body[data-section="ed"] .ed-feature-card-compact:hover,
+body[data-section="ed"] .ed-pricing-card.featured {
+    border-color: var(--color-primary);
+}
+
+/* Eyebrow pills, featured cards, and tags: the last blue/indigo accents */
+body[data-section="ed"] .ed-hero-eyebrow {
+    color: var(--color-accent);
+    background: rgba(14, 124, 102, 0.08);
+}
+body[data-section="ed"] .ed-featured-card {
+    background: linear-gradient(135deg, var(--color-surface), #EEF3F8);
+    border-color: var(--color-border);
+}
+body[data-section="ed"] .ed-featured-badge {
+    color: var(--color-primary);
+    border-color: var(--color-border);
+}
+body[data-section="ed"] .ed-product-tag {
+    color: var(--color-primary);
+    background: rgba(31, 61, 92, 0.08);
+}
