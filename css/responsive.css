@@ -282,37 +282,11 @@
 }
 
 /* --- Tablets (>= 768px) --- */
+/* The header keeps the hamburger through tablet widths; the inline nav
+   starts at 1024px (see below). Six top-nav links at 14px mono with
+   0.1em tracking need ~790px beside the brand, which no tablet has. */
 
 @media (min-width: 768px) {
-    .hamburger {
-        display: none;
-    }
-
-    .nav-links {
-        position: static;
-        max-height: none;
-        opacity: 1;
-        overflow: visible;
-        flex-direction: row;
-        background: none;
-        backdrop-filter: none;
-        gap: var(--space-xl);
-        border-bottom: none;
-    }
-
-    .nav-links .nav-link {
-        font-family: var(--font-mono);
-        font-size: var(--text-sm);
-        font-weight: 400;
-        opacity: 1;
-        transform: none;
-        transition: color var(--transition-fast);
-        color: var(--text-secondary);
-        padding: var(--space-sm) 0;
-        border-left: none;
-        background: none;
-    }
-
     .split-section {
         grid-template-columns: 1fr 1fr;
     }
@@ -354,6 +328,38 @@
 /* --- Laptops (>= 1024px) --- */
 
 @media (min-width: 1024px) {
+    /* Inline horizontal nav. Gap is space-lg here so six links fit at
+       exactly 1024px; the 1280px block widens it back to space-xl. */
+    .hamburger {
+        display: none;
+    }
+
+    .nav-links {
+        position: static;
+        max-height: none;
+        opacity: 1;
+        overflow: visible;
+        flex-direction: row;
+        background: none;
+        backdrop-filter: none;
+        gap: var(--space-lg);
+        border-bottom: none;
+    }
+
+    .nav-links .nav-link {
+        font-family: var(--font-mono);
+        font-size: var(--text-sm);
+        font-weight: 400;
+        opacity: 1;
+        transform: none;
+        transition: color var(--transition-fast);
+        color: var(--text-secondary);
+        padding: var(--space-sm) 0;
+        border-left: none;
+        background: none;
+        white-space: nowrap;
+    }
+
     .services-grid,
     .mission-grid,
     .grid-3 {
@@ -375,5 +381,9 @@
 @media (min-width: 1280px) {
     .container {
         padding: 0 var(--space-2xl);
+    }
+
+    .nav-links {
+        gap: var(--space-xl);
     }
 }

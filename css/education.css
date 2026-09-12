@@ -108,8 +108,8 @@ body:is([data-section="ed"], [data-section="shared"]) .hamburger span {
     background: #0f172a;
 }
 
-/* Mobile nav dropdown — light theme */
-@media (max-width: 767px) {
+/* Mobile nav dropdown — light theme (hamburger is active up to 1023px) */
+@media (max-width: 1023px) {
     body:is([data-section="ed"], [data-section="shared"]) .nav-links {
         background: rgba(255, 255, 255, 0.98);
         border-bottom: 1px solid #e2e8f0;

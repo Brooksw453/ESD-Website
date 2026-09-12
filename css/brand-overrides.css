@@ -141,13 +141,14 @@ body[data-section="shared"] .nav-link.active {
 /* ===== Mobile dropdown panel on light themes =====
    responsive.css gives the mobile .nav-links dropdown a dark navy
    background (rgba(10,10,26,0.97)) + cyan border + 24px backdrop blur,
-   active up to 767px (desktop horizontal nav starts at 768px). This
-   override was previously capped at 640px, so on the 641–767px band the
-   stale synthwave panel (dark navy / cyan tint) leaked through on the
-   light-themed pages. Match the real mobile-nav breakpoint (767px),
-   paint the panel solid white, and drop the cyan border + blur tint so
-   the synthwave look only persists on the dark VR/Elliptical sections. */
-@media (max-width: 767px) {
+   active up to 1023px (the inline horizontal nav starts at 1024px, since
+   the six-link education nav does not fit on one line below that). This
+   override was previously capped at 640px, so the stale synthwave panel
+   (dark navy / cyan tint) leaked through on the light-themed pages.
+   Match the real mobile-nav breakpoint (1023px), paint the panel solid
+   white, and drop the cyan border + blur tint so the synthwave look only
+   persists on the dark VR/Elliptical sections. */
+@media (max-width: 1023px) {
     body[data-section="landing"] .nav-links,
     body[data-section="ed"] .nav-links,
     body[data-section="shared"] .nav-links {
