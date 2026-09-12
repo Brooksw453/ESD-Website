@@ -135,12 +135,14 @@ class Router {
                 // Slim nav: the Plan->Monitor step rail (system-strip, on the hub
                 // and every product page) already handles product wayfinding, so
                 // the products group under "Accessibility" (the #/education hub).
-                // The footer keeps the full product index.
+                // The footer keeps the full product index. VR Development stays
+                // in the top nav on every section so it never drops off.
                 links: [
                     { href: '/', label: 'Home' },
                     { href: '/ai/', label: 'AI in Higher Ed' },
                     { href: '/education/', label: 'Accessibility' },
                     { href: '/education/courses/', label: 'Adaptive Learning' },
+                    { href: '/vr/', label: 'VR Development' },
                     { href: '/about/', label: 'About' },
                 ]
             },
