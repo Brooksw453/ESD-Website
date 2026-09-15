@@ -10,22 +10,22 @@ class MusicPlayer {
         if (!this.audio) return;
 
         this.tracks = [
-            { title: 'Jagged Edge',                src: 'assets/audio/Jagged Edge.mp3' },
-            { title: 'Push Through Static',        src: 'assets/audio/Push Through Static.mp3' },
-            { title: 'Bright Poppy',               src: 'assets/audio/Bright Poppy.mp3' },
-            { title: 'Tearing Up the House',       src: 'assets/audio/Tearing Up the House.mp3' },
-            { title: 'Midnight Voltage',           src: 'assets/audio/Midnight Voltage.mp3' },
-            { title: 'Press Start to Maybe',       src: 'assets/audio/Press Start to Maybe.mp3' },
-            { title: 'You Might',                  src: 'assets/audio/You Might.mp3' },
-            { title: 'Glow on the Floor',          src: 'assets/audio/Glow on the Floor.mp3' },
-            { title: 'Starshine',                  src: 'assets/audio/Starshine.mp3' },
-            { title: 'Touch the Button',           src: 'assets/audio/Touch the Button.mp3' },
-            { title: 'As I Was Walking',           src: 'assets/audio/As I Was Walking.mp3' },
-            { title: 'As I Was Walking 2',         src: 'assets/audio/As I Was Walking 2.mp3' },
-            { title: 'Bubbly Electro Breaks',      src: 'assets/audio/BUBBLY ELECTRO BREAKS.mp3' },
-            { title: 'Birthday Present',           src: 'assets/audio/Birthday Present.mp3' },
-            { title: "Kickin' It",                 src: "assets/audio/Kickin' It.mp3" },
-            { title: 'Sweet Dream',                src: 'assets/audio/Sweet Dream.mp3' },
+            { title: 'Jagged Edge',                src: '/assets/audio/Jagged Edge.mp3' },
+            { title: 'Push Through Static',        src: '/assets/audio/Push Through Static.mp3' },
+            { title: 'Bright Poppy',               src: '/assets/audio/Bright Poppy.mp3' },
+            { title: 'Tearing Up the House',       src: '/assets/audio/Tearing Up the House.mp3' },
+            { title: 'Midnight Voltage',           src: '/assets/audio/Midnight Voltage.mp3' },
+            { title: 'Press Start to Maybe',       src: '/assets/audio/Press Start to Maybe.mp3' },
+            { title: 'You Might',                  src: '/assets/audio/You Might.mp3' },
+            { title: 'Glow on the Floor',          src: '/assets/audio/Glow on the Floor.mp3' },
+            { title: 'Starshine',                  src: '/assets/audio/Starshine.mp3' },
+            { title: 'Touch the Button',           src: '/assets/audio/Touch the Button.mp3' },
+            { title: 'As I Was Walking',           src: '/assets/audio/As I Was Walking.mp3' },
+            { title: 'As I Was Walking 2',         src: '/assets/audio/As I Was Walking 2.mp3' },
+            { title: 'Bubbly Electro Breaks',      src: '/assets/audio/BUBBLY ELECTRO BREAKS.mp3' },
+            { title: 'Birthday Present',           src: '/assets/audio/Birthday Present.mp3' },
+            { title: "Kickin' It",                 src: "/assets/audio/Kickin' It.mp3" },
+            { title: 'Sweet Dream',                src: '/assets/audio/Sweet Dream.mp3' },
         ];
 
         this.currentIndex = 0;
@@ -49,6 +49,8 @@ class MusicPlayer {
 
         // Recovery coordination — prevents visibility + statechange handlers from racing
         this._recoveryTimeout = null;
+        // Consecutive load failures — stops the auto-skip from cycling forever
+        this._consecutiveErrors = 0;
         // Throttle for MediaSession position state updates
         this._lastPositionUpdate = 0;
 
@@ -197,8 +199,8 @@ class MusicPlayer {
                 artist: 'ES Designs',
                 album: 'Elliptical Explorer Soundtrack',
                 artwork: [
-                    { src: 'assets/images/brand/favicon.svg', sizes: '512x512', type: 'image/svg+xml' },
-                    { src: 'assets/images/brand/esd-logo.png', sizes: '192x192', type: 'image/png' }
+                    { src: '/assets/images/brand/favicon.svg', sizes: '512x512', type: 'image/svg+xml' },
+                    { src: '/assets/images/brand/esd-logo.png', sizes: '192x192', type: 'image/png' }
                 ]
             });
         } catch (e) { /* ignore if MediaMetadata not supported */ }
@@ -687,12 +689,22 @@ class MusicPlayer {
         this.audio.addEventListener('ended', () => { this.shuffleEnabled ? this.shuffle() : this.next(); });
         this.audio.addEventListener('loadedmetadata', () => { this.updatePositionState(); });
 
-        // Auto-skip on load error (404, network failure, decode error)
+        this.audio.addEventListener('playing', () => { this._consecutiveErrors = 0; });
+
+        // Auto-skip on load error (404, network failure, decode error).
+        // Bounded: after every track has failed in a row, stop instead of
+        // cycling through the playlist forever.
         this.audio.addEventListener('error', () => {
             console.warn('Audio load error for:', this.tracks[this.currentIndex]?.title);
-            if (this.isPlaying) {
-                setTimeout(() => this.next(), 500);
+            if (!this.isPlaying) return;
+            this._consecutiveErrors += 1;
+            if (this._consecutiveErrors >= this.tracks.length) {
+                console.warn('Every track failed to load; stopping playback.');
+                this._consecutiveErrors = 0;
+                this.pause();
+                return;
             }
+            setTimeout(() => this.next(), 500);
         });
 
     }
