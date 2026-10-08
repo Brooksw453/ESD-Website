@@ -15,26 +15,27 @@ class Router {
 
         // Map routes to brand sections
         this.sectionMap = {
-            '/':                  'landing',
-            '/elliptical':        'ee',
-            '/vr':                'shared',
+            '/':                  'studio',
+            '/thrustline':        'studio',
+            '/vr':                'studio',
             '/vr/anatomy-physiology-lab': 'shared',
             '/education':         'ed',
-            '/education/courses': 'ed',
-            '/education/demos':        'ed',
             '/education/ally-pro':     'ed',
             '/education/audit':        'ed',
             '/education/wcag-course':  'ed',
             '/education/roadmap-tool': 'ed',
             '/ai':                'ed',
             '/vantura':           'ed',
-            '/about':             'shared',
-            '/privacy':           'shared',
+            '/about':             'studio',
+            '/privacy':           'studio',
         };
 
         // Legacy route redirects
         this.redirects = {
-            '/elliptical-explorer':      '/elliptical',
+            '/elliptical-explorer':      '/thrustline',
+            '/elliptical':               '/thrustline',
+            '/education/courses':        '/education',
+            '/education/demos':          '/education',
             '/games':                    '/',
             '/education/document-ally':  '/education/ally-pro',
             '/education/ally':           '/education/ally-pro',
@@ -43,24 +44,16 @@ class Router {
         // Page metadata for SEO
         this.meta = {
             '/': {
-                title: 'ES Designs | Title II Document Remediation for Higher Ed, With the Record to Prove It',
-                description: 'April 26, 2027 is the ADA Title II date for public colleges. ES Designs remediates your documents and returns every file with a verified before/after record, at a price one director can approve. Free Title II planning tool; ten documents fixed free. Plus practical AI for teaching, from a 21-year educator.'
+                title: 'ES Designs | Independent VR Studio for Meta Quest',
+                description: 'ES Designs is an independent studio in Massachusetts building VR for Meta Quest, end to end: Thrustline, a racing game powered by your workout; Vantura, 360 video for colleges; and the Anatomy & Physiology Lab.'
             },
-            '/elliptical': {
-                title: 'Elliptical Explorer | VR Fitness Adventure for Meta Quest',
-                description: 'A VR fitness adventure where your real elliptical movement powers gameplay. Branching tracks, collectible gems, and timed challenges on Meta Quest.'
+            '/thrustline': {
+                title: 'Thrustline | Race a Jet Bike Powered by Your Workout, on Meta Quest',
+                description: 'Thrustline turns your elliptical, rower, or stair climber into a jet bike race on Meta Quest. Your effort is the throttle. Race your ghosts and six rivals across six courses. Coming December 2026.'
             },
             '/education': {
                 title: 'Title II Document Remediation & Planning for Higher Ed | ES Designs',
                 description: 'Document remediation with the before/after record, the free Title II roadmap tool, WCAG 2.2 courses, and website audits for colleges facing the April 26, 2027 ADA Title II deadline. Send ten documents and see the record on your own files.'
-            },
-            '/education/courses': {
-                title: 'Adaptive Learning Platform | White-Label Course Platform by ES Designs',
-                description: 'White-label course platform with integrated payments, admin dashboard, and AI-powered adaptive learning. Built for workforce development and continuing education.'
-            },
-            '/education/demos': {
-                title: 'White-Label Platform Demos | ES Designs Education Technology',
-                description: 'See the ES Designs adaptive learning platform in action. Explore live demo platforms for Westlake University and Cardinal Academy — each fully branded and customized.'
             },
             '/education/ally-pro': {
                 title: 'Document Ally Pro | Free AI WCAG 2.2 Document Remediation for Higher Ed',
@@ -88,15 +81,15 @@ class Router {
             },
             '/about': {
                 title: 'About ES Designs | Brooks Winchell',
-                description: 'About ES Designs and founder Brooks Winchell. Building the integrated Title II compliance planning system for higher education from Massachusetts.'
+                description: 'ES Designs is the independent VR and full-stack studio of Brooks Winchell in Massachusetts: Quest apps in Unity, and the web portals and databases behind them. Open to select XR and full-stack projects.'
             },
             '/privacy': {
                 title: 'Privacy Policy | ES Designs',
                 description: 'Privacy policy for ES Designs: Thrustline, Vantura, and the Anatomy & Physiology Lab for Meta Quest, and the esdesigns.org website. Thrustline keeps your data on your headset and sends nothing to us.'
             },
             '/vr': {
-                title: 'VR Development | ES Designs Immersive Learning',
-                description: 'Immersive learning for Meta Quest from ES Designs. Vantura delivers your program\'s own 360 video to the headsets you already own, alongside the Anatomy & Physiology Lab and the Elliptical Explorer fitness adventure.'
+                title: 'VR Development | ES Designs',
+                description: 'VR for Meta Quest from ES Designs: Thrustline, a racing game powered by your workout; Vantura, 360 video for colleges and CTE; and the Anatomy & Physiology Lab.'
             },
             '/vr/anatomy-physiology-lab': {
                 title: 'Anatomy & Physiology Lab | VR Learning for Meta Quest',
@@ -106,83 +99,55 @@ class Router {
 
         // Navigation configurations per section
         this.navConfigs = {
-            landing: {
+            // Studio (dark): home, Thrustline, VR, About, Privacy.
+            studio: {
                 brand: 'ES Designs',
                 brandHref: '/',
-                // Top nav: the two product lines (Accessibility + AI), Courses,
-                // VR Development, then About. "Free AI course" was dropped as
-                // redundant with the AI course funnel in the hero.
                 links: [
-                    { href: '/education/', label: 'Accessibility' },
-                    { href: '/ai/', label: 'AI in Higher Ed' },
-                    { href: '/education/courses/', label: 'Courses' },
-                    { href: '/vr/', label: 'VR Development' },
+                    { href: '/thrustline/', label: 'Thrustline' },
+                    { href: '/vr/', label: 'VR' },
+                    { href: '/blog/', label: 'Build Log' },
+                    { href: '/education/', label: 'For Educators' },
                     { href: '/about/', label: 'About' },
                 ]
             },
-            ee: {
-                brand: '<span class="nav-brand-parent">ES Designs</span> <span class="nav-brand-sep">&rsaquo;</span> Elliptical Explorer',
-                brandHref: '/elliptical/',
-                links: [
-                    { href: '/', label: 'Home' },
-                    { href: '/vr/', label: 'VR Development' },
-                    { href: '/about/', label: 'About' },
-                ]
-            },
+            // The education library (light): accessibility, AI, Vantura.
+            // The step rail on each product page handles product wayfinding.
             ed: {
-                brand: '<span class="nav-brand-parent">ES Designs</span> <span class="nav-brand-sep">&rsaquo;</span> Education',
+                brand: '<span class="nav-brand-parent">ES Designs</span> <span class="nav-brand-sep">&rsaquo;</span> For Educators',
                 brandHref: '/education/',
-                // Slim nav: the Plan->Monitor step rail (system-strip, on the hub
-                // and every product page) already handles product wayfinding, so
-                // the products group under "Accessibility" (the #/education hub).
-                // The footer keeps the full product index. VR Development stays
-                // in the top nav on every section so it never drops off.
                 links: [
                     { href: '/', label: 'Home' },
-                    { href: '/ai/', label: 'AI in Higher Ed' },
                     { href: '/education/', label: 'Accessibility' },
-                    { href: '/education/courses/', label: 'Adaptive Learning' },
-                    { href: '/vr/', label: 'VR Development' },
+                    { href: '/ai/', label: 'AI in Higher Ed' },
+                    { href: '/vantura/', label: 'Vantura' },
                     { href: '/about/', label: 'About' },
                 ]
             },
+            // shared (light): the A&P Lab page. Same links as the studio.
             shared: {
                 brand: 'ES Designs',
                 brandHref: '/',
-                // Top nav mirrors landing: Accessibility, AI, Courses, VR, About.
-                // Vantura is deliberately NOT in the top nav — the VR Development hub
-                // leads with it, and the footers carry the full product index.
                 links: [
-                    { href: '/education/', label: 'Accessibility' },
-                    { href: '/ai/', label: 'AI in Higher Ed' },
-                    { href: '/education/courses/', label: 'Courses' },
-                    { href: '/vr/', label: 'VR Development' },
+                    { href: '/thrustline/', label: 'Thrustline' },
+                    { href: '/vr/', label: 'VR' },
+                    { href: '/blog/', label: 'Build Log' },
+                    { href: '/education/', label: 'For Educators' },
                     { href: '/about/', label: 'About' },
                 ]
             }
         };
 
-        // Footer configurations per section. Mirror the top-nav link order
-        // (Accessibility / Courses / VR / About) on landing/shared so the
-        // footer reads as a parallel index rather than a different list.
-        // Privacy Policy stays as the trailing legal link everywhere.
+        // Footer configurations per section: the studio index on the dark
+        // pages, the full product index on the education pages. Privacy
+        // Policy stays as the trailing legal link everywhere.
         this.footerConfigs = {
-            landing: [
-                { href: '/education/', label: 'Accessibility' },
-                { href: '/ai/', label: 'AI in Higher Ed' },
-                { href: '/education/courses/', label: 'Courses' },
-                { href: '/vr/', label: 'VR Development' },
+            studio: [
+                { href: '/thrustline/', label: 'Thrustline' },
+                { href: '/vr/', label: 'VR' },
                 { href: '/vantura/', label: 'Vantura' },
-                { href: '/about/', label: 'About' },
-                { href: '/blog/', label: 'Blog' },
-                { href: '/connect/', label: 'Connect' },
-                { href: '/privacy/', label: 'Privacy Policy' },
-            ],
-            ee: [
-                { href: '/', label: 'Home' },
-                { href: '/vr/', label: 'VR Development' },
-                { href: '/education/', label: 'Accessibility' },
-                { href: '/education/courses/', label: 'Courses' },
+                { href: '/blog/', label: 'Build Log' },
+                { href: '/education/', label: 'For Educators' },
                 { href: '/about/', label: 'About' },
                 { href: '/connect/', label: 'Connect' },
                 { href: '/privacy/', label: 'Privacy Policy' },
@@ -194,9 +159,8 @@ class Router {
                 { href: '/education/audit/', label: 'AI Website Audit' },
                 { href: '/education/wcag-course/', label: 'WCAG 2.2 Courses' },
                 { href: '/education/ally-pro/', label: 'Document Ally Pro' },
-                { href: '/education/courses/', label: 'Adaptive Learning' },
-                { href: '/vr/', label: 'VR Development' },
                 { href: '/vantura/', label: 'Vantura' },
+                { href: '/vr/', label: 'VR' },
                 { href: '/about/', label: 'About' },
                 { href: '/blog/', label: 'Blog' },
                 { href: '/connect/', label: 'Connect' },
@@ -204,13 +168,11 @@ class Router {
             ],
             shared: [
                 { href: '/', label: 'Home' },
-                { href: '/education/', label: 'Accessibility' },
-                { href: '/ai/', label: 'AI in Higher Ed' },
-                { href: '/education/courses/', label: 'Courses' },
-                { href: '/vr/', label: 'VR Development' },
+                { href: '/thrustline/', label: 'Thrustline' },
+                { href: '/vr/', label: 'VR' },
                 { href: '/vantura/', label: 'Vantura' },
+                { href: '/education/', label: 'For Educators' },
                 { href: '/about/', label: 'About' },
-                { href: '/blog/', label: 'Blog' },
                 { href: '/connect/', label: 'Connect' },
                 { href: '/privacy/', label: 'Privacy Policy' },
             ]
@@ -461,7 +423,7 @@ class Router {
     }
 
     renderNav(section, path) {
-        const config = this.navConfigs[section] || this.navConfigs.landing;
+        const config = this.navConfigs[section] || this.navConfigs.studio;
         const navBrand = document.querySelector('.nav-brand');
         const navLinks = document.getElementById('navLinks');
 
@@ -480,7 +442,7 @@ class Router {
     }
 
     renderFooter(section) {
-        const config = this.footerConfigs[section] || this.footerConfigs.landing;
+        const config = this.footerConfigs[section] || this.footerConfigs.studio;
         const footerLinks = document.querySelector('.footer-links');
 
         if (footerLinks) {
@@ -488,8 +450,9 @@ class Router {
                 `<a href="${link.href}">${link.label}</a>`
             ).join('');
 
-            // Add side projects link in footer
-            if (section !== 'landing') {
+            // Side projects link on the education pages (the studio pages
+            // carry GitHub on About instead)
+            if (section === 'ed') {
                 html += '<a href="https://github.com/brooksw453" target="_blank" rel="noopener">Side Projects</a>';
             }
 
@@ -528,22 +491,10 @@ class Router {
     }
 
     bindPageEvents(path) {
-        // Soundtrack play buttons on Elliptical Explorer page
-        if (path === '/elliptical') {
-            document.querySelectorAll('[data-play-track]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const title = btn.getAttribute('data-play-track');
-                    if (window.musicPlayer) {
-                        window.musicPlayer.playTrackByTitle(title);
-                    }
-                });
-            });
-        }
-
         // Shared: scroll-to buttons, inline forms, compact tiles
         // (all education pages, the AI page, and the home/landing page —
         // all reuse the same inline-form + capture components)
-        if (path.startsWith('/education') || path === '/ai' || path === '/vantura' || path === '/') {
+        if (path.startsWith('/education') || path === '/ai' || path === '/vantura' || path === '/' || path === '/thrustline' || path === '/about') {
             // Free-course CTA tracking (home hero + nav). Fire a GA4
             // free_course_click before the new tab opens. No-op on pages
             // that have no [data-ga="free-course"] elements.
@@ -722,7 +673,9 @@ class Router {
 
                     if (ok) {
                         let successMsg;
-                        if (captureEndpoint) {
+                        if (form.dataset.success) {
+                            successMsg = form.dataset.success;
+                        } else if (captureEndpoint) {
                             successMsg = "You're on the list — check your inbox.";
                         } else if (supabaseTable === 'waitlist') {
                             successMsg = alreadyOnList
@@ -733,7 +686,7 @@ class Router {
                         }
                         if (status) {
                             status.textContent = successMsg;
-                            if (captureEndpoint) status.className = 'contact-status success';
+                            if (captureEndpoint || form.dataset.success) status.className = 'contact-status success';
                         }
                         form.reset();
                     } else {

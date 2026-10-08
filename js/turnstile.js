@@ -49,26 +49,35 @@
 
     // Inject a widget container into the form (before the submit button) and
     // render Turnstile into it. Safe to call more than once per form.
+    // A form can mark its own spot with [data-turnstile-slot] (the studio
+    // signups do, so the widget stays out of the one-line email row); those
+    // render interaction-only, so the widget appears only if Cloudflare
+    // actually needs a click.
     function mount(form) {
         if (!enabled() || !form) return;
         if (form.querySelector('.cf-turnstile-slot')) return;
 
-        const slot = document.createElement('div');
-        slot.className = 'cf-turnstile-slot';
-        slot.style.margin = '0.5rem 0';
-
-        const btn = form.querySelector('button[type="submit"]');
-        if (btn && btn.parentNode) {
-            btn.parentNode.insertBefore(slot, btn);
-        } else {
-            form.appendChild(slot);
+        const marked = form.querySelector('[data-turnstile-slot]');
+        const slot = marked || document.createElement('div');
+        slot.classList.add('cf-turnstile-slot');
+        if (!marked) {
+            slot.style.margin = '0.5rem 0';
+            const btn = form.querySelector('button[type="submit"]');
+            if (btn && btn.parentNode) {
+                btn.parentNode.insertBefore(slot, btn);
+            } else {
+                form.appendChild(slot);
+            }
         }
+        const dark = document.body.dataset.section === 'studio';
 
         loadScript()
             .then(() => {
                 if (!window.turnstile) return;
                 window.turnstile.render(slot, {
                     sitekey: SITE_KEY,
+                    theme: dark ? 'dark' : 'light',
+                    appearance: marked ? 'interaction-only' : 'always',
                     callback: (token) => tokens.set(form, token),
                     'expired-callback': () => tokens.delete(form),
                     'error-callback': () => tokens.delete(form),

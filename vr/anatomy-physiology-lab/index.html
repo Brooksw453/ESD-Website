@@ -11,7 +11,11 @@
     <!-- Open Graph -->
     <meta property="og:title" content="Anatomy &amp; Physiology Lab | VR Learning for Meta Quest">
     <meta property="og:description" content="An immersive, self-directed VR learning adventure exploring human anatomy and physiology — interactive skeletal, heart, and exploration labs with learning modules and knowledge checks, on Meta Quest.">
-    <meta property="og:image" content="/assets/images/elliptical/cover.png">
+    <meta property="og:image" content="https://esdesigns.org/assets/images/thrustline/og.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Thrustline: a rider on a jet bike racing a gold ghost above a night city.">
+    <meta name="twitter:card" content="summary_large_image">
     <meta property="og:url" content="https://esdesigns.org/vr/anatomy-physiology-lab/">
     <meta property="og:type" content="website">
 
@@ -26,8 +30,8 @@
                 "name": "ES Designs",
                 "url": "https://esdesigns.org",
                 "logo": "https://esdesigns.org/assets/images/brand/esd-logo.png",
-                "description": "ES Designs helps higher education on two fronts: ADA Title II accessibility compliance and teaching with AI — courses, tools, and workshops built by a 21-year educator.",
-                "knowsAbout": ["ADA Title II compliance", "WCAG 2.2 accessibility", "Document remediation", "Artificial intelligence in higher education", "Faculty AI literacy", "Assessment redesign"],
+                "description": "ES Designs is an independent studio in Massachusetts that builds VR for Meta Quest, end to end: Thrustline, Vantura, and the Anatomy & Physiology Lab, plus a free library of accessibility and AI tools for colleges.",
+                "knowsAbout": ["Virtual reality", "Meta Quest development", "Unity", "VR fitness games", "Full-stack web development", "ADA Title II compliance", "WCAG 2.2 accessibility", "Artificial intelligence in higher education"],
                 "foundingDate": "2022",
                 "founder": {
                     "@type": "Person",
@@ -52,15 +56,15 @@
                 "publisher": { "@id": "https://esdesigns.org/#organization" }
             },
             {
-                "@type": "SoftwareApplication",
-                "name": "Elliptical Explorer",
-                "description": "VR fitness adventure for Meta Quest where real-world elliptical movement powers gameplay through branching tracks, collectible gems, and timed challenges.",
+                "@type": "VideoGame",
+                "name": "Thrustline",
+                "description": "A VR racing game for Meta Quest powered by your workout. Your effort on an elliptical, rowing machine, or stair climber is the throttle; race your ghosts and six rivals.",
+                "url": "https://esdesigns.org/thrustline/",
+                "image": "https://esdesigns.org/assets/images/thrustline/key-art.jpg",
+                "genre": ["Racing", "Fitness"],
+                "gamePlatform": "Meta Quest",
                 "applicationCategory": "GameApplication",
                 "operatingSystem": "Meta Quest",
-                "offers": {
-                    "@type": "Offer",
-                    "availability": "https://schema.org/InStock"
-                },
                 "author": { "@id": "https://esdesigns.org/#organization" }
             },
             {
@@ -96,7 +100,7 @@
     <link rel="icon" type="image/svg+xml" href="/assets/images/brand/favicon.svg">
     <link rel="apple-touch-icon" href="/assets/images/brand/esd-logo.png">
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#1F3D5C">
+    <meta name="theme-color" content="#0B1026">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -107,7 +111,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Saira:ital,wdth,wght@0,100..125,400..900;1,100..125,400..900&display=swap" rel="stylesheet">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/css/variables.css">
@@ -121,6 +125,8 @@
     <link rel="stylesheet" href="/css/responsive.css">
     <!-- Brand overrides (loaded LAST — wins specificity for light themes) -->
     <link rel="stylesheet" href="/css/brand-overrides.css">
+    <!-- Studio theme (dark, Thrustline palette) for home, Thrustline, VR, About, Privacy -->
+    <link rel="stylesheet" href="/css/studio.css">
 </head>
 <body data-section="shared">
     <!-- Skip-to-content link (visible on keyboard focus) -->

@@ -197,7 +197,7 @@ class MusicPlayer {
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: this.tracks[this.currentIndex].title,
                 artist: 'ES Designs',
-                album: 'Elliptical Explorer Soundtrack',
+                album: 'Thrustline Soundtrack',
                 artwork: [
                     { src: '/assets/images/brand/favicon.svg', sizes: '512x512', type: 'image/svg+xml' },
                     { src: '/assets/images/brand/esd-logo.png', sizes: '192x192', type: 'image/png' }

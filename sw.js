@@ -4,7 +4,7 @@
    network-first for pages
    ============================================ */
 
-const CACHE_NAME = 'es-designs-v36';
+const CACHE_NAME = 'es-designs-v37';
 const CORE_ASSETS = [
     '/',
     '/index.html',
@@ -17,6 +17,8 @@ const CORE_ASSETS = [
     '/css/pages.css',
     '/css/education.css',
     '/css/responsive.css',
+    '/css/brand-overrides.css',
+    '/css/studio.css',
     '/js/app.js',
     '/js/music-player.js',
     '/js/router.js',
@@ -26,12 +28,10 @@ const CORE_ASSETS = [
     '/js/turnstile.js',
     '/js/analytics.js',
     '/pages/landing.html',
-    '/pages/elliptical.html',
+    '/pages/thrustline.html',
     '/pages/vr.html',
     '/pages/vr-anatomy-physiology.html',
     '/pages/education.html',
-    '/pages/education-courses.html',
-    '/pages/education-demos.html',
     '/pages/education-ally-pro.html',
     '/pages/education-audit.html',
     '/pages/education-wcag-course.html',

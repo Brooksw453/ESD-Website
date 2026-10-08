@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VR Development | ES Designs Immersive Learning</title>
-    <meta name="description" content="Immersive learning for Meta Quest from ES Designs. Vantura delivers your program&#x27;s own 360 video to the headsets you already own, alongside the Anatomy &amp; Physiology Lab and the Elliptical Explorer fitness adventure.">
+    <title>VR Development | ES Designs</title>
+    <meta name="description" content="VR for Meta Quest from ES Designs: Thrustline, a racing game powered by your workout; Vantura, 360 video for colleges and CTE; and the Anatomy &amp; Physiology Lab.">
     <link rel="canonical" href="https://esdesigns.org/vr/">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://cdn.jsdelivr.net https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self'; frame-src https://brooksw453.github.io https://scheduler.zoom.us https://challenges.cloudflare.com; connect-src 'self' https://formsubmit.co https://awcmkderlpyxpkmrnvwi.supabase.co https://courses.esdesigns.org https://cdn.jsdelivr.net https://challenges.cloudflare.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="VR Development | ES Designs Immersive Learning">
-    <meta property="og:description" content="Immersive learning for Meta Quest from ES Designs. Vantura delivers your program&#x27;s own 360 video to the headsets you already own, alongside the Anatomy &amp; Physiology Lab and the Elliptical Explorer fitness adventure.">
-    <meta property="og:image" content="/assets/images/elliptical/cover.png">
+    <meta property="og:title" content="VR Development | ES Designs">
+    <meta property="og:description" content="VR for Meta Quest from ES Designs: Thrustline, a racing game powered by your workout; Vantura, 360 video for colleges and CTE; and the Anatomy &amp; Physiology Lab.">
+    <meta property="og:image" content="https://esdesigns.org/assets/images/thrustline/og.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Thrustline: a rider on a jet bike racing a gold ghost above a night city.">
+    <meta name="twitter:card" content="summary_large_image">
     <meta property="og:url" content="https://esdesigns.org/vr/">
     <meta property="og:type" content="website">
 
@@ -26,8 +30,8 @@
                 "name": "ES Designs",
                 "url": "https://esdesigns.org",
                 "logo": "https://esdesigns.org/assets/images/brand/esd-logo.png",
-                "description": "ES Designs helps higher education on two fronts: ADA Title II accessibility compliance and teaching with AI — courses, tools, and workshops built by a 21-year educator.",
-                "knowsAbout": ["ADA Title II compliance", "WCAG 2.2 accessibility", "Document remediation", "Artificial intelligence in higher education", "Faculty AI literacy", "Assessment redesign"],
+                "description": "ES Designs is an independent studio in Massachusetts that builds VR for Meta Quest, end to end: Thrustline, Vantura, and the Anatomy & Physiology Lab, plus a free library of accessibility and AI tools for colleges.",
+                "knowsAbout": ["Virtual reality", "Meta Quest development", "Unity", "VR fitness games", "Full-stack web development", "ADA Title II compliance", "WCAG 2.2 accessibility", "Artificial intelligence in higher education"],
                 "foundingDate": "2022",
                 "founder": {
                     "@type": "Person",
@@ -52,15 +56,15 @@
                 "publisher": { "@id": "https://esdesigns.org/#organization" }
             },
             {
-                "@type": "SoftwareApplication",
-                "name": "Elliptical Explorer",
-                "description": "VR fitness adventure for Meta Quest where real-world elliptical movement powers gameplay through branching tracks, collectible gems, and timed challenges.",
+                "@type": "VideoGame",
+                "name": "Thrustline",
+                "description": "A VR racing game for Meta Quest powered by your workout. Your effort on an elliptical, rowing machine, or stair climber is the throttle; race your ghosts and six rivals.",
+                "url": "https://esdesigns.org/thrustline/",
+                "image": "https://esdesigns.org/assets/images/thrustline/key-art.jpg",
+                "genre": ["Racing", "Fitness"],
+                "gamePlatform": "Meta Quest",
                 "applicationCategory": "GameApplication",
                 "operatingSystem": "Meta Quest",
-                "offers": {
-                    "@type": "Offer",
-                    "availability": "https://schema.org/InStock"
-                },
                 "author": { "@id": "https://esdesigns.org/#organization" }
             },
             {
@@ -96,7 +100,7 @@
     <link rel="icon" type="image/svg+xml" href="/assets/images/brand/favicon.svg">
     <link rel="apple-touch-icon" href="/assets/images/brand/esd-logo.png">
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#1F3D5C">
+    <meta name="theme-color" content="#0B1026">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -107,7 +111,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Saira:ital,wdth,wght@0,100..125,400..900;1,100..125,400..900&display=swap" rel="stylesheet">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/css/variables.css">
@@ -121,8 +125,10 @@
     <link rel="stylesheet" href="/css/responsive.css">
     <!-- Brand overrides (loaded LAST — wins specificity for light themes) -->
     <link rel="stylesheet" href="/css/brand-overrides.css">
+    <!-- Studio theme (dark, Thrustline palette) for home, Thrustline, VR, About, Privacy -->
+    <link rel="stylesheet" href="/css/studio.css">
 </head>
-<body data-section="shared">
+<body data-section="studio">
     <!-- Skip-to-content link (visible on keyboard focus) -->
     <a class="skip-link" href="#page-content">Skip to main content</a>
 
@@ -144,107 +150,98 @@
 
     <!-- Main Content (swapped by router) -->
     <main id="page-content" tabindex="-1" data-prerendered="/vr">
-<!-- VR Development hub — clean brand theme (section: shared) -->
+<!-- VR Development hub (studio theme, October 2026): Thrustline first, then Vantura and the A&P Lab -->
 
-<!-- Hero -->
-<section class="ed-hero">
-    <div class="container">
-        <p class="ed-hero-eyebrow" data-animate="fade-up">ES Designs &middot; VR Development</p>
-        <h1 data-animate="fade-up">Immersive learning you can step inside.</h1>
-        <p class="ed-subtitle" data-animate="fade-up">Self-directed VR experiences built by an educator, learning first.</p>
-        <p class="ed-description" data-animate="fade-up">ES Designs builds virtual-reality learning for Meta&nbsp;Quest. Vantura is the platform line: it hosts the 360 videos your own faculty film and delivers them to the headsets your school already owns. Alongside it are two shipped apps, an interactive Anatomy &amp; Physiology Lab and the Elliptical Explorer fitness adventure.</p>
-        <div class="ed-hero-actions" data-animate="fade-up">
-            <a href="/vantura/" class="neon-btn btn-filled">See how Vantura works &rarr;</a>
-            <a href="/vr/anatomy-physiology-lab/" class="neon-btn">Explore the A&amp;P Lab &rarr;</a>
-        </div>
-    </div>
-</section>
+<div class="st-page">
 
-<!-- Featured: Vantura (the platform product — listed first) -->
-<section class="section">
-    <div class="container">
-        <div class="ed-featured-card" data-animate="fade-up">
-            <div class="ed-featured-badge">Live on the Meta Horizon Store &middot; Meta Quest &middot; Higher ed &amp; CTE</div>
-            <h2>Vantura</h2>
-            <p class="ed-featured-tagline">Your environments, on your headsets, for your whole class.</p>
-            <img src="/assets/images/vantura/cover.jpg" alt="Vantura, a 360 video platform for Meta Quest" width="1200" height="675" loading="lazy" style="width:100%; height:auto; border-radius:12px; border:1px solid var(--color-border); margin:var(--space-lg) 0;">
-            <p class="ed-featured-description">Every other VR option hands a program someone else&rsquo;s scenarios. Vantura hosts the real places your program teaches in, filmed by your own faculty. Faculty upload 360 video through a web portal, each headset pairs once with a short code, and the lesson library downloads to the device.</p>
-            <p>Because playback is local, seeking is instant and a weak classroom network never stops a lesson. There is nothing to sideload and no device-management system to buy, and it is priced by the department rather than per student.</p>
-            <div style="display:flex; gap:var(--space-sm); flex-wrap:wrap; margin:var(--space-lg) 0;">
-                <span class="tech-badge">Unity</span>
-                <span class="tech-badge">Meta Quest</span>
-                <span class="tech-badge">Offline playback</span>
-                <span class="tech-badge">Web portal</span>
-                <span class="tech-badge">No per-student fees</span>
-            </div>
-            <div class="ed-featured-actions">
-                <a href="/vantura/" class="neon-btn btn-filled">See how Vantura works &rarr;</a>
-                <a href="https://www.meta.com/experiences/vantura/1276472282209118/" target="_blank" rel="noopener" class="neon-btn">Get the Quest app &rarr;</a>
+    <section class="st-hero" aria-labelledby="vrTitle">
+        <div class="st-container">
+            <div class="st-hero-copy" data-animate="fade-up">
+                <p class="st-eyebrow">VR development</p>
+                <h1 class="st-h1" id="vrTitle">Apps for Meta Quest, from first prototype to the store.</h1>
+                <p class="st-lead">A racing game you power with your workout, a platform that puts a program&rsquo;s own 360 video on every headset in the room, and an anatomy lab students can step inside. Each one designed, built, profiled on the device, and maintained here.</p>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Anatomy & Physiology Lab -->
-<section class="section">
-    <div class="container">
-        <div class="ed-featured-card" data-animate="fade-up">
-            <div class="ed-featured-badge">Shipped &middot; Meta Quest &middot; Education</div>
-            <h2>Anatomy &amp; Physiology Lab</h2>
-            <p class="ed-featured-tagline">An interactive human-anatomy lab for students who can&rsquo;t get into a physical one.</p>
-            <img src="/assets/images/ap-lab/cover.jpg" alt="Anatomy &amp; Physiology Lab in VR" loading="lazy" style="width:100%; border-radius:12px; border:1px solid var(--color-border); margin:var(--space-lg) 0;">
-            <p>A self-directed VR learning adventure exploring human anatomy and physiology. Students walk through skeletal, cranial, and cardiovascular systems with interactive 3D models, then check their understanding with built-in learning modules and knowledge-check quizzes. Built for nursing, allied-health, and intro-biology programs where lab access is limited.</p>
-            <div style="display:flex; gap:var(--space-sm); flex-wrap:wrap; margin:var(--space-lg) 0;">
-                <span class="tech-badge">Unity</span>
-                <span class="tech-badge">Meta Quest</span>
-                <span class="tech-badge">Self-directed</span>
-                <span class="tech-badge">Knowledge checks</span>
-            </div>
-            <div class="ed-hero-actions">
-                <a href="/vr/anatomy-physiology-lab/" class="neon-btn btn-filled">See what&rsquo;s inside the lab &rarr;</a>
-                <a href="https://www.meta.com/en-gb/experiences/anatomy-physiology-lab/5826680474102104/" target="_blank" rel="noopener" class="neon-btn">View on Meta Quest &rarr;</a>
+    <!-- Thrustline -->
+    <section class="st-section-tight" aria-labelledby="vrThrustline">
+        <div class="st-container">
+            <div class="st-split" data-animate="fade-up">
+                <div class="st-split-media">
+                    <img src="/assets/images/thrustline/key-art-960.jpg" width="960" height="540" alt="Thrustline key art: a rider on a jet bike racing a gold ghost above a night city.">
+                </div>
+                <div>
+                    <p class="st-card-meta is-soon">Coming to Meta Quest &middot; December 2026</p>
+                    <h2 class="st-h2" id="vrThrustline">Thrustline</h2>
+                    <p class="st-body">A jet bike race powered by your workout. The headset reads the rhythm of your stride or stroke on an elliptical, rower, or stair climber, and your effort becomes thrust. Race your ghosts and six rivals across six courses, playable with hands only.</p>
+                    <ul class="st-tags"><li>Unity 6</li><li>Hand tracking</li><li>Procedural courses</li><li>Profiled on the headset</li></ul>
+                    <div class="st-actions">
+                        <a class="st-btn st-btn-primary" href="/thrustline/">See Thrustline &rarr;</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Also shipped + in development -->
-<section class="section">
-    <div class="container">
-        <h2 class="ed-section-heading" data-animate="fade-up">The rest of the VR line</h2>
-        <p class="ed-section-subheading" data-animate="fade-up">One more shipped product, and an honest note on what&rsquo;s next.</p>
-        <div class="ed-product-grid" data-stagger>
-            <div class="ed-product-card" data-animate="fade-up">
-                <div class="ed-product-icon">&#x1F3AE;</div>
-                <h3>Elliptical Explorer</h3>
-                <p>A VR fitness adventure for Meta Quest where your real-world elliptical movement powers the game &mdash; branching tracks, collectible gems, and timed gate challenges. The first product ES Designs shipped, and a side project from before the pivot to compliance. Still live and maintained.</p>
-                <a href="/elliptical/" style="display:inline-block; margin-top:var(--space-md); color:var(--color-accent); font-weight:600;">Explore Elliptical Explorer &rarr;</a>
-            </div>
-            <div class="ed-product-card" data-animate="fade-up">
-                <div class="ed-product-icon">&#x1F6E0;</div>
-                <h3>More in development</h3>
-                <p>Vantura is live on the Meta Horizon Store with a free plan. The A&amp;P Lab is expanding with additional interactive modules and knowledge checks. We ship when something is useful for learning, not on a marketing schedule.</p>
-                <a href="/vantura/" style="display:inline-block; margin-top:var(--space-md); color:var(--color-accent); font-weight:600;">Start a Vantura pilot &rarr;</a>
+    <!-- Vantura -->
+    <section class="st-section" aria-labelledby="vrVantura">
+        <div class="st-container">
+            <div class="st-split" data-animate="fade-up">
+                <div>
+                    <p class="st-card-meta is-live">Live on the Meta Horizon Store &middot; Higher ed and CTE</p>
+                    <h2 class="st-h2" id="vrVantura">Vantura</h2>
+                    <p class="st-body">Every other VR option hands a program someone else&rsquo;s scenarios. Vantura hosts the real places a program teaches in, filmed by its own faculty. Faculty upload 360 video through a web portal, each headset pairs once with a short code, and the lesson library downloads to the device, so a weak classroom network never stops a lesson.</p>
+                    <ul class="st-tags"><li>Unity</li><li>Next.js portal</li><li>Supabase</li><li>Cloudflare R2</li><li>Offline playback</li></ul>
+                    <div class="st-actions">
+                        <a class="st-btn" href="/vantura/">How Vantura works &rarr;</a>
+                        <a class="st-link" href="https://www.meta.com/experiences/vantura/1276472282209118/" target="_blank" rel="noopener">Get the Quest app &rarr;</a>
+                    </div>
+                </div>
+                <div class="st-split-media">
+                    <img src="/assets/images/vantura/cover.jpg" alt="Vantura: a 360 video lesson library on a Meta Quest headset." loading="lazy">
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Privacy -->
-<section class="section" style="padding: var(--space-3xl) 0;">
-    <div class="container" style="text-align: center;" data-animate="fade-up">
-        <div class="neon-card" style="padding: var(--space-2xl); max-width: 640px; margin: 0 auto; text-align: center;">
-            <div style="font-size: 1.8rem; margin-bottom: var(--space-md);" aria-hidden="true">&#x1F512;</div>
-            <h3 style="color: var(--color-primary); margin-bottom: var(--space-md);">Privacy-first, like everything we build</h3>
-            <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-xl); line-height: 1.7;">
-                Elliptical Explorer and the Anatomy &amp; Physiology Lab need no account and collect nothing; session data stays on the device. Vantura is an account-based service a school runs for its own classes, so it stores what a class needs and nothing more. We never sell personal information or use it for advertising. Both cases are set out in full in the privacy policy.
-            </p>
-            <a href="/privacy/" class="neon-btn" style="display: inline-flex; align-items: center; gap: var(--space-sm);">
-                View Privacy Policy &rarr;
-            </a>
+    <!-- A&P Lab -->
+    <section class="st-section" aria-labelledby="vrApLab">
+        <div class="st-container">
+            <div class="st-split" data-animate="fade-up">
+                <div class="st-split-media">
+                    <img src="/assets/images/ap-lab/cover.jpg" alt="Anatomy and Physiology Lab: a 3D skeleton and heart model." loading="lazy">
+                </div>
+                <div>
+                    <p class="st-card-meta is-live">Shipped &middot; Education</p>
+                    <h2 class="st-h2" id="vrApLab">Anatomy &amp; Physiology Lab</h2>
+                    <p class="st-body">An interactive human-anatomy lab for students who can&rsquo;t get into a physical one. Students walk through the skeletal, cranial, and cardiovascular systems with interactive 3D models, then check their understanding with built-in knowledge checks. Built for nursing, allied-health, and intro-biology programs.</p>
+                    <div class="st-actions">
+                        <a class="st-btn" href="/vr/anatomy-physiology-lab/">See what&rsquo;s inside &rarr;</a>
+                        <a class="st-link" href="https://www.meta.com/experiences/anatomy-physiology-lab/5826680474102104/" target="_blank" rel="noopener">View on Meta Quest &rarr;</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <!-- Privacy + projects -->
+    <section class="st-section" aria-labelledby="vrPrivacy">
+        <div class="st-container">
+            <div class="st-grid-2" data-animate="fade-up">
+                <div class="st-pillar">
+                    <h2 class="st-h3" id="vrPrivacy">Privacy, app by app</h2>
+                    <p class="st-body">Thrustline and the A&amp;P Lab need no account and send nothing to us. Vantura is an account-based service a school runs for its own classes, so it stores what a class needs and nothing more. Each is set out in full in the <a href="/privacy/">privacy policy</a>.</p>
+                </div>
+                <div class="st-pillar">
+                    <h2 class="st-h3">Have a Quest project?</h2>
+                    <p class="st-body">ES Designs takes on a few outside XR and full-stack projects. <a href="/about/">More about working together &rarr;</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
 
     </main>
 

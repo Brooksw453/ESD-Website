@@ -43,6 +43,7 @@ const NOTIFY_FROM = Deno.env.get("NOTIFY_FROM") ??
 // Human-readable labels for the source values the site sends.
 const SOURCE_LABELS: Record<string, string> = {
   "contact-widget": "Get In Touch widget",
+  "thrustline-launch": "Thrustline launch list signup",
   "education-inquiry": "Education — talk to us",
   "ally-institutional": "Document Ally — institutional license",
   "courses-inquiry": "Adaptive Learning — demo request",

@@ -6,7 +6,7 @@
     'use strict';
 
     // Initialize particle system (exposed on window for audio reactivity)
-    // Start stopped — router will start it only on Elliptical Explorer pages
+    // Start stopped; no current section uses it (kept for the legacy 'ee' theme)
     window.particleSystem = new ParticleSystem('particle-canvas');
     window.particleSystem.stop();
 
@@ -19,12 +19,10 @@
     // Initialize router with new two-brand route structure
     const router = new Router(scrollAnimations);
     router.register('/', 'pages/landing.html');
-    router.register('/elliptical', 'pages/elliptical.html');
+    router.register('/thrustline', 'pages/thrustline.html');
     router.register('/vr', 'pages/vr.html');
     router.register('/vr/anatomy-physiology-lab', 'pages/vr-anatomy-physiology.html');
     router.register('/education', 'pages/education.html');
-    router.register('/education/courses', 'pages/education-courses.html');
-    router.register('/education/demos', 'pages/education-demos.html');
     router.register('/education/ally-pro', 'pages/education-ally-pro.html');
     router.register('/education/audit', 'pages/education-audit.html');
     router.register('/education/wcag-course', 'pages/education-wcag-course.html');
