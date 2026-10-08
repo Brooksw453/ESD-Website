@@ -92,7 +92,7 @@ class Router {
             },
             '/privacy': {
                 title: 'Privacy Policy | ES Designs',
-                description: 'Privacy policy for ES Designs compliance planning, audit, document remediation, and training tools. No data collection beyond what each tool requires; no tracking, transparent accounts.'
+                description: 'Privacy policy for ES Designs: Thrustline, Vantura, and the Anatomy & Physiology Lab for Meta Quest, and the esdesigns.org website. Thrustline keeps your data on your headset and sends nothing to us.'
             },
             '/vr': {
                 title: 'VR Development | ES Designs Immersive Learning',
