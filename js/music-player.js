@@ -9,17 +9,25 @@ class MusicPlayer {
         this.audio = document.getElementById('audioElement');
         if (!this.audio) return;
 
+        // The Thrustline soundtrack first (menu theme, then the race playlist),
+        // then the rest of the original music. Same files as the game's
+        // Assets/Audio/Music. game: true marks the in-game tracks.
         this.tracks = [
-            { title: 'Jagged Edge',                src: '/assets/audio/Jagged Edge.mp3' },
-            { title: 'Push Through Static',        src: '/assets/audio/Push Through Static.mp3' },
-            { title: 'Bright Poppy',               src: '/assets/audio/Bright Poppy.mp3' },
-            { title: 'Tearing Up the House',       src: '/assets/audio/Tearing Up the House.mp3' },
-            { title: 'Midnight Voltage',           src: '/assets/audio/Midnight Voltage.mp3' },
-            { title: 'Press Start to Maybe',       src: '/assets/audio/Press Start to Maybe.mp3' },
-            { title: 'You Might',                  src: '/assets/audio/You Might.mp3' },
-            { title: 'Glow on the Floor',          src: '/assets/audio/Glow on the Floor.mp3' },
-            { title: 'Starshine',                  src: '/assets/audio/Starshine.mp3' },
-            { title: 'Touch the Button',           src: '/assets/audio/Touch the Button.mp3' },
+            { title: 'Jagged Edge',                src: '/assets/audio/Jagged Edge.mp3', game: true },
+            { title: 'Push Through Static',        src: '/assets/audio/Push Through Static.mp3', game: true },
+            { title: 'Bright Poppy',               src: '/assets/audio/Bright Poppy.mp3', game: true },
+            { title: 'Tearing Up the House',       src: '/assets/audio/Tearing Up the House.mp3', game: true },
+            { title: 'Midnight Voltage',           src: '/assets/audio/Midnight Voltage.mp3', game: true },
+            { title: 'Press Start to Maybe',       src: '/assets/audio/Press Start to Maybe.mp3', game: true },
+            { title: 'You Might',                  src: '/assets/audio/You Might.mp3', game: true },
+            { title: 'Glow on the Floor',          src: '/assets/audio/Glow on the Floor.mp3', game: true },
+            { title: 'Starshine',                  src: '/assets/audio/Starshine.mp3', game: true },
+            { title: 'Touch the Button',           src: '/assets/audio/Touch the Button.mp3', game: true },
+            { title: 'Journey Through It',         src: '/assets/audio/Journey Through It.mp3', game: true },
+            { title: 'Move Your Feet',             src: '/assets/audio/Move Your Feet.mp3', game: true },
+            { title: 'Push Through It',            src: '/assets/audio/Push Through It.mp3', game: true },
+            { title: 'Search for Prophet',         src: '/assets/audio/Search for Prophet.mp3', game: true },
+            { title: 'The Sky Turn',               src: '/assets/audio/The Sky Turn.mp3', game: true },
             { title: 'As I Was Walking',           src: '/assets/audio/As I Was Walking.mp3' },
             { title: 'As I Was Walking 2',         src: '/assets/audio/As I Was Walking 2.mp3' },
             { title: 'Bubbly Electro Breaks',      src: '/assets/audio/BUBBLY ELECTRO BREAKS.mp3' },
@@ -33,6 +41,10 @@ class MusicPlayer {
         this.isMuted = false;         // no autoplay; user clicks play to start
         this.musicEnabled = false;
         this.isExpanded = false;
+        // The bar is hidden until someone opens it (the music button or a
+        // track button); nothing ever autoplays.
+        this.isOpen = false;
+        this.fab = document.getElementById('musicFab');
         this.isInBackground = false;
 
         // Native playback: true when captureStream() is used. Audio plays through
@@ -294,9 +306,10 @@ class MusicPlayer {
             var h = (wave1 + wave2 + wave3 + 0.6) * H * 0.7 + 3;
 
             var colorShift = (Math.sin(time * 1.0 + i * 0.12) + 1) * 0.5;
-            var r = Math.round(colorShift * 255);
-            var g = Math.round((1 - colorShift) * 255);
-            var b = 255;
+            // Thrust orange (255,140,26) to glide cyan (89,204,255)
+            var r = Math.round(255 - colorShift * 166);
+            var g = Math.round(140 + colorShift * 64);
+            var b = Math.round(26 + colorShift * 229);
             ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ', 0.65)';
             ctx.shadowBlur = 8;
             ctx.shadowColor = 'rgba(' + r + ',' + g + ',' + b + ', 0.4)';
@@ -340,13 +353,13 @@ class MusicPlayer {
 
             // Same gradient as real frequency bars
             var grad = ctx.createLinearGradient(0, H, 0, H - normalizedH);
-            grad.addColorStop(0, 'rgba(0, 255, 255, 0.85)');
-            grad.addColorStop(0.6, 'rgba(0, 200, 255, 0.7)');
-            grad.addColorStop(1, 'rgba(255, 0, 255, 0.8)');
+            grad.addColorStop(0, 'rgba(89, 204, 255, 0.85)');
+            grad.addColorStop(0.6, 'rgba(89, 204, 255, 0.7)');
+            grad.addColorStop(1, 'rgba(255, 140, 26, 0.85)');
 
             ctx.fillStyle = grad;
             ctx.shadowBlur = 6;
-            ctx.shadowColor = 'rgba(0, 255, 255, 0.4)';
+            ctx.shadowColor = 'rgba(89, 204, 255, 0.35)';
 
             var x = i * barWidth + barGap / 2;
             var w = barWidth - barGap;
@@ -400,7 +413,8 @@ class MusicPlayer {
     buildTrackList() {
         this.trackListEl.innerHTML = '';
         this.tracks.forEach((track, index) => {
-            var item = document.createElement('div');
+            var item = document.createElement('button');
+            item.type = 'button';
             item.className = 'tracklist-item' + (index === this.currentIndex ? ' active' : '');
             item.innerHTML = `
                 <span class="track-number">${String(index + 1).padStart(2, '0')}</span>
@@ -441,7 +455,39 @@ class MusicPlayer {
         }
     }
 
+    // --- Open / close ---
+
+    open() {
+        this.isOpen = true;
+        document.body.classList.add('music-open');
+        if (this.fab) {
+            this.fab.setAttribute('aria-expanded', 'true');
+            this.fab.setAttribute('aria-label', 'Close the music player');
+        }
+    }
+
+    close() {
+        if (this.isPlaying) this.pause();
+        this.collapse();
+        this.isOpen = false;
+        document.body.classList.remove('music-open');
+        if (this.fab) {
+            this.fab.setAttribute('aria-expanded', 'false');
+            this.fab.setAttribute('aria-label', 'Open the music player');
+        }
+    }
+
+    toggleOpen() {
+        if (this.isOpen) {
+            this.close();
+        } else {
+            this.open();
+            this.expand();
+        }
+    }
+
     play() {
+        this.open();
         this.musicEnabled = true;
         this.initAudioContext();
         if (!this.audio.src || this.audio.src === window.location.href) {
@@ -505,6 +551,7 @@ class MusicPlayer {
     }
 
     updatePlayPauseIcon() {
+        document.body.classList.toggle('music-playing', !!this.isPlaying);
         if (this.isPlaying) {
             this.playIcon.style.display = 'none';
             this.pauseIcon.style.display = 'block';
@@ -599,6 +646,13 @@ class MusicPlayer {
     // --- Events ---
 
     bindEvents() {
+        if (this.fab) {
+            this.fab.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleOpen();
+            });
+        }
+
         this.playPauseBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             this.togglePlayPause();

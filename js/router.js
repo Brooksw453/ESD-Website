@@ -114,13 +114,13 @@ class Router {
             // The education library (light): accessibility, AI, Vantura.
             // The step rail on each product page handles product wayfinding.
             ed: {
-                brand: '<span class="nav-brand-parent">ES Designs</span> <span class="nav-brand-sep">&rsaquo;</span> For Educators',
-                brandHref: '/education/',
+                brand: 'ES Designs',
+                brandHref: '/',
+                section: 'For Educators',
                 links: [
-                    { href: '/', label: 'Home' },
+                    { href: '/vantura/', label: 'Vantura' },
                     { href: '/education/', label: 'Accessibility' },
                     { href: '/ai/', label: 'AI in Higher Ed' },
-                    { href: '/vantura/', label: 'Vantura' },
                     { href: '/about/', label: 'About' },
                 ]
             },
@@ -154,15 +154,16 @@ class Router {
             ],
             ed: [
                 { href: '/', label: 'Home' },
-                { href: '/ai/', label: 'AI in Higher Ed' },
-                { href: '/education/roadmap-tool/', label: 'Compliance Roadmap Tool' },
-                { href: '/education/audit/', label: 'AI Website Audit' },
-                { href: '/education/wcag-course/', label: 'WCAG 2.2 Courses' },
-                { href: '/education/ally-pro/', label: 'Document Ally Pro' },
                 { href: '/vantura/', label: 'Vantura' },
+                { href: '/education/', label: 'Accessibility' },
+                { href: '/education/roadmap-tool/', label: 'Compliance Roadmap Tool' },
+                { href: '/education/ally-pro/', label: 'Document Ally Pro' },
+                { href: '/education/wcag-course/', label: 'WCAG 2.2 Courses' },
+                { href: '/education/audit/', label: 'AI Website Audit' },
+                { href: '/ai/', label: 'AI in Higher Ed' },
                 { href: '/vr/', label: 'VR' },
                 { href: '/about/', label: 'About' },
-                { href: '/blog/', label: 'Blog' },
+                { href: '/blog/', label: 'Build Log' },
                 { href: '/connect/', label: 'Connect' },
                 { href: '/privacy/', label: 'Privacy Policy' },
             ],
@@ -373,18 +374,8 @@ class Router {
             if (window.particleSystem) window.particleSystem.stop();
         }
 
-        // Conditional music player visibility
-        const musicPlayerEl = document.getElementById('musicPlayer');
-        if (musicPlayerEl) {
-            if (section === 'ee') {
-                musicPlayerEl.style.display = '';
-            } else {
-                musicPlayerEl.style.display = 'none';
-                if (window.musicPlayer && window.musicPlayer.isExpanded) {
-                    window.musicPlayer.collapse();
-                }
-            }
-        }
+        // The music player shows when someone opens it (body.music-open,
+        // set by music-player.js) and keeps playing across pages.
 
         // Bind any page-specific event handlers
         this.bindPageEvents(path);
@@ -430,6 +421,14 @@ class Router {
         if (navBrand) {
             navBrand.innerHTML = config.brand;
             navBrand.href = config.brandHref;
+        }
+
+        // Section label beside the brand ("For Educators" on the education
+        // pages). The brand itself always goes home.
+        const navSection = document.getElementById('navSection');
+        if (navSection) {
+            navSection.textContent = config.section || '';
+            navSection.hidden = !config.section;
         }
 
         if (navLinks) {
@@ -491,6 +490,13 @@ class Router {
     }
 
     bindPageEvents(path) {
+        // Soundtrack buttons (Thrustline page): open the player and play.
+        document.querySelectorAll('[data-play-track]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (window.musicPlayer) window.musicPlayer.playTrackByTitle(btn.getAttribute('data-play-track'));
+            });
+        });
+
         // Shared: scroll-to buttons, inline forms, compact tiles
         // (all education pages, the AI page, and the home/landing page —
         // all reuse the same inline-form + capture components)

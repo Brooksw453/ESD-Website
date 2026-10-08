@@ -137,7 +137,10 @@
 
     <!-- Site Header / Navigation -->
     <header class="site-header" id="siteHeader">
-        <a href="/" class="nav-brand">ES Designs</a>
+        <div class="nav-brand-wrap">
+            <a href="/" class="nav-brand">ES Designs</a>
+            <span class="nav-section" id="navSection" hidden></span>
+        </div>
         <nav class="nav-links" id="navLinks">
             <!-- Populated dynamically by router based on active section -->
         </nav>
@@ -248,7 +251,7 @@
     <footer class="site-footer" id="siteFooter">
         <div class="footer-top">
             <a href="/" class="footer-logo-link" aria-label="Home">
-                <img src="/assets/images/brand/esd-logo.png" alt="ESD" class="footer-logo">
+                <span class="footer-wordmark">ES Designs</span>
                 <div class="footer-logo-glow"></div>
             </a>
             <div class="footer-main">
@@ -306,6 +309,11 @@
         </button>
     </div>
 
+    <!-- Music: opens the player; nothing autoplays -->
+    <button class="music-fab" id="musicFab" type="button" aria-label="Open the music player" aria-controls="musicPlayer" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    </button>
+
     <!-- Back to Top Button -->
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
@@ -314,7 +322,7 @@
     </button>
 
     <!-- Music Player (persistent, fixed bottom) - Compact single-line bar -->
-    <div class="music-player" id="musicPlayer">
+    <div class="music-player" id="musicPlayer" role="region" aria-label="Music player">
         <div class="player-progress" id="playerProgress">
             <div class="player-progress-fill" id="progressFill"></div>
         </div>
