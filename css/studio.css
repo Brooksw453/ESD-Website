@@ -281,6 +281,8 @@ body[data-section] .back-to-top {
     white-space: nowrap;
 }
 .nav-section[hidden] { display: none; }
+a.nav-section { text-decoration: none; }
+a.nav-section:hover { color: var(--tl-hull); border-color: var(--tl-cyan); }
 body[data-section] .footer-logo { filter: none; }
 .footer-wordmark {
     display: inline-flex;
@@ -1066,6 +1068,30 @@ a.st-card:hover { border-color: var(--tl-cyan); transform: translateY(-2px); col
     background: var(--tl-card);
 }
 .st-portrait img { display: block; width: 100%; height: auto; }
+
+/* ---------- For Educators hub (light, ed section) ---------- */
+/* Links inside running text on the light pages: brand teal and underlined,
+   so they are distinguishable without relying on colour (WCAG 1.4.1). */
+body:is([data-section="ed"], [data-section="shared"]) #page-content :is(p, li, dd) a:not([class]) {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+body:is([data-section="ed"], [data-section="shared"]) #page-content :is(p, li, dd) a:not([class]):hover {
+    color: var(--color-accent-hover);
+}
+.ed-hub-banner {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 0 var(--space-xl);
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+}
+@media (min-width: 768px) {
+    .ed-product-grid.ed-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ed-product-grid.ed-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 /* ---------- Responsive ---------- */
 @media (min-width: 1024px) {

@@ -19,6 +19,7 @@ class Router {
             '/thrustline':        'studio',
             '/vr':                'studio',
             '/vr/anatomy-physiology-lab': 'shared',
+            '/educators':         'ed',
             '/education':         'ed',
             '/education/ally-pro':     'ed',
             '/education/audit':        'ed',
@@ -51,29 +52,33 @@ class Router {
                 title: 'Thrustline | Race a Jet Bike Powered by Your Workout, on Meta Quest',
                 description: 'Thrustline turns your elliptical, rower, or stair climber into a jet bike race on Meta Quest. Your effort is the throttle. Race your ghosts and six rivals across six courses. Coming December 2026.'
             },
+            '/educators': {
+                title: 'For Educators: Free Tools and Courses for Colleges | ES Designs',
+                description: 'Free tools and courses for colleges from ES Designs: Vantura 360 video, free ADA Title II accessibility tools and WCAG 2.2 courses, and free courses on teaching with AI.'
+            },
             '/education': {
-                title: 'Title II Document Remediation & Planning for Higher Ed | ES Designs',
-                description: 'Document remediation with the before/after record, the free Title II roadmap tool, WCAG 2.2 courses, and website audits for colleges facing the April 26, 2027 ADA Title II deadline. Send ten documents and see the record on your own files.'
+                title: 'Free Title II Accessibility Tools and Courses | ES Designs',
+                description: 'Free tools and courses for ADA Title II in higher ed: a planning tool, a website scan, WCAG 2.2 courses, and Document Ally Pro, free to start.'
             },
             '/education/ally-pro': {
-                title: 'Document Ally Pro | Free AI WCAG 2.2 Document Remediation for Higher Ed',
-                description: 'AI-powered WCAG 2.2 document remediation for higher ed — free to start. Batch upload, branded conformance analytics, and a FERPA-friendly pipeline. Built for the Title II window.'
+                title: 'Document Ally Pro | Free-to-Start WCAG 2.2 Document Remediation',
+                description: 'Upload a Word file or PDF and get back a tagged PDF and Word file, with the score before and after. Free credits at signup, no card needed.'
             },
             '/education/audit': {
-                title: 'AI Website Audit Tool | WCAG 2.2 AA for Higher Ed',
-                description: 'Crawl-based WCAG 2.2 audits with AI-generated remediation suggestions. Branded audit reports for higher education institutions. Run a free single-page audit today.'
+                title: 'Free WCAG 2.2 Page Audit with Suggested Fixes | ES Designs',
+                description: 'Paste any public URL for a free WCAG 2.2 AA report card in under a minute, no signup. The full PDF, with a suggested fix for each issue, comes by email.'
             },
             '/education/wcag-course': {
-                title: 'WCAG 2.2 for Higher Ed | Self-Paced Course for Faculty',
-                description: 'A plain-English WCAG 2.2 course built for higher education faculty. 8 modules, completion certificate, included with every institutional Document Ally Pro license.'
+                title: 'WCAG 2.2 for Higher Ed | Free Accessibility Course for Faculty',
+                description: 'A free, plain-English WCAG 2.2 course for faculty, not web developers. 8 self-paced modules and a completion certificate. Free with an account.'
             },
             '/education/roadmap-tool': {
-                title: 'Compliance Roadmap Tool | ADA Title II Planning for Higher Ed',
-                description: 'Free interactive Title II compliance planning tool for higher ed accessibility directors. 9 chapters, AI-drafted summaries, accessible PDF export. Build your plan in 30 minutes.'
+                title: 'Title II Roadmap Tool | Free ADA Compliance Planning',
+                description: 'Free Title II compliance planning for higher ed: nine chapters, AI-drafted summaries, team comments, and an accessible PDF export. No premium tier.'
             },
             '/ai': {
-                title: 'AI in Higher Ed | Teaching Past the Detection Trap — ES Designs',
-                description: 'Most colleges are policing AI. ES Designs helps you teach it. Self-paced AI courses for faculty and administrators, campus workshops, and a free AI tools guide — built by a 21-year higher ed practitioner.'
+                title: 'AI in Higher Ed | Free Courses for Teaching With AI | ES Designs',
+                description: 'Most colleges are policing AI. We help you teach it. Free self-paced AI courses for faculty and administrators, plus a free AI tools guide.'
             },
             '/vantura': {
                 title: 'Vantura: 360 Video for Higher Ed and CTE | ES Designs',
@@ -107,7 +112,7 @@ class Router {
                     { href: '/thrustline/', label: 'Thrustline' },
                     { href: '/vr/', label: 'VR' },
                     { href: '/blog/', label: 'Build Log' },
-                    { href: '/education/', label: 'For Educators' },
+                    { href: '/educators/', label: 'For Educators' },
                     { href: '/about/', label: 'About' },
                 ]
             },
@@ -117,6 +122,7 @@ class Router {
                 brand: 'ES Designs',
                 brandHref: '/',
                 section: 'For Educators',
+                sectionHref: '/educators/',
                 links: [
                     { href: '/vantura/', label: 'Vantura' },
                     { href: '/education/', label: 'Accessibility' },
@@ -132,7 +138,7 @@ class Router {
                     { href: '/thrustline/', label: 'Thrustline' },
                     { href: '/vr/', label: 'VR' },
                     { href: '/blog/', label: 'Build Log' },
-                    { href: '/education/', label: 'For Educators' },
+                    { href: '/educators/', label: 'For Educators' },
                     { href: '/about/', label: 'About' },
                 ]
             }
@@ -147,13 +153,14 @@ class Router {
                 { href: '/vr/', label: 'VR' },
                 { href: '/vantura/', label: 'Vantura' },
                 { href: '/blog/', label: 'Build Log' },
-                { href: '/education/', label: 'For Educators' },
+                { href: '/educators/', label: 'For Educators' },
                 { href: '/about/', label: 'About' },
                 { href: '/connect/', label: 'Connect' },
                 { href: '/privacy/', label: 'Privacy Policy' },
             ],
             ed: [
                 { href: '/', label: 'Home' },
+                { href: '/educators/', label: 'For Educators' },
                 { href: '/vantura/', label: 'Vantura' },
                 { href: '/education/', label: 'Accessibility' },
                 { href: '/education/roadmap-tool/', label: 'Compliance Roadmap Tool' },
@@ -172,7 +179,7 @@ class Router {
                 { href: '/thrustline/', label: 'Thrustline' },
                 { href: '/vr/', label: 'VR' },
                 { href: '/vantura/', label: 'Vantura' },
-                { href: '/education/', label: 'For Educators' },
+                { href: '/educators/', label: 'For Educators' },
                 { href: '/about/', label: 'About' },
                 { href: '/connect/', label: 'Connect' },
                 { href: '/privacy/', label: 'Privacy Policy' },
@@ -428,6 +435,7 @@ class Router {
         const navSection = document.getElementById('navSection');
         if (navSection) {
             navSection.textContent = config.section || '';
+            if (config.sectionHref) navSection.setAttribute('href', config.sectionHref);
             navSection.hidden = !config.section;
         }
 
@@ -500,7 +508,7 @@ class Router {
         // Shared: scroll-to buttons, inline forms, compact tiles
         // (all education pages, the AI page, and the home/landing page —
         // all reuse the same inline-form + capture components)
-        if (path.startsWith('/education') || path === '/ai' || path === '/vantura' || path === '/' || path === '/thrustline' || path === '/about') {
+        if (path.startsWith('/education') || path === '/ai' || path === '/vantura' || path === '/' || path === '/thrustline' || path === '/about' || path === '/educators') {
             // Free-course CTA tracking (home hero + nav). Fire a GA4
             // free_course_click before the new tab opens. No-op on pages
             // that have no [data-ga="free-course"] elements.

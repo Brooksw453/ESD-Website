@@ -22,6 +22,7 @@
     router.register('/thrustline', 'pages/thrustline.html');
     router.register('/vr', 'pages/vr.html');
     router.register('/vr/anatomy-physiology-lab', 'pages/vr-anatomy-physiology.html');
+    router.register('/educators', 'pages/educators.html');
     router.register('/education', 'pages/education.html');
     router.register('/education/ally-pro', 'pages/education-ally-pro.html');
     router.register('/education/audit', 'pages/education-audit.html');

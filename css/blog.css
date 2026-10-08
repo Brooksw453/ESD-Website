@@ -463,3 +463,71 @@ img { max-width: 100%; height: auto; }
         scroll-behavior: auto !important;
     }
 }
+
+/* ============================================
+   Studio theme (October 2026): the Build Log matches the dark studio
+   pages. The rules above read the brand tokens; remapping them here turns
+   the whole blog dark, and the pairs that put "white" text on a
+   "primary"/"accent" fill (skip link, buttons) become night-on-light.
+   Palette = Thrustline UI kit (see css/studio.css). Contrast on Night
+   #0B1026: Hull 17.6:1, body #C9D0E4 12.6:1, muted #9AA4C7 7.6:1,
+   cyan 10.3:1.
+   ============================================ */
+body.blog-shell {
+    --color-white:         #0B1026;   /* page / input background */
+    --color-surface:       #0E1433;   /* panels, footer, code */
+    --color-border:        #24306A;
+    --color-primary:       #EEF0F4;   /* headings, brand */
+    --color-primary-hover: #FFFFFF;
+    --color-accent:        #59CCFF;   /* links */
+    --color-accent-hover:  #8FDCFF;
+    --color-text:          #C9D0E4;   /* long-form body text */
+    --color-text-muted:    #9AA4C7;
+    --color-warm:          #FF8C1A;
+    --font-display: 'Saira', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono:    'IBM Plex Mono', ui-monospace, monospace;
+}
+body.blog-shell .blog-header {
+    background: rgba(11, 16, 38, 0.97);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+body.blog-shell .blog-brand {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+body.blog-shell .blog-brand::after {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-left: 6px;
+    border-radius: 2px;
+    background: #FF8C1A;
+    transform: skewX(-12deg);
+}
+body.blog-shell .blog-nav a { color: #B7C0DA; text-decoration: none; }
+body.blog-shell .blog-nav a:hover { color: #EEF0F4; text-decoration: none; }
+body.blog-shell .blog-nav a[href="/blog/"] { color: #EEF0F4; box-shadow: inset 0 -2px 0 #FF8C1A; }
+body.blog-shell .blog-index-header h1,
+body.blog-shell .blog-article h1 { letter-spacing: -0.01em; }
+body.blog-shell .blog-index-header h1::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 4px;
+    margin-bottom: 18px;
+    border-radius: 2px;
+    background: #FF8C1A;
+    transform: skewX(-20deg);
+}
+body.blog-shell .blog-article pre { background: #111838; border: 1px solid #24306A; }
+body.blog-shell .blog-btn { background: #FF8C1A; color: #0B1026; text-decoration: none; }
+body.blog-shell .blog-btn:hover { background: #FFA040; color: #0B1026; }
+body.blog-shell .blog-newsletter { border-style: solid; background: #0E1433; }
+body.blog-shell .blog-newsletter .blog-btn { display: inline-block; margin-top: 8px; }
+body.blog-shell .blog-footer { background: #0E1433; }
+body.blog-shell a:focus-visible,
+body.blog-shell button:focus-visible { outline-color: #59CCFF; }

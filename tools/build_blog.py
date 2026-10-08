@@ -57,7 +57,7 @@ CTA_HTML = (
 # to Supabase, exactly like the home / AI / education capture points.
 # Switching providers is a one-line change here + a rebuild.
 # ---------------------------------------------------------------------------
-NEWSLETTER_PROVIDER = "unified"
+NEWSLETTER_PROVIDER = "studio"
 
 # ---- Content Security Policy (blog pages only; independent of the SPA) -----
 CSP_BASE = (
@@ -115,6 +115,7 @@ CSP_UNIFIED = (
     "frame-src 'none'; base-uri 'self'"
 )
 CSP = {
+    "studio": CSP_BASE,   # Build Log: links to the launch list, no form
     "none": CSP_BASE,
     "unified": CSP_UNIFIED,
     "convertkit": CSP_CONVERTKIT,
@@ -222,6 +223,17 @@ def first_paragraph(body):
 
 
 def newsletter_html():
+    if NEWSLETTER_PROVIDER == "studio":
+        # Build Log (Oct 2026): The Learning Curve is paused. The box points to
+        # the Thrustline launch list (Supabase messages, source thrustline-launch),
+        # which becomes the XR newsletter on Beehiiv later.
+        return (
+            '        <section class="blog-newsletter" aria-labelledby="nl-t">\n'
+            '            <h2 id="nl-t">Get the build log by email</h2>\n'
+            '            <p>One email when Thrustline launches on Meta Quest, plus occasional build notes from the studio. Unsubscribe anytime.</p>\n'
+            '            <a class="blog-btn" href="/thrustline/">Join the launch list &rarr;</a>\n'
+            "        </section>"
+        )
     if NEWSLETTER_PROVIDER == "none":
         return read(TEMPLATES / "_newsletter.html").rstrip("\n")
     if NEWSLETTER_PROVIDER == "unified":
@@ -355,7 +367,7 @@ def render_post(meta, body, source):
                 "itemListElement": [
                     {"@type": "ListItem", "position": 1, "name": "Home",
                      "item": SITE + "/"},
-                    {"@type": "ListItem", "position": 2, "name": "Blog",
+                    {"@type": "ListItem", "position": 2, "name": "Build Log",
                      "item": SITE + "/blog/"},
                     {"@type": "ListItem", "position": 3, "name": title,
                      "item": canonical},
@@ -365,7 +377,7 @@ def render_post(meta, body, source):
     }
 
     head = build_head(
-        page_title="%s | ES Designs Blog" % title,
+        page_title="%s | ES Designs Build Log" % title,
         og_title=title,
         description=desc,
         canonical=canonical,
@@ -441,7 +453,7 @@ def build_index(posts):
             {
                 "@type": "Blog",
                 "@id": SITE + "/blog/#blog",
-                "name": "ES Designs Blog",
+                "name": "ES Designs Build Log",
                 "description": "Practical notes on Title II compliance "
                 "planning for higher education.",
                 "url": SITE + "/blog/",
@@ -452,7 +464,7 @@ def build_index(posts):
                 "itemListElement": [
                     {"@type": "ListItem", "position": 1, "name": "Home",
                      "item": SITE + "/"},
-                    {"@type": "ListItem", "position": 2, "name": "Blog",
+                    {"@type": "ListItem", "position": 2, "name": "Build Log",
                      "item": SITE + "/blog/"},
                 ],
             },
@@ -460,10 +472,10 @@ def build_index(posts):
     }
 
     head = build_head(
-        page_title="ES Designs Blog | Title II Compliance Planning for Higher Ed",
-        og_title="ES Designs Blog",
-        description="Practical notes on ADA Title II compliance planning, "
-        "WCAG 2.2, and document accessibility for higher education.",
+        page_title="Build Log | ES Designs",
+        og_title="ES Designs Build Log",
+        description="Notes from the ES Designs studio on building Thrustline "
+        "for Meta Quest, plus earlier writing on accessibility and AI in higher education.",
         canonical=SITE + "/blog/",
         og_type="website",
         og_image=DEFAULT_OG_IMAGE,
