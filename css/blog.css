@@ -493,10 +493,25 @@ body.blog-shell .blog-header {
     top: 0;
     z-index: 10;
 }
+/* Same geometry as the main site header (layout.css .site-header):
+   full width, 64px tall, 32px side padding, brand left, links right. */
+body.blog-shell .blog-header-inner {
+    max-width: none;
+    min-height: 64px;
+    padding: 0 var(--space-xl);
+    gap: var(--space-md) var(--space-xl);
+}
 body.blog-shell .blog-brand {
     font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1.05rem;
     font-weight: 600;
     letter-spacing: -0.01em;
+}
+body.blog-shell .blog-nav { gap: var(--space-xl); }
+body.blog-shell .blog-nav a { font-size: 0.95rem; }
+@media (max-width: 720px) {
+    body.blog-shell .blog-header-inner { padding: 10px 16px; }
+    body.blog-shell .blog-nav { gap: 6px 18px; }
 }
 body.blog-shell .blog-brand::after {
     content: '';

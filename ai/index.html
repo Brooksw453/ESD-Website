@@ -303,38 +303,6 @@
     </div>
 </section>
 
-<!-- Whitepaper waitlist -->
-<section class="section" style="background: #f0f5ff; padding: var(--space-2xl) 0;">
-    <div class="container" style="max-width: 620px; text-align: center;" data-animate="fade-up">
-        <p class="label" style="color: var(--color-accent); margin-bottom: var(--space-sm);">Free report</p>
-        <h2 style="color: var(--ed-heading); margin-bottom: var(--space-sm);">The State of AI in Higher Education 2026</h2>
-        <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">Why detection-first policy is failing, and what to build instead. A practical report for provosts, CTL directors, and faculty leaders. Leave your email and I'll send it when it's ready.</p>
-        <form id="aiWhitepaperForm" data-supabase-table="waitlist" action="https://formsubmit.co/ajax/bwinchell@esdesigns.org" method="POST">
-            <input type="hidden" name="message" value="AI whitepaper — notify on release">
-            <input type="text" name="_honey" style="display:none" aria-label="Leave this field blank">
-            <input type="hidden" name="_captcha" value="false">
-            <div style="display:flex; gap: var(--space-sm); flex-wrap: wrap; justify-content:center;">
-                <label for="aiWpName" class="visually-hidden">Your name</label>
-                <input type="text" id="aiWpName" name="name" autocomplete="name" placeholder="Your name" required
-                    style="flex:1; min-width:180px; padding:12px 16px; border:1px solid #d1d5db; border-radius:8px; font-size:1rem; font-family:inherit; outline:none;">
-                <label for="aiWpEmail" class="visually-hidden">Work email</label>
-                <input type="email" id="aiWpEmail" name="email" autocomplete="email" placeholder="Work email" required
-                    style="flex:1; min-width:180px; padding:12px 16px; border:1px solid #d1d5db; border-radius:8px; font-size:1rem; font-family:inherit; outline:none;">
-            </div>
-            <div style="margin-top: var(--space-sm);">
-                <label for="aiWpInstitution" class="visually-hidden">Institution</label>
-                <input type="text" id="aiWpInstitution" name="institution" autocomplete="organization" placeholder="Institution (optional)"
-                    style="width:100%; max-width:372px; padding:12px 16px; border:1px solid #d1d5db; border-radius:8px; font-size:1rem; font-family:inherit; outline:none;">
-            </div>
-            <div style="margin-top: var(--space-md);">
-                <button type="submit" class="neon-btn btn-filled">Notify me &rarr;</button>
-            </div>
-            <span class="contact-status" id="aiWhitepaperStatus" role="status" aria-live="polite" style="display:block; margin-top: var(--space-sm);"></span>
-        </form>
-        <p style="font-size: 0.8rem; color: #475569; margin-top: var(--space-sm);">No spam. One email when it's ready.</p>
-    </div>
-</section>
-
 <!-- Bridge: accessibility and AI in one free library -->
 <section class="ed-institution-cta">
     <div class="container" data-animate="fade-up">

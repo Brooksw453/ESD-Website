@@ -113,13 +113,13 @@ body[data-section="studio"] section::after { display: none; }
 
 /* ---------- Header (every page) ---------- */
 body[data-section] .site-header {
-    background: rgba(11, 16, 38, 0.97);
+    background: var(--tl-night);
     border-bottom: 1px solid var(--tl-border);
     backdrop-filter: saturate(160%) blur(10px);
     -webkit-backdrop-filter: saturate(160%) blur(10px);
 }
 body[data-section] .site-header.scrolled {
-    background: rgba(11, 16, 38, 0.96);
+    background: var(--tl-night);
     border-bottom-color: var(--tl-line);
 }
 body[data-section] a.nav-brand,
