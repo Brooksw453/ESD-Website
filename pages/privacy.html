@@ -6,7 +6,7 @@
         <p class="label" data-animate="fade-up">Legal</p>
         <h1 class="neon-text" data-animate="fade-up">Privacy Policy</h1>
         <p data-animate="fade-up" style="max-width: 640px; margin: var(--space-md) auto 0;">
-            How ES Designs handles your data in Thrustline, our other Meta Quest apps, and on this website.
+            How ES Designs handles your data in Thrustline, our other Meta Quest apps, Document Ally Pro, and on this website.
         </p>
         <p data-animate="fade-up" style="margin-top: var(--space-sm);">
             <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">
@@ -40,6 +40,7 @@
                         <li><strong>Thrustline:</strong> a VR racing game for Meta Quest, powered by your workout on a cardio machine</li>
                         <li><strong>Vantura:</strong> a 360 video platform for higher education and CTE, made up of a Quest app and an instructor web portal</li>
                         <li><strong>Anatomy &amp; Physiology Lab:</strong> an immersive VR educational experience for Meta Quest</li>
+                        <li><strong>Document Ally Pro:</strong> a web app at documents.esdesigns.org that turns PDF and Word files into accessible documents</li>
                         <li><strong>esdesigns.org:</strong> this website, including its contact forms and email signups</li>
                     </ul>
                     <p>
@@ -47,7 +48,9 @@
                         Thrustline and the Anatomy &amp; Physiology Lab need no account and send nothing to us; what
                         Thrustline saves stays on your headset. Vantura is an account-based service that a school uses
                         to deliver its own video to its own students, so it necessarily stores account and usage
-                        information. This website uses analytics and stores what you send through its forms. Each is
+                        information. Document Ally Pro is also account-based and keeps records of the documents you
+                        process, but not the documents themselves. This website uses analytics and stores what you
+                        send through its forms. Each is
                         described separately below. We never sell personal information, and we never use it for
                         advertising.
                     </p>
@@ -196,9 +199,77 @@
                     </p>
                 </div>
 
-                <!-- 5. This Website -->
+                <!-- 5. Document Ally Pro -->
+                <div class="privacy-section" id="document-ally-pro">
+                    <h2>5. Document Ally Pro</h2>
+                    <p>
+                        Document Ally Pro, at documents.esdesigns.org, turns PDF and Word files into accessible
+                        documents. It requires an account, and it communicates with our servers and with an AI
+                        provider. <span class="privacy-highlight">The contents of your documents are not stored on our servers.</span>
+                    </p>
+
+                    <span class="privacy-app-name">Account information</span>
+                    <p>
+                        You create an account with your email address and a password, or sign in from the ES Designs
+                        course platform. Authentication is handled by Supabase; we never see your password, which is
+                        stored in hashed form. If your account belongs to an organization account, such as your
+                        college&rsquo;s, we store which organization you belong to and your role in it. The sign-in and
+                        sign-up pages use Cloudflare Turnstile to screen out automated abuse.
+                    </p>
+
+                    <span class="privacy-app-name">How your documents are processed</span>
+                    <p>
+                        When you upload a PDF or Word file, its text is extracted in your browser, including any OCR
+                        of scanned pages. To remediate the document, the extracted text, plus small image thumbnails
+                        where alt text is needed, is sent through our servers to our AI provider, Anthropic. The
+                        remediated document is then assembled into Word, tagged PDF, and HTML files for you to
+                        download. When a tagged PDF is produced on our servers, it is generated in memory and not kept.
+                    </p>
+                    <p>
+                        Anthropic receives only the document content needed for remediation: not your email address,
+                        your organization, or your other documents. Anthropic does not use content sent through its
+                        API to train its models.
+                    </p>
+
+                    <span class="privacy-app-name">What we store</span>
+                    <ul>
+                        <li>For each document you check or process: the file name, type, and size; the document title; the accessibility scores before and after; the list of accessibility issues found (general findings, not document text); and processing details such as the AI model used, how long it took, how much text was processed, and whether it succeeded</li>
+                        <li>Your free and purchased credit balance, and a record of credit purchases and grants</li>
+                    </ul>
+                    <p>
+                        If your account belongs to an organization account, that organization&rsquo;s administrators can
+                        see this activity for their organization and produce compliance reports from it.
+                    </p>
+
+                    <span class="privacy-app-name">Payments</span>
+                    <p>
+                        Credit packs are paid for by card through Stripe Checkout. Stripe processes your card details;
+                        we never receive or store them. We keep the checkout reference and the credits added to your
+                        account.
+                    </p>
+
+                    <span class="privacy-app-name">Keeping the service running</span>
+                    <p>
+                        Usage counters tied to your account and organization identifiers are kept briefly in Upstash to
+                        enforce rate limits. Errors and performance data are reported to Sentry with personal data
+                        collection turned off and no session recording. Document Ally Pro uses cookies only to keep you
+                        signed in, and it runs no advertising or analytics trackers.
+                    </p>
+
+                    <span class="privacy-app-name">Health information</span>
+                    <p>
+                        Document Ally Pro is not designed for protected health information. Please do not upload
+                        documents that contain it.
+                    </p>
+                    <p>
+                        More technical detail is on the
+                        <a href="https://documents.esdesigns.org/trust" style="color: var(--color-accent);" target="_blank" rel="noopener">Document Ally Pro trust page</a>.
+                    </p>
+                </div>
+
+                <!-- 6. This Website -->
                 <div class="privacy-section">
-                    <h2>5. This Website (esdesigns.org)</h2>
+                    <h2>6. This Website (esdesigns.org)</h2>
 
                     <span class="privacy-app-name">Analytics</span>
                     <p>
@@ -235,9 +306,9 @@
                     </p>
                 </div>
 
-                <!-- 6. Information We Do Not Collect -->
+                <!-- 7. Information We Do Not Collect -->
                 <div class="privacy-section">
-                    <h2>6. Information We Do Not Collect</h2>
+                    <h2>7. Information We Do Not Collect</h2>
                     <p>For full transparency, none of our Meta Quest applications collect any of the following:</p>
                     <ul>
                         <li>Location or GPS data</li>
@@ -255,9 +326,9 @@
                     </p>
                 </div>
 
-                <!-- 7. Device Permissions -->
+                <!-- 8. Device Permissions -->
                 <div class="privacy-section">
-                    <h2>7. Device Permissions</h2>
+                    <h2>8. Device Permissions</h2>
                     <p>
                         Our apps use certain VR hardware features <strong>solely to make the app work</strong>,
                         not for data collection. Sensor data is processed on the headset in real time and is never
@@ -286,9 +357,9 @@
                     </ul>
                 </div>
 
-                <!-- 8. Student Data and Institutional Use -->
+                <!-- 9. Student Data and Institutional Use -->
                 <div class="privacy-section">
-                    <h2>8. Student Data and Institutional Use</h2>
+                    <h2>9. Student Data and Institutional Use</h2>
                     <p>
                         When an institution uses Vantura with enrolled students, the account, enrollment, and viewing
                         records described in Section 3 may constitute education records under the Family Educational
@@ -302,14 +373,20 @@
                         its data at any time, and we will act on that request.
                     </p>
                     <p>
+                        Document Ally Pro does not store document contents, so processing student work through it does
+                        not create a new store of education records. The records it does keep (Section 5) contain the
+                        uploader&rsquo;s account email and document metadata; for an organization account, the
+                        institution controls them.
+                    </p>
+                    <p>
                         Institutions that require a written data protection agreement or student data privacy addendum
                         should contact us using the details below.
                     </p>
                 </div>
 
-                <!-- 9. Third-Party Services -->
+                <!-- 10. Third-Party Services -->
                 <div class="privacy-section">
-                    <h2>9. Third-Party Services</h2>
+                    <h2>10. Third-Party Services</h2>
                     <p>
                         Thrustline and the Anatomy &amp; Physiology Lab use no third-party services of their own.
                     </p>
@@ -319,6 +396,16 @@
                         <li><strong>Cloudflare R2:</strong> storage and delivery of uploaded video files</li>
                         <li><strong>Cloudflare Turnstile:</strong> bot protection on portal sign-in</li>
                         <li><strong>Vercel:</strong> hosting for the instructor web portal</li>
+                    </ul>
+                    <p>Document Ally Pro relies on:</p>
+                    <ul>
+                        <li><strong>Supabase:</strong> authentication and database, hosted in the United States</li>
+                        <li><strong>Anthropic:</strong> the AI model that remediates documents</li>
+                        <li><strong>Vercel:</strong> hosting and server logs</li>
+                        <li><strong>Stripe:</strong> card payments for credit packs</li>
+                        <li><strong>Upstash:</strong> rate limiting</li>
+                        <li><strong>Sentry:</strong> error and performance monitoring</li>
+                        <li><strong>Cloudflare Turnstile:</strong> bot protection on sign-in and sign-up</li>
                     </ul>
                     <p>This website relies on:</p>
                     <ul>
@@ -346,9 +433,9 @@
                     </p>
                 </div>
 
-                <!-- 10. Children's Privacy -->
+                <!-- 11. Children's Privacy -->
                 <div class="privacy-section">
-                    <h2>10. Children&rsquo;s Privacy</h2>
+                    <h2>11. Children&rsquo;s Privacy</h2>
                     <p>
                         Our applications and this website are not directed at children under 13, and we do not
                         knowingly collect personal information from children under 13. Use of Meta Quest is subject to
@@ -362,28 +449,31 @@
                     </p>
                 </div>
 
-                <!-- 11. Data Retention -->
+                <!-- 12. Data Retention -->
                 <div class="privacy-section">
-                    <h2>11. Data Retention</h2>
+                    <h2>12. Data Retention</h2>
                     <ul>
                         <li><strong>Thrustline:</strong> saved data remains on your headset until you use Settings &rsaquo; Reset, uninstall the app, or clear its data through your Meta Quest settings. We hold none of it.</li>
                         <li><strong>Vantura:</strong> account, class, enrollment, headset, and viewing records are retained while the account or institutional subscription is active. Uploaded videos are retained until deleted by the institution. On request, we delete an account or an institution&rsquo;s data; deletion is completed within 30 days. Downloaded video on a headset is removed when the user signs out or the app is uninstalled.</li>
                         <li><strong>Anatomy &amp; Physiology Lab:</strong> no data is retained. All session data is cleared when the application closes.</li>
+                        <li><strong>Document Ally Pro:</strong> document contents are never stored. Account, document, and credit records are kept while the account is open; when an account or organization account is closed, its data is deleted within 30 days. We export or delete it sooner on request.</li>
                         <li><strong>This website:</strong> form messages are kept for as long as we need them to reply and keep a record of the conversation, and are deleted on request. Email addresses stay on a list until you unsubscribe or ask us to remove them. Google Analytics keeps event-level data for no more than 14 months.</li>
                     </ul>
                 </div>
 
-                <!-- 12. Data Security -->
+                <!-- 13. Data Security -->
                 <div class="privacy-section">
-                    <h2>12. Data Security</h2>
+                    <h2>13. Data Security</h2>
                     <p>
                         Thrustline and the Anatomy &amp; Physiology Lab send nothing to our servers, so there is nothing
                         of yours on our side to intercept or breach. What Thrustline saves is kept in the app&rsquo;s
                         private storage and protected by the Meta Quest platform&rsquo;s device-level security.
                     </p>
                     <p>
-                        For Vantura and this website, all traffic is encrypted in transit using HTTPS, and stored data
-                        is encrypted at rest by our hosting providers. In Vantura, access to class content is enforced
+                        For Vantura, Document Ally Pro, and this website, all traffic is encrypted in transit using
+                        HTTPS, and stored data is encrypted at rest by our hosting providers. In Document Ally Pro, each
+                        organization&rsquo;s records are isolated from every other organization&rsquo;s at the database
+                        level. In Vantura, access to class content is enforced
                         at the database level, so an account can only reach videos for classes it teaches or is
                         enrolled in, and video links are short-lived and individually signed rather than publicly
                         accessible. No system is perfectly secure, but we design for least privilege and keep the
@@ -391,9 +481,9 @@
                     </p>
                 </div>
 
-                <!-- 13. Your Choices and Rights -->
+                <!-- 14. Your Choices and Rights -->
                 <div class="privacy-section">
-                    <h2>13. Your Choices and Rights</h2>
+                    <h2>14. Your Choices and Rights</h2>
                     <p>
                         You may request access to the personal information we hold about you, request a correction, or
                         request deletion. Contact us using the details below and we will respond within 30 days.
@@ -401,14 +491,15 @@
                     <ul>
                         <li><strong>Thrustline:</strong> everything it saves is on your headset and under your control; see &ldquo;Deleting your data&rdquo; in Section 2.</li>
                         <li><strong>Vantura:</strong> if you use Vantura through your school, your school administers your account, and we may direct requests about student records to your institution. You can stop all data collection by Vantura at any time by signing out of the app, which also removes downloaded lessons from the headset.</li>
+                        <li><strong>Document Ally Pro:</strong> ask us to export or delete your account and its records. If your account belongs to an organization account, we may direct requests to its administrators.</li>
                         <li><strong>Email:</strong> use the unsubscribe link in any email, or write to us.</li>
                         <li><strong>Analytics:</strong> block Google Analytics cookies in your browser or use Google&rsquo;s opt-out add-on.</li>
                     </ul>
                 </div>
 
-                <!-- 14. Changes to This Policy -->
+                <!-- 15. Changes to This Policy -->
                 <div class="privacy-section">
-                    <h2>14. Changes to This Policy</h2>
+                    <h2>15. Changes to This Policy</h2>
                     <p>
                         We may update this privacy policy from time to time. Any changes will be posted on this page
                         with an updated revision date at the top. Continued use of our applications or this website
@@ -416,9 +507,9 @@
                     </p>
                 </div>
 
-                <!-- 15. Contact Us -->
+                <!-- 16. Contact Us -->
                 <div class="privacy-section" style="margin-bottom: 0;">
-                    <h2>15. Contact Us</h2>
+                    <h2>16. Contact Us</h2>
                     <p>
                         If you have any questions or concerns about this privacy policy or our data practices,
                         please contact ES Designs:
