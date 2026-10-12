@@ -505,6 +505,27 @@ class Router {
             });
         });
 
+        // Trailer (home feature, Thrustline hero): the play button hands over
+        // to the native controls. The trailer has its own music, so the site
+        // player pauses whenever it plays.
+        document.querySelectorAll('[data-trailer]').forEach(box => {
+            const video = box.querySelector('video');
+            const btn = box.querySelector('.st-trailer-play');
+            if (!video || !btn) return;
+            btn.addEventListener('click', () => {
+                box.classList.add('is-started');
+                video.controls = true;
+                video.play().catch(() => {});
+                video.focus();
+                if (typeof gtag === 'function') {
+                    gtag('event', 'trailer_play', { page_path: Router.toHref(path) });
+                }
+            });
+            video.addEventListener('play', () => {
+                if (window.musicPlayer && window.musicPlayer.isPlaying) window.musicPlayer.pause();
+            });
+        });
+
         // Shared: scroll-to buttons, inline forms, compact tiles
         // (all education pages, the AI page, and the home/landing page —
         // all reuse the same inline-form + capture components)

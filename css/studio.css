@@ -622,19 +622,11 @@ body[data-section="studio"] .st-race {
     background: var(--tl-panel);
     overflow: hidden;
 }
-/* Wide banner crop of the 16:9 key art: keeps the logo, the bike and the
-   kerb line, trims sky and road. */
+/* Full 16:9 so the trailer's end card (title, URL) is never cropped. */
 .st-feature-art {
-    aspect-ratio: 21 / 9;
+    aspect-ratio: 16 / 9;
     background: var(--tl-night);
     border-bottom: 1px solid var(--tl-border);
-}
-.st-feature-art img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 55%;
 }
 .st-feature-body {
     display: grid;
@@ -830,7 +822,53 @@ a.st-card:hover { border-color: var(--tl-cyan); transform: translateY(-2px); col
     background: var(--tl-night);
     aspect-ratio: 16 / 9;
 }
-.tl-hero-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- Trailer (home feature, Thrustline hero) ----------
+   The key art is the poster, since the trailer opens on it. A play button
+   sits over it until pressed; then the browser's own controls take over
+   (router.js bindPageEvents). */
+.st-trailer { position: relative; }
+.st-trailer video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: var(--tl-night);
+}
+.st-trailer-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 24px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+.st-trailer-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 12px 22px 12px 18px;
+    border-radius: 999px;
+    background: var(--tl-orange);
+    color: var(--tl-night);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+    transition: background 150ms ease, transform 150ms ease;
+}
+.st-trailer-pill svg { width: 20px; height: 20px; flex: none; }
+.st-trailer-time { font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
+.st-trailer-play:hover .st-trailer-pill { background: var(--tl-orange-hover); transform: translateY(-1px); }
+body[data-section="studio"] .st-trailer-play:focus-visible { outline: none; }
+.st-trailer-play:focus-visible .st-trailer-pill { outline: 3px solid var(--tl-cyan); outline-offset: 3px; }
+.st-trailer.is-started .st-trailer-play { display: none; }
+
 .tl-hero-copy {
     display: grid;
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
@@ -1098,7 +1136,6 @@ body:is([data-section="ed"], [data-section="shared"]) #page-content :is(p, li, d
     .st-hero { padding: 96px 0 48px; }
 }
 @media (max-width: 960px) {
-    .st-feature-art { aspect-ratio: 16 / 9; }
     .st-feature-body { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 30px 26px 28px; }
     .tl-hero-copy, .st-split, .st-about-grid, .st-band { grid-template-columns: minmax(0, 1fr); gap: 28px; }
     .st-grid-3, .tl-steps, .st-timeline { grid-template-columns: minmax(0, 1fr); }
@@ -1115,12 +1152,14 @@ body:is([data-section="ed"], [data-section="shared"]) #page-content :is(p, li, d
     .st-linklist a { grid-template-columns: minmax(0, 1fr); gap: 2px; }
     .st-linklist a span:last-child { text-align: left; }
     .tl-hero-art { border-radius: 14px; }
+    .st-trailer-play { padding: 14px; }
+    .st-trailer-pill { min-height: 44px; padding: 10px 18px 10px 14px; font-size: 0.95rem; }
     .st-signup-row .st-btn { flex: 1 1 100%; }
 }
 @media (max-width: 420px) {
     .tl-machines { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
-    .st-btn, .st-card { transition: none; }
-    .st-btn-primary:hover, a.st-card:hover { transform: none; }
+    .st-btn, .st-card, .st-trailer-pill { transition: none; }
+    .st-btn-primary:hover, a.st-card:hover, .st-trailer-play:hover .st-trailer-pill { transform: none; }
 }
