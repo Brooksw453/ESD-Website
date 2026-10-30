@@ -914,7 +914,7 @@ body[data-section="studio"] .st-trailer-play:focus-visible { outline: none; }
 
 .tl-machines {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
     list-style: none;
     margin: 0;
