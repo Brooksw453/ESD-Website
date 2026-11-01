@@ -49,8 +49,8 @@ class Router {
                 description: 'ES Designs is an independent studio in Massachusetts building VR for Meta Quest, end to end: Thrustline, a racing game powered by your workout; Vantura, 360 video for colleges; and the Anatomy & Physiology Lab.'
             },
             '/thrustline': {
-                title: 'Thrustline | Race a Jet Bike Powered by Your Workout, on Meta Quest',
-                description: 'Thrustline turns your elliptical, rower, or stair climber into a jet bike race on Meta Quest. Your effort is the throttle. Race your ghosts and six rivals across six courses. Coming December 2026.'
+                title: 'Thrustline | Race a Jet Thruster Powered by Your Workout, on Meta Quest',
+                description: 'Thrustline turns your elliptical, exercise bike, rower, or stair climber into a jet thruster race on Meta Quest. Your effort is the throttle. Race your ghosts and six rivals across eight courses. Coming December 2026.'
             },
             '/educators': {
                 title: 'For Educators: Free Tools and Courses for Colleges | ES Designs',
