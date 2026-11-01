@@ -9,9 +9,9 @@ class MusicPlayer {
         this.audio = document.getElementById('audioElement');
         if (!this.audio) return;
 
-        // The Thrustline soundtrack first (menu theme, then the race playlist),
-        // then the rest of the original music. Same files as the game's
-        // Assets/Audio/Music. game: true marks the in-game tracks.
+        // The Thrustline soundtrack: the menu theme, then the race playlist.
+        // Same files as the game's Assets/Audio/Music; all 25 are in the game
+        // (game: true), so every one is listed on the Thrustline page.
         this.tracks = [
             { title: 'Jagged Edge',                src: '/assets/audio/Jagged Edge.mp3', game: true },
             { title: 'Push Through Static',        src: '/assets/audio/Push Through Static.mp3', game: true },
@@ -32,12 +32,12 @@ class MusicPlayer {
             { title: 'Funky Breaks (Harder Kick Extended)', src: '/assets/audio/Funky Breaks (Harder Kick Extended).mp3', game: true },
             { title: 'Glass Horizon',              src: '/assets/audio/Glass Horizon.mp3', game: true },
             { title: 'Gritty Breaks',              src: '/assets/audio/Gritty Breaks.mp3', game: true },
-            { title: 'As I Was Walking',           src: '/assets/audio/As I Was Walking.mp3' },
-            { title: 'As I Was Walking 2',         src: '/assets/audio/As I Was Walking 2.mp3' },
-            { title: 'Bubbly Electro Breaks',      src: '/assets/audio/BUBBLY ELECTRO BREAKS.mp3' },
-            { title: 'Birthday Present',           src: '/assets/audio/Birthday Present.mp3' },
-            { title: "Kickin' It",                 src: "/assets/audio/Kickin' It.mp3" },
-            { title: 'Sweet Dream',                src: '/assets/audio/Sweet Dream.mp3' },
+            { title: 'As I Was Walking',           src: '/assets/audio/As I Was Walking.mp3', game: true },
+            { title: 'As I Was Walking 2',         src: '/assets/audio/As I Was Walking 2.mp3', game: true },
+            { title: 'Bubbly Electro Breaks',      src: '/assets/audio/BUBBLY ELECTRO BREAKS.mp3', game: true },
+            { title: 'Birthday Present',           src: '/assets/audio/Birthday Present.mp3', game: true },
+            { title: "Kickin' It",                 src: "/assets/audio/Kickin' It.mp3", game: true },
+            { title: 'Sweet Dream',                src: '/assets/audio/Sweet Dream.mp3', game: true },
         ];
 
         this.currentIndex = 0;
