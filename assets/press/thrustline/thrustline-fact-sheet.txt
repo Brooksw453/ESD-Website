@@ -4,7 +4,8 @@ Press kit: https://esdesigns.org/thrustline/press/
 Developer and publisher: ES Designs (Brooks Winchell, solo developer), Massachusetts, USA
 Release date:            December 1, 2026
 Platforms:               Meta Quest 3, Quest 3S, Quest 2 and Quest Pro, on the Meta Horizon Store
-Price:                   $19.99 (US), one-time purchase. No in-app purchases.
+Price:                   $19.99 (US), one-time purchase. No subscription and no in-app purchases.
+Account:                 None. Nothing to sign up for or type in the headset; progress saves on the headset.
 Genre:                   Fitness, racing
 Players:                 Single player (rivals and ghosts are recorded runs)
 Controls:                Hand tracking or Touch controllers in menus. The race needs no hands: you steer by looking.
@@ -20,7 +21,7 @@ Press contact:           bwinchell@esdesigns.org
 
 SHORT DESCRIPTION
 
-Thrustline is a racing game for Meta Quest that you play on your own cardio machine. Your headset reads the rhythm of your workout, so the harder you pedal, stride or row, the faster and higher your jet thruster flies. Eight courses, six rivals and four cups. Out December 1, 2026, for $19.99.
+Thrustline is a racing game for Meta Quest that you play on your own cardio machine. Your headset reads the rhythm of your workout, so the harder you pedal, stride or row, the faster and higher your jet thruster flies. Eight courses, six rivals and four cups. Out December 1, 2026, for $19.99, paid once, with no subscription and no account.
 
 
 LONGER DESCRIPTION
@@ -29,7 +30,9 @@ Thrustline turns the cardio you already do into a race. Put on a Meta Quest head
 
 There is no sensor to pair. The game reads the motion of the headset itself, and the exercise bike has its own reader that finds your pedal rate in small head movements.
 
-Eight courses, six rivals who ride recorded lines at a fixed pace, four cups where three rivals race you at once, a weekly challenge, 50 rider levels, and six thrusters and 42 paints bought with coins you earn in races. No real-money purchases.
+Eight courses, six rivals who ride recorded lines at a fixed pace, four cups where three rivals race you at once, a weekly challenge, 50 rider levels, and six thrusters and 42 paints bought with coins you earn in races.
+
+It is a one-time purchase: no subscription and no real-money purchases in the game. There is no account to set up and nothing to type in the headset, because progress saves on the headset itself.
 
 
 FEATURES
@@ -44,6 +47,7 @@ FEATURES
 - Stats for time, distance, estimated calories, records, trophies and weekly minutes.
 - Menus work with hand tracking or Touch controllers, and the race needs no hands.
 - 24 race songs; pick the ones you want in Settings.
+- Pay once. No subscription, no in-app purchases, and no account to set up.
 
 
 HOW IT WORKS
