@@ -20,6 +20,7 @@
     const router = new Router(scrollAnimations);
     router.register('/', 'pages/landing.html');
     router.register('/thrustline', 'pages/thrustline.html');
+    router.register('/thrustline/press', 'pages/thrustline-press.html');
     router.register('/vr', 'pages/vr.html');
     router.register('/vr/anatomy-physiology-lab', 'pages/vr-anatomy-physiology.html');
     router.register('/educators', 'pages/educators.html');

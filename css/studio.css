@@ -1131,6 +1131,60 @@ body:is([data-section="ed"], [data-section="shared"]) #page-content :is(p, li, d
     .ed-product-grid.ed-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
+/* ---------- Thrustline press kit (/thrustline/press/) ---------- */
+.tl-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 40px;
+    margin: 0;
+    padding: 6px 28px;
+    border: 1px solid var(--tl-border);
+    border-radius: 16px;
+    background: var(--tl-card);
+}
+.tl-facts > div {
+    display: grid;
+    grid-template-columns: 10.5rem minmax(0, 1fr);
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--tl-line);
+}
+.tl-facts > div:nth-last-child(-n+2) { border-bottom: none; }
+.tl-facts dt { color: var(--tl-dim); font-size: 0.9rem; font-weight: 600; line-height: 1.55; }
+.tl-facts dd { margin: 0; color: var(--tl-hull); line-height: 1.55; }
+.tl-press-cols { margin-top: 32px; gap: 40px; }
+.tl-press-cols .st-body + .st-body, .st-section-head .st-body + .st-body { margin-top: 14px; }
+.tl-press-cols .st-h3 + .st-body { margin-top: 12px; }
+.st-callout .st-h3 + .st-body { margin-top: 8px; }
+.tl-press-list { margin: 12px 0 0; padding-left: 1.2em; color: var(--tl-muted); line-height: 1.65; }
+.tl-press-list li + li { margin-top: 8px; }
+.tl-press-list strong { color: var(--tl-hull); font-weight: 600; }
+body[data-section="studio"] .tl-press-sub { margin-top: 48px; }
+.tl-press-links { max-width: 860px; }
+.tl-shots {
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    align-items: start;
+}
+.tl-shots-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tl-shots figure { margin: 0; }
+.tl-shots a {
+    display: block;
+    border: 1px solid var(--tl-border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--tl-night);
+    transition: border-color 150ms ease;
+}
+.tl-shots a:hover { border-color: var(--tl-cyan); }
+.tl-shots a:focus-visible { outline: 3px solid var(--tl-cyan); outline-offset: 3px; }
+.tl-shots img { display: block; width: 100%; height: auto; }
+.tl-shots figcaption { margin-top: 10px; color: var(--tl-muted); font-size: 0.92rem; line-height: 1.5; }
+
 /* ---------- Responsive ---------- */
 @media (min-width: 1024px) {
     .st-hero { padding: 96px 0 48px; }
@@ -1141,6 +1195,9 @@ body:is([data-section="ed"], [data-section="shared"]) #page-content :is(p, li, d
     .st-grid-3, .tl-steps, .st-timeline { grid-template-columns: minmax(0, 1fr); }
     .tl-tracks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .tl-machines { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tl-facts { grid-template-columns: minmax(0, 1fr); }
+    .tl-facts > div:nth-last-child(2) { border-bottom: 1px solid var(--tl-line); }
+    .tl-shots, .tl-shots-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 720px) {
     body[data-section="studio"] { --st-gutter: 16px; }
@@ -1155,6 +1212,11 @@ body:is([data-section="ed"], [data-section="shared"]) #page-content :is(p, li, d
     .st-trailer-play { padding: 14px; }
     .st-trailer-pill { min-height: 44px; padding: 10px 18px 10px 14px; font-size: 0.95rem; }
     .st-signup-row .st-btn { flex: 1 1 100%; }
+    .tl-facts { padding: 4px 18px; }
+    .tl-facts > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
+@media (max-width: 560px) {
+    .tl-shots, .tl-shots-4 { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 420px) {
     .tl-machines { grid-template-columns: minmax(0, 1fr); }

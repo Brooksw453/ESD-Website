@@ -1,0 +1,67 @@
+THRUSTLINE: FACT SHEET
+Press kit: https://esdesigns.org/thrustline/press/
+
+Developer and publisher: ES Designs (Brooks Winchell, solo developer), Massachusetts, USA
+Release date:            December 1, 2026
+Platforms:               Meta Quest 3, Quest 3S, Quest 2 and Quest Pro, on the Meta Horizon Store
+Price:                   $19.99 (US), one-time purchase. No in-app purchases.
+Genre:                   Fitness, racing
+Players:                 Single player (rivals and ghosts are recorded runs)
+Controls:                Hand tracking or Touch controllers in menus. The race needs no hands: you steer by looking.
+Machines:                Elliptical, exercise bike, rowing machine, stair climber, or marching in place
+Play position:           Seated or standing, in one spot
+Race length:             Three laps, about ten minutes
+Internet:                Not required
+Language:                English
+Store page:              https://vr.meta.me/s/1XmkmdGujkp66ta
+Website:                 https://esdesigns.org/thrustline/
+Press contact:           bwinchell@esdesigns.org
+
+
+SHORT DESCRIPTION
+
+Thrustline is a racing game for Meta Quest that you play on your own cardio machine. Your headset reads the rhythm of your workout, so the harder you pedal, stride or row, the faster and higher your jet thruster flies. Eight courses, six rivals and four cups. Out December 1, 2026, for $19.99.
+
+
+LONGER DESCRIPTION
+
+Thrustline turns the cardio you already do into a race. Put on a Meta Quest headset, get on your elliptical, exercise bike, rowing machine or stair climber, or march in place, and go at your normal pace for 15 seconds. That pace becomes your 100%. In a race, working above it makes your jet thruster faster and lets it climb when you glide; easing off brings you down. Laser walls have gaps you line up with by pushing or easing off. You steer by looking, so your hands stay on the machine.
+
+There is no sensor to pair. The game reads the motion of the headset itself, and the exercise bike has its own reader that finds your pedal rate in small head movements.
+
+Eight courses, six rivals who ride recorded lines at a fixed pace, four cups where three rivals race you at once, a weekly challenge, 50 rider levels, and six thrusters and 42 paints bought with coins you earn in races. No real-money purchases.
+
+
+FEATURES
+
+- Your effort is the throttle. A 15-second calibration sets your own pace as 100%, so a slow rider and a fast rider both get a fair race.
+- Works with an elliptical, exercise bike, rowing machine or stair climber, or marching in place with no machine at all.
+- Eight courses: City Circuit, Town Hills, Tropic Isles, Night City, Lunar Run, Frozen Peaks, Alpine Ridge and Lava Canyon. Finish one to open the next.
+- Six rivals, Pip to Vega, each at a fixed pace with no rubber-banding, plus the ghosts of your own best runs.
+- Four cups in three classes, where three rivals race you at once for points and a trophy.
+- A weekly challenge, XP and 50 rider levels.
+- A hangar of six thrusters and 42 paints, bought with coins you earn. Each handles differently; none is simply faster.
+- Stats for time, distance, estimated calories, records, trophies and weekly minutes.
+- Menus work with hand tracking or Touch controllers, and the race needs no hands.
+- 24 race songs; pick the ones you want in Settings.
+
+
+HOW IT WORKS
+
+Calibration measures which way your head moves on your machine and how fast, and every moment of the race is compared with that. Seated pedalling barely moves the head, so the exercise bike has its own reader that finds the pedal rate in small head movements. It was tuned on recorded rides against a click track, and the game's tests replay those rides. Quest 3 holds 72 frames per second with three rivals on the track; a lighter graphics setting keeps Quest 2 and Quest Pro at about 69 to 72.
+
+
+ABOUT THE DEVELOPER
+
+Thrustline is made by Brooks Winchell at ES Designs, an independent studio in Massachusetts. Brooks was a runner for over 20 years until an arthritis diagnosis in 2025 moved him to low-impact cardio. His stationary bike, elliptical and rower were fine, but boring after a while. He built a prototype, Elliptical Explorer, and turned it into Thrustline in the fall of 2026. Before that he built the Anatomy & Physiology Lab, a free Quest app he demonstrated for health science students.
+
+
+VIDEOS
+
+Trailer (0:51):            https://esdesigns.org/assets/video/thrustline-trailer.mp4
+Gameplay on real machines (2:32): https://youtu.be/O0xPUcxS7BA
+
+
+ABOUT THE IMAGES
+
+The screenshots are rendered from the game. The headset frames and both videos are captured on a Quest 3 and on real rides. The store cover (key art) combines an AI-generated photo of a rider with an in-game render; please don't caption the rider as the developer.

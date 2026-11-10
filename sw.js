@@ -4,7 +4,7 @@
    network-first for pages
    ============================================ */
 
-const CACHE_NAME = 'es-designs-v46';
+const CACHE_NAME = 'es-designs-v47';
 const CORE_ASSETS = [
     '/',
     '/index.html',
@@ -72,6 +72,10 @@ self.addEventListener('fetch', (event) => {
     // Audio and video: network-only (too large to cache, and the browser's
     // range requests stream them; a cached 206 would break playback)
     if (url.pathname.startsWith('/assets/audio/') || url.pathname.startsWith('/assets/video/')) return;
+
+    // Press kit downloads (full-size images, the zip): network-only, so a
+    // 12 MB zip never lands in the cache.
+    if (url.pathname.startsWith('/assets/press/')) return;
 
     // Static assets (CSS, JS, images, fonts): stale-while-revalidate.
     // Serve the cached copy instantly for speed, but always refetch in the

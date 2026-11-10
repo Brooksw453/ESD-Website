@@ -17,6 +17,7 @@ class Router {
         this.sectionMap = {
             '/':                  'studio',
             '/thrustline':        'studio',
+            '/thrustline/press':  'studio',
             '/vr':                'studio',
             '/vr/anatomy-physiology-lab': 'shared',
             '/educators':         'ed',
@@ -51,6 +52,10 @@ class Router {
             '/thrustline': {
                 title: 'Thrustline | Race a Jet Thruster Powered by Your Workout, on Meta Quest',
                 description: 'Thrustline turns your elliptical, exercise bike, rower, or stair climber into a jet thruster race on Meta Quest. Your effort is the throttle. Race your ghosts and six rivals across eight courses. Coming December 2026.'
+            },
+            '/thrustline/press': {
+                title: 'Thrustline Press Kit | ES Designs',
+                description: 'Press kit for Thrustline, a Meta Quest racing game you play on your own cardio machine, out December 1, 2026: fact sheet, descriptions, trailer, screenshots, key art, logos and review copies.'
             },
             '/educators': {
                 title: 'For Educators: Free Tools and Courses for Colleges | ES Designs',
