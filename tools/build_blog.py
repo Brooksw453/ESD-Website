@@ -1,23 +1,29 @@
 #!/usr/bin/env python3
 """
-build_blog.py — render the ES Designs static blog.
+build_blog.py: render the ES Designs Build Log as SPA pages.
 
 Reads  : content/blog/*.md  (front matter + Markdown)
-         templates/*.html
-Writes : blog/index.html
-         blog/<slug>/index.html
-         sitemap.xml           (FULL regeneration — see STATIC_ROUTES)
-         robots.txt
+         templates/index.html, templates/post.html  (fragment templates)
+Writes : pages/blog/index.html     (the /blog/ fragment)
+         pages/blog/<slug>.html    (one fragment per post)
+         js/blog-routes.js         (route list + title/description per page)
 
-Run from anywhere:  python tools/build_blog.py
-Nothing runs on GitHub Pages; only the committed static HTML is served.
+Since November 2026 the Build Log lives inside the site shell like every
+other page, so the music player, the contact box and the fade-ins carry
+over and a playing song keeps playing. js/app.js registers the routes from
+js/blog-routes.js; tools-seo/build.py reads the same file, prerenders
+blog/index.html and blog/<slug>/index.html with the full shell, and owns
+sitemap.xml. After adding or editing a post, run both:
+
+    python tools/build_blog.py
+    python tools-seo/build.py
+
 Stdlib only (Python 3.9+). No pip install.
 """
 
 import json
 import re
 import sys
-from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -26,7 +32,8 @@ import markdown_lite  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "blog"
 TEMPLATES = ROOT / "templates"
-BLOG_OUT = ROOT / "blog"
+FRAG_OUT = ROOT / "pages" / "blog"
+ROUTES_JS = ROOT / "js" / "blog-routes.js"
 
 SITE = "https://esdesigns.org"
 DEFAULT_AUTHOR = "Brooks Winchell"
@@ -34,115 +41,35 @@ DEFAULT_OG_IMAGE = "assets/images/brand/esd-logo.png"
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
+INDEX_TITLE = "Build Log | ES Designs"
+INDEX_DESCRIPTION = (
+    "Notes from the ES Designs studio on building Thrustline for Meta Quest, "
+    "plus earlier writing on accessibility and AI in higher education."
+)
+
 # Default in-article CTA. Appended to every post unless front matter sets
-# `cta: false` — used for newsletter-style posts ("The Learning Curve")
+# `cta: false`, used for newsletter-style posts ("The Learning Curve")
 # that must honor the v7 1-in-5 / no-pitch rule.
 CTA_HTML = (
-    '        <aside class="blog-cta" aria-labelledby="blog-cta-title">\n'
-    '            <h2 id="blog-cta-title">Build your Title II plan &mdash; free</h2>\n'
+    '        <aside class="blog-cta" aria-labelledby="blog-cta-title" data-animate="fade-up">\n'
+    '            <h2 id="blog-cta-title">Build your Title II plan for free</h2>\n'
     "            <p>The Compliance Roadmap Tool walks you through a complete "
     "Title II plan in about 30 minutes: institution profile, current state, "
     "priority framework, budget worksheet, timeline, and governance. Free to "
     "use, no credit card.</p>\n"
-    '            <a class="blog-btn" href="/#/education/roadmap-tool">Open the '
+    '            <a class="blog-btn" href="/education/roadmap-tool/">Open the '
     "Compliance Roadmap Tool &rarr;</a>\n"
     "        </aside>"
 )
 
 # ---------------------------------------------------------------------------
-# Newsletter provider: "none" (placeholder), "unified", "convertkit", or
-# "beehiiv". "unified" posts to the shared courses.esdesigns.org/api/subscribe
-# endpoint (Beehiiv + Supabase mirror) via the self-hosted /js/blog-subscribe.js
-# handler — so blog signups land on the single Learning Curve list AND mirror
-# to Supabase, exactly like the home / AI / education capture points.
-# Switching providers is a one-line change here + a rebuild.
+# Newsletter box: "studio" (a link to the Thrustline launch list) or "none"
+# (templates/_newsletter.html). The old form/embed providers (unified,
+# convertkit, beehiiv) were retired with the standalone blog: a <script> in
+# an SPA fragment does not run when the router swaps pages, so a form would
+# need its handler in js/router.js bindPageEvents() first.
 # ---------------------------------------------------------------------------
 NEWSLETTER_PROVIDER = "studio"
-
-# ---- Content Security Policy (blog pages only; independent of the SPA) -----
-CSP_BASE = (
-    "default-src 'self'; "
-    "script-src 'self' https://www.googletagmanager.com; "
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-    "font-src https://fonts.gstatic.com; "
-    "img-src 'self' data: https://www.google-analytics.com "
-    "https://*.google-analytics.com https://*.googletagmanager.com; "
-    "connect-src 'self' https://awcmkderlpyxpkmrnvwi.supabase.co "
-    "https://www.google-analytics.com https://*.google-analytics.com "
-    "https://*.analytics.google.com https://*.googletagmanager.com; "
-    "frame-src 'none'; base-uri 'self'"
-)
-CSP_CONVERTKIT = (
-    "default-src 'self'; "
-    "script-src 'self' https://www.googletagmanager.com https://f.convertkit.com https://*.kit.com; "
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.kit.com; "
-    "font-src https://fonts.gstatic.com; "
-    "img-src 'self' data: https://www.google-analytics.com "
-    "https://*.google-analytics.com https://*.googletagmanager.com https://*.kit.com; "
-    "connect-src 'self' https://app.kit.com https://api.convertkit.com "
-    "https://awcmkderlpyxpkmrnvwi.supabase.co https://www.google-analytics.com "
-    "https://*.google-analytics.com https://*.analytics.google.com "
-    "https://*.googletagmanager.com; "
-    "frame-src https://*.kit.com https://*.convertkit.com; base-uri 'self'"
-)
-CSP_BEEHIIV = (
-    "default-src 'self'; "
-    "script-src 'self' https://www.googletagmanager.com https://subscribe-forms.beehiiv.com; "
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-    "font-src https://fonts.gstatic.com; "
-    "img-src 'self' data: https://www.google-analytics.com "
-    "https://*.google-analytics.com https://*.googletagmanager.com; "
-    "connect-src 'self' https://subscribe-forms.beehiiv.com "
-    "https://awcmkderlpyxpkmrnvwi.supabase.co https://www.google-analytics.com "
-    "https://*.google-analytics.com https://*.analytics.google.com "
-    "https://*.googletagmanager.com; "
-    "frame-src https://subscribe-forms.beehiiv.com https://embeds.beehiiv.com; "
-    "base-uri 'self'"
-)
-# Unified capture needs only 'self' (the /js/blog-subscribe.js handler) plus the
-# courses.esdesigns.org host it POSTs to — no third-party embed/script/frame.
-CSP_UNIFIED = (
-    "default-src 'self'; "
-    "script-src 'self' https://www.googletagmanager.com; "
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-    "font-src https://fonts.gstatic.com; "
-    "img-src 'self' data: https://www.google-analytics.com "
-    "https://*.google-analytics.com https://*.googletagmanager.com; "
-    "connect-src 'self' https://courses.esdesigns.org "
-    "https://awcmkderlpyxpkmrnvwi.supabase.co https://www.google-analytics.com "
-    "https://*.google-analytics.com https://*.analytics.google.com "
-    "https://*.googletagmanager.com; "
-    "frame-src 'none'; base-uri 'self'"
-)
-CSP = {
-    "studio": CSP_BASE,   # Build Log: links to the launch list, no form
-    "none": CSP_BASE,
-    "unified": CSP_UNIFIED,
-    "convertkit": CSP_CONVERTKIT,
-    "beehiiv": CSP_BEEHIIV,
-}[NEWSLETTER_PROVIDER]
-
-# ---- Sitemap: hand-maintained SPA routes (hash URLs) ----------------------
-# FULL regeneration. Update this table if SPA routes change. <lastmod> is
-# carried forward from the existing sitemap.xml when present (so a rebuild
-# does not falsely bump freshness on unrelated routes).
-STATIC_ROUTES = [
-    ("https://esdesigns.org/", "monthly", "1.0", "2026-04-05"),
-    ("https://esdesigns.org/#/elliptical", "monthly", "0.9", "2026-04-05"),
-    ("https://esdesigns.org/#/education", "monthly", "0.9", "2026-04-05"),
-    ("https://esdesigns.org/#/education/courses", "monthly", "0.8", "2026-04-05"),
-    ("https://esdesigns.org/#/education/demos", "monthly", "0.7", "2026-04-05"),
-    ("https://esdesigns.org/#/education/ally-pro", "monthly", "0.9", "2026-04-16"),
-    ("https://esdesigns.org/#/education/audit", "monthly", "0.8", "2026-04-16"),
-    ("https://esdesigns.org/#/education/wcag-course", "monthly", "0.8", "2026-04-16"),
-    ("https://esdesigns.org/#/education/roadmap-tool", "monthly", "0.95", "2026-05-09"),
-    ("https://esdesigns.org/#/ai", "monthly", "0.95", "2026-07-29"),
-    ("https://esdesigns.org/#/vr", "monthly", "0.9", "2026-07-29"),
-    ("https://esdesigns.org/#/vantura", "monthly", "0.9", "2026-07-29"),
-    ("https://esdesigns.org/#/vr/anatomy-physiology-lab", "monthly", "0.7", "2026-07-29"),
-    ("https://esdesigns.org/#/about", "monthly", "0.6", "2026-04-05"),
-    ("https://esdesigns.org/#/privacy", "yearly", "0.3", "2026-04-05"),
-]
 
 _TOKEN = re.compile(r"\{\{(\w+)\}\}")
 
@@ -157,7 +84,7 @@ def fill(template, mapping):
 
 
 def attr(text):
-    """Escape for an HTML attribute / meta content value."""
+    """Escape for an HTML attribute / text value."""
     return (
         text.replace("&", "&amp;")
         .replace("<", "&lt;")
@@ -171,8 +98,13 @@ def read(path):
 
 
 def write(path, content):
+    """Write only when the content changed, so untouched pages keep their
+    mtime (tools-seo/build.py stamps sitemap <lastmod> from mtimes)."""
     path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists() and read(path) == content:
+        return False
     path.write_text(content, encoding="utf-8", newline="\n")
+    return True
 
 
 def fail(msg):
@@ -228,7 +160,7 @@ def newsletter_html():
         # the Thrustline launch list (Supabase messages, source thrustline-launch),
         # which becomes the XR newsletter on Beehiiv later.
         return (
-            '        <section class="blog-newsletter" aria-labelledby="nl-t">\n'
+            '        <section class="blog-newsletter" aria-labelledby="nl-t" data-animate="fade-up">\n'
             '            <h2 id="nl-t">Get the build log by email</h2>\n'
             '            <p>One email when Thrustline launches on Meta Quest, plus occasional build notes from the studio. Unsubscribe anytime.</p>\n'
             '            <a class="blog-btn" href="/thrustline/">Join the launch list &rarr;</a>\n'
@@ -236,66 +168,14 @@ def newsletter_html():
         )
     if NEWSLETTER_PROVIDER == "none":
         return read(TEMPLATES / "_newsletter.html").rstrip("\n")
-    if NEWSLETTER_PROVIDER == "unified":
-        # Unified capture: a plain form posted by /js/blog-subscribe.js to the
-        # shared courses.esdesigns.org/api/subscribe endpoint (Beehiiv + Supabase
-        # mirror). No third-party embed; the Beehiiv key stays server-side.
-        return (
-            '        <section class="blog-newsletter" aria-labelledby="nl-t">\n'
-            '            <h2 id="nl-t">The Learning Curve</h2>\n'
-            '            <p>A short note every other Thursday for people who teach in higher ed: one teaching move you can use this week, one AI story translated for the classroom, and now and then a tool worth a look. No hype.</p>\n'
-            '            <form class="blog-newsletter-form" data-capture-endpoint="https://courses.esdesigns.org/api/subscribe" data-source="blog" novalidate>\n'
-            '                <label class="sr-only" for="nl-email">Email address</label>\n'
-            '                <input id="nl-email" type="email" name="email" autocomplete="email" placeholder="you@university.edu" aria-label="Email address" required>\n'
-            '                <button type="submit">Subscribe</button>\n'
-            '                <p class="contact-status" role="status" aria-live="polite"></p>\n'
-            '            </form>\n'
-            '            <script src="/js/blog-subscribe.js" defer></script>\n'
-            "        </section>"
-        )
-    # TODO when switching providers: paste the official embed snippet and set
-    # the form id/uid below. CSP for the chosen provider is already wired.
-    if NEWSLETTER_PROVIDER == "convertkit":
-        return (
-            '        <section class="blog-newsletter" aria-labelledby="nl-t">\n'
-            '            <h2 id="nl-t">The Learning Curve</h2>\n'
-            '            <p>One teaching move, one AI story translated, and now and then a tool worth a look. Every other Thursday. No hype.</p>\n'
-            '            <div class="blog-newsletter-embed">\n'
-            '                <!-- TODO: paste ConvertKit/Kit embed; set data-uid -->\n'
-            '                <script async data-uid="REPLACE_ME" src="https://f.convertkit.com/REPLACE_ME/REPLACE_ME.js"></script>\n'
-            "            </div>\n"
-            "        </section>"
-        )
-    return (
-        '        <section class="blog-newsletter" aria-labelledby="nl-t">\n'
-        '            <h2 id="nl-t">The Learning Curve</h2>\n'
-        '            <p>A short note every other Thursday for people who teach in higher ed: one teaching move you can use this week, one AI story translated for the classroom, and now and then a tool worth a look. No hype.</p>\n'
-        '            <div class="blog-newsletter-embed">\n'
-        '                <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="3d441e77-9763-4b52-80b9-f9e39062fd90"></script>\n'
-        "            </div>\n"
-        "        </section>"
-    )
+    fail("NEWSLETTER_PROVIDER %r is not supported in the SPA Build Log" % NEWSLETTER_PROVIDER)
 
 
-def build_head(*, page_title, og_title, description, canonical, og_type,
-                og_image, extra_meta, jsonld):
-    tpl = read(TEMPLATES / "_head.html")
-    return fill(
-        tpl,
-        {
-            "PAGE_TITLE": attr(page_title),
-            "DESCRIPTION": attr(description),
-            "CANONICAL": canonical,
-            "CSP": CSP,
-            "OG_TYPE": og_type,
-            "OG_TITLE": attr(og_title),
-            "OG_DESCRIPTION": attr(description),
-            "OG_URL": canonical,
-            "OG_IMAGE": SITE + "/" + og_image.lstrip("/"),
-            "EXTRA_META": extra_meta,
-            "JSONLD": json.dumps(jsonld, indent=2, ensure_ascii=False),
-        },
-    )
+def jsonld_block(data):
+    """JSON-LD for crawlers. It sits inside the fragment, so the prerendered
+    page carries it; the router's innerHTML swap never executes it."""
+    text = json.dumps(data, indent=2, ensure_ascii=False).replace("</", "<\\/")
+    return '    <script type="application/ld+json">\n%s\n    </script>' % text
 
 
 def org_node():
@@ -331,14 +211,6 @@ def render_post(meta, body, source):
 
     canonical = "%s/blog/%s/" % (SITE, slug)
     body_html = markdown_lite.convert(body)
-
-    extra_meta = "\n".join(
-        [
-            '    <meta property="article:published_time" content="%s">' % pub,
-            '    <meta property="article:modified_time" content="%s">' % updated,
-            '    <meta property="article:author" content="%s">' % attr(author),
-        ]
-    )
 
     jsonld = {
         "@context": "https://schema.org",
@@ -376,17 +248,6 @@ def render_post(meta, body, source):
         ],
     }
 
-    head = build_head(
-        page_title="%s | ES Designs Build Log" % title,
-        og_title=title,
-        description=desc,
-        canonical=canonical,
-        og_type="article",
-        og_image=og_image,
-        extra_meta=extra_meta,
-        jsonld=jsonld,
-    )
-
     byline = (
         'By <strong>%s</strong> &middot; <time datetime="%s">%s</time>'
         % (attr(author), pub, human_date(pub))
@@ -406,14 +267,12 @@ def render_post(meta, body, source):
     page = fill(
         read(TEMPLATES / "post.html"),
         {
-            "HEAD": head,
-            "HEADER": read(TEMPLATES / "_header.html").rstrip("\n"),
             "TITLE": attr(title),
             "BYLINE": byline,
             "BODY": body_html,
             "CTA": CTA_HTML if show_cta else "",
             "NEWSLETTER": newsletter_html(),
-            "FOOTER": read(TEMPLATES / "_footer.html").rstrip("\n"),
+            "JSONLD": jsonld_block(jsonld),
         },
     )
     return {
@@ -431,7 +290,7 @@ def build_index(posts):
     cards = []
     for p in posts:
         cards.append(
-            "            <li class=\"blog-card\">\n"
+            "            <li class=\"blog-card\" data-animate=\"fade-up\">\n"
             "                <h2><a href=\"/blog/%s/\">%s</a></h2>\n"
             "                <p class=\"blog-card-date\"><time datetime=\"%s\">%s</time></p>\n"
             "                <p class=\"blog-card-excerpt\">%s</p>\n"
@@ -454,8 +313,7 @@ def build_index(posts):
                 "@type": "Blog",
                 "@id": SITE + "/blog/#blog",
                 "name": "ES Designs Build Log",
-                "description": "Practical notes on Title II compliance "
-                "planning for higher education.",
+                "description": INDEX_DESCRIPTION,
                 "url": SITE + "/blog/",
                 "publisher": org_node(),
             },
@@ -471,74 +329,42 @@ def build_index(posts):
         ],
     }
 
-    head = build_head(
-        page_title="Build Log | ES Designs",
-        og_title="ES Designs Build Log",
-        description="Notes from the ES Designs studio on building Thrustline "
-        "for Meta Quest, plus earlier writing on accessibility and AI in higher education.",
-        canonical=SITE + "/blog/",
-        og_type="website",
-        og_image=DEFAULT_OG_IMAGE,
-        extra_meta="",
-        jsonld=jsonld,
-    )
-
     return fill(
         read(TEMPLATES / "index.html"),
         {
-            "HEAD": head,
-            "HEADER": read(TEMPLATES / "_header.html").rstrip("\n"),
             "POST_CARDS": "\n".join(cards),
             "NEWSLETTER": newsletter_html(),
-            "FOOTER": read(TEMPLATES / "_footer.html").rstrip("\n"),
+            "JSONLD": jsonld_block(jsonld),
         },
     )
 
 
-def existing_lastmods():
-    sm = ROOT / "sitemap.xml"
-    if not sm.exists():
-        return {}
-    text = sm.read_text(encoding="utf-8")
-    out = {}
-    for block in re.findall(r"<url>(.*?)</url>", text, re.S):
-        loc = re.search(r"<loc>(.*?)</loc>", block)
-        mod = re.search(r"<lastmod>(.*?)</lastmod>", block)
-        if loc and mod:
-            out[loc.group(1).strip()] = mod.group(1).strip()
-    return out
-
-
-def build_sitemap(posts):
-    prior = existing_lastmods()
-    rows = []
-
-    def url(loc, lastmod, freq, prio):
-        rows.append(
-            "  <url>\n"
-            "    <loc>%s</loc>\n"
-            "    <lastmod>%s</lastmod>\n"
-            "    <changefreq>%s</changefreq>\n"
-            "    <priority>%s</priority>\n"
-            "  </url>" % (loc, lastmod, freq, prio)
-        )
-
-    for loc, freq, prio, fallback in STATIC_ROUTES:
-        url(loc, prior.get(loc, fallback), freq, prio)
-
-    if posts:
-        blog_mod = max(p["updated"] for p in posts)
-    else:
-        blog_mod = prior.get(SITE + "/blog/", date.today().isoformat())
-    url(SITE + "/blog/", blog_mod, "weekly", "0.7")
+def routes_js(posts):
+    """js/blog-routes.js: one entry per Build Log page. app.js registers
+    them with the router; tools-seo/build.py prerenders them."""
+    routes = [{
+        "path": "/blog",
+        "fragment": "pages/blog/index.html",
+        "title": INDEX_TITLE,
+        "description": INDEX_DESCRIPTION,
+    }]
     for p in posts:
-        url("%s/blog/%s/" % (SITE, p["slug"]), p["updated"], "monthly", "0.6")
-
+        routes.append({
+            "path": "/blog/" + p["slug"],
+            "fragment": "pages/blog/%s.html" % p["slug"],
+            "title": "%s | ES Designs Build Log" % p["title"],
+            "description": p["description"],
+            "type": "article",
+            "published": p["date"],
+            "modified": p["updated"],
+        })
     return (
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        + "\n".join(rows)
-        + "\n</urlset>\n"
+        "/* Build Log routes. GENERATED by tools/build_blog.py from content/blog/:\n"
+        "   do not edit by hand. Loaded before js/app.js, which registers each\n"
+        "   path with the router; tools-seo/build.py prerenders the same list. */\n"
+        "window.ESD_BLOG_ROUTES = "
+        + json.dumps(routes, indent=2, ensure_ascii=False)
+        + ";\n"
     )
 
 
@@ -562,20 +388,22 @@ def main():
     posts.sort(key=lambda p: (p["date"], p["slug"]), reverse=True)
 
     for p in posts:
-        write(BLOG_OUT / p["slug"] / "index.html", p["html"])
-        print("post : blog/%s/index.html" % p["slug"])
+        changed = write(FRAG_OUT / ("%s.html" % p["slug"]), p["html"])
+        print("post : pages/blog/%s.html%s" % (p["slug"], "" if changed else " (unchanged)"))
 
-    write(BLOG_OUT / "index.html", build_index(posts))
-    print("index: blog/index.html (%d post%s)" % (len(posts), "" if len(posts) == 1 else "s"))
+    write(FRAG_OUT / "index.html", build_index(posts))
+    print("index: pages/blog/index.html (%d post%s)" % (len(posts), "" if len(posts) == 1 else "s"))
 
-    write(ROOT / "sitemap.xml", build_sitemap(posts))
-    print("sitemap: sitemap.xml (%d SPA + %d blog)" % (len(STATIC_ROUTES), len(posts) + 1))
+    # A post that was deleted or set back to draft leaves a stale fragment.
+    keep = {"index.html"} | {"%s.html" % p["slug"] for p in posts}
+    for old in FRAG_OUT.glob("*.html"):
+        if old.name not in keep:
+            old.unlink()
+            print("removed stale fragment: pages/blog/%s (also delete blog/%s/)"
+                  % (old.name, old.stem))
 
-    write(
-        ROOT / "robots.txt",
-        "User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n" % SITE,
-    )
-    print("robots: robots.txt")
+    write(ROUTES_JS, routes_js(posts))
+    print("routes: js/blog-routes.js (%d routes)" % (len(posts) + 1))
 
     leftover = set()
     for p in posts:
@@ -583,7 +411,7 @@ def main():
     if leftover:
         print("WARN: unresolved template tokens: %s" % ", ".join(sorted(leftover)))
 
-    print("\nDone. Provider=%s. %d post(s) built." % (NEWSLETTER_PROVIDER, len(posts)))
+    print("\nDone. %d post(s) built. Now run: python tools-seo/build.py" % len(posts))
 
 
 if __name__ == "__main__":

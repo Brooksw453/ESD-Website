@@ -4,7 +4,7 @@
    network-first for pages
    ============================================ */
 
-const CACHE_NAME = 'es-designs-v47';
+const CACHE_NAME = 'es-designs-v48';
 const CORE_ASSETS = [
     '/',
     '/index.html',
@@ -19,7 +19,9 @@ const CORE_ASSETS = [
     '/css/responsive.css',
     '/css/brand-overrides.css',
     '/css/studio.css',
+    '/css/build-log.css',
     '/js/app.js',
+    '/js/blog-routes.js',
     '/js/music-player.js',
     '/js/router.js',
     '/js/particles.js',
@@ -82,7 +84,10 @@ self.addEventListener('fetch', (event) => {
     // background and update the cache, so a deploy is picked up on the next
     // load WITHOUT needing a CACHE_NAME bump. (Cache-first previously pinned
     // returning visitors to stale CSS/JS until the cache name changed.)
-    if (url.pathname.match(/\.(css|js|png|jpg|jpeg|svg|webp|woff2?)$/)) {
+    // (Not js/blog-routes.js: it gains a route with every new Build Log
+    // post, so it goes network-first with the pages below.)
+    if (url.pathname !== '/js/blog-routes.js' &&
+        url.pathname.match(/\.(css|js|png|jpg|jpeg|svg|webp|woff2?)$/)) {
         event.respondWith(
             caches.open(CACHE_NAME).then((cache) =>
                 cache.match(event.request).then((cached) => {

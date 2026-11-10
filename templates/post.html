@@ -1,6 +1,6 @@
-{{HEAD}}
-{{HEADER}}
-    <main id="blog-content" class="blog-main" tabindex="-1">
+<!-- Build Log post. GENERATED into pages/blog/<slug>.html by tools/build_blog.py. -->
+<div class="st-page blog-page">
+    <div class="blog-main">
         <nav class="blog-breadcrumb" aria-label="Breadcrumb">
             <ol>
                 <li><a href="/">Home</a></li>
@@ -9,7 +9,7 @@
             </ol>
         </nav>
 
-        <article class="blog-article">
+        <article class="blog-article" data-animate="fade-up">
             <h1>{{TITLE}}</h1>
             <p class="blog-byline">{{BYLINE}}</p>
             {{BODY}}
@@ -18,5 +18,6 @@
 {{CTA}}
 
 {{NEWSLETTER}}
-    </main>
-{{FOOTER}}
+    </div>
+{{JSONLD}}
+</div>

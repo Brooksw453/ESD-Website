@@ -476,7 +476,9 @@ class Router {
         document.querySelectorAll('.nav-link').forEach(link => {
             const href = link.getAttribute('href');
             const linkPath = href ? Router.normalizePath(href) : '';
-            link.classList.toggle('active', linkPath === path);
+            // A Build Log post keeps "Build Log" lit.
+            const inBlog = linkPath === '/blog' && path.startsWith('/blog/');
+            link.classList.toggle('active', linkPath === path || inBlog);
         });
     }
 

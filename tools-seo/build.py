@@ -10,7 +10,7 @@ page. Add the route the usual way (CLAUDE.md checklist), re-run, commit.
 Output: <route>/index.html for each route, plus a prerendered root index.html.
 Fragments in pages/ stay the single source of truth for page content.
 """
-import re, html, pathlib, sys
+import re, html, json, pathlib, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 ORIGIN = "https://esdesigns.org"
@@ -25,6 +25,16 @@ def parse_routes():
     routes = dict(re.findall(r"""router\.register\(\s*'([^']+)'\s*,\s*'([^']+)'\s*\)""", src))
     assert routes, "no router.register() calls found in js/app.js"
     return routes
+
+
+def parse_blog_routes():
+    """js/blog-routes.js, written by tools/build_blog.py: the Build Log index
+    and one entry per post, each with its fragment, title and description."""
+    f = ROOT / "js" / "blog-routes.js"
+    if not f.exists():
+        return []
+    src = f.read_text(encoding="utf-8")
+    return json.loads(src[src.index("["):src.rindex("]") + 1])
 
 
 def parse_sections():
@@ -122,6 +132,13 @@ def href_for(path):
 # ----------------------------------------------------------------- build --
 def main():
     routes, sections, meta = parse_routes(), parse_sections(), parse_meta()
+    articles = {}
+    for r in parse_blog_routes():
+        routes[r["path"]] = r["fragment"]
+        sections[r["path"]] = "studio"
+        meta[r["path"]] = {"title": r["title"], "description": r["description"]}
+        if r.get("type") == "article":
+            articles[r["path"]] = r
 
     shell = clean(read("index.html"))
 
@@ -159,6 +176,14 @@ def main():
         else:
             page = page.replace('<meta property="og:title"',
                                 f'<link rel="canonical" href="{url}">\n    <meta property="og:title"', 1)
+
+        art = articles.get(path)
+        if art:
+            page = page.replace(
+                '<meta property="og:type" content="website">',
+                '<meta property="og:type" content="article">\n'
+                f'    <meta property="article:published_time" content="{art["published"]}">\n'
+                f'    <meta property="article:modified_time" content="{art["modified"]}">', 1)
 
         page = re.sub(r'<body data-section="[^"]*"', f'<body data-section="{section}"', page, count=1)
         # The shell is the previous build's index.html, so its <main> already
@@ -203,13 +228,11 @@ def write_sitemap(written):
     rows = []
     for href, rel, _ in written:
         pri = "1.0" if href == "/" else ("0.9" if href.count("/") == 2 else "0.8")
-        rows.append((ORIGIN + href, stamp(rel), "weekly" if href == "/" else "monthly", pri))
+        freq = "weekly" if href in ("/", "/blog/") else "monthly"
+        rows.append((ORIGIN + href, stamp(rel), freq, pri))
 
-    rows.append((f"{ORIGIN}/blog/", stamp("blog/index.html"), "weekly", "0.9"))
-    for d in sorted((ROOT / "blog").iterdir()):
-        if d.is_dir() and (d / "index.html").exists():
-            rows.append((f"{ORIGIN}/blog/{d.name}/",
-                         stamp(f"blog/{d.name}/index.html"), "monthly", "0.8"))
+    # The Build Log is prerendered with the other routes since Nov 2026
+    # (js/blog-routes.js), so it is already in `written`.
     rows.append((f"{ORIGIN}/connect/", stamp("connect/index.html"), "yearly", "0.5"))
 
     out = ['<?xml version="1.0" encoding="UTF-8"?>',

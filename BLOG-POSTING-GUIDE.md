@@ -85,10 +85,13 @@ publish this." Either works.
 ## 5. What Claude will do (so you can confirm it happened)
 
 1. Create/format `content/blog/<slug>.md` with correct front matter.
-2. Run `python tools/build_blog.py` (renders the page, rebuilds the index,
-   updates `sitemap.xml` and `robots.txt`).
+2. Run `python tools/build_blog.py` (renders the post and the index as site
+   pages and updates the route list), then `python tools-seo/build.py`
+   (prerenders `/blog/` and the post with the full site shell; add the new
+   post's row to `sitemap.xml`).
 3. Verify: one canonical/title/description, valid JSON-LD, no banned words,
-   accessible structure, the form embed present.
+   accessible structure, the music player keeps playing when you click
+   into the post.
 4. Commit and push to `main` → live on esdesigns.org in ~1–2 minutes.
 5. For Learning Curve issues: hand you the Beehiiv-ready text + subject.
 
